@@ -119,7 +119,7 @@
   function render() {
     document.documentElement.lang = lang;
     document.documentElement.dir = T[lang].dir;
-    document.querySelector(".tagline").textContent = t("tagline");
+    
     document.querySelectorAll("[data-en]").forEach((el) => { el.textContent = el.dataset[lang] || el.dataset.en; });
     document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
     const chips = document.querySelectorAll("#ccChips button");
