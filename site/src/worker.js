@@ -5,12 +5,28 @@
 
 const WINDOWS = new Set(["24", "48", "168"]);
 
+// GitHub's runners can't reach NASA FIRMS directly, so the feed builder fetches the
+// public CSVs through here. Only these exact files are allowed, cached for 10 minutes.
+const FIRMS = "https://firms.modaps.eosdis.nasa.gov/data/active_fire/";
+const FIRMS_FILES = new Set(
+  ["suomi-npp-viirs-c2/csv/SUOMI_VIIRS_C2", "noaa-20-viirs-c2/csv/J1_VIIRS_C2", "noaa-21-viirs-c2/csv/J2_VIIRS_C2", "modis-c6.1/csv/MODIS_C6_1"]
+    .flatMap((p) => ["24h", "48h", "7d"].map((w) => `${p}_South_Asia_${w}.csv`))
+);
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.hostname === "www.hamarihawa.org") {
       url.hostname = "hamarihawa.org";
       return Response.redirect(url.toString(), 301);
+    }
+    if (url.pathname.startsWith("/api/firms/")) {
+      const file = url.pathname.slice("/api/firms/".length);
+      if (!FIRMS_FILES.has(file) || !["GET", "HEAD"].includes(request.method)) return new Response("not found", { status: 404 });
+      const r = await fetch(FIRMS + file, { method: request.method, cf: { cacheTtl: 600, cacheEverything: true } });
+      const h = new Headers({ "content-type": "text/csv; charset=utf-8", "cache-control": "public, max-age=600" });
+      if (r.headers.get("last-modified")) h.set("last-modified", r.headers.get("last-modified"));
+      return new Response(request.method === "HEAD" ? null : r.body, { status: r.status, headers: h });
     }
     if (url.pathname !== "/api/fires") return env.ASSETS.fetch(request);
 

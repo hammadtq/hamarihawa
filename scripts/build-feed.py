@@ -19,7 +19,8 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 PLACES = os.path.join(ROOT, "site", "public", "places")
 TOWNS = json.load(open(os.path.join(ROOT, "site", "src", "towns.json"), encoding="utf-8"))
 
-FIRMS = "https://firms.modaps.eosdis.nasa.gov/data/active_fire"
+# FIRMS_BASE lets CI go through the site's proxy (/api/firms), because GitHub's runners can't reach NASA directly.
+FIRMS = os.environ.get("FIRMS_BASE", "https://firms.modaps.eosdis.nasa.gov/data/active_fire").rstrip("/")
 SOURCES = [  # (satellite index used by the page, label, path prefix)
     (0, "Suomi NPP", "suomi-npp-viirs-c2/csv/SUOMI_VIIRS_C2_South_Asia"),
     (1, "NOAA-20", "noaa-20-viirs-c2/csv/J1_VIIRS_C2_South_Asia"),
