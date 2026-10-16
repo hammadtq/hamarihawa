@@ -146,9 +146,68 @@ def build_carbonmapper():
     print(f"wrote {len(items)} Carbon Mapper sources -> {path}")
 
 
+def build_hotspots(csvs):
+    """Places satellites see hot again and again: kilns, furnaces, flares, burning dumps.
+
+    csvs: FIRMS yearly country archives (firms.modaps.eosdis.nasa.gov/data/country/viirs-snpp/<year>/...).
+    A ~400 m spot counts if NASA flagged it as a static land source (type 2) at least twice, or if it
+    was hot on >= 10 separate days spread over >= 4 months (crop burning is seasonal and moves around).
+    Output items: [lat, lon, days, months, label] where label names the kiln/landfill/estate it sits on.
+    """
+    import csv
+    s_, w_, n_, e_ = BBOX
+    spots = {}
+    for path in csvs:
+        for r in csv.DictReader(open(path, encoding="utf-8")):
+            la, lo = float(r["latitude"]), float(r["longitude"])
+            if not (s_ <= la <= n_ and w_ <= lo <= e_) or r.get("confidence") in ("l", "low"):
+                continue
+            k = (round(la / 0.004), round(lo / 0.004))
+            sp = spots.setdefault(k, {"lat": 0.0, "lon": 0.0, "n": 0, "days": set(), "months": set(), "static": 0})
+            sp["lat"] += la; sp["lon"] += lo; sp["n"] += 1
+            sp["days"].add(r["acq_date"]); sp["months"].add(r["acq_date"][:7])
+            if r.get("type") == "2":
+                sp["static"] += 1
+    # Label each hot spot by what it sits on, using the layers built above.
+    near = {}
+    for kind, fname, label in [("landfill", "osm-landfill.json", None), ("kiln", "kilns.json", "Brick kiln"),
+                               ("industrial", "osm-industrial.json", None)]:
+        path = os.path.join(OUT, fname)
+        if os.path.exists(path):
+            idx = {}
+            for it in json.load(open(path, encoding="utf-8"))["items"]:
+                idx.setdefault((round(it[0] * 20), round(it[1] * 20)), []).append(it)
+            near[kind] = (idx, label)
+
+    def label_for(la, lo):
+        for kind, (idx, fixed) in near.items():
+            k = (round(la * 20), round(lo * 20))
+            for i in (-1, 0, 1):
+                for j in (-1, 0, 1):
+                    for it in idx.get((k[0] + i, k[1] + j), ()):
+                        d = math.hypot(it[0] - la, (it[1] - lo) * math.cos(math.radians(la))) * 111_200
+                        reach = 450 if kind == "kiln" else it[3] + 400
+                        if d < reach:
+                            return fixed or it[2] or ("Landfill" if kind == "landfill" else "Industrial area")
+        return ""
+
+    items = []
+    for sp in spots.values():
+        days, months = len(sp["days"]), len(sp["months"])
+        if sp["static"] >= 2 or (days >= 10 and months >= 4):
+            la, lo = sp["lat"] / sp["n"], sp["lon"] / sp["n"]
+            items.append([round(la, 4), round(lo, 4), days, months, label_for(la, lo)])
+    items.sort(key=lambda x: -x[2])
+    path = os.path.join(OUT, "hotspots.json")
+    json.dump({"source": "NASA FIRMS VIIRS S-NPP yearly archive; persistence analysis by HamariHawa",
+               "built": time.strftime("%Y-%m-%d"), "items": items}, open(path, "w"), separators=(",", ":"), ensure_ascii=False)
+    print(f"wrote {len(items)} hot spots ({sum(1 for i in items if i[4])} on a known source) -> {path}")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--only", choices=list(QUERIES) + ["kilns", "carbonmapper"])
+    ap.add_argument("--only", choices=list(QUERIES) + ["kilns", "carbonmapper", "hotspots"])
+    ap.add_argument("--firms-csv", nargs="*", help="FIRMS yearly country CSVs (for --only hotspots)")
     ap.add_argument("--skdb-labels", help="SentinelKilnDB labels JSON (for --only kilns)")
     ap.add_argument("--pk-kilns", help="Pakistan kiln emission CSV (for --only kilns)")
     a = ap.parse_args()
@@ -158,6 +217,9 @@ def main():
         return
     if a.only == "carbonmapper":
         build_carbonmapper()
+        return
+    if a.only == "hotspots":
+        build_hotspots(a.firms_csv)
         return
     for kind, q in QUERIES.items():
         if a.only and kind != a.only:

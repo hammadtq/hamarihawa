@@ -545,6 +545,7 @@
       const pm24 = vals.length ? vals.reduce((x, v) => x + v, 0) / vals.length : a.current.pm2_5;
       state.local = { ...me, city: me.city || state.local?.city || "", aqi: a.current.us_aqi, pm24 };
       renderMyAir();
+      window.dispatchEvent(new Event("hh:local"));
     } catch (err) {
       console.warn("[hh] my air", err);
     }
@@ -599,6 +600,8 @@
     window.dispatchEvent(new Event("hh:lang"));
   }
   $$(".lang button").forEach((b) => b.addEventListener("click", () => { state.lang = b.dataset.lang; store.set("hh-lang", state.lang); applyLang(); }));
+
+  window.addEventListener("hh:sketch", () => sketchAll());
 
   // Shared with share.js (the shareable card).
   window.HH = { state, t, nf, health, aqiBand, CITIES, map, locale: () => LOCALES[state.lang] };

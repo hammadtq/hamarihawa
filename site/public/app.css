@@ -296,3 +296,28 @@ html[lang="ur"] .panel .src-h { font-family: var(--urdu); font-size: 13px; }
 .src-plumes { border-radius: 50%; border: 2px solid #007a7a; background: rgba(0,140,140,.25); }
 .src-hotspots { border-radius: 50%; border: 2px solid #b3261e; }
 .src-plants { background: #2b2b2b; clip-path: polygon(0 100%, 0 40%, 35% 40%, 35% 0, 65% 0, 65% 40%, 100% 40%, 100% 100%); }
+
+/* Where does our air come from? */
+.where, .transport { margin-top: 8px; }
+.st-tabs { margin: 14px 0 12px; }
+.st-tabs button { font-size: 14px; padding: 3px 12px; }
+.share-card { padding: 18px 20px; }
+.share-card .metric { font-family: var(--hand); font-size: 17px; color: var(--ink-2); margin-bottom: 8px; }
+html[lang="ur"] .share-card .metric { font-family: var(--urdu); font-size: 14px; }
+.bar100 { display: flex; height: 46px; border: 1.5px solid var(--line); border-radius: 6px 10px 7px 12px; overflow: hidden; direction: ltr; }
+.bar100 .seg { display: flex; align-items: center; justify-content: center; min-width: 2px; border-inline-end: 1.5px solid #fff; color: #fff; }
+.bar100 .seg b { font-family: var(--hand); font-size: 18px; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
+.seg-legend { list-style: none; padding: 0; margin: 12px 0 4px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.seg-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-inline-end: 6px; vertical-align: -1px; }
+.seg-legend b { font-weight: 600; }
+.cite { font-size: 12.5px; color: var(--ink-3); margin-top: 8px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+.live { padding: 14px 18px; }
+.live h3 { font-size: 19px; margin-bottom: 4px; }
+.live p { font-size: 14.5px; color: var(--ink-2); }
+html[lang="ur"] .live p { line-height: 2.1; }
+.tr-h { font-size: 21px; margin: 22px 0 0; }
+html[lang="ur"] .tr-h { font-family: var(--urdu); font-size: 16px; }
+.dos.tr { grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 1100px) { .dos.tr { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 860px) { .two { grid-template-columns: 1fr; } .dos.tr { grid-template-columns: 1fr; } .bar100 .seg b { font-size: 14px; } }
