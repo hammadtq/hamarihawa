@@ -54,7 +54,16 @@ export default {
       if (!body) return new Response("not built yet", { status: 503 });
       return new Response(body, { headers: { "content-type": png ? "image/png" : "application/json", "cache-control": "public, max-age=900" } });
     }
-    if (url.pathname !== "/api/fires") return env.ASSETS.fetch(request);
+    if (url.pathname !== "/api/fires") {
+      const res = await env.ASSETS.fetch(request);
+      // hamarihawa.org is the canonical site; keep the workers.dev copy out of search results.
+      if (url.hostname.endsWith(".workers.dev")) {
+        const r = new Response(res.body, res);
+        r.headers.set("x-robots-tag", "noindex");
+        return r;
+      }
+      return res;
+    }
 
     const hours = WINDOWS.has(url.searchParams.get("hours")) ? url.searchParams.get("hours") : "24";
     const body = await env.FEED.get(`fires-${hours}`, { cacheTtl: 120 });

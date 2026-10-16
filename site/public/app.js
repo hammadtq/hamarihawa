@@ -13,7 +13,9 @@
   };
 
   const state = {
-    lang: I18N[store.get("hh-lang")] ? store.get("hh-lang") : guessLang(),
+    // ?lang=ur in the URL wins (shareable language links), then the saved choice, then the browser's.
+    lang: I18N[new URLSearchParams(location.search).get("lang")] ? new URLSearchParams(location.search).get("lang")
+      : I18N[store.get("hh-lang")] ? store.get("hh-lang") : guessLang(),
     hours: 24,
     cc: "",
     layer: "none",
@@ -128,7 +130,7 @@
       const icon = L.divIcon({ className: "", iconSize: [22, 22], iconAnchor: [11, 11],
         html: `<div class="no2-hot" style="--c:${HOT_COLORS[kind]}"><svg viewBox="0 0 24 24">${HOT_ICONS[kind]}</svg></div>` });
       const m = L.marker([lat, lon], { icon, pane: "fires", keyboard: false })
-        .bindPopup(() => `<b>${esc(t("hot_" + kind))}</b><br>${esc(kind === "kilns" ? t("hotKilns", { n: site.split(" ")[0], town }) : site)}
+        .bindPopup(() => `<b>${esc(t("hot_" + kind))}</b><br>${esc(kind === "kilns" ? t("hotKilns", { n: site.split(" ")[0], town }) : siteName(site))}
           <br>${esc(t("hotLine", { x: nf(ratio, { maximumFractionDigits: 1 }), d: nf(trafficMeta.days.length) }))}
           <br><span class="muted">${esc(t("hotWhy_" + kind))}</span>`, { maxWidth: 270 });
       markers.push([rank, m]);
@@ -322,10 +324,16 @@
     if (h < 48) return t("ago_h", { n: nf(h) });
     return t("ago_d", { n: nf(Math.round(h / 24)) });
   }
+  // Build scripts use a few generic English labels for unnamed sites; show them in the reader's language.
+  const GENERIC = { "Brick kiln": "gen_brick_kiln", "Industrial area": "gen_industrial_area", "Landfill": "gen_landfill",
+    "Power plant": "gen_power_plant", "Industrial plant": "gen_industrial_plant" };
+  const siteName = (s) => (GENERIC[s] ? t(GENERIC[s]) : s);
+
   // "at a landfill" becomes "at a landfill: Lakho Der Landfill" when we know the site's name.
   function kindLabel(kind, sites) {
     const base = t("kind_" + kind);
-    return sites && sites.length ? `${base}: ${sites[0]}` : base;
+    const named = (sites || []).filter((s) => !GENERIC[s]);
+    return named.length ? `${base}: ${named[0]}` : base;
   }
   const evKey = (e) => `${e.sat}|${e.t}|${e.district}|${e.state}`;
 
@@ -651,7 +659,7 @@
   window.addEventListener("hh:sketch", () => sketchAll());
 
   // Shared with share.js (the shareable card).
-  window.HH = { state, t, nf, health, aqiBand, CITIES, map, locale: () => LOCALES[state.lang] };
+  window.HH = { state, t, nf, health, aqiBand, CITIES, map, siteName, locale: () => LOCALES[state.lang] };
 
   // Deep links from the Pollution sites page: /#at=lat,lon,zoom&layer=traffic&src=kilns
   function applyHash() {

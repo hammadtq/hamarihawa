@@ -6,6 +6,7 @@
   const T = {
     en: {
       dir: "ltr",
+      gen: { "Power plant": "Power plant", "Industrial plant": "Industrial plant", "Brick kiln": "Brick kiln", "Industrial area": "Industrial area" },
       tagline: "What satellites see in the air over Pakistan and North India, today",
       title: "Pollution sites satellites keep catching",
       lede: "These are places that show up again and again in satellite data: in NO₂ maps, methane and CO₂ plumes, or as heat that never goes away. Each one is listed with what was seen and when, and links to the live map.",
@@ -32,6 +33,7 @@
     },
     ur: {
       dir: "rtl",
+      gen: { "Power plant": "بجلی گھر", "Industrial plant": "صنعتی پلانٹ", "Brick kiln": "اینٹوں کا بھٹہ", "Industrial area": "صنعتی علاقہ" },
       tagline: "پاکستان اور شمالی ہندوستان کی فضا: آج سیٹلائٹ کیا دیکھ رہے ہیں",
       title: "وہ مقامات جو سیٹلائٹ بار بار پکڑتے ہیں",
       lede: "یہ وہ جگہیں ہیں جو سیٹلائٹ ڈیٹا میں بار بار نظر آتی ہیں: NO₂ کے نقشوں میں، میتھین اور CO₂ کے اخراج میں، یا ایسی گرمی کے طور پر جو کبھی ختم نہیں ہوتی۔ ہر ایک کے ساتھ لکھا ہے کیا اور کب دیکھا گیا، اور تازہ نقشے کا لنک۔",
@@ -58,6 +60,7 @@
     },
     hi: {
       dir: "ltr",
+      gen: { "Power plant": "बिजलीघर", "Industrial plant": "औद्योगिक संयंत्र", "Brick kiln": "ईंट भट्ठा", "Industrial area": "औद्योगिक इलाक़ा" },
       tagline: "पाकिस्तान और उत्तर भारत की हवा: आज उपग्रह क्या देख रहे हैं",
       title: "वे ठिकाने जिन्हें उपग्रह बार-बार पकड़ते हैं",
       lede: "ये वे जगहें हैं जो उपग्रह डेटा में बार-बार दिखती हैं: NO₂ के नक्शों में, मीथेन और CO₂ के गुबार में, या ऐसी गर्मी के रूप में जो कभी ख़त्म नहीं होती। हर एक के साथ लिखा है क्या और कब देखा गया, और लाइव नक्शे का लिंक।",
@@ -94,6 +97,8 @@
   const SHOW = 12;
   let lang = "en", cc = "", data = null, no2 = null;
   try { lang = localStorage.getItem("hh-lang") || "en"; } catch {}
+  const qLang = new URLSearchParams(location.search).get("lang");
+  if (qLang) lang = qLang;
   if (!T[lang]) lang = "en";
   const t = (k, v) => { let s = T[lang][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.split(`{${a}}`).join(b); return s; };
   const nf = (n, o) => new Intl.NumberFormat(LOC[lang], o).format(n);
@@ -140,7 +145,7 @@
       const list = pick(hs);
       sections.push(section("traffic", t("traffic"), t("trafficWhy"),
         t("trafficHow", { from: fmtDay(no2.days[0]), to: fmtDay(no2.days[no2.days.length - 1]) }),
-        list.map((h, i) => card(i, h.kind === "traffic" ? h.site : `${h.site}`, `${t("kind_" + h.kind)} · ${h.town}`,
+        list.map((h, i) => card(i, T[lang].gen[h.site] || h.site, `${t("kind_" + h.kind)} · ${h.town}`,
           `<b>${nf(h.ratio, { maximumFractionDigits: 1 })}×</b> ${esc(t("trafficEv"))}`, mapLink(h, "traffic", "", 10), h.cc))));
     }
     // Landfills

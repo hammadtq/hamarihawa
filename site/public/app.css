@@ -339,3 +339,5 @@ html[lang="ur"] .tr-h { font-family: var(--urdu); font-size: 16px; }
 html[lang="ur"] .menu a { font-family: var(--urdu); font-size: 13px; }
 @media (max-width: 1250px) { .top .tagline { display: none; } }
 @media (max-width: 860px) { .menu { order: 4; flex-basis: 100%; overflow-x: auto; } .top .tagline { display: block; } }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

@@ -131,7 +131,7 @@
       const d = 0.03 * km;
       for (const it of itemsIn(kind, lat - d, lon - d, lat + d, lon + d)) {
         const name = kind === "plants" ? it[3] : it[2];
-        if (!name) continue;
+        if (!name || name === "Industrial area" || name === "Landfill") continue;
         const dist = Math.hypot(it[0] - lat, (it[1] - lon) * Math.cos((lat * Math.PI) / 180)) * 111;
         if (dist < bestD) { bestD = dist; best = name; }
       }
@@ -157,7 +157,7 @@
         ${esc(t("plumeSeen", { n: nf(it[5]), pct: nf(it[6]), first: it[7] || "", last: it[8] || "" }))}
         <br><span class="muted">Carbon Mapper</span>`;
     }
-    if (kind === "hotspots") return `<b>${esc(t("srcHotspot"))}</b><br>${esc(t("hotspotLine", { days: nf(it[2]), months: nf(it[3] || 0) }))}${it[4] ? `<br>${esc(it[4])}` : ""}`;
+    if (kind === "hotspots") return `<b>${esc(t("srcHotspot"))}</b><br>${esc(t("hotspotLine", { days: nf(it[2]), months: nf(it[3] || 0) }))}${it[4] ? `<br>${esc(HH.siteName(it[4]))}` : ""}`;
     if (kind === "plants") return `<b>${esc(it[3])}</b><br>${esc(t("plant_" + it[2]))}${it[4] ? ` · ${esc(it[4])}` : ""}<br><span class="muted">${esc(data.plants.source.split(";")[0])}</span>`;
     return "";
   }

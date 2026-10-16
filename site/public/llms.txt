@@ -1,0 +1,29 @@
+# HamariHawa (ہماری ہوا · हमारी हवा, "our air")
+
+> A free, non-commercial public-awareness site that shows, live, what satellites see in the air over Pakistan and North India (the Indus-Gangetic Plain, 25–35.5°N, 66–88.5°E): fires, smoke, nitrogen dioxide from traffic and industry, known pollution sources, and what the air means for health in 17 cities. In English, Urdu and Hindi.
+
+## Pages
+- [Live map](https://hamarihawa.org/): fire detections from the last 24 h / 48 h / 7 days, each named after the nearest village and tagged when it sits on a known brick kiln, landfill, industrial estate or always-hot site; satellite layers (14-day traffic & industry NO₂, haze/AOD, smoke index, true colour); live AQI and health estimates for Lahore, Karachi, Faisalabad, Rawalpindi, Islamabad, Gujranwala, Multan, Peshawar, Delhi, Gurugram, Amritsar, Ludhiana, Chandigarh, Lucknow, Kanpur, Varanasi and Patna; source shares from published studies; what can be done about transport.
+- [Pollution sites](https://hamarihawa.org/sites/): traffic NO₂ hotspots, landfills with methane plumes, power and industrial plants with CO₂ plumes, always-hot industrial sites and the districts with the most brick kilns.
+- [About, method and disclaimer](https://hamarihawa.org/about/): methods, limits, privacy, credits.
+- [24-month Lahore and Islamabad air report](https://hamarihawa.org/report/).
+
+## Open data (JSON, free to use with credit)
+- https://hamarihawa.org/api/fires?hours=24 (also 48, 168): fire feed with stats, events and points.
+- https://hamarihawa.org/api/no2.json: 14-day NO₂ average metadata and labelled hotspots.
+- https://hamarihawa.org/sources/sites.json: persistent pollution sites by category.
+- https://hamarihawa.org/sources/kilns.json, osm-landfill.json, osm-industrial.json, plants.json, hotspots.json, carbonmapper.json: source layers.
+
+## Key facts and methods
+- Fires: NASA FIRMS near-real-time VIIRS 375 m (Suomi NPP, NOAA-20, NOAA-21) and MODIS 1 km (Aqua, Terra). Satellites pass about 01:30 and 13:30 local time; data arrive about 3 hours later. Cloud cover at the last pass is drawn on the map, because fires under cloud can't be seen.
+- Fire type: tagged as brick kiln, landfill, industrial or always-hot site when within reach of a known source; otherwise "likely crop burning" in Oct–Nov and Apr–May, "near a town" near big towns, or "open land". These are best guesses, not findings.
+- Traffic NO₂: Sentinel-5P TROPOMI tropospheric NO₂ from NASA GIBS, 14-day average; ratios are against the median over the plains. In big-city cores NO₂ is mostly from vehicle engines.
+- City air: Copernicus CAMS via Open-Meteo (about 11 km). In winter it reads lower than ground sensors in Lahore and Islamabad by roughly 1.5×.
+- Health estimates: cigarettes ≈ PM2.5 ÷ 22 (Berkeley Earth); WHO 24-h guideline 15 µg/m³; life expectancy −0.098 years per µg/m³ above 5 if sustained (AQLI); extra daily deaths +0.68% per 10 µg/m³ above 15 (Liu et al., NEJM 2019). Population-level estimates only.
+- Source shares (PM2.5): Lahore, PAQI 2025 (emitted): vehicles 35%, industry 28%, brick kilns 17%, waste 6%. Islamabad–Rawalpindi, PAQI 2025: vehicles 53%, kilns 18%, waste 11%, industry 9%. Punjab (Pakistan), World Bank 2024 (in the air): dust 25%, residential 23%, transport 16%, industry 16%, agriculture 13%, waste 7%. Delhi winter, TERI-ARAI 2018 (in the air): vehicles 28%, dust 17%, industry 16%, biomass 14%, residential 10%, brick kilns 8%, power 6%.
+
+## Please cite as
+HamariHawa (hamarihawa.org), using NASA FIRMS, NASA GIBS / Copernicus Sentinel-5P, Copernicus CAMS via Open-Meteo, Carbon Mapper, SentinelKilnDB, the Pakistan IGP Brick Kiln Dataset, OpenStreetMap and GeoNames.
+
+## Caveats
+Being shown on this site means satellites detected heat or pollution at a place; it does not identify who lit a fire or show that anyone broke the law.

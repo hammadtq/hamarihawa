@@ -3,18 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hamari Hawa · Live fire and air map</title>
-<meta name="description" content="Live satellite map of crop fires, smoke and pollution over Pakistan and North India, with what it means for health in each city.">
-<meta property="og:title" content="Hamari Hawa · Live fire and air map">
-<meta property="og:description" content="See every fire NASA satellites caught in the last 24 hours across Pakistan and North India, and what the air is doing to people in 17 cities.">
-<meta property="og:type" content="website">
+<title>HamariHawa · Live fire &amp; air map of Pakistan and North India</title>
+<meta name="description" content="Live satellite map of crop fires, smoke, traffic NO₂ and pollution sources over Pakistan and North India, with what the air means for health in Lahore, Delhi, Karachi, Islamabad and 13 more cities. English, Urdu, Hindi.">
 <meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="HamariHawa · Live fire &amp; air map of Pakistan and North India">
+<meta property="og:description" content="Live satellite map of crop fires, smoke, traffic NO₂ and pollution sources over Pakistan and North India, with what the air means for health in Lahore, Delhi, Karachi, Islamabad and 13 more cities. English, Urdu, Hindi.">
+<link rel="canonical" href="https://hamarihawa.org/">
+<link rel="alternate" hreflang="en" href="https://hamarihawa.org/?lang=en">
+<link rel="alternate" hreflang="ur" href="https://hamarihawa.org/?lang=ur">
+<link rel="alternate" hreflang="hi" href="https://hamarihawa.org/?lang=hi">
+<link rel="alternate" hreflang="x-default" href="https://hamarihawa.org/">
+<meta property="og:site_name" content="HamariHawa">
+<meta property="og:url" content="https://hamarihawa.org/">
+<meta property="og:image" content="https://hamarihawa.org/og/map.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Live satellite map of crop fires, smoke, traffic NO₂ and pollution sources over Pakistan and North India, with what the air means for health in Lahore, Delhi, Karachi, Islamabad and 13 more cities. English, Urdu, Hindi.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="ur_PK">
+<meta property="og:locale:alternate" content="hi_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HamariHawa · Live fire &amp; air map of Pakistan and North India">
+<meta name="twitter:description" content="Live satellite map of crop fires, smoke, traffic NO₂ and pollution sources over Pakistan and North India, with what the air means for health in Lahore, Delhi, Karachi, Islamabad and 13 more cities. English, Urdu, Hindi.">
+<meta name="twitter:image" content="https://hamarihawa.org/og/map.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebSite","@id":"https://hamarihawa.org/#site","name":"HamariHawa","alternateName":["ہماری ہوا","हमारी हवा","Hamari Hawa"],"url":"https://hamarihawa.org/","inLanguage":["en","ur","hi"],"description":"Live satellite map of crop fires, smoke, NO2 and pollution sources over Pakistan and North India, with health estimates for 17 cities."},
+ {"@type":"Dataset","name":"HamariHawa live fire feed (Pakistan and North India)","description":"Active fire detections from NASA FIRMS (VIIRS 375 m and MODIS 1 km) for 25-35.5 N, 66-88.5 E, named after the nearest village and tagged when they sit on a known brick kiln, landfill, industrial estate or always-hot site. Updated every 15 minutes.","url":"https://hamarihawa.org/","isAccessibleForFree":true,"spatialCoverage":{"@type":"Place","name":"Pakistan and North India (Indus-Gangetic Plain)","geo":{"@type":"GeoShape","box":"25 66 35.5 88.5"}},"temporalCoverage":"P7D","creator":{"@id":"https://hamarihawa.org/#site"},"isBasedOn":["https://firms.modaps.eosdis.nasa.gov/","https://www.geonames.org/"],"distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://hamarihawa.org/api/fires?hours=24"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://hamarihawa.org/api/fires?hours=168"}]},
+ {"@type":"Dataset","name":"Traffic and industry NO2 hotspots (14-day average)","description":"Sentinel-5P TROPOMI tropospheric NO2 averaged over 14 days, with local peaks labelled as city traffic, power or industrial plant, industrial estate, brick-kiln belt or highway. Rebuilt daily.","url":"https://hamarihawa.org/","isAccessibleForFree":true,"isBasedOn":"https://earthdata.nasa.gov/gibs","distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://hamarihawa.org/api/no2.json"}]},
+ {"@type":"Dataset","name":"Persistent pollution sites in Pakistan and North India","description":"Landfills with methane plumes, power and industrial plants with CO2 plumes, always-hot industrial sites and brick-kiln belts, compiled from Carbon Mapper, NASA FIRMS, SentinelKilnDB, the Pakistan IGP brick kiln dataset and OpenStreetMap.","url":"https://hamarihawa.org/sites/","isAccessibleForFree":true,"distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://hamarihawa.org/sources/sites.json"}]}
+]}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z' fill='none' stroke='%23d62d20' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="app.css?v=202610170311">
+<link rel="stylesheet" href="app.css?v=202610170316">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -43,14 +70,16 @@
 </header>
 
 <main>
+  <h1 class="sr-only">HamariHawa: live fire and air map of Pakistan and North India</h1>
+  <noscript><p class="wrap" style="padding:16px">HamariHawa shows every fire NASA's satellites detect across Pakistan and North India, smoke and NO₂ from Sentinel-5P, known pollution sources (brick kilns, landfills, power plants), and health estimates for 17 cities. The live map needs JavaScript; see <a href="/sites/">Pollution sites</a> and <a href="/about/">About</a>.</p></noscript>
   <section class="stage">
     <div class="map-wrap sketch" data-seed="4">
       <div id="map" role="region" aria-label="Fire and pollution map"></div>
       <div class="panel sketch" id="panel" data-seed="9">
         <div class="panel-scroll">
-        <div class="panel-h" data-i="layers"></div>
-        <label class="chk"><input type="checkbox" id="firesOn" checked> <span class="dot-legend"></span><span data-i="fires"></span></label>
-        <label class="chk"><input type="checkbox" id="cloudsOn" checked> <span class="cloud-legend"></span><span data-i="clouds"></span></label>
+        <div class="panel-h" data-i="layers">On the map</div>
+        <label class="chk"><input type="checkbox" id="firesOn" checked> <span class="dot-legend"></span><span data-i="fires">Fires seen from space</span></label>
+        <label class="chk"><input type="checkbox" id="cloudsOn" checked> <span class="cloud-legend"></span><span data-i="clouds">Clouds at the last pass</span></label>
         <p class="note" id="cloudNote"></p>
         <div class="radios" id="layerRadios"></div>
         <div class="daystep" id="daystep">
@@ -60,10 +89,10 @@
         </div>
         <div class="legend" id="legend"></div>
         <p class="note" id="layerNote"></p>
-        <div class="src-h" data-i="srcTitle"></div>
+        <div class="src-h" data-i="srcTitle">Pollution sources</div>
         <div id="sourceChecks"></div>
-        <p class="note" data-i="srcNote"></p>
-        <details class="policy"><summary data-i="policyTitle"></summary><p data-i="policy1"></p><p data-i="policy2"></p><p data-i="policy3"></p><a href="/about/#gaps" data-i="aboutMore"></a></details>
+        <p class="note" data-i="srcNote">Known sources from satellite surveys and mapping. They show where pollution comes from, not how much each one adds to your air today.</p>
+        <details class="policy"><summary data-i="policyTitle">How we handle gaps</summary><p data-i="policy1">Fires: shown exactly as NASA detected them, never guessed. Where clouds blocked the view we draw the clouds, so an empty area doesn&#x27;t always mean no fire.</p><p data-i="policy2">Pollution layers: we show the newest day that has finished processing, never a half-processed one. Strips the satellite missed are filled from up to two earlier days, and we name those days. Anything still missing stays blank.</p><p data-i="policy3">City numbers come from a model that covers every city every hour, so they have no gaps, but they are estimates.</p><a href="/about/#gaps" data-i="aboutMore">How to read these numbers</a></details>
         </div>
       </div>
       <div class="age-key" id="ageKey"></div>
@@ -71,8 +100,8 @@
 
     <aside class="feed sketch" data-seed="7" aria-live="polite">
       <div class="feed-head">
-        <h2 data-i="feedTitle"></h2>
-        <p class="sub" data-i="feedSub"></p>
+        <h2 data-i="feedTitle">Live fire feed</h2>
+        <p class="sub" data-i="feedSub">Newest first. Satellites pass over around 1:30 am and 1:30 pm (MODIS also mid-morning and late evening); new fires show up about 3 hours after each pass.</p>
         <div class="my-air" id="myAir" hidden>
           <div class="my-n num" id="myAirN"></div>
           <div class="my-t"><span id="myAirLbl"></span><br><span class="muted" id="myAirSub"></span><small id="myAirNote"></small></div>
@@ -81,18 +110,18 @@
           <div class="big num" id="hFires">–</div>
           <div class="hl-text"><span id="hFiresLbl"></span><br><span class="muted" id="hSplit"></span></div>
         </div>
-        <button class="card-cta" data-share-card><span aria-hidden="true">📣</span> <span data-i="cardBtn"></span></button>
+        <button class="card-cta" data-share-card><span aria-hidden="true">📣</span> <span data-i="cardBtn">Share today&#x27;s fire card</span></button>
         <div class="chips" id="winChips">
-          <button data-w="24" class="on" data-i="window24"></button><button data-w="48" data-i="window48"></button><button data-w="168" data-i="window7d"></button>
+          <button data-w="24" class="on" data-i="window24">24 h</button><button data-w="48" data-i="window48">48 h</button><button data-w="168" data-i="window7d">7 days</button>
         </div>
         <div class="chips" id="ccChips">
-          <button data-cc="" class="on" data-i="all"></button><button data-cc="PK" data-i="pk"></button><button data-cc="IN" data-i="in"></button>
-          <button class="locate" id="locate" data-i="locate"></button>
+          <button data-cc="" class="on" data-i="all">All</button><button data-cc="PK" data-i="pk">Pakistan</button><button data-cc="IN" data-i="in">India</button>
+          <button class="locate" id="locate" data-i="locate">Fires near me</button>
         </div>
       </div>
       <div class="feed-scroll">
-        <ol class="events" id="events"><li class="loading" data-i="loading"></li></ol>
-        <button class="more" id="more" hidden data-i="loadMore"></button>
+        <ol class="events" id="events"><li class="loading" data-i="loading">Asking the satellites…</li></ol>
+        <button class="more" id="more" hidden data-i="loadMore">Show more</button>
         <div class="districts" id="districts"></div>
       </div>
     </aside>
@@ -100,48 +129,48 @@
 
   <section class="health">
     <div class="wrap">
-      <h2 class="sec-title" data-i="healthTitle"></h2>
+      <h2 class="sec-title" data-i="healthTitle">What this air is doing to us</h2>
       <svg class="scribble" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 50 2, 90 11, 140 6 S 230 3, 298 7" fill="none" stroke="#d62d20" stroke-width="2.2" stroke-linecap="round"/></svg>
       <p class="sec-sub" id="healthSub"></p>
 
       <div class="totals" id="totals">
-        <div class="tot sketch" data-seed="21"><div class="tot-n num" id="tUnhealthy">–</div><p data-i="totUnhealthy"></p></div>
-        <div class="tot sketch" data-seed="22"><div class="tot-n num red" id="tDeaths">–</div><p data-i="totDeaths"></p></div>
-        <div class="tot sketch" data-seed="23"><div class="tot-n num" id="tCigs">–</div><p data-i="totCigs"></p></div>
+        <div class="tot sketch" data-seed="21"><div class="tot-n num" id="tUnhealthy">–</div><p data-i="totUnhealthy">people are breathing air that is unhealthy for everyone</p></div>
+        <div class="tot sketch" data-seed="22"><div class="tot-n num red" id="tDeaths">–</div><p data-i="totDeaths">extra deaths estimated today from fine dust (PM2.5) in these cities</p></div>
+        <div class="tot sketch" data-seed="23"><div class="tot-n num" id="tCigs">–</div><p data-i="totCigs">cigarettes a day: what an average lung in these cities is inhaling</p></div>
       </div>
-      <p class="model-note tot-caveat"><span data-i="totCaveat"></span> <a href="/about/" data-i="aboutMore"></a></p>
+      <p class="model-note tot-caveat"><span data-i="totCaveat">Estimates from a pollution model and published research averages, not counts or medical advice.</span> <a href="/about/" data-i="aboutMore">How to read these numbers</a></p>
 
       <div class="cards-bar">
-        <label class="sort"><span data-i="sortBy"></span>
-          <select id="sort"><option value="aqi" data-i="sortAqi"></option><option value="pop" data-i="sortPop"></option><option value="cc" data-i="sortCountry"></option></select>
+        <label class="sort"><span data-i="sortBy">Sort</span>
+          <select id="sort"><option value="aqi" data-i="sortAqi">Worst air</option><option value="pop" data-i="sortPop">Biggest city</option><option value="cc" data-i="sortCountry">Country</option></select>
         </label>
       </div>
       <div class="cards" id="cards"></div>
-      <p class="model-note" data-i="modelNote"></p>
+      <p class="model-note" data-i="modelNote">City numbers come from the Copernicus (CAMS) air model via Open-Meteo, about 11 km resolution. In winter it reads lower than ground sensors in Lahore and Islamabad by about 1.5×, so the real picture is probably worse.</p>
 
       <details class="how sketch" data-seed="31">
-        <summary data-i="howTitle"></summary>
-        <ul><li data-i="how1"></li><li data-i="how2"></li><li data-i="how3"></li><li data-i="how4"></li></ul>
+        <summary data-i="howTitle">How we calculate the health numbers</summary>
+        <ul><li data-i="how1">Cigarettes: breathing 22 µg/m³ of PM2.5 for a day is roughly like smoking one cigarette (Berkeley Earth).</li><li data-i="how2">WHO limit: the 24-hour guideline for PM2.5 is 15 µg/m³ (WHO 2021).</li><li data-i="how3">Years of life: each 1 µg/m³ of PM2.5 above 5, sustained for a year, cuts life expectancy by about 0.098 years (AQLI, University of Chicago).</li><li data-i="how4">Extra deaths: daily deaths rise about 0.68% for every 10 µg/m³ of PM2.5 above 15 (Liu et al., NEJM 2019). We apply that to each city&#x27;s normal daily deaths (population × death rate ÷ 365). These are estimates, not counts.</li></ul>
       </details>
 
       <section class="where" id="whereBox" aria-live="polite"></section>
       <section class="transport" id="transportBox"></section>
 
-      <h2 class="sec-title small" data-i="doTitle"></h2>
+      <h2 class="sec-title small" data-i="doTitle">What you can do today</h2>
       <div class="dos">
-        <div class="do sketch" data-seed="41"><svg viewBox="0 0 48 48" class="ico"><path d="M8 20c6-6 26-6 32 0v6c0 8-8 13-16 13S8 34 8 26z M8 22 3 18 M40 22l5-4 M16 27h16 M18 32h12" /></svg><h3 data-i="do1h"></h3><p data-i="do1"></p></div>
-        <div class="do sketch" data-seed="42"><svg viewBox="0 0 48 48" class="ico"><path d="M8 6h32v36H8z M24 6v36 M8 24h32 M30 30l6 6 M36 30l-6 6" /></svg><h3 data-i="do2h"></h3><p data-i="do2"></p></div>
-        <div class="do sketch" data-seed="43"><svg viewBox="0 0 48 48" class="ico"><path d="M15 12a4 4 0 1 0 0.1 0 M33 8a5 5 0 1 0 0.1 0 M15 18v12 M10 22l5-3 5 3 M12 42l3-12 3 12 M33 15v14 M27 20l6-3 6 3 M29 42l4-13 4 13" /></svg><h3 data-i="do3h"></h3><p data-i="do3"></p></div>
-        <div class="do sketch" data-seed="44"><svg viewBox="0 0 48 48" class="ico"><path d="M14 4h20a3 3 0 0 1 3 3v34a3 3 0 0 1-3 3H14a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z M20 38h8 M24 13c2 4 6 5 6 10a6 6 0 0 1-12 0c0-3 2-4 3-7 1 2 1 3 2 3 0-2 0-4 1-6z" /></svg><h3 data-i="do4h"></h3><p data-i="do4"></p></div>
+        <div class="do sketch" data-seed="41"><svg viewBox="0 0 48 48" class="ico"><path d="M8 20c6-6 26-6 32 0v6c0 8-8 13-16 13S8 34 8 26z M8 22 3 18 M40 22l5-4 M16 27h16 M18 32h12" /></svg><h3 data-i="do1h">Wear the right mask</h3><p data-i="do1">Cloth and surgical masks do little. An N95 or KN95 that seals around the nose filters most PM2.5.</p></div>
+        <div class="do sketch" data-seed="42"><svg viewBox="0 0 48 48" class="ico"><path d="M8 6h32v36H8z M24 6v36 M8 24h32 M30 30l6 6 M36 30l-6 6" /></svg><h3 data-i="do2h">Close windows on bad days</h3><p data-i="do2">When AQI is over 150, keep windows shut, especially early morning and after sunset when smoke settles.</p></div>
+        <div class="do sketch" data-seed="43"><svg viewBox="0 0 48 48" class="ico"><path d="M15 12a4 4 0 1 0 0.1 0 M33 8a5 5 0 1 0 0.1 0 M15 18v12 M10 22l5-3 5 3 M12 42l3-12 3 12 M33 15v14 M27 20l6-3 6 3 M29 42l4-13 4 13" /></svg><h3 data-i="do3h">Protect children and elders</h3><p data-i="do3">Avoid outdoor sport and long walks when the air is red or purple. Asthma and heart patients should keep medicine close.</p></div>
+        <div class="do sketch" data-seed="44"><svg viewBox="0 0 48 48" class="ico"><path d="M14 4h20a3 3 0 0 1 3 3v34a3 3 0 0 1-3 3H14a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z M20 38h8 M24 13c2 4 6 5 6 10a6 6 0 0 1-12 0c0-3 2-4 3-7 1 2 1 3 2 3 0-2 0-4 1-6z" /></svg><h3 data-i="do4h">Report a burning field</h3><p data-i="do4">Pakistan: call the EPA Punjab helpline 1373 or use the Green Punjab app. India: file a complaint in CPCB&#x27;s SAMEER app.</p></div>
       </div>
 
       <div class="share sketch" data-seed="51">
-        <div class="share-text"><h3 data-i="nudgeTitle"></h3><p data-i="nudgeText"></p></div>
+        <div class="share-text"><h3 data-i="nudgeTitle">One share can reach a whole family group</h3><p data-i="nudgeText">Most people never see these numbers. Share today&#x27;s card on WhatsApp, Instagram, X or Facebook. It updates with every satellite pass.</p></div>
         <div class="share-btns">
-          <button class="btn primary" data-share-card data-i="cardBtn"></button>
+          <button class="btn primary" data-share-card data-i="cardBtn">Share today&#x27;s fire card</button>
           <a class="btn" id="shareWa" target="_blank" rel="noopener">WhatsApp</a>
           <a class="btn" id="shareX" target="_blank" rel="noopener">X</a>
-          <button class="btn" id="shareNative" data-i="share"></button>
+          <button class="btn" id="shareNative" data-i="share">Share</button>
         </div>
       </div>
     </div>
@@ -151,25 +180,25 @@
 <dialog id="shareDlg" class="share-dlg" aria-labelledby="shareDlgTitle">
   <div class="dlg-inner">
     <div class="dlg-head">
-      <h2 id="shareDlgTitle" data-i="cardTitle"></h2>
+      <h2 id="shareDlgTitle" data-i="cardTitle">Share today&#x27;s card</h2>
       <button id="shareClose" class="x" aria-label="Close">×</button>
     </div>
     <div class="chips" id="cardFormats">
-      <button data-f="square" class="on" data-i="fmtSquare"></button><button data-f="story" data-i="fmtStory"></button><button data-f="wide" data-i="fmtWide"></button>
+      <button data-f="square" class="on" data-i="fmtSquare">Instagram / Facebook</button><button data-f="story" data-i="fmtStory">Story / Status</button><button data-f="wide" data-i="fmtWide">X / Twitter</button>
     </div>
     <div class="dlg-body">
-      <div class="preview"><canvas id="shareCanvas" width="1080" height="1350"></canvas><div class="busy" id="shareBusy" data-i="loading"></div></div>
+      <div class="preview"><canvas id="shareCanvas" width="1080" height="1350"></canvas><div class="busy" id="shareBusy" data-i="loading">Asking the satellites…</div></div>
       <div class="dlg-side">
-        <p class="hint" data-i="cardHint"></p>
-        <button class="btn primary" id="cardShare" hidden data-i="cardShareBtn"></button>
+        <p class="hint" data-i="cardHint">Made from today&#x27;s live numbers. Post it, put it on your WhatsApp status, send it to your family group.</p>
+        <button class="btn primary" id="cardShare" hidden data-i="cardShareBtn">Share image…</button>
         <a class="btn wa" id="cardWa" target="_blank" rel="noopener">WhatsApp</a>
-        <button class="btn" id="cardDownload" data-i="download"></button>
+        <button class="btn" id="cardDownload" data-i="download">Download image</button>
         <a class="btn" id="cardX" target="_blank" rel="noopener">X / Twitter</a>
         <a class="btn" id="cardFb" target="_blank" rel="noopener">Facebook</a>
-        <label class="cap-l" for="shareCaption" data-i="captionLbl"></label>
+        <label class="cap-l" for="shareCaption" data-i="captionLbl">Caption (copy and paste)</label>
         <textarea id="shareCaption" rows="5"></textarea>
-        <button class="btn" id="cardCopy" data-i="copyCaption"></button>
-        <p class="hint small" data-i="cardIgHint"></p>
+        <button class="btn" id="cardCopy" data-i="copyCaption">Copy caption</button>
+        <p class="hint small" data-i="cardIgHint">Instagram: download the image, then post it from the app. WhatsApp on a computer sends text only, so attach the downloaded image.</p>
       </div>
     </div>
   </div>
@@ -177,29 +206,29 @@
 
 <footer class="foot">
   <div class="wrap">
-    <p class="caveat" data-i="caveat"></p>
-    <p><b data-i="sources"></b></p>
+    <p class="caveat" data-i="caveat">Satellites pass over a few times a day, so small or short fires can be missed and clouds hide fires. Fire type is a best guess from location and season.</p>
+    <p><b data-i="sources">Data</b></p>
     <ul class="src">
-      <li><a href="https://firms.modaps.eosdis.nasa.gov/" data-i="srcFires"></a></li>
-      <li><a href="https://nasa-gibs.github.io/gibs-api-docs/" data-i="srcLayers"></a></li>
-      <li><a href="https://open-meteo.com/en/docs/air-quality-api" data-i="srcAir"></a></li>
-      <li><a href="https://www.geonames.org/" data-i="srcPlaces"></a></li>
-      <li><a href="https://carbonmapper.org/" data-i="srcCM"></a></li>
-      <li><a href="https://huggingface.co/datasets/SustainabilityLabIITGN/SentinelKilnDB" data-i="srcKilns"></a></li>
-      <li><a href="https://zenodo.org/records/14038648" data-i="srcKilnsPk"></a></li>
-      <li><a href="https://www.openstreetmap.org/copyright" data-i="srcMap"></a></li>
+      <li><a href="https://firms.modaps.eosdis.nasa.gov/" data-i="srcFires">Fires: NASA FIRMS, VIIRS 375 m (Suomi NPP, NOAA-20, NOAA-21) and MODIS 1 km (Aqua, Terra)</a></li>
+      <li><a href="https://nasa-gibs.github.io/gibs-api-docs/" data-i="srcLayers">Map layers: NASA GIBS (TROPOMI on Sentinel-5P, MODIS, OMI, VIIRS)</a></li>
+      <li><a href="https://open-meteo.com/en/docs/air-quality-api" data-i="srcAir">City air: Copernicus CAMS via Open-Meteo</a></li>
+      <li><a href="https://www.geonames.org/" data-i="srcPlaces">Place names: GeoNames (CC-BY 4.0)</a></li>
+      <li><a href="https://carbonmapper.org/" data-i="srcCM">Methane and CO₂ plumes: Carbon Mapper (satellite and airborne)</a></li>
+      <li><a href="https://huggingface.co/datasets/SustainabilityLabIITGN/SentinelKilnDB" data-i="srcKilns">Brick kilns: SentinelKilnDB, IIT Gandhinagar (CC BY-NC 4.0)</a></li>
+      <li><a href="https://zenodo.org/records/14038648" data-i="srcKilnsPk">Pakistan kiln emissions: Brick Kiln Dataset for Pakistan&#x27;s IGP Region (CC BY 4.0)</a></li>
+      <li><a href="https://www.openstreetmap.org/copyright" data-i="srcMap">Base map: Esri Light Gray Canvas, © OpenStreetMap contributors</a></li>
     </ul>
-    <p><a href="/about/" data-i="aboutLink"></a> · <a href="/report/" data-i="reportLink"></a></p>
+    <p><a href="/about/" data-i="aboutLink">About, method and disclaimer</a> · <a href="/report/" data-i="reportLink">Read our 24-month Lahore and Islamabad air report</a></p>
   </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
-<script src="i18n.js?v=202610170311"></script>
-<script src="cities.js?v=202610170311"></script>
-<script src="app.js?v=202610170311"></script>
-<script src="share.js?v=202610170311"></script>
-<script src="sources.js?v=202610170311"></script>
-<script src="insights.js?v=202610170311"></script>
+<script src="i18n.js?v=202610170316"></script>
+<script src="cities.js?v=202610170316"></script>
+<script src="app.js?v=202610170316"></script>
+<script src="share.js?v=202610170316"></script>
+<script src="sources.js?v=202610170316"></script>
+<script src="insights.js?v=202610170316"></script>
 </body>
 </html>

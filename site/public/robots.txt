@@ -1,0 +1,6 @@
+# HamariHawa: public-interest air-quality site. Crawlers and AI assistants are welcome.
+User-agent: *
+Allow: /
+Disallow: /api/firms/
+
+Sitemap: https://hamarihawa.org/sitemap.xml

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url><loc>https://hamarihawa.org/</loc><changefreq>hourly</changefreq><priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ur" href="https://hamarihawa.org/?lang=ur"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://hamarihawa.org/?lang=hi"/></url>
+  <url><loc>https://hamarihawa.org/sites/</loc><changefreq>daily</changefreq><priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ur" href="https://hamarihawa.org/sites/?lang=ur"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://hamarihawa.org/sites/?lang=hi"/></url>
+  <url><loc>https://hamarihawa.org/about/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://hamarihawa.org/report/</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+</urlset>
