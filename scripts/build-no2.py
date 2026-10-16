@@ -206,6 +206,7 @@ def main():
     for la, lo, ratio in peaks[:60]:
         town = min(towns, key=lambda t: km(la, lo, t[0], t[1]))
         tkm = km(la, lo, town[0], town[1])
+        cc = town[5]  # country from the nearest big town (towns.json carries it)
         city = min(cities, key=lambda c: km(la, lo, c[0], c[1]))
         if km(la, lo, city[0], city[1]) < 35:
             town, tkm = [city[0], city[1], city[2], "", "", "", 0], km(la, lo, city[0], city[1])
@@ -231,7 +232,7 @@ def main():
             kind, site = "traffic", town[2]
         else:
             kind, site = "corridor", town[2]
-        hotspots.append([la, lo, ratio, kind, site, round(tkm), town[2]])
+        hotspots.append([la, lo, ratio, kind, site, round(tkm), town[2], cc])
 
     s, n = tile2lat(Y1 + 1, Z), tile2lat(Y0, Z)
     w, e = tile2lon(X0, Z), tile2lon(X1 + 1, Z)

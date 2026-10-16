@@ -50,9 +50,9 @@ export default {
     }
     if (url.pathname === "/api/no2.png" || url.pathname === "/api/no2.json") {
       const png = url.pathname.endsWith(".png");
-      const body = await env.FEED.get(png ? "no2-png" : "no2-json", { type: png ? "arrayBuffer" : "text", cacheTtl: 3600 });
+      const body = await env.FEED.get(png ? "no2-png" : "no2-json", { type: png ? "arrayBuffer" : "text", cacheTtl: 300 });
       if (!body) return new Response("not built yet", { status: 503 });
-      return new Response(body, { headers: { "content-type": png ? "image/png" : "application/json", "cache-control": "public, max-age=3600" } });
+      return new Response(body, { headers: { "content-type": png ? "image/png" : "application/json", "cache-control": "public, max-age=900" } });
     }
     if (url.pathname !== "/api/fires") return env.ASSETS.fetch(request);
 

@@ -35,6 +35,27 @@
     };
   };
 
+  let no2 = null;
+  async function loadNo2() {
+    if (no2 === null) no2 = await fetch("/api/no2.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : false)).catch(() => false);
+    return no2 || null;
+  }
+  // Top 3 city-traffic NO2 hotspots; the reader's own city goes first when it has one.
+  function trafficTop(n) {
+    if (!n) return [];
+    const list = n.hotspots.filter((h) => h[3] === "traffic");
+    const me = HH.state.local;
+    if (me && me.lat) {
+      const mine = list.find((h) => Math.hypot(h[0] - me.lat, (h[1] - me.lon) * 0.87) * 111 < 30);
+      if (mine) return [mine, ...list.filter((h) => h !== mine)].slice(0, 3);
+    }
+    return list.slice(0, 3);
+  }
+  function cityLabel(name) {
+    const c = HH.CITIES.find((x) => x.name.en === name);
+    return c ? c.name[lang()] : name;
+  }
+
   async function loadFeed() {
     if (feed && Date.now() - feed._at < 5 * 60 * 1000) return feed;
     const r = await fetch("/api/fires?hours=24");
@@ -98,7 +119,7 @@
     ctx.restore();
   }
 
-  function drawMap(ctx, rc, x, y, w, h, pts) {
+  function drawMap(ctx, rc, x, y, w, h, pts, hot = []) {
     // Equirectangular with a cos(lat) squash, fitted to the box.
     const k = Math.cos((30 * Math.PI) / 180);
     const sx = w / ((BOX.e - BOX.w) * k), sy = h / (BOX.n - BOX.s), sc = Math.min(sx, sy);
@@ -130,6 +151,16 @@
       const r = Math.max(2.5, Math.min(9, 2.4 + Math.sqrt(p[3]) * 0.6)) * (sc / 26);
       ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
     }
+    // Traffic hotspots: numbered red rings matching the line under the map.
+    hot.forEach((hs, i) => {
+      const [cx, cy] = P(hs[0], hs[1]);
+      const r = Math.max(10, sc * 0.3);
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.fill();
+      ctx.lineWidth = 3; ctx.strokeStyle = FIRE; ctx.stroke();
+      ctx.fillStyle = FIRE; ctx.font = `700 ${Math.round(r * 1.25)}px ${f.latinHand}`; ctx.textAlign = "center"; ctx.direction = "ltr";
+      ctx.fillText(String(i + 1), cx, cy + r * 0.42);
+    });
     // city reference points
     ctx.font = `600 ${Math.round(sc * 0.5)}px ${f.sans}`;
     for (const [name, lat, lon] of LABELS) {
@@ -155,8 +186,9 @@
     const f = fonts();
     await Promise.all([`700 80px Kalam`, `400 40px Inter`, `600 40px Inter`, lang() === "ur" ? `400 40px "Noto Nastaliq Urdu"` : null]
       .filter(Boolean).map((x) => document.fonts.load(x).catch(() => null)));
-    const d = await loadFeed();
+    const [d, n2] = await Promise.all([loadFeed(), loadNo2()]);
     const cs = cityStats();
+    const hot = trafficTop(n2);
     const text = makeText(ctx, W);
     const s = d.stats;
     const day = new Intl.DateTimeFormat(HH.locale(), { day: "numeric", month: "long", year: "numeric" }).format(d.latest || d.generated);
@@ -193,9 +225,10 @@
 
     // map
     let mx, my, mw, mh;
-    if (wide) { mx = 740; my = M + 110; mw = W - mx - M; mh = H - my - 150; }
-    else { mx = M; my = y + (story ? 70 : 40); mw = W - 2 * M; mh = (story ? 700 : 400) - (lang() === "ur" ? (story ? 40 : 90) : 0); }
-    drawMap(ctx, rc, mx, my, mw, mh, d.points);
+    const tl = hot.length ? 44 : 0; // room for the traffic line under the map key
+    if (wide) { mx = 740; my = M + 110; mw = W - mx - M; mh = H - my - 150 - tl; }
+    else { mx = M; my = y + (story ? 70 : 40); mw = W - 2 * M; mh = (story ? 700 : 400) - (lang() === "ur" ? (story ? 40 : 90) : 0) - tl; }
+    drawMap(ctx, rc, mx, my, mw, mh, d.points, hot);
     // map key
     const keyY = my + mh + 34;
     ctx.font = `400 ${big(24)}px ${f.sans}`;
@@ -207,6 +240,16 @@
       ctx.fillText(lbl, rtl ? kx - 26 : kx + 26, keyY);
       const wdt = ctx.measureText(lbl).width + 60;
       kx += rtl ? -wdt : wdt;
+    }
+
+    // traffic line: "Worst traffic air (NO₂, 2 weeks): 1 Delhi 6.1×  2 Rawalpindi 4.6×  3 Lahore 3.8×"
+    if (hot.length) {
+      const ty = keyY + 40;
+      const parts = hot.map((h, i) => `${i + 1} ${cityLabel(h[4])} ${HH.nf(h[2], { maximumFractionDigits: 1 })}×`);
+      const line = `${t("cardTraffic")}  ${parts.join("   ")}`;
+      ctx.direction = rtl ? "rtl" : "ltr"; ctx.textAlign = rtl ? "right" : "left";
+      ctx.font = `600 ${big(story ? 30 : 24)}px ${f.sans}`; ctx.fillStyle = FIRE;
+      ctx.fillText(line, rtl ? W - (wide ? M : mx) : (wide ? mx : mx), ty, wide ? mw : W - 2 * M);
     }
 
     // health stats
@@ -226,7 +269,7 @@
       ];
       let sy, sx, sw, sh, gap = 24;
       if (wide) { sx = M; sy = y + 50; sw = colW; sh = 78; }
-      else { sx = M; sy = keyY + (story ? 70 : 34); sw = W - 2 * M; sh = story ? 230 : 150; }
+      else { sx = M; sy = keyY + (story ? 70 : 34) + tl; sw = W - 2 * M; sh = story ? 230 : 150; }
       if (wide) {
         stats.forEach((st, i) => {
           const yy = sy + i * (sh + 12);
@@ -283,14 +326,19 @@
   function caption(d, cs) {
     const me = HH.state.local;
     if (me && me.aqi != null && me.city) {
-      return t("cardCaptionMe", { city: localCity(me), aqi: HH.nf(Math.round(me.aqi)), cigs: HH.nf(me.pm24 / 22, { maximumFractionDigits: 1 }), n: HH.nf(d.stats.spots) }) +
-        `\n${URL_}\n#HamariHawa #AirPollution #Smog`;
+      return t("cardCaptionMe", { city: localCity(me), aqi: HH.nf(Math.round(me.aqi)), cigs: HH.nf(me.pm24 / 22, { maximumFractionDigits: 1 }),
+        n: HH.nf(d.stats.spots), traffic: trafficCaption() }) + `\n${URL_}\n#HamariHawa #AirPollution #Smog`;
     }
     const worst = cs?.worst[0];
     return t("cardCaption", {
       n: HH.nf(d.stats.spots), pk: HH.nf(d.stats.pk), in: HH.nf(d.stats.in),
       city: worst ? worst.c.name[lang()] : "", aqi: worst ? HH.nf(Math.round(worst.a.us_aqi)) : "",
+      traffic: trafficCaption(),
     }) + `\n${URL_}\n#HamariHawa #AirPollution #Smog`;
+  }
+  function trafficCaption() {
+    const hot = trafficTop(no2 || null);
+    return hot.length ? t("cardTrafficCap", { list: hot.map((h) => `${cityLabel(h[4])} ${HH.nf(h[2], { maximumFractionDigits: 1 })}×`).join(", ") }) : "";
   }
 
   // ---------- dialog ----------

@@ -191,6 +191,7 @@
       renderPanel();
     }));
   }
+  if (window.HH_HASH_SRC && LAYERS[window.HH_HASH_SRC]) LAYERS[window.HH_HASH_SRC].on = true;
   Object.keys(LAYERS).forEach((k) => { if (LAYERS[k].on) setOn(k, true).then(renderPanel); });
   ["landfill", "industrial", "plants"].forEach(load);
   renderPanel();

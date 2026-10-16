@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="app.css?v=202610170233">
+<link rel="stylesheet" href="app.css?v=202610170307">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -29,6 +29,11 @@
     <span class="word">HamariHawa</span>
     <span class="word-alt" aria-hidden="true">ہماری ہوا · हमारी हवा</span>
   </a>
+  <nav class="menu" aria-label="Pages">
+    <a href="/" data-nav="map" aria-current="page" data-en="Live map" data-ur="تازہ نقشہ" data-hi="लाइव नक्शा">Live map</a>
+    <a href="/sites/" data-nav="sites" data-en="Pollution sites" data-ur="آلودگی کے مقامات" data-hi="प्रदूषण के ठिकाने">Pollution sites</a>
+    <a href="/about/" data-nav="about" data-en="About" data-ur="تعارف" data-hi="परिचय">About</a>
+  </nav>
   <p class="tagline" data-i="tagline"></p>
   <div class="top-right">
     <span class="updated mono" id="updated"></span>
@@ -43,6 +48,7 @@
     <div class="map-wrap sketch" data-seed="4">
       <div id="map" role="region" aria-label="Fire and pollution map"></div>
       <div class="panel sketch" id="panel" data-seed="9">
+        <div class="panel-scroll">
         <div class="panel-h" data-i="layers"></div>
         <label class="chk"><input type="checkbox" id="firesOn" checked> <span class="dot-legend"></span><span data-i="fires"></span></label>
         <label class="chk"><input type="checkbox" id="cloudsOn" checked> <span class="cloud-legend"></span><span data-i="clouds"></span></label>
@@ -59,6 +65,7 @@
         <div id="sourceChecks"></div>
         <p class="note" data-i="srcNote"></p>
         <details class="policy"><summary data-i="policyTitle"></summary><p data-i="policy1"></p><p data-i="policy2"></p><p data-i="policy3"></p><a href="/about/#gaps" data-i="aboutMore"></a></details>
+        </div>
       </div>
       <div class="age-key" id="ageKey"></div>
     </div>
@@ -189,11 +196,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
-<script src="i18n.js?v=202610170233"></script>
-<script src="cities.js?v=202610170233"></script>
-<script src="app.js?v=202610170233"></script>
-<script src="share.js?v=202610170233"></script>
-<script src="sources.js?v=202610170233"></script>
-<script src="insights.js?v=202610170233"></script>
+<script src="i18n.js?v=202610170307"></script>
+<script src="cities.js?v=202610170307"></script>
+<script src="app.js?v=202610170307"></script>
+<script src="share.js?v=202610170307"></script>
+<script src="sources.js?v=202610170307"></script>
+<script src="insights.js?v=202610170307"></script>
 </body>
 </html>

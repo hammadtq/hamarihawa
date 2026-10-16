@@ -79,7 +79,11 @@ html[lang="ur"] .panel .policy summary { font-family: var(--urdu); font-size: 12
 .panel .policy p { margin-top: 5px; line-height: 1.45; }
 html[lang="ur"] .panel .policy p { line-height: 2; }
 .panel .policy a { font-size: 12px; }
-.panel { max-height: calc(100% - 80px); overflow-y: auto; scrollbar-width: thin; }
+/* The frame (and its hand-drawn border) stays put; only the inside scrolls. */
+.panel { max-height: calc(100% - 80px); display: flex; flex-direction: column; padding: 0 !important; overflow: hidden; }
+.panel-scroll { overflow-y: auto; padding: 12px 14px; scrollbar-width: thin; min-height: 0; }
+.panel .chk { align-items: flex-start; }
+.panel .chk input, .panel .chk .src-key, .panel .chk .dot-legend, .panel .chk .cloud-legend { margin-top: 4px; }
 .dot-legend { width: 10px; height: 10px; border-radius: 50%; background: var(--fire); box-shadow: 0 0 0 3px rgba(214,45,32,.18); }
 .daystep { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; border-top: 1px dashed var(--hair); padding-top: 8px; }
 .daystep button { background: none; border: 1.2px solid var(--line); border-radius: 50% 45% 50% 40%; width: 26px; height: 26px; cursor: pointer; line-height: 1; font-size: 16px; }
@@ -227,8 +231,9 @@ html[lang="ur"] .share { font-family: var(--urdu); font-size: 15px; }
   .brand .word-alt { display: none; }
   .stage { display: block; height: auto; min-height: 0; padding: 10px 16px; }
   .map-wrap { height: 64vh; min-height: 380px; }
-  .panel { top: 10px; inset-inline-start: 10px; width: min(230px, calc(100% - 64px)); padding: 9px 11px; font-size: 12.5px; }
-  .panel.collapsed > :not(.panel-h) { display: none; }
+  .panel { top: 10px; inset-inline-start: 10px; width: min(230px, calc(100% - 64px)); font-size: 12.5px; }
+  .panel-scroll { padding: 9px 11px; }
+  .panel.collapsed .panel-scroll > :not(.panel-h) { display: none; }
   .panel-h { cursor: pointer; display: flex; justify-content: space-between; }
   .panel-h::after { content: "▾"; font-family: var(--sans); }
   .panel.collapsed .panel-h::after { content: "▸"; }
@@ -325,3 +330,12 @@ html[lang="ur"] .tr-h { font-family: var(--urdu); font-size: 16px; }
 .no2-img { filter: blur(1.5px); }
 .no2-hot { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 2px solid var(--c); display: grid; place-items: center; box-shadow: 1px 2px 0 rgba(0,0,0,.15); }
 .no2-hot svg { width: 14px; height: 14px; fill: none; stroke: var(--c); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Page menu */
+.menu { display: flex; gap: 4px; flex: none; }
+.menu a { text-decoration: none; font-size: 14px; padding: 3px 10px; border-radius: 12px 9px 13px 8px; color: var(--ink-2); white-space: nowrap; }
+.menu a:hover { background: #f4f1ea; color: var(--ink); }
+.menu a[aria-current="page"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--fire); border-radius: 0; }
+html[lang="ur"] .menu a { font-family: var(--urdu); font-size: 13px; }
+@media (max-width: 1250px) { .top .tagline { display: none; } }
+@media (max-width: 860px) { .menu { order: 4; flex-basis: 100%; overflow-x: auto; } .top .tagline { display: block; } }

@@ -115,7 +115,7 @@
   const HOT_COLORS = { traffic: "#cd281e", plant: "#2b2b2b", industry: "#5a508c", kilns: "#7a4a2a", corridor: "#8a7f6a" };
   let trafficMeta = null;
   async function trafficLayer() {
-    if (!trafficMeta) trafficMeta = await fetch("/api/no2.json").then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    if (!trafficMeta) trafficMeta = await fetch("/api/no2.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     const g = L.layerGroup();
     if (!trafficMeta) return g;
     L.imageOverlay(`/api/no2.png?b=${encodeURIComponent(trafficMeta.built)}`, trafficMeta.bounds, { pane: "overlay", opacity: 1, className: "no2-img",
@@ -265,7 +265,7 @@
       `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${id}/default/${p.date}/GoogleMapsCompatible_Level6/{z}/{y}/{x}.png`,
       { pane: "clouds", maxNativeZoom: 6, maxZoom: 13, opacity: 0.6 }
     ).addTo(map);
-    $("#cloudNote").textContent = t("clouds_note", { day: fmtDay(Date.parse(p.date + "T12:00:00Z")), when: p.night ? t("night") : t("daytime") });
+    $("#cloudNote").textContent = t("clouds_note", { day: fmtDay(Date.parse(p.date + "T12:00:00Z")), when: p.night ? t("nightPass") : t("daytime") });
   }
   $("#cloudsOn").addEventListener("change", renderClouds);
 
@@ -633,6 +633,7 @@
     document.documentElement.dir = L0.dir;
     zoomCtl.setPosition(L0.dir === "rtl" ? "topleft" : "topright");
     $$("[data-i]").forEach((el) => { el.textContent = t(el.dataset.i); });
+    $$("[data-en]").forEach((el) => { el.textContent = el.dataset[state.lang] || el.dataset.en; });
     $$(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.lang === state.lang));
     renderPanel();
     renderFeed();
@@ -652,10 +653,23 @@
   // Shared with share.js (the shareable card).
   window.HH = { state, t, nf, health, aqiBand, CITIES, map, locale: () => LOCALES[state.lang] };
 
+  // Deep links from the Pollution sites page: /#at=lat,lon,zoom&layer=traffic&src=kilns
+  function applyHash() {
+    const p = new URLSearchParams(location.hash.slice(1));
+    const at = (p.get("at") || "").split(",").map(Number);
+    if (at.length >= 2 && at.every(Number.isFinite)) {
+      map.setView([at[0], at[1]], at[2] || 10);
+      L.circleMarker([at[0], at[1]], { radius: 18, color: "#d62d20", weight: 2, fill: false, dashArray: "4 4", interactive: false }).addTo(map);
+    }
+    if (p.get("layer") && LAYERS[p.get("layer")] !== undefined) setLayer(p.get("layer"));
+    return p.get("src");
+  }
+
   // ---------- Boot ----------
   applyLang();
   sketchAll();
   setLayer("none");
+  window.HH_HASH_SRC = applyHash();
   loadFires(true).then(updateShare);
   loadAir();
   loadMyAir();
