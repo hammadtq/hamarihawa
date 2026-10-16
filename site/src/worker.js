@@ -29,10 +29,22 @@ export default {
 
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.hostname === "www.hamarihawa.org") {
-      url.hostname = "hamarihawa.org";
+    // Always HTTPS, always the bare domain.
+    if (url.protocol === "http:" || url.hostname === "www.hamarihawa.org") {
+      url.protocol = "https:";
+      if (url.hostname === "www.hamarihawa.org") url.hostname = "hamarihawa.org";
       return Response.redirect(url.toString(), 301);
     }
+    const res = await handle(request, env, url);
+    if (url.hostname !== "hamarihawa.org") return res;
+    const r = new Response(res.body, res);
+    r.headers.set("strict-transport-security", "max-age=31536000; includeSubDomains");
+    return r;
+  },
+};
+
+async function handle(request, env, url) {
+  {
     // Approximate visitor location from Cloudflare's IP lookup, so the page can show "your air".
     // Computed per request, never stored or logged by us.
     if (url.pathname === "/api/where") {
@@ -71,8 +83,8 @@ export default {
       return json(JSON.stringify({ error: "The fire feed hasn't been built yet. Try again in a few minutes." }), 503, 30);
     }
     return json(body, 200, 120);
-  },
-};
+  }
+}
 
 function json(body, status, maxAge) {
   return new Response(body, {

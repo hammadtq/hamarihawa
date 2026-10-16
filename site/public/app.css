@@ -51,7 +51,7 @@ p { margin: 0; }
 .brand .word { font-family: var(--hand); font-weight: 700; font-size: 26px; letter-spacing: .01em; }
 .brand .word-alt { font-family: var(--hand); color: var(--ink-3); font-size: 14px; margin-inline-start: 4px; }
 .tagline { color: var(--ink-2); font-size: 14px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.top-right { display: flex; align-items: center; gap: 14px; }
+.top-right { display: flex; align-items: center; gap: 14px; margin-inline-start: auto; }
 .updated { color: var(--ink-3); white-space: nowrap; }
 .lang { display: flex; border: 1.3px solid var(--line); border-radius: 18px 14px 16px 12px; overflow: hidden; }
 .lang button { background: none; border: 0; padding: 4px 10px; cursor: pointer; font-size: 13px; line-height: 1.6; }

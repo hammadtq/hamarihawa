@@ -307,8 +307,7 @@
     text(t("cardCta"), M, ctaY, `600 ${big(story ? 44 : 36)}px ${f.sans}`, "#ffffff", "left", W - 2 * M);
     ctx.direction = "ltr"; ctx.textAlign = rtl ? "right" : "left";
     ctx.font = `700 ${big(story ? 72 : 56)}px ${f.latinHand}`; ctx.fillStyle = "#ffb3a8";
-    // The arrow points the way the reader's eye moves: right for English/Hindi, left for Urdu.
-    ctx.fillText(rtl ? "← " + SITE : SITE + " →", rtl ? W - M : M, ctaY + (story ? 90 : wide ? 46 : 60));
+    ctx.fillText(SITE, rtl ? W - M : M, ctaY + (story ? 90 : wide ? 46 : 60));
     ctx.font = `400 ${big(22)}px ${f.sans}`; ctx.fillStyle = "#a9a9ad"; ctx.textAlign = rtl ? "left" : "right";
     ctx.fillText(t("cardSource"), rtl ? M : W - M, H - (story ? 40 : 22));
 

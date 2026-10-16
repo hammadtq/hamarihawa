@@ -91,7 +91,6 @@ def card(title, sub, points, pt_colour, kiln=False, name="map.png", fonts=None):
         y += 38
     d.rectangle((0, H - 78, W, H), fill=INK)
     d.text((56, H - 64), "hamarihawa.org", font=font(kalam, 44), fill=(255, 179, 168))
-    d.text((56 + d.textlength("hamarihawa.org", font=font(kalam, 44)) + 18, H - 60), "→", font=font(inter, 40, 600), fill=(255, 179, 168))
     d.text((W - 56, H - 50), "NASA FIRMS · Sentinel-5P · Copernicus", font=font(inter, 20, 400), fill=(170, 170, 175), anchor="ra")
     os.makedirs(OUT, exist_ok=True)
     img.save(os.path.join(OUT, name), optimize=True)
