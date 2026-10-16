@@ -382,6 +382,7 @@
       meMarker = L.marker(state.me, { icon: L.divIcon({ className: "", html: '<div class="me-dot"></div>', iconSize: [14, 14] }) })
         .bindTooltip(t("you")).addTo(map);
       map.flyTo(state.me, 8);
+      loadMyAir({ lat: state.me[0], lon: state.me[1], city: state.local?.approx ? "" : state.local?.city, approx: false });
       state.shown = PAGE; renderFeed();
     }, (err) => console.warn("[hh] geolocation", err.message), { timeout: 10000 });
   });
@@ -521,6 +522,42 @@
   }
   $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; renderCards(); });
 
+  // ---------- Your air ----------
+  // City estimated from the visitor's connection (Cloudflare), or their exact position if they tap "Fires near me".
+  async function loadMyAir(pos) {
+    try {
+      let me = pos;
+      if (!me) {
+        const w = await fetch("/api/where").then((r) => r.json());
+        if (!w.lat) return;
+        me = { lat: w.lat, lon: w.lon, city: w.city || w.region, country: w.country, approx: true };
+      }
+      const a = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${me.lat}&longitude=${me.lon}` +
+        "&current=us_aqi,pm2_5&hourly=pm2_5&past_days=1&forecast_days=1&timezone=GMT").then((r) => r.json());
+      const now = Date.now();
+      const times = a.hourly.time.map((x) => Date.parse(x + "Z"));
+      const vals = a.hourly.pm2_5.filter((v, i) => v != null && times[i] <= now && times[i] > now - 24 * 36e5);
+      const pm24 = vals.length ? vals.reduce((x, v) => x + v, 0) / vals.length : a.current.pm2_5;
+      state.local = { ...me, city: me.city || state.local?.city || "", aqi: a.current.us_aqi, pm24 };
+      renderMyAir();
+    } catch (err) {
+      console.warn("[hh] my air", err);
+    }
+  }
+  function renderMyAir() {
+    const L0 = state.local, box = $("#myAir");
+    if (!L0 || L0.aqi == null) { box.hidden = true; return; }
+    const band = aqiBand(L0.aqi);
+    box.hidden = false;
+    box.style.setProperty("--band", `var(--aqi-${band})`);
+    const known = L0.city && CITIES.find((c) => c.name.en.toLowerCase() === L0.city.toLowerCase());
+    const cityName = known ? known.name[state.lang] : L0.city;
+    $("#myAirLbl").textContent = cityName ? t("myAirLbl", { city: cityName }) : t("myAirHere");
+    $("#myAirN").textContent = nf(Math.round(L0.aqi));
+    $("#myAirSub").textContent = `${t("aqi_" + band)} · ${t("myAirCigs", { n: nf(L0.pm24 / 22, { maximumFractionDigits: 1 }) })}`;
+    $("#myAirNote").textContent = L0.approx ? t("myAirApprox") : "";
+  }
+
   // ---------- Share ----------
   function updateShare() {
     const n = state.data ? state.data.stats.spots : "";
@@ -549,12 +586,17 @@
     renderFeed();
     renderCards();
     renderClouds();
+    renderMyAir();
     updateShare();
     if (state.data) $("#updated").textContent = t("updated", { t: fmtTime(state.data.generated) });
     $$(".sketch svg.rough").forEach((s) => { s.dataset.size = ""; });
     $$(".sketch").forEach((el) => hasRough && drawSketch(el));
+    window.dispatchEvent(new Event("hh:lang"));
   }
   $$(".lang button").forEach((b) => b.addEventListener("click", () => { state.lang = b.dataset.lang; store.set("hh-lang", state.lang); applyLang(); }));
+
+  // Shared with share.js (the shareable card).
+  window.HH = { state, t, nf, health, aqiBand, CITIES, locale: () => LOCALES[state.lang] };
 
   // ---------- Boot ----------
   applyLang();
@@ -562,6 +604,7 @@
   setLayer("none");
   loadFires(true).then(updateShare);
   loadAir();
+  loadMyAir();
   setInterval(() => loadFires(false).then(updateShare), POLL_MS);
   setInterval(loadAir, 30 * 60 * 1000);
   setInterval(() => { if (state.data) renderFeed(); }, 60 * 1000); // keep "x min ago" fresh

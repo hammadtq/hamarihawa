@@ -20,6 +20,13 @@ export default {
       url.hostname = "hamarihawa.org";
       return Response.redirect(url.toString(), 301);
     }
+    // Approximate visitor location from Cloudflare's IP lookup, so the page can show "your air".
+    // Computed per request, never stored or logged by us.
+    if (url.pathname === "/api/where") {
+      const cf = request.cf || {};
+      const body = cf.latitude ? { city: cf.city || "", region: cf.region || "", country: cf.country || "", lat: +cf.latitude, lon: +cf.longitude } : {};
+      return new Response(JSON.stringify(body), { headers: { "content-type": "application/json", "cache-control": "private, no-store" } });
+    }
     if (url.pathname.startsWith("/api/firms/")) {
       const file = url.pathname.slice("/api/firms/".length);
       if (!FIRMS_FILES.has(file) || !["GET", "HEAD"].includes(request.method)) return new Response("not found", { status: 404 });
