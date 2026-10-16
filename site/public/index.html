@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hamari Hawa · Live fire and air map</title>
+<meta name="description" content="Live satellite map of crop fires, smoke and pollution over Pakistan and North India, with what it means for health in each city.">
+<meta property="og:title" content="Hamari Hawa · Live fire and air map">
+<meta property="og:description" content="See every fire NASA satellites caught in the last 24 hours across Pakistan and North India, and what the air is doing to people in 17 cities.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z' fill='none' stroke='%23d62d20' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="pencil"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="2"/></filter>
+</svg>
+
+<header class="top">
+  <a class="brand" href="/" aria-label="Hamari Hawa home">
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="30" height="30"><path d="M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 24c4-2 7 2 11 0s7-2 11 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </span>
+    <span class="word">Hamari Hawa</span>
+    <span class="word-alt" aria-hidden="true">ہماری ہوا · हमारी हवा</span>
+  </a>
+  <p class="tagline" data-i="tagline"></p>
+  <div class="top-right">
+    <span class="updated mono" id="updated"></span>
+    <div class="lang" role="group" aria-label="Language">
+      <button data-lang="en">EN</button><button data-lang="ur" lang="ur">اردو</button><button data-lang="hi" lang="hi">हिन्दी</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="stage">
+    <div class="map-wrap sketch" data-seed="4">
+      <div id="map" role="region" aria-label="Fire and pollution map"></div>
+      <div class="panel sketch" id="panel" data-seed="9">
+        <div class="panel-h" data-i="layers"></div>
+        <label class="chk"><input type="checkbox" id="firesOn" checked> <span class="dot-legend"></span><span data-i="fires"></span></label>
+        <div class="radios" id="layerRadios"></div>
+        <div class="daystep" id="daystep">
+          <button id="dayPrev" aria-label="Earlier day">‹</button>
+          <span id="dayLabel"></span>
+          <button id="dayNext" aria-label="Later day">›</button>
+        </div>
+        <div class="legend" id="legend"></div>
+        <p class="note" id="layerNote"></p>
+      </div>
+      <div class="age-key" id="ageKey"></div>
+    </div>
+
+    <aside class="feed sketch" data-seed="7" aria-live="polite">
+      <div class="feed-head">
+        <h2 data-i="feedTitle"></h2>
+        <p class="sub" data-i="feedSub"></p>
+        <div class="headline">
+          <div class="big num" id="hFires">–</div>
+          <div class="hl-text"><span id="hFiresLbl"></span><br><span class="muted" id="hSplit"></span></div>
+        </div>
+        <div class="chips" id="winChips">
+          <button data-w="24" class="on" data-i="window24"></button><button data-w="48" data-i="window48"></button><button data-w="168" data-i="window7d"></button>
+        </div>
+        <div class="chips" id="ccChips">
+          <button data-cc="" class="on" data-i="all"></button><button data-cc="PK" data-i="pk"></button><button data-cc="IN" data-i="in"></button>
+          <button class="locate" id="locate" data-i="locate"></button>
+        </div>
+      </div>
+      <div class="feed-scroll">
+        <ol class="events" id="events"><li class="loading" data-i="loading"></li></ol>
+        <button class="more" id="more" hidden data-i="loadMore"></button>
+        <div class="districts" id="districts"></div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="health">
+    <div class="wrap">
+      <h2 class="sec-title" data-i="healthTitle"></h2>
+      <svg class="scribble" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 50 2, 90 11, 140 6 S 230 3, 298 7" fill="none" stroke="#d62d20" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <p class="sec-sub" id="healthSub"></p>
+
+      <div class="totals" id="totals">
+        <div class="tot sketch" data-seed="21"><div class="tot-n num" id="tUnhealthy">–</div><p data-i="totUnhealthy"></p></div>
+        <div class="tot sketch" data-seed="22"><div class="tot-n num red" id="tDeaths">–</div><p data-i="totDeaths"></p></div>
+        <div class="tot sketch" data-seed="23"><div class="tot-n num" id="tCigs">–</div><p data-i="totCigs"></p></div>
+      </div>
+      <p class="model-note tot-caveat"><span data-i="totCaveat"></span> <a href="/about/" data-i="aboutMore"></a></p>
+
+      <div class="cards-bar">
+        <label class="sort"><span data-i="sortBy"></span>
+          <select id="sort"><option value="aqi" data-i="sortAqi"></option><option value="pop" data-i="sortPop"></option><option value="cc" data-i="sortCountry"></option></select>
+        </label>
+      </div>
+      <div class="cards" id="cards"></div>
+      <p class="model-note" data-i="modelNote"></p>
+
+      <details class="how sketch" data-seed="31">
+        <summary data-i="howTitle"></summary>
+        <ul><li data-i="how1"></li><li data-i="how2"></li><li data-i="how3"></li><li data-i="how4"></li></ul>
+      </details>
+
+      <h2 class="sec-title small" data-i="doTitle"></h2>
+      <div class="dos">
+        <div class="do sketch" data-seed="41"><svg viewBox="0 0 48 48" class="ico"><path d="M8 20c6-6 26-6 32 0v6c0 8-8 13-16 13S8 34 8 26z M8 22 3 18 M40 22l5-4 M16 27h16 M18 32h12" /></svg><h3 data-i="do1h"></h3><p data-i="do1"></p></div>
+        <div class="do sketch" data-seed="42"><svg viewBox="0 0 48 48" class="ico"><path d="M8 6h32v36H8z M24 6v36 M8 24h32 M30 30l6 6 M36 30l-6 6" /></svg><h3 data-i="do2h"></h3><p data-i="do2"></p></div>
+        <div class="do sketch" data-seed="43"><svg viewBox="0 0 48 48" class="ico"><path d="M15 12a4 4 0 1 0 0.1 0 M33 8a5 5 0 1 0 0.1 0 M15 18v12 M10 22l5-3 5 3 M12 42l3-12 3 12 M33 15v14 M27 20l6-3 6 3 M29 42l4-13 4 13" /></svg><h3 data-i="do3h"></h3><p data-i="do3"></p></div>
+        <div class="do sketch" data-seed="44"><svg viewBox="0 0 48 48" class="ico"><path d="M14 4h20a3 3 0 0 1 3 3v34a3 3 0 0 1-3 3H14a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z M20 38h8 M24 13c2 4 6 5 6 10a6 6 0 0 1-12 0c0-3 2-4 3-7 1 2 1 3 2 3 0-2 0-4 1-6z" /></svg><h3 data-i="do4h"></h3><p data-i="do4"></p></div>
+      </div>
+
+      <div class="share sketch" data-seed="51">
+        <span data-i="shareTitle"></span>
+        <a class="btn" id="shareWa" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn" id="shareX" target="_blank" rel="noopener">X</a>
+        <button class="btn" id="shareNative" data-i="share"></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="caveat" data-i="caveat"></p>
+    <p><b data-i="sources"></b></p>
+    <ul class="src">
+      <li><a href="https://firms.modaps.eosdis.nasa.gov/" data-i="srcFires"></a></li>
+      <li><a href="https://nasa-gibs.github.io/gibs-api-docs/" data-i="srcLayers"></a></li>
+      <li><a href="https://open-meteo.com/en/docs/air-quality-api" data-i="srcAir"></a></li>
+      <li><a href="https://www.geonames.org/" data-i="srcPlaces"></a></li>
+      <li><a href="https://www.openstreetmap.org/copyright" data-i="srcMap"></a></li>
+    </ul>
+    <p><a href="/about/" data-i="aboutLink"></a> · <a href="/report/" data-i="reportLink"></a></p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
+<script src="i18n.js"></script>
+<script src="cities.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

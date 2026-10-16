@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Hamari Hawa</title>
+<meta name="description" content="What Hamari Hawa shows, how the numbers are made, their limits, and how we treat your data.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z' fill='none' stroke='%23d62d20' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
+<link rel="stylesheet" href="/app.css">
+<style>
+  .doc { max-width: 760px; margin: 0 auto; padding: 36px 20px 60px; }
+  .doc h1 { font-family: var(--hand); font-size: clamp(32px, 5vw, 44px); }
+  .doc h2 { font-size: 23px; margin: 34px 0 8px; }
+  .doc p, .doc li { color: var(--ink-2); font-size: 16.5px; line-height: 1.65; }
+  .doc p + p { margin-top: 10px; }
+  .doc ul { padding-inline-start: 22px; margin: 8px 0; }
+  .doc li + li { margin-top: 6px; }
+  .doc .callout { padding: 16px 20px; margin: 22px 0; }
+  .doc .callout p { color: var(--ink); }
+  .doc .back { display: inline-block; margin-bottom: 18px; font-size: 14px; }
+  .doc .stamp { color: var(--ink-3); font-size: 13px; margin-top: 40px; }
+  article[hidden] { display: none; }
+  html[lang="ur"] .doc p, html[lang="ur"] .doc li { line-height: 2.2; font-size: 15.5px; }
+  html[lang="ur"] .doc h1, html[lang="ur"] .doc h2 { font-family: var(--urdu); line-height: 1.9; }
+  @media (max-width: 860px) { .doc { padding: 24px 16px 48px; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/" aria-label="Hamari Hawa home">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="30" height="30"><path d="M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 24c4-2 7 2 11 0s7-2 11 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+    <span class="word">Hamari Hawa</span>
+  </a>
+  <p class="tagline"></p>
+  <div class="top-right">
+    <div class="lang" role="group" aria-label="Language">
+      <button data-lang="en">EN</button><button data-lang="ur" lang="ur">اردو</button><button data-lang="hi" lang="hi">हिन्दी</button>
+    </div>
+  </div>
+</header>
+
+<main class="doc">
+<article data-lang="en">
+  <a class="back" href="/">← Back to the map</a>
+  <h1>About, method and disclaimer</h1>
+  <p>Hamari Hawa is a free, non-commercial public-awareness project. It shows, in one place, what satellites and air-quality models say about fires, smoke and pollution over Pakistan and North India, so that more people understand the air they breathe.</p>
+
+  <div class="callout sketch" data-seed="5">
+    <p><b>In short:</b> the numbers here are estimates built from public data. They are not medical advice, not official readings, and not evidence against any person. Use them to understand the problem, not to blame a neighbour.</p>
+  </div>
+
+  <h2>What a fire dot means, and what it doesn't</h2>
+  <ul>
+    <li>A dot is a patch of ground (375 m for VIIRS, 1 km for MODIS) that a NASA satellite measured as unusually hot during its pass. It can be a burning field, but also a brick kiln, factory flare, rubbish fire, or a hot industrial roof.</li>
+    <li>Satellites pass only a few times a day. Small, short or cloud-covered fires are often missed, and positions can be off by a few hundred metres.</li>
+    <li>The place name is simply the nearest village or town in the GeoNames database. It is not the owner, the person who lit the fire, or even necessarily the village the field belongs to.</li>
+    <li>"Likely crop burning" is our guess from location and season. It is not a finding.</li>
+    <li><b>Hamari Hawa does not identify who lit any fire.</b> Please don't use this site to accuse, shame or harass anyone. If you see a fire, report it to the authorities: EPA Punjab helpline 1373 or the Green Punjab app in Pakistan, or the CPCB SAMEER app in India.</li>
+  </ul>
+
+  <h2>Health numbers are estimates</h2>
+  <p>City pollution comes from the Copernicus CAMS model via Open-Meteo, at roughly 11 km resolution. It is not a ground monitor and in winter it often reads lower than local sensors. The health figures apply published research averages to those model values:</p>
+  <ul>
+    <li>Cigarette equivalence: 22 µg/m³ of PM2.5 for a day ≈ one cigarette (Berkeley Earth).</li>
+    <li>WHO 24-hour guideline: 15 µg/m³ PM2.5 (WHO, 2021).</li>
+    <li>Years of life: about 0.098 years lost per 1 µg/m³ above 5, if sustained for a whole year (AQLI, University of Chicago).</li>
+    <li>Extra deaths today: about 0.68% more daily deaths per 10 µg/m³ above 15 (Liu et al., New England Journal of Medicine, 2019), applied to each city's usual daily deaths from approximate population and national death rates.</li>
+  </ul>
+  <p>These are population-level estimates with wide uncertainty. They say nothing about any individual. For your own health, speak to a doctor. In an emergency, call your local emergency number.</p>
+
+  <h2>No warranty</h2>
+  <p>The site is provided as it is, without any guarantee that it is complete, accurate, current or available. Data comes from third parties (NASA FIRMS and GIBS, Copernicus via Open-Meteo, GeoNames, Esri and OpenStreetMap) and may be delayed, wrong or missing. As far as the law allows, we accept no liability for decisions made or harm caused by relying on it. Borders and place names on the base map come from the map provider and are not a statement of our position.</p>
+
+  <h2>Your privacy</h2>
+  <ul>
+    <li>We don't use accounts, ads, analytics or tracking cookies.</li>
+    <li>Your language choice is stored only in your own browser.</li>
+    <li>"Fires near me" uses your location only inside your browser to filter the list. It is never sent to us.</li>
+    <li>Your browser loads map tiles, fonts and air data directly from the providers listed above, and they can see your IP address as with any website.</li>
+  </ul>
+
+  <h2>Credits and licences</h2>
+  <p>Fire data: NASA FIRMS (LANCE). Satellite layers: NASA GIBS / Worldview. Air-quality model: Copernicus Atmosphere Monitoring Service, served by Open-Meteo (CC BY 4.0). Place names: GeoNames (CC BY 4.0). Base map: Esri, HERE, Garmin, © OpenStreetMap contributors. We use these under their public terms. The site's own text may be shared with credit.</p>
+
+  <h2>Contact and corrections</h2>
+  <p>Found a mistake, a wrong place name, or a number that looks off? Write to us and we will fix it: <a href="mailto:hello@hamarihawa.org">hello@hamarihawa.org</a>.</p>
+  <p class="stamp">Last updated 17 October 2026.</p>
+</article>
+
+<article data-lang="ur" hidden>
+  <a class="back" href="/">→ نقشے پر واپس</a>
+  <h1>تعارف، طریقۂ کار اور اعلانِ دستبرداری</h1>
+  <p>ہماری ہوا ایک مفت، غیر تجارتی آگاہی منصوبہ ہے۔ یہ ایک جگہ دکھاتا ہے کہ سیٹلائٹ اور فضائی ماڈل پاکستان اور شمالی ہندوستان پر آگ، دھوئیں اور آلودگی کے بارے میں کیا کہتے ہیں، تاکہ زیادہ لوگ اپنی سانس کی ہوا کو سمجھ سکیں۔</p>
+
+  <div class="callout sketch" data-seed="5">
+    <p><b>مختصراً:</b> یہاں کے اعداد عوامی ڈیٹا سے بنے اندازے ہیں۔ یہ طبی مشورہ نہیں، سرکاری پیمائش نہیں، اور کسی شخص کے خلاف ثبوت نہیں۔ انہیں مسئلہ سمجھنے کے لیے استعمال کریں، کسی ہمسائے پر الزام کے لیے نہیں۔</p>
+  </div>
+
+  <h2>آگ کا نقطہ کیا ہے اور کیا نہیں</h2>
+  <ul>
+    <li>ہر نقطہ 375 میٹر زمین کا ٹکڑا ہے جسے ناسا کے VIIRS سیٹلائٹ نے گزرتے وقت غیر معمولی گرم پایا۔ یہ جلتا کھیت بھی ہو سکتا ہے، اینٹوں کا بھٹہ، کارخانے کا شعلہ، کچرے کی آگ یا گرم صنعتی چھت بھی۔</li>
+    <li>سیٹلائٹ دن میں چند بار گزرتے ہیں۔ چھوٹی، مختصر یا بادلوں میں چھپی آگ اکثر رہ جاتی ہے، اور جگہ چند سو میٹر ادھر ادھر ہو سکتی ہے۔</li>
+    <li>جگہ کا نام صرف GeoNames میں قریب ترین گاؤں یا قصبہ ہے۔ یہ مالک یا آگ لگانے والا نہیں، اور ضروری نہیں کہ کھیت اسی گاؤں کا ہو۔</li>
+    <li>"غالباً فصل کی باقیات" جگہ اور موسم سے ہمارا اندازہ ہے، کوئی فیصلہ نہیں۔</li>
+    <li><b>ہماری ہوا یہ نہیں بتاتی کہ آگ کس نے لگائی۔</b> براہِ کرم اس سائٹ کو کسی پر الزام، شرمندگی یا ہراسانی کے لیے استعمال نہ کریں۔ آگ دیکھیں تو حکام کو اطلاع دیں: پاکستان میں ای پی اے پنجاب ہیلپ لائن 1373 یا گرین پنجاب ایپ، ہندوستان میں CPCB کی SAMEER ایپ۔</li>
+  </ul>
+
+  <h2>صحت کے اعداد اندازے ہیں</h2>
+  <p>شہروں کی آلودگی Copernicus CAMS ماڈل سے آتی ہے (Open-Meteo کے ذریعے، تقریباً 11 کلومیٹر)۔ یہ زمینی مانیٹر نہیں اور سردیوں میں اکثر مقامی سینسرز سے کم دکھاتا ہے۔ صحت کے اعداد ان ماڈل اقدار پر شائع شدہ تحقیق کی اوسط لاگو کر کے بنائے گئے ہیں (تفصیل انگریزی حصے میں: Berkeley Earth، WHO 2021، AQLI، Liu et al. NEJM 2019)۔</p>
+  <p>یہ پوری آبادی کے اندازے ہیں جن میں غیر یقینی کافی ہے۔ یہ کسی فرد کے بارے میں کچھ نہیں بتاتے۔ اپنی صحت کے لیے ڈاکٹر سے بات کریں۔ ہنگامی صورت میں مقامی ایمرجنسی نمبر پر کال کریں۔</p>
+
+  <h2>کوئی ضمانت نہیں</h2>
+  <p>سائٹ جیسی ہے ویسی فراہم کی جاتی ہے، بغیر کسی ضمانت کے کہ یہ مکمل، درست، تازہ یا ہر وقت دستیاب ہو۔ ڈیٹا دوسرے اداروں سے آتا ہے (NASA، Copernicus، GeoNames، Esri، OpenStreetMap) اور تاخیر سے، غلط یا نامکمل ہو سکتا ہے۔ قانون کی حد تک، اس پر انحصار سے ہونے والے فیصلوں یا نقصان کی ذمہ داری ہم پر نہیں۔ نقشے پر سرحدیں اور نام نقشہ فراہم کرنے والے کے ہیں، ہمارا مؤقف نہیں۔</p>
+
+  <h2>آپ کی رازداری</h2>
+  <ul>
+    <li>ہم اکاؤنٹ، اشتہارات، اینالیٹکس یا ٹریکنگ کوکیز استعمال نہیں کرتے۔</li>
+    <li>زبان کا انتخاب صرف آپ کے براؤزر میں محفوظ ہوتا ہے۔</li>
+    <li>"میرے قریب آگ" آپ کا مقام صرف براؤزر کے اندر فہرست چھانٹنے کے لیے استعمال کرتا ہے۔ یہ ہمیں کبھی نہیں بھیجا جاتا۔</li>
+    <li>نقشے، فونٹس اور فضائی ڈیٹا آپ کا براؤزر سیدھا اوپر دیے گئے اداروں سے لیتا ہے، جو ہر ویب سائٹ کی طرح آپ کا IP ایڈریس دیکھ سکتے ہیں۔</li>
+  </ul>
+
+  <h2>رابطہ اور درستی</h2>
+  <p>کوئی غلطی، غلط نام یا عجیب عدد نظر آئے تو لکھیں، ہم ٹھیک کریں گے: <a href="mailto:hello@hamarihawa.org">hello@hamarihawa.org</a></p>
+  <p class="stamp">آخری تازہ کاری: 17 اکتوبر 2026۔ کسی اختلاف کی صورت میں انگریزی متن معتبر ہے۔</p>
+</article>
+
+<article data-lang="hi" hidden>
+  <a class="back" href="/">← नक्शे पर वापस</a>
+  <h1>परिचय, तरीका और अस्वीकरण</h1>
+  <p>हमारी हवा एक मुफ़्त, गैर-व्यावसायिक जागरूकता परियोजना है। यह एक जगह दिखाती है कि उपग्रह और वायु मॉडल पाकिस्तान और उत्तर भारत पर आग, धुएँ और प्रदूषण के बारे में क्या कहते हैं, ताकि ज़्यादा लोग अपनी साँस की हवा को समझ सकें।</p>
+
+  <div class="callout sketch" data-seed="5">
+    <p><b>संक्षेप में:</b> यहाँ के आँकड़े सार्वजनिक डेटा से बने अनुमान हैं। ये चिकित्सा सलाह नहीं, सरकारी माप नहीं, और किसी व्यक्ति के ख़िलाफ़ सबूत नहीं। इन्हें समस्या समझने के लिए इस्तेमाल करें, किसी पड़ोसी पर दोष डालने के लिए नहीं।</p>
+  </div>
+
+  <h2>आग का बिंदु क्या है और क्या नहीं</h2>
+  <ul>
+    <li>हर बिंदु 375 मीटर ज़मीन का टुकड़ा है जिसे नासा के VIIRS उपग्रह ने गुज़रते समय असामान्य रूप से गर्म पाया। यह जलता खेत हो सकता है, पर ईंट भट्ठा, कारखाने की लपट, कचरे की आग या गर्म औद्योगिक छत भी।</li>
+    <li>उपग्रह दिन में कुछ ही बार गुज़रते हैं। छोटी, कम देर की या बादलों में छिपी आग अक्सर छूट जाती है, और जगह कुछ सौ मीटर इधर-उधर हो सकती है।</li>
+    <li>जगह का नाम सिर्फ़ GeoNames में सबसे पास का गाँव या कस्बा है। यह मालिक या आग लगाने वाला नहीं, और ज़रूरी नहीं कि खेत उसी गाँव का हो।</li>
+    <li>"शायद पराली" जगह और मौसम से हमारा अनुमान है, कोई निष्कर्ष नहीं।</li>
+    <li><b>हमारी हवा यह नहीं बताती कि आग किसने लगाई।</b> कृपया इस साइट का इस्तेमाल किसी पर आरोप, शर्मिंदगी या उत्पीड़न के लिए न करें। आग दिखे तो अधिकारियों को बताएँ: भारत में CPCB का SAMEER ऐप, पाकिस्तान में EPA पंजाब हेल्पलाइन 1373 या Green Punjab ऐप।</li>
+  </ul>
+
+  <h2>सेहत के आँकड़े अनुमान हैं</h2>
+  <p>शहरों का प्रदूषण Copernicus CAMS मॉडल से आता है (Open-Meteo के ज़रिए, लगभग 11 किमी)। यह ज़मीनी मॉनिटर नहीं है और सर्दियों में अक्सर स्थानीय सेंसरों से कम दिखाता है। सेहत के आँकड़े इन मॉडल मानों पर प्रकाशित शोध के औसत लगाकर बने हैं (विवरण अंग्रेज़ी हिस्से में: Berkeley Earth, WHO 2021, AQLI, Liu et al. NEJM 2019)।</p>
+  <p>ये पूरी आबादी के अनुमान हैं जिनमें काफ़ी अनिश्चितता है। ये किसी व्यक्ति के बारे में कुछ नहीं बताते। अपनी सेहत के लिए डॉक्टर से बात करें। आपात स्थिति में स्थानीय आपातकालीन नंबर पर कॉल करें।</p>
+
+  <h2>कोई गारंटी नहीं</h2>
+  <p>साइट जैसी है वैसी दी जाती है, बिना किसी गारंटी के कि यह पूरी, सही, ताज़ा या हमेशा उपलब्ध हो। डेटा दूसरे संस्थानों से आता है (NASA, Copernicus, GeoNames, Esri, OpenStreetMap) और देर से, ग़लत या अधूरा हो सकता है। क़ानून की सीमा तक, इस पर भरोसे से हुए फ़ैसलों या नुक़सान की ज़िम्मेदारी हमारी नहीं। नक्शे पर सीमाएँ और नाम नक्शा देने वाले के हैं, हमारा मत नहीं।</p>
+
+  <h2>आपकी निजता</h2>
+  <ul>
+    <li>हम अकाउंट, विज्ञापन, एनालिटिक्स या ट्रैकिंग कुकीज़ इस्तेमाल नहीं करते।</li>
+    <li>भाषा का चुनाव सिर्फ़ आपके ब्राउज़र में रहता है।</li>
+    <li>"मेरे पास आग" आपकी लोकेशन सिर्फ़ ब्राउज़र के अंदर सूची छाँटने के लिए इस्तेमाल करता है। यह हमें कभी नहीं भेजी जाती।</li>
+    <li>नक्शे, फ़ॉन्ट और वायु डेटा आपका ब्राउज़र सीधे ऊपर बताए संस्थानों से लेता है, जो किसी भी वेबसाइट की तरह आपका IP पता देख सकते हैं।</li>
+  </ul>
+
+  <h2>संपर्क और सुधार</h2>
+  <p>कोई ग़लती, ग़लत नाम या अजीब आँकड़ा दिखे तो लिखें, हम ठीक करेंगे: <a href="mailto:hello@hamarihawa.org">hello@hamarihawa.org</a></p>
+  <p class="stamp">अंतिम अपडेट: 17 अक्टूबर 2026। किसी मतभेद की स्थिति में अंग्रेज़ी पाठ मान्य है।</p>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+(() => {
+  const tag = { en: "What satellites see in the air over Pakistan and North India, today", ur: "پاکستان اور شمالی ہندوستان کی فضا: آج سیٹلائٹ کیا دیکھ رہے ہیں", hi: "पाकिस्तान और उत्तर भारत की हवा: आज उपग्रह क्या देख रहे हैं" };
+  let lang = "en";
+  try { lang = localStorage.getItem("hh-lang") || "en"; } catch {}
+  if (!tag[lang]) lang = "en";
+  function apply() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
+    document.querySelectorAll("article[data-lang]").forEach((a) => { a.hidden = a.dataset.lang !== lang; });
+    document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
+    document.querySelector(".tagline").textContent = tag[lang];
+    sketch();
+  }
+  function sketch() {
+    if (!window.rough) return;
+    document.querySelectorAll("article:not([hidden]) .sketch").forEach((el) => {
+      const w = el.clientWidth, h = el.clientHeight;
+      el.querySelector("svg.rough")?.remove();
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "rough"); svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      svg.appendChild(rough.svg(svg).rectangle(1.5, 1.5, w - 3, h - 3, { roughness: 1, bowing: 0.8, stroke: "#2b2b2b", strokeWidth: 1.1, seed: 5 }));
+      el.appendChild(svg);
+    });
+  }
+  document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
+    lang = b.dataset.lang;
+    try { localStorage.setItem("hh-lang", lang); } catch {}
+    apply();
+  }));
+  addEventListener("resize", sketch);
+  if (!window.rough) document.documentElement.classList.add("no-rough");
+  apply();
+})();
+</script>
+</body>
+</html>

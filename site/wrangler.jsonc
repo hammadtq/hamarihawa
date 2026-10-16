@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hamarihawa",
+  "main": "src/worker.js",
+  "workers_dev": true,
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "routes": [
+    { "pattern": "hamarihawa.org", "custom_domain": true },
+    { "pattern": "www.hamarihawa.org", "custom_domain": true }
+  ],
+  "kv_namespaces": [
+    { "binding": "FEED", "id": "80f0abe06205411bb5d4feb087c165f6" }
+  ],
+  "observability": { "enabled": true }
+}

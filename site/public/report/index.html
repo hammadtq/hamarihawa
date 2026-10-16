@@ -1,0 +1,513 @@
+<title>Lahore & Islamabad Air Ledger</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#eceef1; --surface:#fbfbfa; --surface-2:#f3f4f5; --ink:#1b1d21; --ink-2:#4c5158; --ink-3:#7b8189; --line:#d7dadf; --line-2:#e7e9ec;
+  --lhr:#b5472a; --isb:#0e8aa8; --lhr-wash:rgba(181,71,42,.10); --isb-wash:rgba(14,138,168,.10);
+  --good:#4f9d5a; --mod:#d3ad2c; --usg:#e0832f; --unh:#d24a3f; --vunh:#8a4aa5; --haz:#6f2b3a;
+  --focus:#0e8aa8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#15181c; --surface:#1e2227; --surface-2:#242930; --ink:#f1f1ee; --ink-2:#b9bec6; --ink-3:#858b94; --line:#30363d; --line-2:#272c33;
+    --lhr:#e0674a; --isb:#22a0bd; --lhr-wash:rgba(224,103,74,.14); --isb-wash:rgba(34,160,189,.14);
+    --good:#5db36a; --mod:#d9b843; --usg:#e58f46; --unh:#e0584e; --vunh:#a76bc0; --haz:#a24a5e;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#15181c; --surface:#1e2227; --surface-2:#242930; --ink:#f1f1ee; --ink-2:#b9bec6; --ink-3:#858b94; --line:#30363d; --line-2:#272c33;
+  --lhr:#e0674a; --isb:#22a0bd; --lhr-wash:rgba(224,103,74,.14); --isb-wash:rgba(34,160,189,.14);
+  --good:#5db36a; --mod:#d9b843; --usg:#e58f46; --unh:#e0584e; --vunh:#a76bc0; --haz:#a24a5e;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55;padding-block:0 64px;padding-inline:clamp(16px,4vw,48px)}
+.wrap{max-width:1180px;margin:0 auto}
+h1,h2,h3{font-family:"Bricolage Grotesque","Source Sans 3",system-ui,sans-serif;text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(34px,5.4vw,60px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.015em}
+h3{font-size:19px;font-weight:700}
+p{margin:0}
+.prose{max-width:68ch}
+.prose p+p{margin-top:12px}
+a{color:inherit;text-decoration-color:var(--ink-3);text-underline-offset:3px}
+a:hover{text-decoration-color:var(--ink)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:3px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-variant-numeric:tabular-nums}
+
+header.masthead{padding-block:44px 28px;border-bottom:1px solid var(--line);display:grid;gap:18px}
+.masthead .lede{font-size:20px;color:var(--ink-2);max-width:62ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--ink-3)}
+.meta b{color:var(--ink-2);font-weight:600}
+
+section{padding-block:40px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.sec-head{display:grid;gap:8px;margin-bottom:22px}
+.sec-head p{color:var(--ink-2);max-width:68ch}
+
+/* ledger columns */
+.ledger{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:760px){.ledger{grid-template-columns:1fr}}
+.city{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px 22px 18px;display:grid;gap:18px;align-content:start}
+.city-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-2);padding-bottom:12px}
+.city-head h3{font-size:26px;display:flex;align-items:center;gap:10px}
+.swatch{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none}
+.city.lhr .swatch{background:var(--lhr)} .city.isb .swatch{background:var(--isb)}
+.city-head .sub{font-size:13px;color:var(--ink-3)}
+.hero{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.hero .big{font-family:"Source Sans 3",system-ui,sans-serif;font-weight:600;font-size:56px;line-height:1;letter-spacing:-.02em}
+.hero .unit{font-size:15px;color:var(--ink-2)}
+.hero .who{font-size:14px;color:var(--ink-3);flex-basis:100%}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px}
+@media (max-width:420px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{display:grid;gap:2px}
+.tile .l{font-size:12.5px;color:var(--ink-3);letter-spacing:.02em}
+.tile .v{font-size:20px;font-weight:600;line-height:1.15}
+.tile .v small{font-size:12.5px;font-weight:400;color:var(--ink-3);margin-left:3px}
+
+/* calendar strip */
+.strip{display:grid;gap:6px}
+.strip .row{display:grid;grid-template-columns:44px repeat(12,1fr);gap:3px;align-items:center}
+.strip .yr{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3)}
+.strip .cell{aspect-ratio:1/1;border-radius:3px;background:var(--line-2);position:relative;min-width:0}
+.strip .cell[data-band="good"]{background:var(--good)} .strip .cell[data-band="mod"]{background:var(--mod)} .strip .cell[data-band="usg"]{background:var(--usg)} .strip .cell[data-band="unh"]{background:var(--unh)} .strip .cell[data-band="vunh"]{background:var(--vunh)} .strip .cell[data-band="haz"]{background:var(--haz)}
+.strip .cell.est::after{content:"";position:absolute;inset:0;border-radius:3px;background:repeating-linear-gradient(135deg,transparent 0 3px,rgba(255,255,255,.45) 3px 4px)}
+.strip .cell.none{background:transparent;border:1px dashed var(--line)}
+.strip .months{display:grid;grid-template-columns:44px repeat(12,1fr);gap:3px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);text-align:center}
+.bands{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink-2);margin-top:6px}
+.bands span{display:inline-flex;align-items:center;gap:6px}
+.bands i{width:11px;height:11px;border-radius:2px;display:inline-block}
+.bands i.est{background:repeating-linear-gradient(135deg,var(--ink-3) 0 2px,transparent 2px 4px)}
+
+/* chart */
+.chart-card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px 20px 12px}
+.chart-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px 20px;margin-bottom:6px}
+.legend{display:flex;gap:18px;font-size:13.5px;color:var(--ink-2);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.legend i.lhr{background:var(--lhr)} .legend i.isb{background:var(--isb)}
+.legend i.wash{width:12px;height:12px;border-radius:2px;background:var(--surface-2);border:1px solid var(--line)}
+.chart-wrap{position:relative;width:100%}
+.chart-wrap svg{width:100%;height:auto;display:block}
+.chart-wrap svg text{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;fill:var(--ink-3)}
+.chart-wrap svg .lbl{font-family:"Source Sans 3",system-ui,sans-serif;font-size:12px;fill:var(--ink-2);font-weight:600}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;line-height:1.35;padding:8px 10px;border-radius:5px;transform:translate(-50%,calc(-100% - 12px));white-space:nowrap;opacity:0;transition:opacity .12s}
+.tip b{font-weight:600}
+.tip .r{display:flex;gap:10px;justify-content:space-between}
+.chart-note{font-size:13px;color:var(--ink-3);margin-top:10px;max-width:80ch}
+
+/* table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:720px}
+th,td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--line-2);white-space:nowrap}
+th{font-size:12px;color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-family:"IBM Plex Mono",monospace}
+th:first-child,td:first-child{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:13px}
+thead tr.grp th{border-bottom:0;padding-bottom:0;text-align:center;color:var(--ink-2)}
+thead tr.grp th.l{border-left:3px solid var(--lhr)} thead tr.grp th.i{border-left:3px solid var(--isb)}
+td.div,th.div{border-left:1px solid var(--line)}
+td .pill{display:inline-block;min-width:34px;padding:1px 7px;border-radius:3px;font-size:12.5px;font-weight:600;color:#fff;text-align:center}
+td .pill.good{background:var(--good)} td .pill.mod{background:var(--mod);color:#1b1d21} td .pill.usg{background:var(--usg)} td .pill.unh{background:var(--unh)} td .pill.vunh{background:var(--vunh)} td .pill.haz{background:var(--haz)}
+td .est{color:var(--ink-3);font-size:11px;margin-left:3px;vertical-align:super}
+tbody tr:hover td{background:var(--surface-2)}
+tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surface-2)}
+
+/* pollutant profile */
+.pol{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.pol .card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 16px 12px;display:grid;gap:8px}
+.pol .card h4{margin:0;font-size:15px;font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.pol .card h4 small{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);font-weight:400}
+.pol .bars{display:grid;gap:6px}
+.pol .bar{display:grid;grid-template-columns:70px 1fr 48px;align-items:center;gap:8px;font-size:13px}
+.pol .bar .k{color:var(--ink-3)}
+.pol .bar .t{height:10px;background:var(--surface-2);border-radius:2px;overflow:hidden}
+.pol .bar .t i{display:block;height:100%;border-radius:0 2px 2px 0}
+.pol .bar.l .t i{background:var(--lhr)} .pol .bar.i .t i{background:var(--isb)}
+.pol .bar .v{text-align:right;font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+.pol .card p{font-size:13px;color:var(--ink-2)}
+
+/* source apportionment */
+.apport{display:grid;gap:14px}
+.study{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;display:grid;gap:12px}
+.study .t{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.study .t h4{margin:0;font-size:16px;font-weight:600}
+.study .t .who{font-size:13px;color:var(--ink-3)}
+.stack{display:flex;height:26px;border-radius:4px;overflow:hidden;gap:2px;background:var(--surface)}
+.stack i{display:block;height:100%;min-width:2px}
+.stack i.s1{background:var(--lhr)} .stack i.s2{background:#c98a3a} .stack i.s3{background:#7d8a2e} .stack i.s4{background:#5a6a7c} .stack i.s5{background:#8f6b8c} .stack i.s6{background:var(--ink-3)}
+.city.isb .stack i.s1{background:var(--isb)}
+.keys{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--ink-2)}
+.keys span{display:inline-flex;align-items:center;gap:6px}
+.keys i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.keys i.s1{background:var(--lhr)} .keys i.s2{background:#c98a3a} .keys i.s3{background:#7d8a2e} .keys i.s4{background:#5a6a7c} .keys i.s5{background:#8f6b8c} .keys i.s6{background:var(--ink-3)}
+.city.isb .keys i.s1{background:var(--isb)}
+.stack i.s7,.keys i.s7{background:#8a5a2b}
+.proj-bars{display:grid;gap:8px;margin-top:6px}
+.proj-bars .b2{display:grid;grid-template-columns:190px 1fr 56px;gap:10px;align-items:center;font-size:13.5px}
+.proj-bars .b2 .k{color:var(--ink-2)}
+.proj-bars .b2 .t{height:10px;background:var(--surface-2);border-radius:2px}
+.proj-bars .b2 .t i{display:block;height:100%;border-radius:0 2px 2px 0;background:var(--lhr)}
+.proj-bars .b2 .t i.ref{background:var(--ink-3)}
+.proj-bars .b2 .v{text-align:right;font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+@media (max-width:560px){.proj-bars .b2{grid-template-columns:120px 1fr 48px}}
+.study p{font-size:14px;color:var(--ink-2)}
+.study .cite{font-size:13px;color:var(--ink-3)}
+
+/* projections */
+.proj{display:grid;gap:12px}
+.proj .row{display:grid;grid-template-columns:120px 1fr;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+@media (max-width:560px){.proj .row{grid-template-columns:1fr}}
+.proj .h{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);letter-spacing:.04em;display:grid;gap:4px;align-content:start}
+.proj .h b{font-family:"Bricolage Grotesque",sans-serif;font-size:24px;color:var(--ink);letter-spacing:-.01em;line-height:1}
+.proj .b{display:grid;gap:6px}
+.proj .b h4{margin:0;font-size:16px;font-weight:600}
+.proj .b p{font-size:14.5px;color:var(--ink-2)}
+.proj .b .cite{font-size:13px;color:var(--ink-3)}
+.callout{background:var(--surface-2);border-left:3px solid var(--ink-3);padding:14px 18px;border-radius:0 6px 6px 0;font-size:15px;color:var(--ink-2);max-width:80ch}
+
+/* method */
+.method{display:grid;grid-template-columns:1fr 1fr;gap:24px 40px}
+@media (max-width:760px){.method{grid-template-columns:1fr}}
+.method h3{margin-bottom:8px}
+.method ul{margin:0;padding-left:18px;font-size:15px;color:var(--ink-2);display:grid;gap:6px}
+.method li{padding-left:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* print */
+@page{size:A4;margin:14mm 12mm}
+@media print{
+  :root{--bg:#ffffff;--surface:#ffffff;--surface-2:#f3f4f5;--ink:#1b1d21;--ink-2:#4c5158;--ink-3:#6c727a;--line:#d0d4d9;--line-2:#e4e7ea;--lhr:#b5472a;--isb:#0e8aa8;--good:#4f9d5a;--mod:#d3ad2c;--usg:#e0832f;--unh:#d24a3f;--vunh:#8a4aa5;--haz:#6f2b3a;color-scheme:light}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{padding:0;font-size:11.5pt;line-height:1.45}
+  .wrap{max-width:none}
+  header.masthead{padding-block:4mm 6mm}
+  h1{font-size:30pt} h2{font-size:18pt} .masthead .lede{font-size:13pt}
+  section{padding-block:7mm;break-inside:auto}
+  #table,#sources,#projections,#method{break-before:page}
+  .ledger{grid-template-columns:1fr 1fr!important}
+  .method{grid-template-columns:1fr 1fr!important}
+  .city{padding:14px 14px 12px;gap:12px}
+  .tiles{grid-template-columns:repeat(3,1fr)!important}
+  .pol{grid-template-columns:repeat(3,1fr)!important}
+  .proj .row{grid-template-columns:100px 1fr!important}
+  .hero .big{font-size:34pt}
+  .city-head h3{font-size:20px}
+  .study,.chart-card,.pol .card,.proj .row,.tbl-wrap{break-inside:avoid}
+  #ledger .city{break-inside:avoid}
+  .ledger{gap:6mm}
+  .hero .big{font-size:40pt}
+  .tip{display:none}
+  table{min-width:0;font-size:9.5pt} th,td{padding:4px 8px}
+  .tbl-wrap{overflow:visible;border:0}
+  a{text-decoration:none}
+  .study .cite a,.proj .cite a{color:var(--ink-3)}
+  .chart-wrap svg text{font-size:10px}
+  .proj .row{grid-template-columns:100px 1fr;padding:12px 14px}
+  .method{gap:6mm 10mm}
+}
+</style>
+
+<div class="wrap">
+<header class="masthead">
+  <div class="eyebrow">Hamari Hawa · Air quality report · September 2024 – September 2026</div>
+  <h1>Lahore &amp; Islamabad, two years of air</h1>
+  <p class="lede">A side-by-side ledger of what people in both cities actually breathed over the last 24 months, where the pollution comes from, and what the published projections say about the years ahead.</p>
+  <div class="meta">
+    <span><b>Primary series</b> IQAir ground sensors (61 stations in Lahore, 11 in Islamabad)</span>
+    <span><b>Pollutant profile</b> Copernicus CAMS reanalysis via Open-Meteo</span>
+    <span><b>Compiled</b> 14 Sep 2026</span>
+  </div>
+</header>
+
+<section id="ledger">
+  <div class="sec-head">
+    <div class="eyebrow">01 · The ledger</div>
+    <h2>Same country, two different airsheds</h2>
+    <p>Lahore sits in the Indo-Gangetic Plain smog basin; Islamabad sits 500 m higher against the Margalla Hills. Over the same 24 months Lahore averaged roughly twice Islamabad's fine-particle load, and its smog season runs longer and peaks harder.</p>
+  </div>
+  <div class="ledger">
+    <div class="city lhr" id="card-lhr"></div>
+    <div class="city isb" id="card-isb"></div>
+  </div>
+  <div class="bands" style="margin-top:14px">
+    <span><i style="background:var(--good)"></i>Good ≤12</span>
+    <span><i style="background:var(--mod)"></i>Moderate 12–35</span>
+    <span><i style="background:var(--usg)"></i>Unhealthy for sensitive 35–55</span>
+    <span><i style="background:var(--unh)"></i>Unhealthy 55–150</span>
+    <span><i style="background:var(--vunh)"></i>Very unhealthy 150–250</span>
+    <span><i style="background:var(--haz)"></i>Hazardous &gt;250</span>
+        <span style="color:var(--ink-3)">Bands are US EPA PM2.5 breakpoints, µg/m³ monthly mean</span>
+  </div>
+</section>
+
+<section id="trend">
+  <div class="sec-head">
+    <div class="eyebrow">02 · Monthly PM2.5</div>
+    <h2>The winter spike is the whole story</h2>
+    <p>Both cities are moderate-to-poor from March to September, then step up together in October. Lahore's step is two to three times taller: November 2024 averaged 286 µg/m³, a typical-day AQI of 336, the worst month either city recorded. The one month Islamabad came close was December 2025, when it hit 122 µg/m³ against Lahore's 171.</p>
+  </div>
+  <div class="chart-card">
+    <div class="chart-top">
+      <h3>Monthly mean PM2.5, µg/m³</h3>
+      <div class="legend"><span><i class="lhr"></i>Lahore</span><span><i class="isb"></i>Islamabad</span><span><i class="wash"></i>US EPA AQI bands</span></div>
+    </div>
+    <div class="chart-wrap" id="chart"></div>
+    <p class="chart-note">Hover or tap a month for both values and the AQI category. The WHO annual guideline is 5 µg/m³, which would sit on the baseline of this chart.</p>
+  </div>
+</section>
+
+<section id="table">
+  <div class="sec-head">
+    <div class="eyebrow">03 · Month by month</div>
+    <h2>The 24-month table</h2>
+    <p>US AQI is computed from the monthly mean PM2.5 using the EPA breakpoints, so it reads as "the AQI of a typical day that month". Daily peaks run far higher: IQAir logged Lahore days above 500 AQI in November 2024.</p>
+  </div>
+  <div class="tbl-wrap"><table id="tbl"></table></div>
+</section>
+
+<section id="pollutants">
+  <div class="sec-head">
+    <div class="eyebrow">04 · What is in the air</div>
+    <h2>Beyond PM2.5, the mix differs by season</h2>
+    <p>Ground networks in Pakistan mostly measure particulates, so the gas and dust picture below comes from the Copernicus CAMS atmospheric reanalysis. Treat the levels as indicative and the seasonal shape as robust. Values are 24-month means for winter (Oct–Feb) and the rest of the year.</p>
+  </div>
+  <div class="pol" id="pol"></div>
+</section>
+
+<section id="sources">
+  <div class="sec-head">
+    <div class="eyebrow">05 · What contributes</div>
+    <h2>Where the pollution comes from</h2>
+    <p>Source apportionment for Lahore has been studied repeatedly; Islamabad has no dedicated apportionment study, so its picture is assembled from emissions inventories, Pak-EPA statements and regional studies. Percentages differ by study because they measure different things (emission tonnage vs. ambient PM2.5 contribution) in different seasons.</p>
+  </div>
+  <div class="ledger">
+    <div class="city lhr">
+      <div class="city-head"><h3><span class="swatch"></span>Lahore</h3><span class="sub">Six quantitative breakdowns exist; three shown</span></div>
+      <div class="apport">
+        <div class="study">
+          <div class="t"><h4>PM2.5 emissions, city inventory</h4><span class="who">The Urban Unit, Punjab · 2023 (data 2020–21)</span></div>
+          <div class="stack" aria-label="Transport 35, crop residue burning 33, waste burning 29, industry 3"><i class="s1" style="width:35%"></i><i class="s3" style="width:33%"></i><i class="s4" style="width:29%"></i><i class="s2" style="width:3%"></i></div>
+          <div class="keys"><span><i class="s1"></i>Transport 35%</span><span><i class="s3"></i>Crop residue burning 33%</span><span><i class="s4"></i>Waste burning 29%</span><span><i class="s2"></i>Industry 3%</span></div>
+          <p>The same inventory's headline, quoted everywhere as "83% transport", counts all pollutants by mass and is dominated by carbon monoxide. Restricted to fine particles, burning of crop residue and waste is as large as traffic.</p>
+          <p class="cite"><a href="https://urbanunit.gov.pk/Download/publications/Files/8/2023/Emission%20Inventory%20of%20Lahore%202023.pdf">Sectoral Emissions Inventory of Lahore</a>, Table 3 · reproduced in the <a href="https://epd.punjab.gov.pk/system/files/CM%20Punjab%20Smog%20Mitigation%20Plan%202024_FD_11102024.pdf">CM Punjab Smog Mitigation Plan 2024</a></p>
+        </div>
+        <div class="study">
+          <div class="t"><h4>PM2.5 emissions, bottom-up inventory</h4><span class="who">Pakistan Air Quality Initiative · Nov 2025 (base year 2021)</span></div>
+          <div class="stack" aria-label="Transport 35, heavy industry 28, brick kilns 17, other 14, waste 6"><i class="s1" style="width:35%"></i><i class="s2" style="width:28%"></i><i class="s7" style="width:17%"></i><i class="s6" style="width:14%"></i><i class="s4" style="width:6%"></i></div>
+          <div class="keys"><span><i class="s1"></i>Transport 35%</span><span><i class="s2"></i>Heavy industry 28%</span><span><i class="s7"></i>Brick kilns 17%</span><span><i class="s6"></i>Other 14%</span><span><i class="s4"></i>Waste 6%</span></div>
+          <p>Diesel trucks and buses are a fifth of the fleet but over 65% of transport PM2.5. The only study to separate brick kilns. Punjab EPA publicly rejected its "overwhelmingly local" framing and pointed to cross-border sources.</p>
+          <p class="cite"><a href="https://zenodo.org/records/17629179">Unveiling Pakistan's Air Pollution</a>, Exhibit 3.3 · EPA response via <a href="https://www.dawn.com/news/1960141">Dawn</a></p>
+        </div>
+        <div class="study">
+          <div class="t"><h4>Share of ambient PM2.5, modelled</h4><span class="who">World Bank, Towards Clean Air for Punjab · 2024 (Greater Lahore)</span></div>
+          <div class="stack" aria-label="Residential solid fuel 28, transport 24, industry agriculture and waste not split 39, natural 9"><i class="s5" style="width:28%"></i><i class="s1" style="width:24%"></i><i class="s6" style="width:39%"></i><i class="s3" style="width:9%;background:var(--line)"></i></div>
+          <div class="keys"><span><i class="s5"></i>Residential solid-fuel cooking 28%</span><span><i class="s1"></i>Transport 24%</span><span><i class="s6"></i>Industry, agriculture, waste ("comparable", not split) 39%</span><span><i style="background:var(--line)"></i>Natural dust 9%</span></div>
+          <p>The only estimate of what people actually breathe rather than what is emitted. It puts household solid-fuel burning first, a sector both Urban Unit inventories score at 0.1%. Punjab-wide the same model gives 53% of PM2.5 from Punjab itself, 9% from other provinces, 13% from neighbouring countries.</p>
+          <p class="cite">Cited in the World Bank Punjab Clean Air Program <a href="https://documents1.worldbank.org/curated/en/099122424102011829/pdf/P508222137d9a00c1934e1dec002d9866b.pdf">PID</a> and <a href="https://documents1.worldbank.org/curated/en/099030425204513573/pdf/P508222-5dce0c7a-e69b-435b-9570-bc1c2332de6e.pdf">ESSA</a>; the advisory itself is unpublished</p>
+        </div>
+        <div class="study">
+          <div class="t"><h4>All pollutants by mass, Punjab</h4><span class="who">FAO R-SMOG · 2019</span></div>
+          <div class="stack" aria-label="Transport 43, industry 25, rice residue burning 20, power 12"><i class="s1" style="width:43%"></i><i class="s2" style="width:25%"></i><i class="s3" style="width:20%"></i><i class="s6" style="width:12%"></i></div>
+          <div class="keys"><span><i class="s1"></i>Transport 43%</span><span><i class="s2"></i>Industry 25%</span><span><i class="s3"></i>Rice residue burning 20%</span><span><i class="s6"></i>Power 12%</span></div>
+          <p>The most-cited breakdown in Pakistani policy documents. FAO's satellite analysis of aerosol point sources affecting Lahore in winter attributes 65% to Pakistan, 17% to India, 11% to Afghanistan, 5% to Iran.</p>
+          <p class="cite"><a href="https://www.fao.org/3/ca6989en/CA6989EN.pdf">FAO, Emission inventory for Punjab</a>, pp. xvi, 21, 60</p>
+        </div>
+      </div>
+    </div>
+    <div class="city isb">
+      <div class="city-head"><h3><span class="swatch"></span>Islamabad</h3><span class="sub">One quantitative breakdown exists</span></div>
+      <div class="apport">
+        <div class="study">
+          <div class="t"><h4>PM2.5 emissions, Islamabad–Rawalpindi airshed</h4><span class="who">Pakistan Air Quality Initiative · Nov 2025 (base year 2021)</span></div>
+          <div class="stack" aria-label="Transport 53, brick kilns 18, waste burning 11, industry 9, other 9"><i class="s1" style="width:53%"></i><i class="s7" style="width:18%"></i><i class="s4" style="width:11%"></i><i class="s2" style="width:9%"></i><i class="s6" style="width:9%"></i></div>
+          <div class="keys"><span><i class="s1"></i>Transport 53%</span><span><i class="s7"></i>Brick kilns 18%</span><span><i class="s4"></i>Waste burning 11%</span><span><i class="s2"></i>Industry 9%</span><span><i class="s6"></i>Other 9%</span></div>
+          <p>Total 12,040 t of PM2.5 a year for the twin cities. The capital's problem is mostly traffic: over a million vehicles registered in a decade plus roughly 500,000 daily entries, per the Excise Department.</p>
+          <p class="cite"><a href="https://zenodo.org/records/17629179">Unveiling Pakistan's Air Pollution</a>, pp. 45, 73–75</p>
+        </div>
+        <div class="study">
+          <div class="t"><h4>What Pak-EPA names, without percentages</h4><span class="who">Pak-EPA statements, Nov 2024 – Oct 2025</span></div>
+          <p>Vehicles and road dust; non-zigzag brick kilns on the outskirts (demolished in sectors H-16 and H-17 after an October 2025 deadline); steel units; round-the-clock construction machinery on Blue Area high-rises; pollution drifting in from Rawalpindi; CDA burning garbage in public bins. PM2.5 makes up about 90% of the pollution load. December 2024 was the worst month on record, with a daily AQI peak of 250.</p>
+          <p class="cite"><a href="https://www.dawn.com/news/1872628">Dawn, 16 Nov 2024</a> · <a href="https://www.dawn.com/news/1881872">Dawn, 30 Dec 2024</a> · <a href="https://www.nation.com.pk/30-Oct-2025/pak-epa-ict-jointly-demolish-polluting-brick-kilns-islamabad">The Nation, 30 Oct 2025</a></p>
+        </div>
+        <div class="study">
+          <div class="t"><h4>What the receptor studies add</h4><span class="who">Academic sampling, 2012 and 2023</span></div>
+          <p>Source fingerprinting in the industrial area (2023 samples, EPA-PMF) finds steel mills, marble processing, e-waste incineration, battery processing and vehicles, with higher PM in cooler months from thermal inversions in the Margalla basin. No study quantifies Margalla forest fires or cross-border transport for the capital.</p>
+          <p class="cite"><a href="https://www.sciencedirect.com/science/article/pii/S2773050625000357">Journal of Trace Elements and Minerals, 2025</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/22870998/">PIXE study, Nilore, 2012</a></p>
+        </div>
+        <div class="study">
+          <div class="t"><h4>Why winter is worse in both cities</h4><span class="who">Seasonal meteorology</span></div>
+          <p>From late October a temperature inversion sits at 700–900 hPa over the Indo-Gangetic Plain, the mixing layer collapses to about 300 m, winds drop to 0–3 mph and humidity climbs past 75%, so smoke nucleates fog. Rice-residue burning in both Punjabs is confined to October–November, which is why it matters more to smog than its annual tonnage suggests. Islamabad's basin, ringed by the Margalla Hills, traps its own air in autumn and spring.</p>
+          <p class="cite"><a href="https://www.frontiersin.org/journals/sustainable-cities/articles/10.3389/frsc.2023.1314426/full">Frontiers in Sustainable Cities, 2023</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/42141223/">Environ. Sci. Pollut. Res., 2026</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:20px"><b>How much comes from India?</b> Estimates for Lahore run from 13% (World Bank, Punjab-wide, 2021) to 17% of winter aerosol point sources (FAO, 2019) to 30% (Punjab government, citing an unpublished HEC/NUST study for Oct–Nov 2023). No peer-reviewed apportionment of the cross-border share exists. The World Bank's airshed work finds the flow is two-way: about 30% of Indian Punjab's pollution originates in Pakistani Punjab under the prevailing north-west winds.</div>
+</section>
+
+<section id="projections">
+  <div class="sec-head">
+    <div class="eyebrow">06 · Looking ahead</div>
+    <h2>Projections that exist, and the ones that don't</h2>
+    <p>No published model projects a monthly or annual AQI number for Lahore or Islamabad specifically. What exists are policy targets, regional scenario models, and trend readings. They are listed with their horizon and what they actually promise.</p>
+  </div>
+  <div class="proj">
+    <div class="row"><div class="h">Lahore Division<b>2030</b>model</div><div class="b"><h4>Business as usual: 87 → 99.8 µg/m³. With the $300M Punjab Clean Air Program: 97.5, and about 6 µg/m³ lower by 2035.</h4><p>The only model-based, city-level projection that exists. The World Bank labels it provisional, to be revised once Punjab's emissions inventory is built. The program funds 600 electric buses, 5,000 super-seeders for rice stubble, kiln conversions and monitoring, and closes in June 2030. The "35% cut in a decade" figure in press coverage is a Pakistan-wide World Bank target, not a Lahore projection.</p><p class="cite"><a href="https://documents1.worldbank.org/curated/en/099031125130541245/pdf/BOSIB-24959940-b035-4866-b64c-524e45f2cc0a.pdf">Program Appraisal Document, Mar 2025</a> · <a href="https://www.worldbank.org/en/news/press-release/2025/03/27/pakistan-world-bank-supports-punjab-s-smog-mitigation-action-plan-with-300-million-concessional-loan">press release</a></p></div></div>
+    <div class="row"><div class="h">Lahore<b>2030</b>policy target</div><div class="b"><h4>30% below the 2022 annual PM2.5 in Lahore, Faisalabad, Gujranwala and Multan.</h4><p>Punjab Clean Air Policy, notified April 2023. Against IQAir's 2022 value of 97.4 µg/m³ that implies about 68 µg/m³ in 2030, still 13 times the WHO guideline. It is a target with no modelling behind it. The same policy promises all brick kilns on zigzag technology by 2030 and a 25% cut in NOx, SOx, ozone and CO from 2021 levels.</p><p class="cite"><a href="https://punjablaws.punjab.gov.pk/uploads/articles/punjab-clean-air-policy-pdf1.pdf">Punjab Clean Air Policy 2023</a></p></div></div>
+    <div class="row"><div class="h">Punjab<b>2030</b>scenarios</div><div class="b"><h4>Population-weighted PM2.5 of 48.8 µg/m³ if 2018 laws are fully enforced; 41.9 with ad-hoc measures; 28.6 with cost-optimal airshed cooperation; 17.3 at the technical maximum.</h4><p>World Bank and IIASA GAINS modelling for the "Punjab (Pakistan)" region, the closest scenario set for both cities. About 40% of the achievable reduction in the Indo-Gangetic Plain depends on controls outside one's own region, which is the case for treating the two Punjabs, Haryana and Delhi as one airshed. The Bank's later program document puts Punjab on a rising path instead: 52 today to 58 by 2030 without action.</p><p class="cite"><a href="https://pure.iiasa.ac.at/id/eprint/18651/1/P1682370b4ac4a0270ac2702e1cfb704198.pdf">Striving for Clean Air, 2023</a>, Tables A.4.1 and A.4.3 · <a href="https://iopscience.iop.org/article/10.1088/2515-7620/ad9b74">Purohit et al., 2024</a></p></div></div>
+    <div class="row"><div class="h">Pakistan<b>2035</b>target</div><div class="b"><h4>"35 by 35": national population-weighted PM2.5 from 55 to 35 µg/m³ by 2035, the WHO interim target 1.</h4><p>Adopted in the World Bank Country Partnership Framework for 2026–35 and echoed in the National Clean Air Policy, which targets PM2.5 emissions 38% below baseline in 2030 and 81% below in 2040. SEI's modelling of that policy's 18 measures finds a 36–39% emissions cut by 2030 if implemented. A September 2026 review estimates full implementation would avert about 129,500 deaths a year by 2040.</p><p class="cite"><a href="https://mocc.gov.pk/SiteImage/Misc/files/NCAP%20(28-02-2023)%20v1.pdf">National Clean Air Policy 2023</a> · <a href="https://www.sei.org/publications/air-pollutant-emissions-pakistan-clean-air-policy/">Slater et al., SEI 2024</a> · <a href="https://www.dawn.com/news/2028277/clean-air-finance-must-target-outcomes">Dawn, 8 Sep 2026</a></p></div></div>
+    <div class="row"><div class="h">Pakistan<b>2050</b>model</div><div class="b"><h4>Under current legislation PM2.5 rises about 1.5× by 2050; under stringent controls it halves.</h4><p>IIASA GAINS modelling for Pakistan as a whole. A separate 2025 disease-burden model finds PM2.5 rising 0.2–0.5 µg/m³ a year over four decades and PM2.5-attributable deaths passing 290,000 a year by 2030 on the current path, versus about 29,000 under mitigation.</p><p class="cite"><a href="https://www.sciencedirect.com/science/article/pii/S1462901122000958">Mir et al., Environmental Science &amp; Policy 2022</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/40090455/">Khan et al., Environmental Pollution 2025</a></p></div></div>
+    <div class="row"><div class="h">Indo-Gangetic Plain<b>2025–49</b>climate</div><div class="b"><h4>Every climate-meteorology study points to more winter stagnation, so the same emissions will produce worse smog.</h4><p>A 2026 five-model CMIP6 ensemble focused on Lahore finds increasingly persistent 700–900 hPa inversions and longer stagnation windows through 2049 under SSP5-8.5. Regional work agrees: no emissions pathway improves South Asian air by 2050 (Kumar et al. 2018); SSP3-7.0 adds about 8 µg/m³ to South Asian PM2.5 by 2050 (Xu et al. 2022); each extra winter stagnation day in the plain adds roughly 1 µg/m³ (Zhou et al. 2024). None of these give a Lahore or Islamabad number.</p><p class="cite"><a href="https://link.springer.com/article/10.1007/s11356-026-37816-7">Ghani et al., 2026</a> · <a href="https://opensky.ucar.edu/system/files/2024-08/articles_21485.pdf">Kumar et al., 2018</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9566559/">Xu et al., 2022</a> · <a href="https://www.nature.com/articles/s41467-024-51462-y">Zhou et al., 2024</a></p></div></div>
+    <div class="row"><div class="h">Islamabad<b>none</b></div><div class="b"><h4>No projection and no numeric target exists for the capital.</h4><p>Pak-EPA's Vehicular Emission Control Action Plan (Oct 2025) sets Euro-5 fuel by 2027 and Euro-6 by 2030 with no PM2.5 or AQI goal. The CDA and Asian Development Bank scoped an Air Quality Improvement programme in December 2025, with no figures yet. The nearest proxies are the Punjab scenarios above and the Air Quality Life Index reading: at 51 µg/m³ (2023) Islamabad residents lose 4.5 years of life expectancy against the WHO guideline, Lahore Division residents 5.8.</p><p class="cite"><a href="https://www.app.com.pk/national/pak-epa-unveils-landmark-plan-to-tackle-air-pollution-smog-in-islamabad/">APP, 19 Oct 2025</a> · <a href="https://www.dawn.com/news/1958638">Dawn, Dec 2025</a> · <a href="https://aqli.epic.uchicago.edu/files/Pakistan%20FactSheet_2025.pdf">AQLI Pakistan fact sheet 2025</a></p></div></div>
+    <div class="row"><div class="h">Both cities<b>2026–27</b>season</div><div class="b"><h4>No quantitative forecast for the coming smog season exists from Punjab EPA, PMD, UNEP or Copernicus.</h4><p>Punjab launched a pre-emptive anti-smog drive on 3 September 2026 without a severity outlook; CAMS issues only five-day forecasts. The 2025 season was markedly better than 2024 (Lahore's November average fell 37%, the daily peak from 539 to 237 µg/m³, and no day above AQI 300), but PAQI attributes much of that to favourable weather and warns it can reverse. The direction of the 24-month series is consistent with that: Lahore's Jan–Aug 2026 mean of 70 µg/m³ sits between its 2025 (68) and 2024 (75) figures for the same months.</p><p class="cite"><a href="https://pakobserver.net/punjab-launches-pre-emptive-anti-smog-drive-ahead-of-winter-season/">Pakistan Observer, Sep 2026</a> · <a href="https://www.dawn.com/news/1959116">Dawn, Dec 2025</a></p></div></div>
+  </div>
+  <div class="chart-card" style="margin-top:20px">
+    <div class="chart-top"><h3>Lahore's 2030 on one scale, annual PM2.5 µg/m³</h3><div class="legend"><span><i class="lhr"></i>Projection or target</span><span><i style="background:var(--ink-3)"></i>Reference level</span></div></div>
+    <div class="proj-bars" id="projbars"></div>
+    <p class="chart-note">The World Bank rows are for Lahore Division (13 million people), a wider and slightly cleaner area than the IQAir city reading. Even the policy target leaves Lahore where Islamabad was in December 2024 on an annual basis.</p>
+  </div>
+</section>
+
+<section id="method">
+  <div class="sec-head">
+    <div class="eyebrow">07 · Method and sources</div>
+    <h2>How the numbers were assembled</h2>
+  </div>
+  <div class="method">
+    <div>
+      <h3>Ground data (primary)</h3>
+      <ul>
+        <li><b>Jan–Dec 2025:</b> monthly PM2.5 from IQAir's 2025 World Air Quality Report city table (iqair.com/world-most-polluted-cities, data stamped 31 Mar 2026). Lahore ranked 8th most polluted city in the world for 2025 at 88.9 µg/m³; Islamabad ranked 92nd at 48.1 µg/m³.</li>
+        <li><b>Jan–Sep 2026:</b> monthly means from the Historic air quality panel on IQAir's Lahore and Islamabad city pages, read on 14 Sep 2026. September 2026 is a partial month (1–14 Sep).</li>
+        <li><b>Sep–Dec 2024:</b> monthly PM2.5 from the Pakistan city table in IQAir's <a href="https://www.greenpeace.org/static/planet4-chile-stateless/2025/03/edf90b7a-2024_world_air_quality_report_vf.pdf">2024 World Air Quality Report</a> (PDF, mirrored by Greenpeace Chile; IQAir's own site gates the file behind a form). Its 2024 annual values (Lahore 102.1, Islamabad 52.4) match the IQAir website. Islamabad was the 5th most polluted capital in 2024.</li>
+        <li>IQAir aggregates US consulate and embassy monitors, Punjab EPA and Pak-EPA stations, The Urban Unit, Pakistan Air Quality Initiative and low-cost community sensors: 61 stations from 33 contributors in Lahore, 11 stations from 9 contributors in Islamabad.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Model data and caveats</h3>
+      <ul>
+        <li>Hourly PM2.5, PM10, NO₂, SO₂, O₃, CO and dust for 1 Sep 2024 – 13 Sep 2026 from the Open-Meteo Air Quality API (Copernicus CAMS global reanalysis and forecast, ~11 km grid), averaged to months.</li>
+        <li>CAMS under-reads the ground network in winter by a wide margin: Oct–Feb IQAir/CAMS ratio averages 1.5 in Lahore and 1.6 in Islamabad, and CAMS over-reads Islamabad in summer (ratio 0.8). That is why the model series is used only for the pollutant mix, never for the headline numbers.</li>
+        <li>US AQI per month is derived from the monthly mean PM2.5 with the 2024 EPA breakpoints (12 / 35.4 / 55.4 / 150.4 / 250.4 µg/m³). IQAir's own monthly AQI figures for Oct 2025 – Sep 2026 matched this derivation within 1–2 points.</li>
+        <li>aqi.in, a second aggregator with its own sensors, reads Lahore's 2025 annual AQI as 142 and 2026 to date as 116, consistent in direction with IQAir (2025 worse than 2026 so far).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+const DATA = {
+  lhr:{name:"Lahore",sub:"Punjab · 222 m · 61 IQAir stations",rank:"8th",annual2025:88.9,annual2024:102.1,
+    m:[["2024-09",61.1,0],["2024-10",127.6,0],["2024-11",286.2,0],["2024-12",152.5,0],["2025-01",139,0],["2025-02",99.5,0],["2025-03",63.2,0],["2025-04",59.4,0],["2025-05",56.5,0],["2025-06",44.7,0],["2025-07",46,0],["2025-08",35.8,0],["2025-09",44.6,0],["2025-10",123.4,0],["2025-11",183.9,0],["2025-12",171,0],["2026-01",124,0],["2026-02",125.3,0],["2026-03",67.1,0],["2026-04",48.4,0],["2026-05",45.5,0],["2026-06",40,0],["2026-07",53,0],["2026-08",55.9,0],["2026-09",45.6,0]],
+    cams:{no2:[55.5,30.3],so2:[23.1,12.2],o3:[72.5,103.2],co:[2254,925],dust:[9.4,79.8],pm10:[114.1,91.0]}},
+  isb:{name:"Islamabad",sub:"ICT · 527 m · 11 IQAir stations",rank:"92nd",annual2025:48.1,annual2024:52.4,
+    m:[["2024-09",31.5,0],["2024-10",48.5,0],["2024-11",83.8,0],["2024-12",92.4,0],["2025-01",75.9,0],["2025-02",48.4,0],["2025-03",22.5,0],["2025-04",30.9,0],["2025-05",28.5,0],["2025-06",33.5,0],["2025-07",25.3,0],["2025-08",23.3,0],["2025-09",26.1,0],["2025-10",45.8,0],["2025-11",94.6,0],["2025-12",122.4,0],["2026-01",82.3,0],["2026-02",56.3,0],["2026-03",29.5,0],["2026-04",17.5,0],["2026-05",26.2,0],["2026-06",23.1,0],["2026-07",23.6,0],["2026-08",30.7,0],["2026-09",35.6,0]],
+    cams:{no2:[50.9,32.9],so2:[15.4,9.8],o3:[54.4,95.0],co:[1222,810],dust:[6.4,32.2],pm10:[52.1,50.3]}}
+};
+
+const BP=[[0,12,0,50],[12.1,35.4,51,100],[35.5,55.4,101,150],[55.5,150.4,151,200],[150.5,250.4,201,300],[250.5,350.4,301,400],[350.5,500.4,401,500]];
+function aqi(c){for(const [lo,hi,a,b] of BP){if(c<=hi)return Math.round((b-a)/(hi-lo)*(Math.max(c,lo)-lo)+a)}return 500}
+function band(c){return c<=12?"good":c<=35.4?"mod":c<=55.4?"usg":c<=150.4?"unh":c<=250.4?"vunh":"haz"}
+const BANDNAME={good:"Good",mod:"Moderate",usg:"Unhealthy for sensitive groups",unh:"Unhealthy",vunh:"Very unhealthy",haz:"Hazardous"};
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const fmtM=s=>MON[+s.slice(5,7)-1]+" "+s.slice(0,4);
+const fmtN=(v,d=1)=>Number(v).toLocaleString("en",{maximumFractionDigits:d});
+
+/* cards */
+for(const k of ["lhr","isb"]){
+  const d=DATA[k]; const rows=d.m.slice(0,24); // Sep 2024 - Aug 2026 = 24 full months
+  const mean=rows.reduce((a,r)=>a+r[1],0)/rows.length;
+  const worst=rows.reduce((a,r)=>r[1]>a[1]?r:a);
+  const best=rows.reduce((a,r)=>r[1]<a[1]?r:a);
+  const unh=rows.filter(r=>r[1]>55.4).length;
+  const strip=y=>{let cells="";for(let i=1;i<=12;i++){const key=y+"-"+String(i).padStart(2,"0");const r=d.m.find(x=>x[0]===key);cells+=r?`<div class="cell${r[2]?" est":""}" data-band="${band(r[1])}" title="${fmtM(key)}: ${fmtN(r[1])} µg/m³, AQI ${aqi(r[1])}"></div>`:`<div class="cell none"></div>`}return `<div class="row"><span class="yr">${y}</span>${cells}</div>`};
+  document.getElementById("card-"+k).innerHTML=`
+    <div class="city-head"><h3><span class="swatch"></span>${d.name}</h3><span class="sub">${d.sub}</span></div>
+    <div class="hero"><span class="big num">${fmtN(mean,0)}</span><span class="unit">µg/m³ PM2.5, 24-month mean<br>Sep 2024 – Aug 2026</span><span class="who">${fmtN(mean/5,0)}× the WHO annual guideline · typical-day AQI ${aqi(mean)}, ${BANDNAME[band(mean)]}</span></div>
+    <div class="tiles">
+      <div class="tile"><span class="l">Worst month</span><span class="v num">${fmtN(worst[1],0)}<small>${fmtM(worst[0])}</small></span></div>
+      <div class="tile"><span class="l">Cleanest month</span><span class="v num">${fmtN(best[1],0)}<small>${fmtM(best[0])}</small></span></div>
+      <div class="tile"><span class="l">Months "unhealthy" or worse</span><span class="v num">${unh}<small>of 24</small></span></div>
+      <div class="tile"><span class="l">IQAir 2025 annual</span><span class="v num">${d.annual2025}<small>µg/m³</small></span></div>
+      <div class="tile"><span class="l">IQAir 2024 annual</span><span class="v num">${d.annual2024}<small>µg/m³</small></span></div>
+      <div class="tile"><span class="l">2025 world rank</span><span class="v">${d.rank}<small>of 9,700 cities</small></span></div>
+    </div>
+    <div class="strip">${strip(2024)}${strip(2025)}${strip(2026)}<div class="months"><span></span>${MON.map(m=>`<span>${m[0]}</span>`).join("")}</div></div>`;
+}
+
+/* chart */
+(function(){
+  const W=980,H=380,P={l:44,r:16,t:14,b:34};
+  const months=DATA.lhr.m.map(r=>r[0]); const n=months.length;
+  const ymax=300; const x=i=>P.l+(i/(n-1))*(W-P.l-P.r); const y=v=>P.t+(1-v/ymax)*(H-P.t-P.b);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly mean PM2.5 for Lahore and Islamabad, September 2024 to September 2026">`;
+  // bands
+  const bands=[[0,12,"--good"],[12,35.4,"--mod"],[35.4,55.4,"--usg"],[55.4,150.4,"--unh"],[150.4,250.4,"--vunh"],[250.4,300,"--haz"]];
+  for(const [a,b,c] of bands){s+=`<rect x="${P.l}" y="${y(b)}" width="${W-P.l-P.r}" height="${y(a)-y(b)}" fill="var(${c})" opacity="0.07"/>`}
+  // grid
+  for(const v of [0,50,100,150,200,250,300]){s+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${P.l-8}" y="${y(v)+4}" text-anchor="end">${v}</text>`}
+  // x labels: every Jan, plus Sep 2024 & Sep 2026
+  months.forEach((m,i)=>{const mo=m.slice(5);if(mo==="01"||i===0||mo==="07"){s+=`<text x="${x(i)}" y="${H-10}" text-anchor="middle">${mo==="01"?"Jan "+m.slice(0,4):MON[+mo-1]}</text>`}});
+  // winter shading labels
+  const path=(k)=>DATA[k].m.map((r,i)=>(i?"L":"M")+x(i).toFixed(1)+" "+y(r[1]).toFixed(1)).join(" ");
+  for(const k of ["isb","lhr"]){
+    const col=k==="lhr"?"var(--lhr)":"var(--isb)";
+    s+=`<path d="${path(k)}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    DATA[k].m.forEach((r,i)=>{s+=`<circle cx="${x(i)}" cy="${y(r[1])}" r="4" fill="${r[2]?"var(--surface)":col}" stroke="${r[2]?col:"var(--surface)"}" stroke-width="2"/>`});
+  }
+  // direct labels at peaks
+  const pk=(k,key,dx,dy,txt)=>{const i=months.indexOf(key);const v=DATA[k].m[i][1];s+=`<text class="lbl" x="${x(i)+dx}" y="${y(v)+dy}" text-anchor="middle">${txt||fmtN(v,0)}</text>`};
+  pk("lhr","2025-11",0,-10); pk("lhr","2024-11",0,-10); pk("isb","2025-12",-22,-4); pk("lhr","2026-02",0,-10);
+  // hover targets
+  months.forEach((m,i)=>{const x0=i?(x(i-1)+x(i))/2:P.l;const x1=i<n-1?(x(i)+x(i+1))/2:W-P.r;s+=`<rect class="hit" data-i="${i}" x="${x0}" y="${P.t}" width="${x1-x0}" height="${H-P.t-P.b}" fill="transparent"/>`});
+  s+=`<line id="xh" x1="0" x2="0" y1="${P.t}" y2="${H-P.b}" stroke="var(--ink-3)" stroke-width="1" opacity="0"/></svg><div class="tip" id="tip"></div>`;
+  const el=document.getElementById("chart"); el.innerHTML=s;
+  const tip=document.getElementById("tip"), xh=el.querySelector("#xh"), svg=el.querySelector("svg");
+  const show=i=>{const l=DATA.lhr.m[i],b=DATA.isb.m[i];
+    tip.innerHTML=`<b>${fmtM(l[0])}${l[2]?" · estimated":""}</b><div class="r"><span>Lahore</span><span class="num">${fmtN(l[1])} µg/m³ · AQI ${aqi(l[1])}</span></div><div class="r"><span>Islamabad</span><span class="num">${fmtN(b[1])} µg/m³ · AQI ${aqi(b[1])}</span></div>`;
+    const rect=svg.getBoundingClientRect(), sx=rect.width/W;
+    const top=y(Math.max(l[1],b[1]))*sx; tip.style.left=(x(i)*sx)+"px"; tip.style.top=top+"px"; tip.style.opacity=1;
+    xh.setAttribute("x1",x(i));xh.setAttribute("x2",x(i));xh.setAttribute("opacity",1)};
+  el.querySelectorAll(".hit").forEach(h=>{h.addEventListener("mouseenter",()=>show(+h.dataset.i));h.addEventListener("touchstart",()=>show(+h.dataset.i),{passive:true})});
+  svg.addEventListener("mouseleave",()=>{tip.style.opacity=0;xh.setAttribute("opacity",0)});
+})();
+
+/* table */
+(function(){
+  const L=DATA.lhr.m,I=DATA.isb.m;
+  let h=`<thead><tr class="grp"><th></th><th class="l" colspan="3">Lahore</th><th class="i div" colspan="3">Islamabad</th><th class="div"></th></tr><tr><th>Month</th><th>PM2.5</th><th>AQI</th><th>Band</th><th class="div">PM2.5</th><th>AQI</th><th>Band</th><th class="div">Lahore ÷ Islamabad</th></tr></thead><tbody>`;
+  const pill=v=>`<span class="pill ${band(v)}">${BANDNAME[band(v)].replace("Unhealthy for sensitive groups","Sensitive")}</span>`;
+  L.forEach((l,i)=>{const b=I[i];const est=l[2]?`<span class="est" title="estimated">est</span>`:"";const partial=l[0]==="2026-09"?`<span class="est" title="1–14 Sep only">1–14</span>`:"";
+    h+=`<tr><td>${fmtM(l[0])}${est}${partial}</td><td class="num">${fmtN(l[1])}</td><td class="num">${aqi(l[1])}</td><td>${pill(l[1])}</td><td class="num div">${fmtN(b[1])}</td><td class="num">${aqi(b[1])}</td><td>${pill(b[1])}</td><td class="num div">${fmtN(l[1]/b[1],1)}×</td></tr>`});
+  const ml=L.slice(0,24).reduce((a,r)=>a+r[1],0)/24, mi=I.slice(0,24).reduce((a,r)=>a+r[1],0)/24;
+  h+=`</tbody><tfoot><tr><td>24-month mean (Sep 24 – Aug 26)</td><td class="num">${fmtN(ml)}</td><td class="num">${aqi(ml)}</td><td>${pill(ml)}</td><td class="num div">${fmtN(mi)}</td><td class="num">${aqi(mi)}</td><td>${pill(mi)}</td><td class="num div">${fmtN(ml/mi,1)}×</td></tr></tfoot>`;
+  document.getElementById("tbl").innerHTML=h;
+})();
+
+/* projection bars */
+(function(){
+  const rows=[["IQAir 2024 annual, city",102.1,0],["IQAir 2025 annual, city",88.9,0],["World Bank 2030, business as usual (Division)",99.8,1],["World Bank 2030, with Clean Air Program (Division)",97.5,1],["Punjab policy target 2030 (−30% vs 2022)",68.2,1],["WHO interim target 1 / Pakistan \"35 by 35\"",35,0],["WHO guideline",5,0]];
+  const mx=110; document.getElementById("projbars").innerHTML=rows.map(([k,v,p])=>`<div class="b2"><span class="k">${k}</span><span class="t"><i class="${p?"":"ref"}" style="width:${(v/mx*100).toFixed(1)}%"></i></span><span class="v">${v}</span></div>`).join("");
+})();
+
+/* pollutant profile */
+(function(){
+  const P=[["no2","Nitrogen dioxide","NO₂ · µg/m³","Traffic and combustion. Higher in winter in both cities as inversions trap exhaust; Lahore and Islamabad are surprisingly close, a sign that Islamabad's growing vehicle fleet is its main gaseous source."],
+           ["so2","Sulphur dioxide","SO₂ · µg/m³","Coal, furnace oil and brick kilns. Lahore's winter level is 1.6× Islamabad's, tracking the kiln belt and industrial estates south and east of the city."],
+           ["co","Carbon monoxide","CO · µg/m³","Incomplete combustion: vehicles, biomass and waste burning. Lahore's winter CO is the single clearest fingerprint of open burning plus trapped traffic exhaust."],
+           ["o3","Ozone","O₃ · µg/m³","Forms in sunlight from NO₂ and hydrocarbons, so it peaks in summer, opposite to PM2.5. Islamabad's summer ozone is nearly as high as Lahore's."],
+           ["dust","Mineral dust","dust · µg/m³","Natural, from the Thar and Iranian deserts and local soil. Peaks April–June. This, not smog, is what drives Lahore's summer PM10 to 3× its PM2.5."],
+           ["pm10","Coarse particles","PM10 · µg/m³","Road dust, construction and desert dust plus everything in PM2.5. Lahore's PM10 stays high year-round; Islamabad's is roughly half."]];
+  let h="";
+  for(const [k,name,unit,txt] of P){
+    const l=DATA.lhr.cams[k], i=DATA.isb.cams[k]; const mx=Math.max(...l,...i);
+    const bar=(cls,lab,v)=>`<div class="bar ${cls}"><span class="k">${lab}</span><span class="t"><i style="width:${(v/mx*100).toFixed(1)}%"></i></span><span class="v">${fmtN(v,0)}</span></div>`;
+    h+=`<div class="card"><h4>${name}<small>${unit}</small></h4><div class="bars">${bar("l","LHR winter",l[0])}${bar("l","LHR rest",l[1])}${bar("i","ISB winter",i[0])}${bar("i","ISB rest",i[1])}</div><p>${txt}</p></div>`;
+  }
+  document.getElementById("pol").innerHTML=h;
+})();
+</script>
