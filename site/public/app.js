@@ -94,9 +94,9 @@
 
   const LAYERS = {
     none: null,
-    no2: { id: "TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column", lvl: 6, ext: "png", op: 0.6,
+    no2: { id: "TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column", lvl: 6, ext: "png", op: 0.6, lag: 1, fill: 3,
       grad: ["#fffcc7", "#ffde6a", "#ffb339", "#ff7c20", "#fe3612", "#ed1c0d", "#7f000e"], ticks: ["0", "1", "2 ×10¹⁶ molec/cm²"] },
-    aod: { id: "MODIS_Combined_Value_Added_AOD", lvl: 6, ext: "png", op: 0.65, lag: 1,
+    aod: { id: "MODIS_Combined_Value_Added_AOD", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2,
       grad: ["#fffdcd", "#ffdf6c", "#ffaf36", "#ff701e", "#f52810", "#c7030d", "#7d000e"], ticks: ["0", "0.3", "0.6", "1+"] },
     smoke: { id: "OMI_Aerosol_Index", lvl: 6, ext: "png", op: 0.65,
       grad: ["#ffffff", "#dada7f", "#fcfc07", "#cfcb00", "#fa2300", "#cc0100", "#730019"], ticks: ["0", "2.5", "5"] },
@@ -106,19 +106,27 @@
 
   // GIBS days are UTC days; a layer with lag publishes a day late.
   const lagOf = () => LAYERS[state.layer]?.lag || 0;
-  function gibsDate() {
-    return new Date(Date.now() - (state.dayOffset + lagOf()) * 864e5).toISOString().slice(0, 10);
+  // Today's tiles are often still processing (hatched grey), so lagged layers start a day back.
+  function gibsDate(extra = 0) {
+    return new Date(Date.now() - (state.dayOffset + lagOf() + extra) * 864e5).toISOString().slice(0, 10);
   }
   function setLayer(name) {
     state.layer = name;
     if (overlay) { map.removeLayer(overlay); overlay = null; }
     const L1 = LAYERS[name];
     if (L1) {
-      overlay = L.tileLayer(
-        `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${L1.id}/default/${gibsDate()}/GoogleMapsCompatible_Level${L1.lvl}/{z}/{y}/{x}.${L1.ext}`,
-        { pane: name === "truecolor" ? "tilePane" : "overlay", maxNativeZoom: L1.lvl, maxZoom: 13, opacity: L1.op, bounds: [[-85, -180], [85, 180]],
-          attribution: "<a href='https://earthdata.nasa.gov/gibs'>NASA GIBS</a>" }
-      ).addTo(map);
+      // Satellites miss strips (orbit gaps, clouds). For "fill" layers, stack earlier days
+      // underneath so the gaps show the most recent earlier reading; the newest day draws on top.
+      overlay = L.layerGroup().addTo(map);
+      const pane = name === "truecolor" ? "tilePane" : "overlay";
+      if (pane === "overlay") map.getPane("overlay").style.opacity = L1.op;
+      for (let back = (L1.fill || 1) - 1; back >= 0; back--) {
+        L.tileLayer(
+          `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${L1.id}/default/${gibsDate(back)}/GoogleMapsCompatible_Level${L1.lvl}/{z}/{y}/{x}.${L1.ext}`,
+          { pane, maxNativeZoom: L1.lvl, maxZoom: 13, opacity: 1, bounds: [[-85, -180], [85, 180]],
+            attribution: back === 0 ? "<a href='https://earthdata.nasa.gov/gibs'>NASA GIBS</a>" : "" }
+        ).addTo(overlay);
+      }
     }
     renderPanel();
   }
@@ -135,18 +143,85 @@
     const back = Math.round((Date.parse(new Date().toISOString().slice(0, 10)) - Date.parse(gd)) / 864e5);
     const rel = back === 0 ? t("today") : back === 1 ? t("yesterday") : t("daysAgo", { n: nf(back) });
     $("#dayLabel").textContent = `${fmtDay(Date.parse(gd + "T12:00:00Z"))} · ${rel}`;
+    const filled = L1 && L1.fill > 1 ? t("gapsFrom", { days: [...Array(L1.fill - 1)].map((_, i) => fmtDay(Date.parse(gibsDate(i + 1) + "T12:00:00Z"))).reverse().join(" – ") }) : "";
     $("#dayPrev").disabled = off >= 6;
     $("#dayNext").disabled = off <= 0;
     $("#legend").innerHTML = L1 && L1.grad
       ? `<div class="bar" style="background:linear-gradient(90deg,${L1.grad.join(",")})"></div><div class="ticks">${L1.ticks.map((x) => `<span>${x}</span>`).join("")}</div>`
       : "";
-    $("#layerNote").textContent = L1 ? t(state.layer + "_note") : t("fires_note");
+    $("#layerNote").textContent = L1 ? `${t(state.layer + "_note")}${filled ? " " + filled : ""}` : t("fires_note");
     $("#ageKey").innerHTML = `<span><i style="background:var(--fire)"></i>${esc(t("age_3"))}</span><span><i style="background:var(--fire-2)"></i>${esc(t("age_12"))}</span><span><i style="background:var(--fire-3)"></i>${esc(t("age_old"))}</span>`;
   }
   $("#dayPrev").addEventListener("click", () => { state.dayOffset = Math.min(6, state.dayOffset + 1); setLayer(state.layer); });
   $("#dayNext").addEventListener("click", () => { state.dayOffset = Math.max(0, state.dayOffset - 1); setLayer(state.layer); });
   $(".panel-h").addEventListener("click", () => { if (window.innerWidth < 860) $("#panel").classList.toggle("collapsed"); });
   if (window.innerWidth < 860) $("#panel").classList.add("collapsed");
+
+  // Clouds at the last satellite pass, redrawn as pencil hatching.
+  // GIBS serves MODIS cloud fraction in a rainbow palette; we look each pixel up in NASA's
+  // colour table (0-100 percent) and paint only real cloud, so the white map stays readable.
+  const CF_PAL = "660077660177660277660377660477660577b70f8db7108db7118db7128db7138db7148d0000640001640002640003640004640005640006640000aa0001aa0002aa0003aa0004aa0005aa0000ff0001ff0002ff0003ff0004ff0005ff0088ee0188ee0288ee0388ee0488ee0588ee0688ee00500001500002500003500004500005500000880001880002880003880004880005880000dc0001dc0002dc0003dc0004dc0005dc0006dc00ffff00ffff01ffff02ffff03ffff04ffff05f0be40f0be41f0be42f0be43f0be44f0be45bb8800bb8801bb8802bb8803bb8804bb8805bb88067a5a037a5a047a5a057a5a067a5a077a5a086e00006e00016e00026e00036e00046e0005aa0000aa0001aa0002aa0003aa0004aa0005aa0006ff0000ff0001ff0002ff0003ff0004ff0005";
+  const cfValue = new Map();
+  for (let i = 0; i < CF_PAL.length / 6; i++) cfValue.set(parseInt(CF_PAL.slice(i * 6, i * 6 + 6), 16), i);
+  const hatch = (() => {
+    const c = document.createElement("canvas");
+    c.width = c.height = 10;
+    const g = c.getContext("2d");
+    g.fillStyle = "rgba(120,130,145,0.35)";
+    g.fillRect(0, 0, 10, 10);
+    g.strokeStyle = "rgba(70,78,90,0.55)";
+    g.lineWidth = 1;
+    g.beginPath(); g.moveTo(-2, 12); g.lineTo(12, -2); g.moveTo(-2, 2); g.lineTo(2, -2); g.moveTo(8, 12); g.lineTo(12, 8); g.stroke();
+    return c;
+  })();
+  const CloudLayer = L.TileLayer.extend({
+    createTile(coords, done) {
+      const tile = document.createElement("canvas");
+      tile.width = tile.height = 256;
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        const g = tile.getContext("2d");
+        g.drawImage(img, 0, 0);
+        const d = g.getImageData(0, 0, 256, 256), px = d.data;
+        for (let i = 0; i < px.length; i += 4) {
+          const f = px[i + 3] ? cfValue.get((px[i] << 16) | (px[i + 1] << 8) | px[i + 2]) : undefined;
+          // Under ~50 percent cloud the satellite still sees most of the ground: leave it clear.
+          px[i + 3] = f == null || f < 50 ? 0 : Math.round(Math.min(1, (f - 50) / 40) * 255);
+        }
+        g.putImageData(d, 0, 0);
+        g.globalCompositeOperation = "source-in";
+        g.fillStyle = g.createPattern(hatch, "repeat");
+        g.fillRect(0, 0, 256, 256);
+        done(null, tile);
+      };
+      img.onerror = () => done(null, tile);
+      img.src = this.getTileUrl(coords);
+      return tile;
+    },
+  });
+  map.createPane("clouds").style.zIndex = 420;
+  map.getPane("clouds").style.pointerEvents = "none";
+  let cloudLayer = null;
+  function cloudPass() {
+    // Match the clouds to the newest pass in the feed: day passes use Aqua's day product, night passes its night one.
+    const d = state.data;
+    const ts = d?.latest || Date.now() - 864e5;
+    const ev = d?.events?.find((e) => e.t === d.latest);
+    return { date: new Date(ts).toISOString().slice(0, 10), night: !!ev?.night };
+  }
+  function renderClouds() {
+    if (cloudLayer) { map.removeLayer(cloudLayer); cloudLayer = null; }
+    if (!$("#cloudsOn").checked) { $("#cloudNote").textContent = ""; return; }
+    const p = cloudPass();
+    const id = p.night ? "MODIS_Aqua_Cloud_Fraction_Night" : "MODIS_Aqua_Cloud_Fraction_Day";
+    cloudLayer = new CloudLayer(
+      `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${id}/default/${p.date}/GoogleMapsCompatible_Level6/{z}/{y}/{x}.png`,
+      { pane: "clouds", maxNativeZoom: 6, maxZoom: 13, opacity: 0.6 }
+    ).addTo(map);
+    $("#cloudNote").textContent = t("clouds_note", { day: fmtDay(Date.parse(p.date + "T12:00:00Z")), when: p.night ? t("night") : t("daytime") });
+  }
+  $("#cloudsOn").addEventListener("change", renderClouds);
 
   // Fire points
   const fireRenderer = L.canvas({ pane: "fires", padding: 0.3 });
@@ -216,6 +291,7 @@
       renderFires();
       renderFeed();
       renderCards();
+      renderClouds();
       $("#updated").textContent = t("updated", { t: fmtTime(d.generated) });
     } catch (err) {
       console.warn("[hh] fires", err);
@@ -472,6 +548,7 @@
     renderPanel();
     renderFeed();
     renderCards();
+    renderClouds();
     updateShare();
     if (state.data) $("#updated").textContent = t("updated", { t: fmtTime(state.data.generated) });
     $$(".sketch svg.rough").forEach((s) => { s.dataset.size = ""; });

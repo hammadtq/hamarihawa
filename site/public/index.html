@@ -45,6 +45,8 @@
       <div class="panel sketch" id="panel" data-seed="9">
         <div class="panel-h" data-i="layers"></div>
         <label class="chk"><input type="checkbox" id="firesOn" checked> <span class="dot-legend"></span><span data-i="fires"></span></label>
+        <label class="chk"><input type="checkbox" id="cloudsOn" checked> <span class="cloud-legend"></span><span data-i="clouds"></span></label>
+        <p class="note" id="cloudNote"></p>
         <div class="radios" id="layerRadios"></div>
         <div class="daystep" id="daystep">
           <button id="dayPrev" aria-label="Earlier day">‹</button>
@@ -53,6 +55,7 @@
         </div>
         <div class="legend" id="legend"></div>
         <p class="note" id="layerNote"></p>
+        <details class="policy"><summary data-i="policyTitle"></summary><p data-i="policy1"></p><p data-i="policy2"></p><p data-i="policy3"></p><a href="/about/#gaps" data-i="aboutMore"></a></details>
       </div>
       <div class="age-key" id="ageKey"></div>
     </div>

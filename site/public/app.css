@@ -72,6 +72,14 @@ html[lang="ur"] .panel-h { font-family: var(--urdu); font-size: 14px; }
 .chk, .radios label { display: flex; align-items: center; gap: 7px; cursor: pointer; padding: 2px 0; }
 .radios { border-top: 1px dashed var(--hair); margin-top: 6px; padding-top: 6px; }
 .panel input { accent-color: var(--ink); margin: 0; }
+.cloud-legend { width: 14px; height: 10px; border-radius: 5px; background: repeating-linear-gradient(135deg, rgba(70,78,90,.6) 0 1px, rgba(120,130,145,.3) 1px 4px); }
+.panel .policy { margin-top: 8px; border-top: 1px dashed var(--hair); padding-top: 6px; font-size: 12px; color: var(--ink-2); }
+.panel .policy summary { cursor: pointer; font-family: var(--hand); font-size: 14px; color: var(--ink); }
+html[lang="ur"] .panel .policy summary { font-family: var(--urdu); font-size: 12px; }
+.panel .policy p { margin-top: 5px; line-height: 1.45; }
+html[lang="ur"] .panel .policy p { line-height: 2; }
+.panel .policy a { font-size: 12px; }
+.panel { max-height: calc(100% - 80px); overflow-y: auto; scrollbar-width: thin; }
 .dot-legend { width: 10px; height: 10px; border-radius: 50%; background: var(--fire); box-shadow: 0 0 0 3px rgba(214,45,32,.18); }
 .daystep { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; border-top: 1px dashed var(--hair); padding-top: 8px; }
 .daystep button { background: none; border: 1.2px solid var(--line); border-radius: 50% 45% 50% 40%; width: 26px; height: 26px; cursor: pointer; line-height: 1; font-size: 16px; }

@@ -61,6 +61,13 @@
     <li><b>Hamari Hawa does not identify who lit any fire.</b> Please don't use this site to accuse, shame or harass anyone. If you see a fire, report it to the authorities: EPA Punjab helpline 1373 or the Green Punjab app in Pakistan, or the CPCB SAMEER app in India.</li>
   </ul>
 
+  <h2 id="gaps">How we handle gaps and clouds</h2>
+  <ul>
+    <li><b>Fires</b> are shown exactly as NASA detected them. We never fill in or guess fires. Clouds block the satellite's view, so we draw the cloud cover from the latest pass (MODIS Aqua cloud fraction, hatched). An empty area under hatching means "couldn't see", not "no fire".</li>
+    <li><b>Pollution layers</b> (NO₂, haze, smoke) show the newest day that has finished processing. We never show a day that is still being processed. Strips the satellite missed because of its orbit or clouds are filled from up to two earlier days, and the panel names those days. Anything still missing stays blank. We never interpolate.</li>
+    <li><b>City numbers</b> come from the CAMS model, which covers every city every hour. So they have no gaps, but they are estimates (see below).</li>
+  </ul>
+
   <h2>Health numbers are estimates</h2>
   <p>City pollution comes from the Copernicus CAMS model via Open-Meteo, at roughly 11 km resolution. It is not a ground monitor and in winter it often reads lower than local sensors. The health figures apply published research averages to those model values:</p>
   <ul>
@@ -108,6 +115,13 @@
     <li><b>ہماری ہوا یہ نہیں بتاتی کہ آگ کس نے لگائی۔</b> براہِ کرم اس سائٹ کو کسی پر الزام، شرمندگی یا ہراسانی کے لیے استعمال نہ کریں۔ آگ دیکھیں تو حکام کو اطلاع دیں: پاکستان میں ای پی اے پنجاب ہیلپ لائن 1373 یا گرین پنجاب ایپ، ہندوستان میں CPCB کی SAMEER ایپ۔</li>
   </ul>
 
+  <h2 id="gaps-ur">خالی جگہیں اور بادل</h2>
+  <ul>
+    <li><b>آگ</b> بالکل ویسے دکھائی جاتی ہے جیسے ناسا نے پکڑی؛ ہم کبھی اندازے سے آگ نہیں بھرتے۔ بادل سیٹلائٹ کی نظر روکتے ہیں، اس لیے ہم پچھلی بار کے بادل دھاری دار دکھاتے ہیں۔ دھاریوں کے نیچے خالی جگہ کا مطلب "نظر نہیں آیا" ہے، "آگ نہیں" نہیں۔</li>
+    <li><b>آلودگی کی تہیں</b> وہ تازہ ترین دن دکھاتی ہیں جس کا ڈیٹا مکمل ہو چکا ہو۔ رہ جانے والی پٹیاں زیادہ سے زیادہ دو پچھلے دنوں سے بھری جاتی ہیں اور ان دنوں کا نام لکھا جاتا ہے۔ جو پھر بھی خالی رہے وہ خالی رہتا ہے۔</li>
+    <li><b>شہروں کے اعداد</b> CAMS ماڈل سے ہیں جو ہر شہر کو ہر گھنٹے دیکھتا ہے؛ ان میں خلا نہیں مگر یہ اندازے ہیں۔</li>
+  </ul>
+
   <h2>صحت کے اعداد اندازے ہیں</h2>
   <p>شہروں کی آلودگی Copernicus CAMS ماڈل سے آتی ہے (Open-Meteo کے ذریعے، تقریباً 11 کلومیٹر)۔ یہ زمینی مانیٹر نہیں اور سردیوں میں اکثر مقامی سینسرز سے کم دکھاتا ہے۔ صحت کے اعداد ان ماڈل اقدار پر شائع شدہ تحقیق کی اوسط لاگو کر کے بنائے گئے ہیں (تفصیل انگریزی حصے میں: Berkeley Earth، WHO 2021، AQLI، Liu et al. NEJM 2019)۔</p>
   <p>یہ پوری آبادی کے اندازے ہیں جن میں غیر یقینی کافی ہے۔ یہ کسی فرد کے بارے میں کچھ نہیں بتاتے۔ اپنی صحت کے لیے ڈاکٹر سے بات کریں۔ ہنگامی صورت میں مقامی ایمرجنسی نمبر پر کال کریں۔</p>
@@ -144,6 +158,13 @@
     <li>जगह का नाम सिर्फ़ GeoNames में सबसे पास का गाँव या कस्बा है। यह मालिक या आग लगाने वाला नहीं, और ज़रूरी नहीं कि खेत उसी गाँव का हो।</li>
     <li>"शायद पराली" जगह और मौसम से हमारा अनुमान है, कोई निष्कर्ष नहीं।</li>
     <li><b>हमारी हवा यह नहीं बताती कि आग किसने लगाई।</b> कृपया इस साइट का इस्तेमाल किसी पर आरोप, शर्मिंदगी या उत्पीड़न के लिए न करें। आग दिखे तो अधिकारियों को बताएँ: भारत में CPCB का SAMEER ऐप, पाकिस्तान में EPA पंजाब हेल्पलाइन 1373 या Green Punjab ऐप।</li>
+  </ul>
+
+  <h2 id="gaps-hi">ख़ाली जगहें और बादल</h2>
+  <ul>
+    <li><b>आग</b> बिल्कुल वैसे दिखाई जाती है जैसे नासा ने पकड़ी; हम कभी अनुमान से आग नहीं भरते। बादल उपग्रह की नज़र रोकते हैं, इसलिए हम पिछली बार के बादल धारीदार दिखाते हैं। धारियों के नीचे ख़ाली जगह का मतलब "दिखा नहीं" है, "आग नहीं" नहीं।</li>
+    <li><b>प्रदूषण की परतें</b> वह सबसे नया दिन दिखाती हैं जिसका डेटा पूरा हो चुका हो। छूटी पट्टियाँ ज़्यादा से ज़्यादा दो पिछले दिनों से भरी जाती हैं और उन दिनों का नाम लिखा जाता है। जो फिर भी ख़ाली रहे, वह ख़ाली रहता है।</li>
+    <li><b>शहरों के आँकड़े</b> CAMS मॉडल से हैं जो हर शहर को हर घंटे देखता है; इनमें ख़ाली जगह नहीं, पर ये अनुमान हैं।</li>
   </ul>
 
   <h2>सेहत के आँकड़े अनुमान हैं</h2>
