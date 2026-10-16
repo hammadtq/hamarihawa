@@ -258,7 +258,7 @@
 
   function popupHtml(x) {
     return `<b>${esc(x.place || "—")}</b><br>${esc([x.district, x.cc === "PK" ? t("pk") : x.cc === "IN" ? t("in") : ""].filter(Boolean).join(", "))}<br>
-      ${esc(fmtTime(x.t))} · ${esc(ago(x.t))}<br>${esc(t("kind_" + x.kind))}<br>
+      ${esc(fmtTime(x.t))} · ${esc(ago(x.t))}<br>${esc(kindLabel(x.kind, x.sites))}<br>
       <span class="muted">${esc(t("by", { sat: x.sat }))} · FRP ${nf(x.frp)} MW</span>`;
   }
 
@@ -275,6 +275,11 @@
     const h = Math.round(m / 60);
     if (h < 48) return t("ago_h", { n: nf(h) });
     return t("ago_d", { n: nf(Math.round(h / 24)) });
+  }
+  // "at a landfill" becomes "at a landfill: Lakho Der Landfill" when we know the site's name.
+  function kindLabel(kind, sites) {
+    const base = t("kind_" + kind);
+    return sites && sites.length ? `${base}: ${sites[0]}` : base;
   }
   const evKey = (e) => `${e.sat}|${e.t}|${e.district}|${e.state}`;
 
@@ -333,7 +338,7 @@
         <div class="what"><span class="flame" style="background:${ageColor(e.t)}"></span>${placeLine(e)}
           <div class="meta">${esc(where)}${near}${meKm}</div>
           <div class="meta">${esc(t("by", { sat: e.sat }))}${e.night ? " · " + esc(t("night")) : ""}
-            <span class="tag ${e.kind}">${esc(t("kind_" + e.kind))}</span>${isNew ? `<span class="tag new">${esc(t("newTag"))}</span>` : ""}</div>
+            <span class="tag ${e.kind}">${esc(kindLabel(e.kind, e.sites))}</span>${isNew ? `<span class="tag new">${esc(t("newTag"))}</span>` : ""}</div>
         </div></li>`;
     }).join("");
     $$("li[data-i]", list).forEach((li) => {
@@ -596,7 +601,7 @@
   $$(".lang button").forEach((b) => b.addEventListener("click", () => { state.lang = b.dataset.lang; store.set("hh-lang", state.lang); applyLang(); }));
 
   // Shared with share.js (the shareable card).
-  window.HH = { state, t, nf, health, aqiBand, CITIES, locale: () => LOCALES[state.lang] };
+  window.HH = { state, t, nf, health, aqiBand, CITIES, map, locale: () => LOCALES[state.lang] };
 
   // ---------- Boot ----------
   applyLang();

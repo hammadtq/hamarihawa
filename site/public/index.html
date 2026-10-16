@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="app.css?v=202610170124">
+<link rel="stylesheet" href="app.css?v=202610170149">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -55,6 +55,9 @@
         </div>
         <div class="legend" id="legend"></div>
         <p class="note" id="layerNote"></p>
+        <div class="src-h" data-i="srcTitle"></div>
+        <div id="sourceChecks"></div>
+        <p class="note" data-i="srcNote"></p>
         <details class="policy"><summary data-i="policyTitle"></summary><p data-i="policy1"></p><p data-i="policy2"></p><p data-i="policy3"></p><a href="/about/#gaps" data-i="aboutMore"></a></details>
       </div>
       <div class="age-key" id="ageKey"></div>
@@ -172,6 +175,9 @@
       <li><a href="https://nasa-gibs.github.io/gibs-api-docs/" data-i="srcLayers"></a></li>
       <li><a href="https://open-meteo.com/en/docs/air-quality-api" data-i="srcAir"></a></li>
       <li><a href="https://www.geonames.org/" data-i="srcPlaces"></a></li>
+      <li><a href="https://carbonmapper.org/" data-i="srcCM"></a></li>
+      <li><a href="https://huggingface.co/datasets/SustainabilityLabIITGN/SentinelKilnDB" data-i="srcKilns"></a></li>
+      <li><a href="https://zenodo.org/records/14038648" data-i="srcKilnsPk"></a></li>
       <li><a href="https://www.openstreetmap.org/copyright" data-i="srcMap"></a></li>
     </ul>
     <p><a href="/about/" data-i="aboutLink"></a> · <a href="/report/" data-i="reportLink"></a></p>
@@ -180,9 +186,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
-<script src="i18n.js?v=202610170124"></script>
-<script src="cities.js?v=202610170124"></script>
-<script src="app.js?v=202610170124"></script>
-<script src="share.js?v=202610170124"></script>
+<script src="i18n.js?v=202610170149"></script>
+<script src="cities.js?v=202610170149"></script>
+<script src="app.js?v=202610170149"></script>
+<script src="share.js?v=202610170149"></script>
+<script src="sources.js?v=202610170149"></script>
 </body>
 </html>

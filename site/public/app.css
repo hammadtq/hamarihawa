@@ -132,6 +132,9 @@ html[lang="ur"] .events .what { line-height: 2; font-size: 13px; }
 .events .tag { display: inline-block; font-size: 10.5px; border: 1px solid currentColor; border-radius: 8px; padding: 0 6px; margin-inline-start: 4px; line-height: 1.5; }
 .events .tag.crop { color: #8a5a00; }
 .events .tag.urban { color: #555; }
+.events .tag.kiln { color: #7a4a2a; background: #f6eee8; }
+.events .tag.landfill { color: #4f5c2e; background: #f0f3e6; }
+.events .tag.industrial, .events .tag.hotspot { color: #5a508c; background: #f1eff8; }
 .events .tag.new { color: #fff; background: var(--fire); border-color: var(--fire); }
 .events .flame { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-inline-end: 5px; vertical-align: 0; }
 .events li.fresh { animation: slidein .6s ease-out; }
@@ -283,3 +286,13 @@ html[lang="ur"] .dlg-side textarea { font-family: var(--urdu); line-height: 2; d
 html[lang="ur"] .my-t { line-height: 1.9; }
 .my-t #myAirLbl { font-weight: 600; }
 .my-t small { display: block; font-size: 10.5px; color: var(--ink-3); }
+
+.panel .src-h { font-family: var(--hand); font-weight: 700; font-size: 15px; margin-top: 8px; border-top: 1px dashed var(--hair); padding-top: 6px; }
+html[lang="ur"] .panel .src-h { font-family: var(--urdu); font-size: 13px; }
+.src-key { flex: none; width: 12px; height: 12px; display: inline-block; }
+.src-kilns { background: #7a4a2a; width: 7px; height: 7px; margin: 0 2.5px; }
+.src-landfill { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 11px solid rgba(96,110,60,.85); }
+.src-industrial { border: 1.6px solid rgba(90,80,140,.85); }
+.src-plumes { border-radius: 50%; border: 2px solid #007a7a; background: rgba(0,140,140,.25); }
+.src-hotspots { border-radius: 50%; border: 2px solid #b3261e; }
+.src-plants { background: #2b2b2b; clip-path: polygon(0 100%, 0 40%, 35% 40%, 35% 0, 65% 0, 65% 40%, 100% 40%, 100% 100%); }

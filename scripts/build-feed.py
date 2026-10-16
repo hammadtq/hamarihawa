@@ -82,6 +82,48 @@ def cell_keys(lat, lon):
     return keys
 
 
+# Known pollution sources from scripts/build-sources.py. A fire close enough to one is labelled
+# by it ("at a brick kiln", "at Ghazipur Landfill") instead of the season/location guess.
+SOURCES_DIR = os.path.join(ROOT, "site", "public", "sources")
+
+
+def _load_sources():
+    out = {}
+    for kind, fname in [("landfill", "osm-landfill.json"), ("kiln", "kilns.json"),
+                        ("hotspot", "hotspots.json"), ("industrial", "osm-industrial.json")]:
+        path = os.path.join(SOURCES_DIR, fname)
+        if not os.path.exists(path):
+            continue
+        idx = {}
+        for it in json.load(open(path, encoding="utf-8"))["items"]:
+            idx.setdefault((round(it[0] * 20), round(it[1] * 20)), []).append(it)
+        out[kind] = idx
+    return out
+
+
+KNOWN = _load_sources()
+# How far (metres) from a source a VIIRS 375 m pixel centre can be and still be "at" it.
+REACH = {"landfill": lambda it: it[3] + 500, "kiln": lambda it: 400, "hotspot": lambda it: 500,
+         "industrial": lambda it: it[3] + 300}
+
+
+def match_source(lat, lon):
+    """Return (kind, name) of the source this fire sits on, or (None, None). Priority follows the dict order."""
+    for kind, idx in KNOWN.items():
+        best, best_d = None, float("inf")
+        k = (round(lat * 20), round(lon * 20))
+        for i in (-1, 0, 1):
+            for j in (-1, 0, 1):
+                for it in idx.get((k[0] + i, k[1] + j), ()):
+                    d = math.sqrt(dist2(lat, lon, it[0], it[1])) * 111_200
+                    if d < REACH[kind](it) and d < best_d:
+                        best, best_d = it, d
+        if best is not None:
+            name = best[2] if kind in ("landfill", "industrial") else best[4] if kind == "hotspot" and len(best) > 4 else ""
+            return kind, name if isinstance(name, str) else ""
+    return None, None
+
+
 def classify(p, town, town_d2):
     # Heuristic only: fires close to big towns are often industrial or waste burning;
     # fires in open country during harvest months are most likely crop-residue burning.
@@ -145,7 +187,9 @@ def build(hours, csvs):
             p.update(place="", district=town[3] if town else "", state=town[4] if town else "", cc=town[5] if town else "")
         if town:
             p["town"], p["townKm"] = town[2], round(km(town_d))
-        p["kind"] = classify(p, town, town_d)
+        src, site = match_source(p["lat"], p["lon"])
+        p["kind"] = src or classify(p, town, town_d)
+        p["site"] = site or ""
 
     points.sort(key=lambda p: -p["t"])
 
@@ -157,14 +201,16 @@ def build(hours, csvs):
         if not e:
             e = {"t": p["t"], "sat": p["sat"], "district": p["district"], "state": p["state"], "cc": p["cc"],
                  "night": p["night"], "n": 0, "high": 0, "frpMax": -1, "frpSum": 0, "lat": 0, "lon": 0,
-                 "kinds": {"crop": 0, "urban": 0, "open": 0}, "places": []}
+                 "kinds": {}, "places": [], "sites": []}
             by_key[key] = e
             events.append(e)
         e["n"] += 1
         e["frpSum"] += p["frp"]
         e["lat"] += p["lat"]
         e["lon"] += p["lon"]
-        e["kinds"][p["kind"]] += 1
+        e["kinds"][p["kind"]] = e["kinds"].get(p["kind"], 0) + 1
+        if p["site"] and p["site"] not in e["sites"] and len(e["sites"]) < 3:
+            e["sites"].append(p["site"])
         if p["conf"] == "high": e["high"] += 1
         if p["place"] and p["place"] not in e["places"] and len(e["places"]) < 4:
             e["places"].append(p["place"])
@@ -189,12 +235,13 @@ def build(hours, csvs):
             g = (round(p["lat"] / 0.01), round(p["lon"] / 0.01))
             if not any((g[0] + i, g[1] + j) in viirs_grid for i in (-1, 0, 1) for j in (-1, 0, 1)):
                 spots.setdefault(("m",) + g, p)
-    stats = {"detections": len(points), "spots": len(spots), "pk": 0, "in": 0, "crop": 0}
+    stats = {"detections": len(points), "spots": len(spots), "pk": 0, "in": 0, "crop": 0, "kinds": {}}
     by_d = {}
     for p in spots.values():
         if p["cc"] == "PK": stats["pk"] += 1
         elif p["cc"] == "IN": stats["in"] += 1
         if p["kind"] == "crop": stats["crop"] += 1
+        stats["kinds"][p["kind"]] = stats["kinds"].get(p["kind"], 0) + 1
         k = (p["district"] or p["state"] or "?", p["state"] or "", p["cc"] or "")
         by_d[k] = by_d.get(k, 0) + 1
     stats["topDistricts"] = [{"district": d, "state": s, "cc": c, "n": n}
