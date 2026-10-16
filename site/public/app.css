@@ -321,3 +321,7 @@ html[lang="ur"] .tr-h { font-family: var(--urdu); font-size: 16px; }
 .dos.tr { grid-template-columns: repeat(5, 1fr); }
 @media (max-width: 1100px) { .dos.tr { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 860px) { .two { grid-template-columns: 1fr; } .dos.tr { grid-template-columns: 1fr; } .bar100 .seg b { font-size: 14px; } }
+
+.no2-img { filter: blur(1.5px); }
+.no2-hot { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 2px solid var(--c); display: grid; place-items: center; box-shadow: 1px 2px 0 rgba(0,0,0,.15); }
+.no2-hot svg { width: 14px; height: 14px; fill: none; stroke: var(--c); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }

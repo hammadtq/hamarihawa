@@ -55,7 +55,7 @@
     },
     plants(g, x, y, z, it) {
       const s = 7;
-      g.fillStyle = it[2] === "coal" ? "#2b2b2b" : it[2] === "steel" ? "#4a5a6a" : "#8a7f6a";
+      g.fillStyle = it[2] === "coal" ? "#2b2b2b" : it[2] === "steel" ? "#4a5a6a" : it[2] === "gas" ? "#6a7f8a" : "#8a7f6a";
       g.beginPath(); g.moveTo(x - s, y + s); g.lineTo(x - s, y - 2); g.lineTo(x - 2, y - 2); g.lineTo(x - 2, y - s); g.lineTo(x + 2, y - s);
       g.lineTo(x + 2, y - 2); g.lineTo(x + s, y - 2); g.lineTo(x + s, y + s); g.closePath(); g.fill();
       g.strokeStyle = "#fff"; g.lineWidth = 1; g.stroke();
@@ -158,7 +158,7 @@
         <br><span class="muted">Carbon Mapper</span>`;
     }
     if (kind === "hotspots") return `<b>${esc(t("srcHotspot"))}</b><br>${esc(t("hotspotLine", { days: nf(it[2]), months: nf(it[3] || 0) }))}${it[4] ? `<br>${esc(it[4])}` : ""}`;
-    if (kind === "plants") return `<b>${esc(it[3])}</b><br>${esc(t("plant_" + it[2]))}${it[4] ? ` · ${esc(it[4])}` : ""}<br><span class="muted">Global Energy Monitor</span>`;
+    if (kind === "plants") return `<b>${esc(it[3])}</b><br>${esc(t("plant_" + it[2]))}${it[4] ? ` · ${esc(it[4])}` : ""}<br><span class="muted">${esc(data.plants.source.split(";")[0])}</span>`;
     return "";
   }
   map.on("click", (e) => {

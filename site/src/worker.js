@@ -48,6 +48,12 @@ export default {
       if (r.headers.get("last-modified")) h.set("last-modified", r.headers.get("last-modified"));
       return new Response(request.method === "HEAD" ? null : r.body, { status: r.status, headers: h });
     }
+    if (url.pathname === "/api/no2.png" || url.pathname === "/api/no2.json") {
+      const png = url.pathname.endsWith(".png");
+      const body = await env.FEED.get(png ? "no2-png" : "no2-json", { type: png ? "arrayBuffer" : "text", cacheTtl: 3600 });
+      if (!body) return new Response("not built yet", { status: 503 });
+      return new Response(body, { headers: { "content-type": png ? "image/png" : "application/json", "cache-control": "public, max-age=3600" } });
+    }
     if (url.pathname !== "/api/fires") return env.ASSETS.fetch(request);
 
     const hours = WINDOWS.has(url.searchParams.get("hours")) ? url.searchParams.get("hours") : "24";

@@ -101,7 +101,49 @@
     smoke: { id: "OMI_Aerosol_Index", lvl: 6, ext: "png", op: 0.65,
       grad: ["#ffffff", "#dada7f", "#fcfc07", "#cfcb00", "#fa2300", "#cc0100", "#730019"], ticks: ["0", "2.5", "5"] },
     truecolor: { id: "VIIRS_SNPP_CorrectedReflectance_TrueColor", lvl: 9, ext: "jpg", op: 1, grad: null, ticks: null },
+    // Our own 14-day NO2 average and its labelled hotspots (scripts/build-no2.py), not a GIBS layer.
+    traffic: { custom: true, op: 0.85, grad: ["rgba(255,200,80,.5)", "#f07828", "#cd281e", "#781446"], ticks: ["2×", "3×", "5×+"] },
   };
+  const order = ["none", "traffic", "no2", "aod", "smoke", "truecolor"];
+  const HOT_ICONS = {
+    traffic: '<path d="M5 15h14l-1.5-5h-11zM7 15v3M17 15v3M8 18h0M16 18h0M6.5 10l1.5-3h8l1.5 3" />',
+    plant: '<path d="M4 20V11l5 3V11l5 3V6h3v14zM15 6V3h2v3" />',
+    industry: '<path d="M4 20V11l5 3V11l5 3V8h5v12z" />',
+    kilns: '<path d="M7 20V8h4v12M13 20V5h4v15M5 20h14" />',
+    corridor: '<path d="M8 21l3-18M16 21l-3-18M12 6v2M12 11v2M12 16v2" />',
+  };
+  const HOT_COLORS = { traffic: "#cd281e", plant: "#2b2b2b", industry: "#5a508c", kilns: "#7a4a2a", corridor: "#8a7f6a" };
+  let trafficMeta = null;
+  async function trafficLayer() {
+    if (!trafficMeta) trafficMeta = await fetch("/api/no2.json").then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    const g = L.layerGroup();
+    if (!trafficMeta) return g;
+    L.imageOverlay(`/api/no2.png?b=${encodeURIComponent(trafficMeta.built)}`, trafficMeta.bounds, { pane: "overlay", opacity: 1, className: "no2-img",
+      attribution: "Sentinel-5P TROPOMI via <a href='https://earthdata.nasa.gov/gibs'>NASA GIBS</a>" }).addTo(g);
+    // Hotspots are sorted strongest first; show the top 15 regionally and the rest as you zoom in.
+    const markers = [];
+    const showFor = (z) => (z <= 6 ? 15 : z <= 7 ? 30 : 60);
+    trafficMeta.hotspots.forEach((h, rank) => {
+      const [lat, lon, ratio, kind, site, km, town] = h;
+      const icon = L.divIcon({ className: "", iconSize: [22, 22], iconAnchor: [11, 11],
+        html: `<div class="no2-hot" style="--c:${HOT_COLORS[kind]}"><svg viewBox="0 0 24 24">${HOT_ICONS[kind]}</svg></div>` });
+      const m = L.marker([lat, lon], { icon, pane: "fires", keyboard: false })
+        .bindPopup(() => `<b>${esc(t("hot_" + kind))}</b><br>${esc(kind === "kilns" ? t("hotKilns", { n: site.split(" ")[0], town }) : site)}
+          <br>${esc(t("hotLine", { x: nf(ratio, { maximumFractionDigits: 1 }), d: nf(trafficMeta.days.length) }))}
+          <br><span class="muted">${esc(t("hotWhy_" + kind))}</span>`, { maxWidth: 270 });
+      markers.push([rank, m]);
+    });
+    const markerGroup = L.layerGroup().addTo(g);
+    const refresh = () => {
+      markerGroup.clearLayers();
+      const n = showFor(map.getZoom());
+      for (const [rank, m] of markers) if (rank < n) markerGroup.addLayer(m);
+    };
+    refresh();
+    g.on("add", () => map.on("zoomend", refresh));
+    g.on("remove", () => map.off("zoomend", refresh));
+    return g;
+  }
   let overlay = null;
 
   // GIBS days are UTC days; a layer with lag publishes a day late.
@@ -114,7 +156,10 @@
     state.layer = name;
     if (overlay) { map.removeLayer(overlay); overlay = null; }
     const L1 = LAYERS[name];
-    if (L1) {
+    if (L1 && L1.custom) {
+      map.getPane("overlay").style.opacity = L1.op;
+      trafficLayer().then((g) => { if (state.layer === name) { overlay = g.addTo(map); renderPanel(); } });
+    } else if (L1) {
       // Satellites miss strips (orbit gaps, clouds). For "fill" layers, stack earlier days
       // underneath so the gaps show the most recent earlier reading; the newest day draws on top.
       overlay = L.layerGroup().addTo(map);
@@ -133,17 +178,18 @@
 
   function renderPanel() {
     const box = $("#layerRadios");
-    box.innerHTML = Object.keys(LAYERS).map((k) =>
+    box.innerHTML = order.map((k) =>
       `<label><input type="radio" name="layer" value="${k}" ${state.layer === k ? "checked" : ""}> <span>${esc(t(k))}</span></label>`).join("");
     $$("input", box).forEach((r) => r.addEventListener("change", () => setLayer(r.value)));
     const L1 = LAYERS[state.layer];
-    $("#daystep").hidden = !L1;
+    $("#daystep").hidden = !L1 || !!L1.custom;
     const off = state.dayOffset;
     const gd = gibsDate();
     const back = Math.round((Date.parse(new Date().toISOString().slice(0, 10)) - Date.parse(gd)) / 864e5);
     const rel = back === 0 ? t("today") : back === 1 ? t("yesterday") : t("daysAgo", { n: nf(back) });
     $("#dayLabel").textContent = `${fmtDay(Date.parse(gd + "T12:00:00Z"))} · ${rel}`;
-    const filled = L1 && L1.fill > 1 ? t("gapsFrom", { days: [...Array(L1.fill - 1)].map((_, i) => fmtDay(Date.parse(gibsDate(i + 1) + "T12:00:00Z"))).reverse().join(" – ") }) : "";
+    const filled = L1 && L1.custom && trafficMeta ? t("trafficDays", { from: fmtDay(Date.parse(trafficMeta.days[0] + "T12:00:00Z")), to: fmtDay(Date.parse(trafficMeta.days[trafficMeta.days.length - 1] + "T12:00:00Z")) })
+      : L1 && L1.fill > 1 ? t("gapsFrom", { days: [...Array(L1.fill - 1)].map((_, i) => fmtDay(Date.parse(gibsDate(i + 1) + "T12:00:00Z"))).reverse().join(" – ") }) : "";
     $("#dayPrev").disabled = off >= 6;
     $("#dayNext").disabled = off <= 0;
     $("#legend").innerHTML = L1 && L1.grad
