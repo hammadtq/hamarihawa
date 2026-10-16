@@ -4,7 +4,8 @@ name: Fire feed
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    # Off-peak minutes: GitHub delays or drops jobs scheduled on the hour and quarter-hours.
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
     inputs:
       force:

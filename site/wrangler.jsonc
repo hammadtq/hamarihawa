@@ -16,5 +16,6 @@
   "kv_namespaces": [
     { "binding": "FEED", "id": "80f0abe06205411bb5d4feb087c165f6" }
   ],
+  "triggers": { "crons": ["*/15 * * * *"] },
   "observability": { "enabled": true }
 }

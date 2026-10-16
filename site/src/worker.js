@@ -14,6 +14,19 @@ const FIRMS_FILES = new Set(
 );
 
 export default {
+  // Backup trigger: GitHub's own cron is unreliable, so every 15 minutes the Worker asks GitHub
+  // to run the feed workflow. Needs a GH_TOKEN secret (fine-grained, Actions: write on this repo).
+  // The workflow exits early when NASA hasn't published anything new.
+  async scheduled(event, env, ctx) {
+    if (!env.GH_TOKEN) return;
+    const r = await fetch("https://api.github.com/repos/hammadtq/hamarihawa/actions/workflows/feed.yml/dispatches", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.GH_TOKEN}`, accept: "application/vnd.github+json", "user-agent": "hamarihawa-worker" },
+      body: JSON.stringify({ ref: "main" }),
+    });
+    if (!r.ok) console.log("feed dispatch failed", r.status, await r.text());
+  },
+
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.hostname === "www.hamarihawa.org") {

@@ -104,7 +104,8 @@ def _load_sources():
 KNOWN = _load_sources()
 # How far (metres) from a source a VIIRS 375 m pixel centre can be and still be "at" it.
 REACH = {"landfill": lambda it: it[3] + 500, "kiln": lambda it: 400, "hotspot": lambda it: 500,
-         "industrial": lambda it: it[3] + 300}
+         # Industrial radii come from bounding boxes, which overstate long thin estates, so stay well inside.
+         "industrial": lambda it: it[3] * 0.6 + 150}
 
 
 def match_source(lat, lon):
