@@ -44,12 +44,125 @@
 <meta name="twitter:image" content="https://hamarihawa.org/og/map-v2.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[
- {"@type":"WebSite","@id":"https://hamarihawa.org/#site","name":"HamariHawa","alternateName":["ہماری ہوا","हमारी हवा","Hamari Hawa"],"url":"https://hamarihawa.org/","inLanguage":["en","ur","hi"],"description":"Live satellite map of crop fires, smoke, NO2 and pollution sources over Pakistan and North India, with health estimates for 17 cities."},
- {"@type":"Dataset","name":"HamariHawa live fire feed (Pakistan and North India)","description":"Active fire detections from NASA FIRMS (VIIRS 375 m and MODIS 1 km) for 25-35.5 N, 66-88.5 E, named after the nearest village and tagged when they sit on a known brick kiln, landfill, industrial estate or always-hot site. Updated every 15 minutes.","url":"https://hamarihawa.org/","isAccessibleForFree":true,"spatialCoverage":{"@type":"Place","name":"Pakistan and North India (Indus-Gangetic Plain)","geo":{"@type":"GeoShape","box":"25 66 35.5 88.5"}},"temporalCoverage":"P7D","creator":{"@id":"https://hamarihawa.org/#site"},"isBasedOn":["https://firms.modaps.eosdis.nasa.gov/","https://www.geonames.org/"],"distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://hamarihawa.org/api/fires?hours=24"},{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://hamarihawa.org/api/fires?hours=168"}]},
- {"@type":"Dataset","name":"Traffic and industry NO2 hotspots (14-day average)","description":"Sentinel-5P TROPOMI tropospheric NO2 averaged over 14 days, with local peaks labelled as city traffic, power or industrial plant, industrial estate, brick-kiln belt or highway. Rebuilt daily.","url":"https://hamarihawa.org/","isAccessibleForFree":true,"isBasedOn":"https://earthdata.nasa.gov/gibs","distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://hamarihawa.org/api/no2.json"}]},
- {"@type":"Dataset","name":"Persistent pollution sites in Pakistan and North India","description":"Landfills with methane plumes, power and industrial plants with CO2 plumes, always-hot industrial sites and brick-kiln belts, compiled from Carbon Mapper, NASA FIRMS, SentinelKilnDB, the Pakistan IGP brick kiln dataset and OpenStreetMap.","url":"https://hamarihawa.org/sites/","isAccessibleForFree":true,"distribution":[{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://hamarihawa.org/sources/sites.json"}]}
-]}
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://hamarihawa.org/#org",
+   "name": "HamariHawa",
+   "alternateName": [
+    "ہماری ہوا",
+    "हमारी हवा"
+   ],
+   "url": "https://hamarihawa.org/",
+   "logo": "https://hamarihawa.org/apple-touch-icon.png",
+   "email": "hello@hamarihawa.org"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://hamarihawa.org/#site",
+   "name": "HamariHawa",
+   "alternateName": [
+    "ہماری ہوا",
+    "हमारी हवा",
+    "Hamari Hawa"
+   ],
+   "url": "https://hamarihawa.org/",
+   "inLanguage": [
+    "en",
+    "ur",
+    "hi"
+   ],
+   "description": "Live satellite map of crop fires, smoke, NO2 and pollution sources over Pakistan and North India, with health estimates for 17 cities.",
+   "publisher": {
+    "@id": "https://hamarihawa.org/#org"
+   }
+  },
+  {
+   "@type": "Dataset",
+   "name": "HamariHawa live fire feed (Pakistan and North India)",
+   "description": "Active fire detections from NASA FIRMS (VIIRS 375 m and MODIS 1 km) for 25-35.5 N, 66-88.5 E, named after the nearest village and tagged when they sit on a known brick kiln, landfill, industrial estate or always-hot site. Updated every 15 minutes.",
+   "url": "https://hamarihawa.org/",
+   "isAccessibleForFree": true,
+   "spatialCoverage": {
+    "@type": "Place",
+    "name": "Pakistan and North India (Indus-Gangetic Plain)",
+    "geo": {
+     "@type": "GeoShape",
+     "box": "25 66 35.5 88.5"
+    }
+   },
+   "temporalCoverage": "P7D",
+   "creator": {
+    "@id": "https://hamarihawa.org/#org"
+   },
+   "isBasedOn": [
+    "https://firms.modaps.eosdis.nasa.gov/",
+    "https://www.geonames.org/"
+   ],
+   "distribution": [
+    {
+     "@type": "DataDownload",
+     "encodingFormat": "application/json",
+     "contentUrl": "https://hamarihawa.org/api/fires?hours=24"
+    },
+    {
+     "@type": "DataDownload",
+     "encodingFormat": "application/json",
+     "contentUrl": "https://hamarihawa.org/api/fires?hours=168"
+    }
+   ],
+   "publisher": {
+    "@id": "https://hamarihawa.org/#org"
+   },
+   "license": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "@type": "Dataset",
+   "name": "Traffic and industry NO2 hotspots (14-day average)",
+   "description": "Sentinel-5P TROPOMI tropospheric NO2 averaged over 14 days, with local peaks labelled as city traffic, power or industrial plant, industrial estate, brick-kiln belt or highway. Rebuilt daily.",
+   "url": "https://hamarihawa.org/",
+   "isAccessibleForFree": true,
+   "isBasedOn": "https://earthdata.nasa.gov/gibs",
+   "distribution": [
+    {
+     "@type": "DataDownload",
+     "encodingFormat": "application/json",
+     "contentUrl": "https://hamarihawa.org/api/no2.json"
+    }
+   ],
+   "creator": {
+    "@id": "https://hamarihawa.org/#org"
+   },
+   "publisher": {
+    "@id": "https://hamarihawa.org/#org"
+   },
+   "license": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "@type": "Dataset",
+   "name": "Persistent pollution sites in Pakistan and North India",
+   "description": "Landfills with methane plumes, power and industrial plants with CO2 plumes, always-hot industrial sites and brick-kiln belts, compiled from Carbon Mapper, NASA FIRMS, SentinelKilnDB, the Pakistan IGP brick kiln dataset and OpenStreetMap.",
+   "url": "https://hamarihawa.org/sites/",
+   "isAccessibleForFree": true,
+   "distribution": [
+    {
+     "@type": "DataDownload",
+     "encodingFormat": "application/json",
+     "contentUrl": "https://hamarihawa.org/sources/sites.json"
+    }
+   ],
+   "creator": {
+    "@id": "https://hamarihawa.org/#org"
+   },
+   "publisher": {
+    "@id": "https://hamarihawa.org/#org"
+   },
+   "license": "https://creativecommons.org/licenses/by-nc/4.0/"
+  }
+ ]
+}
 </script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z' fill='none' stroke='%23d62d20' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
