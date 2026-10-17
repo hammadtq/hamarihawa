@@ -78,10 +78,38 @@
   // ---------- Map ----------
   const IGP = [[25, 66], [35.5, 88.5]];
   const map = L.map("map", { zoomControl: false, preferCanvas: true, minZoom: 5, maxZoom: 13, scrollWheelZoom: false,
-    maxBounds: [[14, 54], [42, 100]], maxBoundsViscosity: 0.8 });
+    zoomSnap: 0.25, maxBounds: [[14, 54], [42, 100]], maxBoundsViscosity: 0.8 });
   // Wheel-zoom only after the reader clicks the map, so scrolling the page doesn't get trapped.
   map.on("click focus", () => map.scrollWheelZoom.enable());
   map.getContainer().addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
+
+  // Trackpad pinch always zooms the map, never the page. Chrome/Edge/Brave/Firefox send it as
+  // wheel events with ctrlKey set; Safari sends gesture events.
+  (() => {
+    const el = map.getContainer();
+    const clampZ = (z) => Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), z));
+    let pending = 0, at = null, raf = 0;
+    el.addEventListener("wheel", (e) => {
+      if (!e.ctrlKey || map.scrollWheelZoom.enabled()) return; // ordinary scrolling, or Leaflet already handles it
+      e.preventDefault();
+      pending += e.deltaY;
+      at = map.mouseEventToContainerPoint(e);
+      if (!raf) raf = requestAnimationFrame(() => {
+        raf = 0;
+        const z = clampZ(map.getZoom() - pending * 0.015);
+        pending = 0;
+        map.setZoomAround(at, z, { animate: false });
+      });
+    }, { passive: false });
+    let startZoom = null;
+    el.addEventListener("gesturestart", (e) => { e.preventDefault(); startZoom = map.getZoom(); }, { passive: false });
+    el.addEventListener("gesturechange", (e) => {
+      e.preventDefault();
+      if (startZoom == null) return;
+      map.setZoomAround(map.mouseEventToContainerPoint(e), clampZ(startZoom + Math.log2(e.scale)), { animate: false });
+    }, { passive: false });
+    el.addEventListener("gestureend", (e) => { e.preventDefault(); startZoom = null; }, { passive: false });
+  })();
   const zoomCtl = L.control.zoom({ position: "topright" }).addTo(map);
   map.fitBounds(window.innerWidth < 860 ? [[28.5, 68], [33.5, 78]] : [[25.5, 66.5], [34.8, 86]]);
   map.createPane("overlay").style.zIndex = 350;
@@ -100,9 +128,9 @@
       grad: ["#fffcc7", "#ffde6a", "#ffb339", "#ff7c20", "#fe3612", "#ed1c0d", "#7f000e"], ticks: ["0", "1", "2 ×10¹⁶ molec/cm²"] },
     aod: { id: "MODIS_Combined_Value_Added_AOD", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2,
       grad: ["#fffdcd", "#ffdf6c", "#ffaf36", "#ff701e", "#f52810", "#c7030d", "#7d000e"], ticks: ["0", "0.3", "0.6", "1+"] },
-    smoke: { id: "OMI_Aerosol_Index", lvl: 6, ext: "png", op: 0.65,
+    smoke: { id: "OMI_Aerosol_Index", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2,
       grad: ["#ffffff", "#dada7f", "#fcfc07", "#cfcb00", "#fa2300", "#cc0100", "#730019"], ticks: ["0", "2.5", "5"] },
-    truecolor: { id: "VIIRS_SNPP_CorrectedReflectance_TrueColor", lvl: 9, ext: "jpg", op: 1, grad: null, ticks: null },
+    truecolor: { id: "VIIRS_SNPP_CorrectedReflectance_TrueColor", lvl: 9, ext: "jpg", op: 1, lag: 1, fill: 2, grad: null, ticks: null },
     // Our own 14-day NO2 average and its labelled hotspots (scripts/build-no2.py), not a GIBS layer.
     traffic: { custom: true, op: 0.85, grad: ["rgba(255,200,80,.5)", "#f07828", "#cd281e", "#781446"], ticks: ["2×", "3×", "5×+"] },
   };

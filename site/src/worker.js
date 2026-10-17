@@ -30,7 +30,8 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     // Always HTTPS, always the bare domain.
-    if (url.protocol === "http:" || url.hostname === "www.hamarihawa.org") {
+    // `wrangler dev --var DEV:1` serves plain http locally, so the redirect is skipped there.
+    if ((url.protocol === "http:" && !env.DEV) || url.hostname === "www.hamarihawa.org") {
       url.protocol = "https:";
       if (url.hostname === "www.hamarihawa.org") url.hostname = "hamarihawa.org";
       return Response.redirect(url.toString(), 301);
