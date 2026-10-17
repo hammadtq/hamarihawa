@@ -8,7 +8,7 @@
 - [About, method and disclaimer](https://hamarihawa.org/about/): methods, limits, privacy, credits.
 - [24-month Lahore and Islamabad air report](https://hamarihawa.org/report/).
 
-## Open data (JSON, free to use with credit)
+## Open data (JSON). Fire feed and NO₂: CC BY 4.0. Pollution sites and kiln layers: CC BY-NC 4.0 (non-commercial, because they include SentinelKilnDB).
 - https://hamarihawa.org/api/fires?hours=24 (also 48, 168): fire feed with stats, events and points.
 - https://hamarihawa.org/api/no2.json: 14-day NO₂ average metadata and labelled hotspots.
 - https://hamarihawa.org/sources/sites.json: persistent pollution sites by category.
