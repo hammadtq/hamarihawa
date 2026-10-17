@@ -63,10 +63,13 @@
   };
 
   // ---- data + spatial index ----
-  const data = {};
-  async function load(kind) {
-    if (data[kind] !== undefined) return data[kind];
-    data[kind] = null;
+  const data = {}, loading = {};
+  // One fetch per file even when several parts of the page ask at once.
+  function load(kind) {
+    if (data[kind] !== undefined) return Promise.resolve(data[kind]);
+    return (loading[kind] ||= fetchLayer(kind));
+  }
+  async function fetchLayer(kind) {
     try {
       const r = await fetch(`/sources/${LAYERS[kind].file}?v=${V}`);
       if (!r.ok) throw new Error(r.status);
@@ -79,6 +82,7 @@
       }
       data[kind] = { ...d, idx };
     } catch (err) {
+      data[kind] = null;
       if (!LAYERS[kind].optional) console.warn("[hh] sources", kind, err);
     }
     return data[kind];
@@ -180,12 +184,27 @@
     const d = data[kind];
     return d ? ` <span class="muted">(${nf(d.items.length)})</span>` : "";
   }
+  // What date each layer's data reflects (not when we built the file).
+  const fmtD = (iso, o) => new Intl.DateTimeFormat(HH.locale(), o || { day: "numeric", month: "short", year: "numeric" }).format(Date.parse(iso + "T12:00:00Z"));
+  function asOf(kind) {
+    const d = data[kind];
+    if (!d && kind !== "kilns") return ""; // the 1.3 MB kiln file isn't loaded until needed; its date is fixed
+    let txt = "";
+    if (kind === "plumes") {
+      const first = d.items.map((x) => x[7]).filter(Boolean).sort()[0], last = d.items.map((x) => x[8]).filter(Boolean).sort().pop();
+      if (first && last) txt = t("asOfSeen", { a: first.slice(0, 4), b: fmtD(last, { month: "short", year: "numeric" }) });
+    } else if (kind === "kilns") txt = t("asOfKilns");
+    else if (kind === "hotspots") txt = t("asOfHot");
+    else if (d.built) txt = t("asOfOsm", { d: fmtD(d.built) });
+    return txt ? `<small class="asof">${txt}</small>` : "";
+  }
   async function renderPanel() {
     const box = document.getElementById("sourceChecks");
     // Optional layers appear only once their data file exists.
-    await Promise.all(["hotspots", "plants"].map(load));
+    await Promise.all(Object.keys(LAYERS).filter((k) => k !== "kilns").map(load));
+    if (LAYERS.kilns.on || data.kilns) await load("kilns");
     box.innerHTML = Object.keys(LAYERS).filter((k) => !LAYERS[k].optional || data[k]).map((k) =>
-      `<label class="chk"><input type="checkbox" data-src="${k}" ${LAYERS[k].on ? "checked" : ""}> <span class="src-key src-${k}"></span><span>${t("src_" + k)}${counts(k)}</span></label>`).join("");
+      `<label class="chk"><input type="checkbox" data-src="${k}" ${LAYERS[k].on ? "checked" : ""}> <span class="src-key src-${k}"></span><span>${t("src_" + k)}${counts(k)}${asOf(k)}</span></label>`).join("");
     box.querySelectorAll("input").forEach((c) => c.addEventListener("change", async () => {
       await setOn(c.dataset.src, c.checked);
       renderPanel();

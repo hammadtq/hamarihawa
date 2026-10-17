@@ -516,7 +516,7 @@
         const times = a.hourly.time.map((x) => Date.parse(x + "Z"));
         const vals = a.hourly.pm2_5.filter((v, i) => v != null && times[i] <= now && times[i] > now - 24 * 36e5);
         const pm24 = vals.length ? vals.reduce((s, v) => s + v, 0) / vals.length : a.current.pm2_5;
-        return { ...a.current, pm24 };
+        return { ...a.current, pm24, at: Date.parse(a.current.time + "Z") };
       });
       state.wind = wind ? (Array.isArray(wind) ? wind : [wind]).map((w) => w.current) : null;
       renderCards();
@@ -557,7 +557,8 @@
   }
 
   function renderCards() {
-    $("#healthSub").textContent = t("healthSub", { n: nf(CITIES.length) });
+    const at = state.air && state.air[0] && state.air[0].at;
+    $("#healthSub").textContent = t("healthSub", { n: nf(CITIES.length) }) + (at ? " " + t("airAsOf", { t: `${fmtDay(at)}, ${fmtTime(at)}` }) : "");
     const box = $("#cards");
     if (!state.air) {
       box.innerHTML = CITIES.slice(0, 6).map(() => `<div class="card sketch skel">${esc(t("loading"))}</div>`).join("");
