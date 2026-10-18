@@ -144,8 +144,14 @@
   };
   const HOT_COLORS = { traffic: "#cd281e", plant: "#2b2b2b", industry: "#5a508c", kilns: "#7a4a2a", corridor: "#8a7f6a" };
   let trafficMeta = null;
+  let trafficLoading = null;
+  function loadTrafficMeta() {
+    trafficLoading = trafficLoading || fetch("/api/no2.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null)
+      .then((m) => { trafficMeta = m; if (!m) trafficLoading = null; return m; });
+    return trafficLoading;
+  }
   async function trafficLayer() {
-    if (!trafficMeta) trafficMeta = await fetch("/api/no2.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    await loadTrafficMeta();
     const g = L.layerGroup();
     if (!trafficMeta) return g;
     L.imageOverlay(`/api/no2.png?b=${encodeURIComponent(trafficMeta.built)}`, trafficMeta.bounds, { pane: "overlay", opacity: 1, className: "no2-img",
@@ -226,6 +232,7 @@
       ? `<div class="bar" style="background:linear-gradient(90deg,${L1.grad.join(",")})"></div><div class="ticks">${L1.ticks.map((x) => `<span>${x}</span>`).join("")}</div>`
       : "";
     $("#layerNote").textContent = L1 ? `${t(state.layer + "_note")}${filled ? " " + filled : ""}` : t("fires_note");
+    window.dispatchEvent(new Event("hh:layer"));
     $("#ageKey").innerHTML = `<span><i style="background:var(--fire)"></i>${esc(t("age_3"))}</span><span><i style="background:var(--fire-2)"></i>${esc(t("age_12"))}</span><span><i style="background:var(--fire-3)"></i>${esc(t("age_old"))}</span>`;
   }
   $("#dayPrev").addEventListener("click", () => { state.dayOffset = Math.min(6, state.dayOffset + 1); setLayer(state.layer); });
@@ -688,7 +695,7 @@
   window.addEventListener("hh:sketch", () => sketchAll());
 
   // Shared with share.js (the shareable card).
-  window.HH = { state, t, nf, health, aqiBand, CITIES, map, siteName, locale: () => LOCALES[state.lang] };
+  window.HH = { state, t, nf, health, aqiBand, CITIES, map, siteName, setLayer, trafficMeta: loadTrafficMeta, locale: () => LOCALES[state.lang] };
 
   // Deep links from the Pollution sites page: /#at=lat,lon,zoom&layer=traffic&src=kilns
   function applyHash() {

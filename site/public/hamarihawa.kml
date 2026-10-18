@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>HamariHawa: live fires, Pakistan and North India</name>
+    <description>Fires seen by NASA satellites in the last 24 hours, refreshed every 15 minutes. Live map: https://hamarihawa.org</description>
+    <NetworkLink>
+      <name>Fires, last 24 hours</name>
+      <open>1</open>
+      <Link>
+        <href>https://hamarihawa.org/fires.kml?hours=24</href>
+        <refreshMode>onInterval</refreshMode>
+        <refreshInterval>900</refreshInterval>
+      </Link>
+    </NetworkLink>
+    <NetworkLink>
+      <name>Fires, last 7 days</name>
+      <visibility>0</visibility>
+      <Link>
+        <href>https://hamarihawa.org/fires.kml?hours=168</href>
+        <refreshMode>onInterval</refreshMode>
+        <refreshInterval>3600</refreshInterval>
+      </Link>
+    </NetworkLink>
+  </Document>
+</kml>

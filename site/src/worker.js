@@ -67,6 +67,16 @@ async function handle(request, env, url) {
       if (!body) return new Response("not built yet", { status: 503 });
       return new Response(body, { headers: { "content-type": png ? "image/png" : "application/json", "cache-control": "public, max-age=900" } });
     }
+    // The fire feed as KML for Google Earth / My Maps (built with the JSON feed, in the GitHub Action).
+    if (url.pathname === "/fires.kml") {
+      const hours = WINDOWS.has(url.searchParams.get("hours")) ? url.searchParams.get("hours") : "24";
+      const body = await env.FEED.get(`kml-${hours}`, { type: "arrayBuffer", cacheTtl: 120 });
+      if (!body) return new Response("The KML feed hasn't been built yet. Try again in a few minutes.", { status: 503 });
+      return new Response(body, { headers: {
+        "content-type": "application/vnd.google-earth.kml+xml; charset=utf-8",
+        "content-disposition": `inline; filename="hamarihawa-fires-${hours}h.kml"`,
+        "cache-control": "public, max-age=300", "access-control-allow-origin": "*" } });
+    }
     if (url.pathname !== "/api/fires") {
       const res = await env.ASSETS.fetch(request);
       // hamarihawa.org is the canonical site; keep the workers.dev copy out of search results.

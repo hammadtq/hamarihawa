@@ -203,9 +203,14 @@
     // Optional layers appear only once their data file exists.
     await Promise.all(Object.keys(LAYERS).filter((k) => k !== "kilns").map(load));
     if (LAYERS.kilns.on || data.kilns) await load("kilns");
-    box.innerHTML = Object.keys(LAYERS).filter((k) => !LAYERS[k].optional || data[k]).map((k) =>
+    // Traffic isn't a point layer: it switches the map to the NO₂ traffic overlay.
+    const tm = await HH.trafficMeta();
+    const traffic = `<label class="chk"><input type="checkbox" data-traffic ${HH.state.layer === "traffic" ? "checked" : ""}> <span class="src-key src-traffic"></span><span>${t("src_traffic")}`
+      + (tm ? ` <span class="muted">(${nf(tm.hotspots.length)})</span><small class="asof">${t("asOfTraffic", { d: fmtD(tm.days[tm.days.length - 1]) })}</small>` : "") + `</span></label>`;
+    box.innerHTML = traffic + Object.keys(LAYERS).filter((k) => !LAYERS[k].optional || data[k]).map((k) =>
       `<label class="chk"><input type="checkbox" data-src="${k}" ${LAYERS[k].on ? "checked" : ""}> <span class="src-key src-${k}"></span><span>${t("src_" + k)}${counts(k)}${asOf(k)}</span></label>`).join("");
-    box.querySelectorAll("input").forEach((c) => c.addEventListener("change", async () => {
+    box.querySelector("[data-traffic]").addEventListener("change", (e) => HH.setLayer(e.target.checked ? "traffic" : "none"));
+    box.querySelectorAll("input[data-src]").forEach((c) => c.addEventListener("change", async () => {
       await setOn(c.dataset.src, c.checked);
       renderPanel();
     }));
@@ -215,4 +220,7 @@
   ["landfill", "industrial", "plants"].forEach(load);
   renderPanel();
   window.addEventListener("hh:lang", renderPanel);
+  // Keep the traffic box in step with the layer radios.
+  let lastLayer = HH.state.layer;
+  window.addEventListener("hh:layer", () => { if (HH.state.layer !== lastLayer) { lastLayer = HH.state.layer; renderPanel(); } });
 })();

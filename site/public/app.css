@@ -297,6 +297,7 @@ html[lang="ur"] .my-t { line-height: 1.9; }
 .panel .src-h { font-family: var(--hand); font-weight: 700; font-size: 15px; margin-top: 8px; border-top: 1px dashed var(--hair); padding-top: 6px; }
 html[lang="ur"] .panel .src-h { font-family: var(--urdu); font-size: 13px; }
 .src-key { flex: none; width: 12px; height: 12px; display: inline-block; }
+.src-traffic { height: 4px; margin-block: 4px; background: repeating-linear-gradient(90deg, #d62d20 0 4px, transparent 4px 6px); }
 .src-kilns { background: #7a4a2a; width: 7px; height: 7px; margin: 0 2.5px; }
 .src-landfill { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 11px solid rgba(96,110,60,.85); }
 .src-industrial { border: 1.6px solid rgba(90,80,140,.85); }

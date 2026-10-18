@@ -248,6 +248,10 @@ def build(hours, csvs):
     stats["topDistricts"] = [{"district": d, "state": s, "cc": c, "n": n}
                              for (d, s, c), n in sorted(by_d.items(), key=lambda kv: -kv[1])[:10]]
 
+    spot_ids = {id(p) for p in spots.values()}
+    row = lambda p: [p["lat"], p["lon"], p["t"], round(p["frp"], 1),
+                     {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}[p["sat"]],
+                     p["place"], p["district"], p["cc"], p["kind"]]
     return {
         "generated": int(time.time() * 1000),
         "hours": hours,
@@ -255,10 +259,47 @@ def build(hours, csvs):
         "source": "NASA FIRMS: VIIRS 375 m (Suomi NPP, NOAA-20, NOAA-21) and MODIS 1 km (Aqua, Terra), near real time",
         "stats": stats,
         "events": events,
-        "points": [[p["lat"], p["lon"], p["t"], round(p["frp"], 1),
-                    {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}[p["sat"]],
-                    p["place"], p["district"], p["cc"], p["kind"]] for p in points],
+        "points": [row(p) for p in points],
+        # One placemark per distinct spot for the KML; removed before the JSON is written.
+        "_spots": [row(p) for p in points if id(p) in spot_ids],
     }
+
+
+KIND_TEXT = {"crop": "likely crop burning", "urban": "near a town: waste or industry?", "open": "open land",
+             "kiln": "at a brick kiln", "landfill": "at a landfill", "industrial": "in an industrial area",
+             "hotspot": "at an always-hot spot"}
+
+
+def kml(feed):
+    """The same fires as KML for Google Earth / Google My Maps. Colour by age at build time
+    (KML is aabbggrr): red under 3 h, orange under 12 h, brown older; icon size by fire power."""
+    from xml.sax.saxutils import escape as x
+    now = feed["generated"]
+    styles = {"a": "ff202dd6", "b": "ff1a8cf0", "c": "ff2a4a7a"}
+    out = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>',
+           f"<name>HamariHawa fires, last {feed['hours']} h</name>",
+           "<description>Fires seen by NASA satellites (VIIRS, MODIS) over Pakistan and North India. "
+           "Live map: https://hamarihawa.org. Data: NASA FIRMS; place names: GeoNames.</description>"]
+    for k, c in styles.items():
+        for sz, sc in (("s", 0.5), ("m", 0.75), ("l", 1.0)):
+            out.append(f'<Style id="{k}{sz}"><IconStyle><color>{c}</color><scale>{sc}</scale><Icon>'
+                       "<href>https://maps.google.com/mapfiles/kml/shapes/shaded_dot.png</href></Icon></IconStyle>"
+                       "<LabelStyle><scale>0</scale></LabelStyle></Style>")
+    sats = ["Suomi NPP", "NOAA-20", "NOAA-21", "Aqua", "Terra"]
+    for lat, lon, t, frp, si, place, district, cc, kind in feed["_spots"]:
+        age = (now - t) / 3.6e6
+        st = ("a" if age < 3 else "b" if age < 12 else "c") + ("l" if frp >= 50 else "m" if frp >= 10 else "s")
+        when = datetime.fromtimestamp(t / 1000, timezone.utc)
+        where = ", ".join(v for v in (place, district, {"PK": "Pakistan", "IN": "India"}.get(cc, cc)) if v)
+        desc = (f"Seen {when:%d %b %Y %H:%M} UTC by {sats[si]}<br>Fire power {frp:g} MW<br>{KIND_TEXT.get(kind, kind)}"
+                f'<br><a href="https://hamarihawa.org/#at={lat},{lon},12">Open on HamariHawa</a>')
+        out.append(f"<Placemark><name>{x('Fire near ' + where)}</name><styleUrl>#{st}</styleUrl>"
+                   f"<TimeStamp><when>{when:%Y-%m-%dT%H:%M:%SZ}</when></TimeStamp>"
+                   f"<description><![CDATA[{desc}]]></description>"
+                   f"<Point><coordinates>{lon},{lat}</coordinates></Point></Placemark>")
+    out.append("</Document></kml>")
+    return "\n".join(out).encode()
 
 
 def kv(method, key, body=None):
@@ -295,11 +336,15 @@ def main():
         if not any(csvs):
             sys.exit(f"no FIRMS data for {win}")
         feed = build(hours, csvs)
+        kbody = kml(feed)
+        del feed["_spots"]
         body = json.dumps(feed, separators=(",", ":"), ensure_ascii=False).encode()
         open(os.path.join(a.out, f"fires-{hours}.json"), "wb").write(body)
         print(f"{win}: {feed['stats']['spots']} spots, {len(feed['events'])} events, {len(body) // 1024} KB")
+        open(os.path.join(a.out, f"fires-{hours}.kml"), "wb").write(kbody)
         if a.upload:
             kv("PUT", f"fires-{hours}", body)
+            kv("PUT", f"kml-{hours}", kbody)
     if a.upload:
         kv("PUT", "meta", json.dumps({"stamps": stamps, "at": int(time.time())}).encode())
         print("uploaded to KV")
