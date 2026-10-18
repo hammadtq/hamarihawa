@@ -132,7 +132,7 @@
     if (!note) return;
     note.textContent = on && grid?.time ? t("windNote", { t: fmtTime(grid.time) }) : "";
   }
-  box.checked = window.innerWidth >= 860; // on by default on wide screens; phones opt in
+  box.checked = false; // off by default; visitors opt in
   box.addEventListener("change", () => setOn(box.checked));
   setOn(box.checked);
 
