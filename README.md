@@ -7,7 +7,7 @@ Live satellite map of fires, smoke and pollution over Pakistan and North India, 
 - `scripts/build-places.py`: rebuilds the village index in `site/public/places/` from GeoNames dumps.
 - `scripts/build-no2.py`: 14-day Sentinel-5P NO2 average and labelled traffic/industry hotspots, uploaded to KV daily by `.github/workflows/no2.yml`.
 - `scripts/build-sites.py`: the Pollution sites directory (`site/public/sources/sites.json`) from the source layers.
-- `scripts/osm-industrial.py`: industrial estates and named fossil power plants from Geofabrik OSM extracts.
+- `scripts/osm-industrial.py`: industrial estates, named fossil power plants and major roads (`--roads`, drawn under the NO₂ layer) from Geofabrik OSM extracts.
 - `scripts/build-kml.py`: the pollution-sites layer for Google Earth (`site/public/kml/sources.kml`). `site/public/hamarihawa.kml` links it with the live layers the Worker serves (`/fires.kml`, `/kml/air.kml`, `/kml/traffic.kml`, `/kml/satellite.kml`).
 - `report/`: the 24-month Lahore and Islamabad air report, also served at `/report/`.
 

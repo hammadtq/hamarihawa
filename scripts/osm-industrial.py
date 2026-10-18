@@ -6,6 +6,7 @@ reads the country extracts directly. Needs pyosmium (`pip install osmium`).
 
 Usage: python3 -I scripts/osm-industrial.py <out.json> <extract.osm.pbf> [more.osm.pbf ...]
        python3 -I scripts/osm-industrial.py --power <plants.json> <extract.osm.pbf> [...]   (named fossil power plants)
+       python3 -I scripts/osm-industrial.py --roads <roads.json> <extract.osm.pbf> [...]    (major roads, under the NO2 layer)
 Get extracts from https://download.geofabrik.de/asia/ (pakistan, india/northern-zone,
 india/central-zone, india/eastern-zone).
 
@@ -57,6 +58,76 @@ class PowerPlants(osmium.SimpleHandler):
             self._add("w", w.id, w.tags, (min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2)
 
 
+ROAD_CLASSES = {"motorway": 0, "trunk": 1, "primary": 2}
+
+
+def simplify(pts, tol):
+    """Douglas-Peucker on (lon, lat) pairs; tol in degrees."""
+    if len(pts) < 3:
+        return pts
+    keep, stack = {0, len(pts) - 1}, [(0, len(pts) - 1)]
+    while stack:
+        a, b = stack.pop()
+        (x1, y1), (x2, y2) = pts[a], pts[b]
+        dx, dy = x2 - x1, y2 - y1
+        n = math.hypot(dx, dy) or 1e-12
+        best, bi = 0, None
+        for i in range(a + 1, b):
+            d = abs(dy * pts[i][0] - dx * pts[i][1] + x2 * y1 - y2 * x1) / n
+            if d > best:
+                best, bi = d, i
+        if bi is not None and best > tol:
+            keep.add(bi)
+            stack += [(a, bi), (bi, b)]
+    return [pts[i] for i in sorted(keep)]
+
+
+def chain(items):
+    """Join road pieces of the same class that meet end to start, so the file holds long lines."""
+    by_start = {}
+    for i, (c, f) in enumerate(items):
+        by_start.setdefault((c, f[0], f[1]), []).append(i)
+    used, out = set(), []
+    for i, (c, f) in enumerate(items):
+        if i in used:
+            continue
+        used.add(i)
+        line = list(f)
+        while True:
+            nxt = [j for j in by_start.get((c, line[-2], line[-1]), []) if j not in used]
+            if not nxt:
+                break
+            used.add(nxt[0])
+            line += items[nxt[0]][1][2:]
+        out.append([c, line])
+    return out
+
+
+class Roads(osmium.SimpleHandler):
+    """Motorways, trunk and primary roads, simplified, as context under the NO2 layer."""
+
+    def __init__(self, seen):
+        super().__init__()
+        self.items, self.seen = [], seen
+
+    def way(self, w):
+        c = ROAD_CLASSES.get(w.tags.get("highway"))
+        if c is None or w.id in self.seen:
+            return
+        try:
+            pts = [(n.lon, n.lat) for n in w.nodes]
+        except osmium.InvalidLocationError:
+            return
+        pts = [p for p in pts if BBOX[0] - 0.2 <= p[1] <= BBOX[2] + 0.2 and BBOX[1] - 0.2 <= p[0] <= BBOX[3] + 0.2]
+        if len(pts) < 2:
+            return
+        self.seen.add(w.id)
+        flat = []
+        for lon, lat in simplify(pts, 0.0015):
+            flat += [round(lon, 3), round(lat, 3)]
+        self.items.append([c, flat])
+
+
 class Industrial(osmium.SimpleHandler):
     def __init__(self, seen):
         super().__init__()
@@ -97,6 +168,21 @@ def main():
         json.dump({"source": "© OpenStreetMap contributors (ODbL); power=plant with coal/gas/oil source",
                    "fields": ["lat", "lon", "fuel", "name", "output"], "built": time.strftime("%Y-%m-%d"), "items": items},
                   open(out, "w"), separators=(",", ":"), ensure_ascii=False)
+        print(f"wrote {len(items)} -> {out}")
+        return
+    if sys.argv[1] == "--roads":
+        out, files = sys.argv[2], sys.argv[3:]
+        seen, items = set(), []
+        for f in files:
+            h = Roads(seen)
+            h.apply_file(f, locations=True, idx="flex_mem")
+            items += h.items
+            print(f"{f}: {len(h.items)} road segments")
+        items = chain(items)
+        json.dump({"source": "© OpenStreetMap contributors (ODbL); highway=motorway/trunk/primary, simplified",
+                   "fields": ["class (0 motorway, 1 trunk, 2 primary)", "flat [lon, lat, ...]"],
+                   "built": time.strftime("%Y-%m-%d"), "items": items},
+                  open(out, "w"), separators=(",", ":"))
         print(f"wrote {len(items)} -> {out}")
         return
     out, files = sys.argv[1], sys.argv[2:]

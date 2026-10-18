@@ -112,6 +112,8 @@
   })();
   const zoomCtl = L.control.zoom({ position: "topright" }).addTo(map);
   map.fitBounds(window.innerWidth < 860 ? [[28.5, 68], [33.5, 78]] : [[25.5, 66.5], [34.8, 86]]);
+  map.createPane("roads").style.zIndex = 340; // under the NO2 overlay
+  map.getPane("roads").style.pointerEvents = "none";
   map.createPane("overlay").style.zIndex = 350;
   map.createPane("labels").style.zIndex = 450;
   map.getPane("labels").style.pointerEvents = "none";
@@ -150,9 +152,34 @@
       .then((m) => { trafficMeta = m; if (!m) trafficLoading = null; return m; });
     return trafficLoading;
   }
+  // Major roads from OpenStreetMap, drawn under the NO2 so people can see which corridors line up
+  // with the hotspots. Context only: the satellite can't resolve single roads (~5 km pixels).
+  let roadsLoading = null;
+  const ROAD_STYLE = [{ weight: 1.8, opacity: 0.75 }, { weight: 1.3, opacity: 0.65 }, { weight: 0.8, opacity: 0.55 }];
+  function roadsLayer() {
+    roadsLoading = roadsLoading || fetch("sources/roads.json").then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => {
+      if (!d) { roadsLoading = null; return null; }
+      const renderer = L.canvas({ pane: "roads", padding: 0.3 });
+      const byClass = [[], [], []];
+      for (const [c, f] of d.items) {
+        const line = [];
+        for (let i = 0; i < f.length; i += 2) line.push([f[i + 1], f[i]]);
+        byClass[c].push(line);
+      }
+      const lines = byClass.map((ls, c) => L.polyline(ls, { renderer, color: "#4a4a4f", interactive: false, smoothFactor: 1.5, ...ROAD_STYLE[c] }));
+      const g = L.layerGroup([lines[0], lines[1]]);
+      // Primary roads only once zoomed in, so the regional view stays readable.
+      const refresh = () => { if (map.getZoom() >= 8) g.addLayer(lines[2]); else g.removeLayer(lines[2]); };
+      g.on("add", () => { refresh(); map.on("zoomend", refresh); });
+      g.on("remove", () => map.off("zoomend", refresh));
+      return g;
+    });
+    return roadsLoading;
+  }
   async function trafficLayer() {
-    await loadTrafficMeta();
+    const [, roads] = await Promise.all([loadTrafficMeta(), roadsLayer()]);
     const g = L.layerGroup();
+    if (roads) g.addLayer(roads);
     if (!trafficMeta) return g;
     L.imageOverlay(`/api/no2.png?b=${encodeURIComponent(trafficMeta.built)}`, trafficMeta.bounds, { pane: "overlay", opacity: 1, className: "no2-img",
       attribution: "Sentinel-5P TROPOMI via <a href='https://earthdata.nasa.gov/gibs'>NASA GIBS</a>" }).addTo(g);
@@ -231,7 +258,7 @@
     $("#legend").innerHTML = L1 && L1.grad
       ? `<div class="bar" style="background:linear-gradient(90deg,${L1.grad.join(",")})"></div><div class="ticks">${L1.ticks.map((x) => `<span>${x}</span>`).join("")}</div>`
       : "";
-    $("#layerNote").textContent = L1 ? `${t(state.layer + "_note")}${filled ? " " + filled : ""}` : t("fires_note");
+    $("#layerNote").textContent = L1 ? `${t(state.layer + "_note")}${filled ? " " + filled : ""}${state.layer === "traffic" ? " " + t("roadsNote") : ""}` : t("fires_note");
     window.dispatchEvent(new Event("hh:layer"));
     $("#ageKey").innerHTML = `<span><i style="background:var(--fire)"></i>${esc(t("age_3"))}</span><span><i style="background:var(--fire-2)"></i>${esc(t("age_12"))}</span><span><i style="background:var(--fire-3)"></i>${esc(t("age_old"))}</span>`;
   }
