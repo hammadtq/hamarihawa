@@ -86,5 +86,8 @@ for k, c in cells.items():
     total += len(c["p"])
     json.dump({"r": c["regions"], "p": c["p"]}, open(f"{out}/{k}.json", "w"), separators=(",", ":"), ensure_ascii=False)
 json.dump(towns, open(os.path.join(os.path.dirname(__file__), "..", "site", "src", "towns.json"), "w"), separators=(",", ":"), ensure_ascii=False)
+# A small copy for the page (wind "from X towards Y"): lat, lon, name, country.
+json.dump([[t[0], t[1], t[2], t[5]] for t in towns], open(os.path.join(os.path.dirname(__file__), "..", "site", "public", "sources", "towns.json"), "w"),
+          separators=(",", ":"), ensure_ascii=False)
 print(f"{len(towns)} towns over 100k")
 print(f"{total} places in {len(cells)} cells -> {out}")

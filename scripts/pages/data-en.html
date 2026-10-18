@@ -34,6 +34,7 @@
   <p>The site itself runs on these. They can be read from any web page (CORS is open).</p>
   <ul>
     <li><code>/api/fires?hours=24</code> (also 48, 168): stats, grouped events and every fire point.</li>
+    <li><code>/api/wind</code>: wind right now on a 1° grid (speed in km/h, direction it comes from), refreshed every 30 minutes.</li>
     <li><code>/api/no2.json</code>: the 2-week NO₂ average's dates, bounds and labelled hotspots. The image is <code>/api/no2.png</code> (Web Mercator) or <code>/api/no2-geo.png</code> (plain latitude and longitude).</li>
     <li><code>/sources/sites.json</code>: persistent pollution sites by category.</li>
     <li><code>/sources/kilns.json</code>, <code>osm-landfill.json</code>, <code>osm-industrial.json</code>, <code>plants.json</code>, <code>hotspots.json</code>, <code>carbonmapper.json</code>, <code>roads.json</code>: the source layers.</li>

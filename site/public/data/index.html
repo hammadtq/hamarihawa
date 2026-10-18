@@ -70,7 +70,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
-<link rel="stylesheet" href="/app.css?v=202610182300">
+<link rel="stylesheet" href="/app.css?v=202610190030">
 <style>
   .doc { max-width: 760px; margin: 0 auto; padding: 36px 20px 60px; }
   .doc h1 { font-family: var(--hand); font-size: clamp(32px, 5vw, 44px); }
@@ -154,6 +154,7 @@
   <p>The site itself runs on these. They can be read from any web page (CORS is open).</p>
   <ul>
     <li><code>/api/fires?hours=24</code> (also 48, 168): stats, grouped events and every fire point.</li>
+    <li><code>/api/wind</code>: wind right now on a 1° grid (speed in km/h, direction it comes from), refreshed every 30 minutes.</li>
     <li><code>/api/no2.json</code>: the 2-week NO₂ average's dates, bounds and labelled hotspots. The image is <code>/api/no2.png</code> (Web Mercator) or <code>/api/no2-geo.png</code> (plain latitude and longitude).</li>
     <li><code>/sources/sites.json</code>: persistent pollution sites by category.</li>
     <li><code>/sources/kilns.json</code>, <code>osm-landfill.json</code>, <code>osm-industrial.json</code>, <code>plants.json</code>, <code>hotspots.json</code>, <code>carbonmapper.json</code>, <code>roads.json</code>: the source layers.</li>

@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-19-wind",
+    "date": "2026-10-19",
+    "title": {
+      "en": "Wind on the map: where the air is coming from",
+      "ur": "نقشے پر ہوا: ہوا کہاں سے آ رہی ہے",
+      "hi": "नक्शे पर हवा: हवा कहाँ से आ रही है"
+    },
+    "body": {
+      "en": "<p>A new \"Wind right now\" layer shows ink streaks drifting the way the wind is blowing across the plains, from weather-model winds refreshed every half hour (Open-Meteo). Under \"Your air\" the site now also says which way the wind is blowing where you are, and which big towns it is coming from and heading towards, so you can see whether smoke from fires upwind is likely to reach you.</p>",
+      "ur": "<p>نئی تہہ \"ابھی ہوا کا رخ\" میدانوں پر ہوا کے رخ میں بہتی سیاہی جیسی لکیریں دکھاتی ہے، موسمی ماڈل کی ہواؤں سے جو ہر آدھے گھنٹے تازہ ہوتی ہیں (Open-Meteo)۔ \"آپ کی ہوا\" کے نیچے اب یہ بھی لکھا آتا ہے کہ آپ کے ہاں ہوا کس رخ چل رہی ہے، اور کن بڑے شہروں کی طرف سے آ کر کن کی جانب جا رہی ہے، تاکہ آپ دیکھ سکیں کہ ہوا کے رخ پر لگی آگ کا دھواں آپ تک پہنچ سکتا ہے یا نہیں۔</p>",
+      "hi": "<p>नई परत \"अभी हवा का रुख़\" मैदानों पर हवा के रुख़ में बहती स्याही जैसी रेखाएँ दिखाती है, मौसम मॉडल की हवाओं से जो हर आधे घंटे ताज़ा होती हैं (Open-Meteo)। \"आपकी हवा\" के नीचे अब यह भी लिखा आता है कि आपके यहाँ हवा किस रुख़ चल रही है, और किन बड़े शहरों की तरफ़ से आकर किनकी ओर जा रही है, ताकि आप देख सकें कि हवा के रुख़ पर लगी आग का धुआँ आप तक पहुँच सकता है या नहीं।</p>"
+    }
+  },
+  {
     "id": "2026-10-18-google-earth",
     "date": "2026-10-18",
     "title": {
