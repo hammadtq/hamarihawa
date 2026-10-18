@@ -164,11 +164,14 @@
     const w = sample(me.lat, me.lon);
     if (!w) { el.hidden = true; return; }
     const speed = Math.hypot(w[0], w[1]);
-    if (speed < 3) { el.textContent = t("windCalm"); el.hidden = false; return; }
+    if (speed < 3) { el.textContent = t("windCalmShort"); el.hidden = false; return; }
     const from = (Math.atan2(-w[0], -w[1]) / RAD + 360) % 360;
     const a = townToward(me.lat, me.lon, from), b = townToward(me.lat, me.lon, (from + 180) % 360);
-    const base = t("windNow", { dir: dirName(from), v: nf(Math.round(speed)) });
-    el.textContent = a && b ? `${base} ${t("windFromTo", { a, b })}` : a ? `${base} ${t("windFromOnly", { a })}` : b ? `${base} ${t("windToOnly", { b })}` : base;
+    const arrow = HH.state.lang === "ur" ? " ← " : " → ";
+    const route = a && b ? a + arrow + b : a ? a + arrow : b ? arrow.trim() + " " + b : "";
+    // The towns already show the direction, so the compass word is only used when there are none.
+    const v = nf(Math.round(speed));
+    el.textContent = a && b ? t("windRoute", { route, v }) : t("windShort", { dir: dirName(from), v }) + (route ? ` · ${route}` : "");
     el.hidden = false;
   }
   window.addEventListener("hh:local", renderMyWind);

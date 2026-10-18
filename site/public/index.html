@@ -169,7 +169,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="app.css?v=202610190030">
+<link rel="stylesheet" href="app.css?v=202610190145">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -233,9 +233,8 @@
         <p class="sub" data-i="feedSub">Newest first. Satellites pass over around 1:30 am and 1:30 pm (MODIS also mid-morning and late evening); new fires show up about 3 hours after each pass.</p>
         <div class="my-air" id="myAir" hidden>
           <div class="my-n num" id="myAirN"></div>
-          <div class="my-t"><span id="myAirLbl"></span><br><span class="muted" id="myAirSub"></span><small id="myAirNote"></small></div>
+          <div class="my-t"><span id="myAirLbl"></span><br><span class="muted" id="myAirSub"></span><small class="my-wind" id="myWind" hidden></small><small id="myAirNote"></small></div>
         </div>
-        <p class="my-wind" id="myWind" hidden></p>
         <div class="headline">
           <div class="big num" id="hFires">–</div>
           <div class="hl-text"><span id="hFiresLbl"></span><br><span class="muted" id="hSplit"></span></div>
@@ -362,6 +361,6 @@
 <script src="share.js?v=202610190030"></script>
 <script src="sources.js?v=202610190030"></script>
 <script src="insights.js?v=202610190030"></script>
-<script src="wind.js?v=202610190100"></script>
+<script src="wind.js?v=202610190145"></script>
 </body>
 </html>
