@@ -7,5 +7,7 @@
     <xhtml:link rel="alternate" hreflang="ur" href="https://hamarihawa.org/sites/?lang=ur"/>
     <xhtml:link rel="alternate" hreflang="hi" href="https://hamarihawa.org/sites/?lang=hi"/></url>
   <url><loc>https://hamarihawa.org/about/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://hamarihawa.org/data/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://hamarihawa.org/updates/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://hamarihawa.org/report/</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
 </urlset>

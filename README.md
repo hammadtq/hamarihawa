@@ -9,6 +9,7 @@ Live satellite map of fires, smoke and pollution over Pakistan and North India, 
 - `scripts/build-sites.py`: the Pollution sites directory (`site/public/sources/sites.json`) from the source layers.
 - `scripts/osm-industrial.py`: industrial estates, named fossil power plants and major roads (`--roads`, drawn under the NO₂ layer) from Geofabrik OSM extracts.
 - `scripts/build-kml.py`: the pollution-sites layer for Google Earth (`site/public/kml/sources.kml`). `site/public/hamarihawa.kml` links it with the live layers the Worker serves (`/fires.kml`, `/kml/air.kml`, `/kml/traffic.kml`, `/kml/satellite.kml`).
+- `scripts/build-pages.py`: builds `/data/` (text in `scripts/pages/`) and the rolling `/updates/` page plus its Atom feed. To post an update, add an entry at the top of `site/public/updates/updates.json` and rerun it.
 - `report/`: the 24-month Lahore and Islamabad air report, also served at `/report/`.
 
 The workflow needs a repo secret `CLOUDFLARE_API_TOKEN` (permission: Workers KV Storage, Edit) and a repo variable `CLOUDFLARE_ACCOUNT_ID`.

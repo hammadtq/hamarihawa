@@ -1,0 +1,50 @@
+  <h1>Use the data</h1>
+  <p class="lede">Everything on the map is open. You can view it in Google Earth, load it into your own GIS, or read the raw feeds.</p>
+
+  <h2 id="google-earth">Open the live map in Google Earth</h2>
+  <p>One link brings the whole map into Google Earth: <a href="/hamarihawa.kml"><code>hamarihawa.org/hamarihawa.kml</code></a>. Each layer can be switched on and off and refreshes on its own schedule:</p>
+  <ul>
+    <li><b>Fires in the last 24 hours</b>, refreshed every 15 minutes, plus a 7-day layer. Colour shows age and size shows fire power. Each fire has the nearest village, time, satellite and likely type.</li>
+    <li><b>City air now</b>: US AQI and PM2.5 for 17 cities, with cigarette and WHO-limit equivalents. These are Copernicus CAMS model estimates, refreshed every 30 minutes.</li>
+    <li><b>Traffic and industry NO₂</b>: our 2-week Sentinel-5P average with the strongest hotspots labelled as traffic, power plant, industry or kiln belt.</li>
+    <li><b>Haze, smoke and the satellite photo</b>: daily NASA images, one day behind so they have finished processing.</li>
+    <li><b>Pollution sites</b>: landfills leaking methane or burning, plants with CO₂ plumes, fossil power plants, always-hot industrial sites and the districts with the most brick kilns.</li>
+  </ul>
+  <h3>How to open it</h3>
+  <ul>
+    <li><b>Google Earth Pro (desktop)</b>: Add → Network Link, and paste the link. The layers then refresh by themselves.</li>
+    <li><b>Google Earth on the web or phone</b>: download the file, then Projects → Open → Import KML file. It loads the latest data each time you open it.</li>
+  </ul>
+
+  <h2 id="google-maps">What about Google Maps?</h2>
+  <p>Google Maps doesn't let outside sources add live layers, and the Google Maps app only shows Google's own data. Google's <b>My Maps</b> can import a KML file, but it keeps a copy that never refreshes, and it allows at most 2,000 places per layer, which a busy day of fires goes over. The pollution sites fit well, so import <a href="/kml/sources.kml"><code>hamarihawa.org/kml/sources.kml</code></a> into My Maps. For anything live, use Google Earth.</p>
+
+  <h2 id="gis">QGIS, ArcGIS, Civil 3D and other tools</h2>
+  <p>These are standard KML files, so any GIS or CAD tool that reads KML can use them. The individual layers are:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Layer</th><th>Link</th><th>Updated</th></tr>
+    <tr><td>Fires</td><td><code>/fires.kml?hours=24</code> (also 48, 168)</td><td>Every 15 min</td></tr>
+    <tr><td>City air</td><td><code>/kml/air.kml</code></td><td>Every 30 min</td></tr>
+    <tr><td>Traffic and industry NO₂</td><td><code>/kml/traffic.kml</code></td><td>Daily</td></tr>
+    <tr><td>Haze and satellite photo</td><td><code>/kml/satellite.kml</code></td><td>Daily</td></tr>
+    <tr><td>Pollution sites</td><td><code>/kml/sources.kml</code></td><td>When we rebuild the sources</td></tr>
+  </table></div>
+
+  <h2 id="json">JSON feeds</h2>
+  <p>The site itself runs on these. They can be read from any web page (CORS is open).</p>
+  <ul>
+    <li><code>/api/fires?hours=24</code> (also 48, 168): stats, grouped events and every fire point.</li>
+    <li><code>/api/no2.json</code>: the 2-week NO₂ average's dates, bounds and labelled hotspots. The image is <code>/api/no2.png</code> (Web Mercator) or <code>/api/no2-geo.png</code> (plain latitude and longitude).</li>
+    <li><code>/sources/sites.json</code>: persistent pollution sites by category.</li>
+    <li><code>/sources/kilns.json</code>, <code>osm-landfill.json</code>, <code>osm-industrial.json</code>, <code>plants.json</code>, <code>hotspots.json</code>, <code>carbonmapper.json</code>, <code>roads.json</code>: the source layers.</li>
+  </ul>
+
+  <h2 id="licences">Licences and credit</h2>
+  <ul>
+    <li><b>Fire feed and NO₂ hotspots</b>: CC BY 4.0. Built from NASA FIRMS and Copernicus Sentinel-5P via NASA GIBS, with place names from GeoNames (CC BY 4.0).</li>
+    <li><b>Brick kilns and the Pollution sites list</b>: CC BY-NC 4.0, non-commercial only, because they include SentinelKilnDB (IIT Gandhinagar). The Pakistan kiln emissions come from the Brick Kiln Dataset for Pakistan's IGP Region (CC BY 4.0).</li>
+    <li><b>Landfills, industrial areas, power plants and roads</b>: © OpenStreetMap contributors, ODbL. If you share a changed copy, keep it under ODbL.</li>
+    <li><b>Methane and CO₂ plumes</b>: Carbon Mapper, under its own terms.</li>
+    <li><b>City air</b>: Copernicus CAMS via Open-Meteo (CC BY 4.0).</li>
+  </ul>
+  <p>Please credit "HamariHawa (hamarihawa.org)" along with the original sources. Found a problem, or want the data in another shape? Write to <a href="mailto:hello@hamarihawa.org">hello@hamarihawa.org</a>.</p>

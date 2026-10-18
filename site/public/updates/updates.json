@@ -1,0 +1,72 @@
+[
+  {
+    "id": "2026-10-18-google-earth",
+    "date": "2026-10-18",
+    "title": {
+      "en": "The whole map in Google Earth",
+      "ur": "پورا نقشہ اب گوگل ارتھ میں",
+      "hi": "पूरा नक्शा अब गूगल अर्थ में"
+    },
+    "body": {
+      "en": "<p>You can now open HamariHawa in Google Earth: <a href=\"/hamarihawa.kml\">hamarihawa.org/hamarihawa.kml</a>. It has the same layers as the site, each refreshing on its own schedule: fires in the last 24 hours (every 15 minutes) and 7 days, air quality now in 17 cities, traffic and industry NO₂ hotspots, haze and the daily satellite photo, and the pollution sites. It is a standard KML file, so it also opens in QGIS, ArcGIS and Civil 3D. <a href=\"/data/\">How to use it</a>.</p>",
+      "ur": "<p>اب آپ ہماری ہوا کو گوگل ارتھ میں کھول سکتے ہیں: <a href=\"/hamarihawa.kml\">hamarihawa.org/hamarihawa.kml</a>۔ اس میں سائٹ والی تمام تہیں ہیں، اور ہر ایک اپنے وقت پر تازہ ہوتی ہے: پچھلے 24 گھنٹوں (ہر 15 منٹ) اور 7 دنوں کی آگ، 17 شہروں کی ہوا، ٹریفک اور صنعت کے NO₂ ہاٹ اسپاٹ، دھند اور روزانہ سیٹلائٹ تصویر، اور آلودگی کے مقامات۔ یہ عام KML فائل ہے، اس لیے QGIS، ArcGIS اور Civil 3D میں بھی کھلتی ہے۔ <a href=\"/data/\">استعمال کا طریقہ</a>۔</p>",
+      "hi": "<p>अब आप हमारी हवा को गूगल अर्थ में खोल सकते हैं: <a href=\"/hamarihawa.kml\">hamarihawa.org/hamarihawa.kml</a>। इसमें साइट की सभी परतें हैं, और हर परत अपने समय पर ताज़ा होती है: पिछले 24 घंटे (हर 15 मिनट) और 7 दिन की आग, 17 शहरों की हवा, ट्रैफ़िक और उद्योग के NO₂ हॉटस्पॉट, धुंध और रोज़ की उपग्रह तस्वीर, और प्रदूषण के ठिकाने। यह सामान्य KML फ़ाइल है, इसलिए QGIS, ArcGIS और Civil 3D में भी खुलती है। <a href=\"/data/\">इस्तेमाल का तरीक़ा</a>।</p>"
+    }
+  },
+  {
+    "id": "2026-10-18-roads",
+    "date": "2026-10-18",
+    "title": {
+      "en": "Major roads under the traffic NO₂ layer",
+      "ur": "ٹریفک NO₂ کی تہہ کے نیچے بڑی سڑکیں",
+      "hi": "ट्रैफ़िक NO₂ परत के नीचे बड़ी सड़कें"
+    },
+    "body": {
+      "en": "<p>The traffic and industry NO₂ layer now shows motorways and highways from OpenStreetMap underneath it, with main roads added as you zoom in. They are there for context: the satellite sees NO₂ in squares about 5 km wide, so it shows a city's traffic as one hotspot and can't pick out single roads. Thanks to a reader on Reddit for pushing on this. <a href=\"/#at=31.52,74.35,9&amp;layer=traffic\">See Lahore</a>.</p>",
+      "ur": "<p>ٹریفک اور صنعت کی NO₂ تہہ کے نیچے اب OpenStreetMap سے موٹر ویز اور شاہراہیں نظر آتی ہیں، اور زوم کرنے پر بڑی سڑکیں بھی۔ یہ صرف رہنمائی کے لیے ہیں: سیٹلائٹ NO₂ کو تقریباً 5 کلومیٹر کے خانوں میں دیکھتا ہے، اس لیے شہر کی ٹریفک ایک بڑے ہاٹ اسپاٹ کی طرح دکھتی ہے اور الگ الگ سڑک نہیں پہچانی جا سکتی۔ ریڈٹ پر ایک قاری کا شکریہ جنہوں نے اس طرف توجہ دلائی۔ <a href=\"/#at=31.52,74.35,9&amp;layer=traffic\">لاہور دیکھیں</a>۔</p>",
+      "hi": "<p>ट्रैफ़िक और उद्योग की NO₂ परत के नीचे अब OpenStreetMap से मोटरवे और हाईवे दिखते हैं, और ज़ूम करने पर मुख्य सड़कें भी। ये सिर्फ़ संदर्भ के लिए हैं: उपग्रह NO₂ को लगभग 5 किमी के खानों में देखता है, इसलिए शहर का ट्रैफ़िक एक बड़े हॉटस्पॉट जैसा दिखता है और अलग-अलग सड़क नहीं पहचानी जा सकती। रेडिट पर एक पाठक का शुक्रिया जिन्होंने इस ओर ध्यान दिलाया। <a href=\"/#at=31.52,74.35,9&amp;layer=traffic\">लाहौर देखें</a>।</p>"
+    }
+  },
+  {
+    "id": "2026-10-18-traffic-source",
+    "date": "2026-10-18",
+    "title": {
+      "en": "Traffic is now listed as a pollution source",
+      "ur": "ٹریفک اب آلودگی کے ذرائع کی فہرست میں",
+      "hi": "ट्रैफ़िक अब प्रदूषण के स्रोतों की सूची में"
+    },
+    "body": {
+      "en": "<p>Transport is the biggest source of PM2.5 emitted in Lahore (35%) and Islamabad–Rawalpindi (53%), according to PAQI 2025, but our map only showed it as a layer option. \"Traffic exhaust (NO₂ hotspots)\" is now the first entry in the map's Pollution sources list, with the number of hotspots and the dates they cover.</p>",
+      "ur": "<p>PAQI 2025 کے مطابق لاہور (35%) اور اسلام آباد–راولپنڈی (53%) میں خارج ہونے والے PM2.5 کا سب سے بڑا ذریعہ ٹرانسپورٹ ہے، مگر ہمارے نقشے پر یہ صرف ایک تہہ کے طور پر تھا۔ اب \"گاڑیوں کا دھواں (NO₂ ہاٹ اسپاٹ)\" نقشے کی آلودگی کے ذرائع کی فہرست میں سب سے اوپر ہے، ہاٹ اسپاٹس کی تعداد اور تاریخوں کے ساتھ۔</p>",
+      "hi": "<p>PAQI 2025 के अनुसार लाहौर (35%) और इस्लामाबाद–रावलपिंडी (53%) में निकलने वाले PM2.5 का सबसे बड़ा स्रोत परिवहन है, पर हमारे नक्शे पर यह सिर्फ़ एक परत के रूप में था। अब \"वाहनों का धुआँ (NO₂ हॉटस्पॉट)\" नक्शे की प्रदूषण स्रोतों की सूची में सबसे ऊपर है, हॉटस्पॉट की संख्या और तारीख़ों के साथ।</p>"
+    }
+  },
+  {
+    "id": "2026-10-17-source-dates",
+    "date": "2026-10-17",
+    "title": {
+      "en": "Every source layer now says when its data is from",
+      "ur": "ہر ذریعے کی تہہ اب بتاتی ہے کہ ڈیٹا کب کا ہے",
+      "hi": "हर स्रोत परत अब बताती है कि डेटा कब का है"
+    },
+    "body": {
+      "en": "<p>Fires are live, but the pollution sources are not, so each one now carries its date: methane and CO₂ plumes seen 2022 to September 2026 (Carbon Mapper), brick kilns from satellite surveys published in 2024–2025, always-hot spots from NASA's 2025 fire archive, and landfills, industrial areas and power plants from OpenStreetMap as of 17 October 2026.</p>",
+      "ur": "<p>آگ کا ڈیٹا تازہ ہوتا ہے، مگر آلودگی کے ذرائع کا نہیں، اس لیے اب ہر ایک کے ساتھ اس کی تاریخ لکھی ہے: میتھین اور CO₂ کے بادل 2022 سے ستمبر 2026 تک (Carbon Mapper)، اینٹوں کے بھٹے 2024–2025 میں شائع سیٹلائٹ سروے سے، ہمیشہ گرم جگہیں ناسا کے 2025 کے آگ ریکارڈ سے، اور کچرا کنڈیاں، صنعتی علاقے اور بجلی گھر OpenStreetMap سے، 17 اکتوبر 2026 تک۔</p>",
+      "hi": "<p>आग का डेटा लाइव है, पर प्रदूषण स्रोतों का नहीं, इसलिए अब हर एक के साथ उसकी तारीख़ लिखी है: मीथेन और CO₂ के गुबार 2022 से सितंबर 2026 तक (Carbon Mapper), ईंट भट्ठे 2024–2025 में प्रकाशित उपग्रह सर्वे से, हमेशा गर्म जगहें नासा के 2025 आग रिकॉर्ड से, और कचरा डंप, औद्योगिक इलाक़े और बिजलीघर OpenStreetMap से, 17 अक्टूबर 2026 तक।</p>"
+    }
+  },
+  {
+    "id": "2026-10-17-launch",
+    "date": "2026-10-17",
+    "title": {
+      "en": "HamariHawa is live",
+      "ur": "ہماری ہوا شروع ہو گئی",
+      "hi": "हमारी हवा शुरू हो गई"
+    },
+    "body": {
+      "en": "<p>A free live map of what satellites see in the air over Pakistan and North India, in English, Urdu and Hindi. It shows every fire NASA's satellites detect, named after the nearest village; smoke, haze and traffic NO₂; known pollution sources such as 50,000 brick kilns, landfills, power plants and methane plumes; and what the air means for health in 17 cities. There is also a <a href=\"/sites/\">Pollution sites</a> page and a share card for WhatsApp, Instagram, X and Facebook.</p>",
+      "ur": "<p>پاکستان اور شمالی ہندوستان کی فضا کا مفت تازہ نقشہ، انگریزی، اردو اور ہندی میں۔ اس میں ناسا کے سیٹلائٹس کی دیکھی ہر آگ قریبی گاؤں کے نام کے ساتھ، دھواں، دھند اور ٹریفک کا NO₂، آلودگی کے معلوم ذرائع جیسے 50,000 اینٹوں کے بھٹے، کچرا کنڈیاں، بجلی گھر اور میتھین کے بادل، اور 17 شہروں میں ہوا کا صحت پر اثر دکھایا گیا ہے۔ ساتھ ہی <a href=\"/sites/\">آلودگی کے مقامات</a> کا صفحہ اور واٹس ایپ، انسٹاگرام، ایکس اور فیس بک کے لیے شیئر کارڈ بھی ہے۔</p>",
+      "hi": "<p>पाकिस्तान और उत्तर भारत की हवा का मुफ़्त लाइव नक्शा, अंग्रेज़ी, उर्दू और हिंदी में। इसमें नासा के उपग्रहों की देखी हर आग नज़दीकी गाँव के नाम के साथ, धुआँ, धुंध और ट्रैफ़िक का NO₂, प्रदूषण के ज्ञात स्रोत जैसे 50,000 ईंट भट्ठे, कचरा डंप, बिजलीघर और मीथेन के गुबार, और 17 शहरों में हवा का सेहत पर असर दिखाया गया है। साथ में <a href=\"/sites/\">प्रदूषण के ठिकाने</a> पेज और व्हाट्सऐप, इंस्टाग्राम, एक्स और फ़ेसबुक के लिए शेयर कार्ड भी है।</p>"
+    }
+  }
+]

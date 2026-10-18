@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<!-- Google tag (gtag.js), only on the real site so local and preview traffic isn't counted -->
+<script>
+  if (location.hostname === "hamarihawa.org") {
+    var s = document.createElement("script");
+    s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=G-JQFHSTFN9H";
+    document.head.appendChild(s);
+  }
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JQFHSTFN9H');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use the data · HamariHawa</title>
+<meta name="description" content="Open HamariHawa&#x27;s live fires, city air, traffic NO₂, haze and pollution sites in Google Earth, QGIS, ArcGIS or Civil 3D, or use the JSON feeds. Why Google Maps can&#x27;t show live layers, and the licence for each dataset.">
+<link rel="canonical" href="https://hamarihawa.org/data/">
+<link rel="alternate" hreflang="en" href="https://hamarihawa.org/data/?lang=en">
+<link rel="alternate" hreflang="ur" href="https://hamarihawa.org/data/?lang=ur">
+<link rel="alternate" hreflang="hi" href="https://hamarihawa.org/data/?lang=hi">
+<link rel="alternate" hreflang="x-default" href="https://hamarihawa.org/data/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Use the data · HamariHawa">
+<meta property="og:description" content="Open HamariHawa&#x27;s live fires, city air, traffic NO₂, haze and pollution sites in Google Earth, QGIS, ArcGIS or Civil 3D, or use the JSON feeds. Why Google Maps can&#x27;t show live layers, and the licence for each dataset.">
+<meta property="og:site_name" content="HamariHawa">
+<meta property="og:url" content="https://hamarihawa.org/data/">
+<meta property="og:image" content="https://hamarihawa.org/og/map-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="HamariHawa: live fire and air map of Pakistan and North India">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="ur_PK">
+<meta property="og:locale:alternate" content="hi_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@hammadtariq">
+<meta name="twitter:title" content="Use the data · HamariHawa">
+<meta name="twitter:description" content="Open HamariHawa&#x27;s live fires, city air, traffic NO₂, haze and pollution sites in Google Earth, QGIS, ArcGIS or Civil 3D, or use the JSON feeds. Why Google Maps can&#x27;t show live layers, and the licence for each dataset.">
+<meta name="twitter:image" content="https://hamarihawa.org/og/map-v2.png">
+<meta name="twitter:image:alt" content="HamariHawa: live fire and air map of Pakistan and North India">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="alternate" type="application/atom+xml" title="HamariHawa updates" href="/updates/feed.xml">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "@id": "https://hamarihawa.org/data/#page",
+ "name": "Use HamariHawa's data",
+ "url": "https://hamarihawa.org/data/",
+ "inLanguage": [
+  "en",
+  "ur",
+  "hi"
+ ],
+ "publisher": {
+  "@id": "https://hamarihawa.org/#org"
+ },
+ "isPartOf": {
+  "@id": "https://hamarihawa.org/#website"
+ },
+ "about": [
+  "Google Earth KML feed of fires and air pollution in Pakistan and North India",
+  "Open air-quality data APIs"
+ ]
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z' fill='none' stroke='%23d62d20' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
+<link rel="stylesheet" href="/app.css?v=202610182300">
+<style>
+  .doc { max-width: 760px; margin: 0 auto; padding: 36px 20px 60px; }
+  .doc h1 { font-family: var(--hand); font-size: clamp(32px, 5vw, 44px); }
+  .doc h2 { font-size: 23px; margin: 34px 0 8px; }
+  .doc h3 { font-size: 18px; margin: 20px 0 6px; }
+  .doc p, .doc li { color: var(--ink-2); font-size: 16.5px; line-height: 1.65; }
+  .doc p + p { margin-top: 10px; }
+  .doc ul, .doc ol { padding-inline-start: 22px; margin: 8px 0; }
+  .doc li + li { margin-top: 6px; }
+  .doc code { font-size: 14px; background: #f4f2ec; padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .doc .lede { font-size: 18px; color: var(--ink); margin-top: 8px; }
+  .doc .callout { padding: 16px 20px; margin: 22px 0; }
+  .doc .callout p { color: var(--ink); }
+  .doc .entry { padding: 18px 0; border-top: 1px dashed var(--hair); }
+  .doc .entry time { font-family: var(--hand); color: var(--ink-3); font-size: 15px; }
+  .doc .entry h2 { margin: 2px 0 6px; font-size: 21px; }
+  .doc .entry h2 a { color: inherit; text-decoration: none; }
+  .doc .foot-links { margin-top: 40px; font-size: 14px; }
+  .doc table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0; }
+  .doc th, .doc td { text-align: start; padding: 6px 8px; border-bottom: 1px solid var(--hair); vertical-align: top; color: var(--ink-2); }
+  .doc .table-wrap { overflow-x: auto; }
+  article[hidden] { display: none; }
+  html[lang="ur"] .doc p, html[lang="ur"] .doc li, html[lang="ur"] .doc td { line-height: 2.2; font-size: 15.5px; }
+  html[lang="ur"] .doc h1, html[lang="ur"] .doc h2, html[lang="ur"] .doc h3 { font-family: var(--urdu); line-height: 1.9; }
+  @media (max-width: 860px) { .doc { padding: 24px 16px 48px; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/" aria-label="HamariHawa home">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="30" height="30"><path d="M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 24c4-2 7 2 11 0s7-2 11 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+    <span class="word">HamariHawa</span>
+  </a>
+  <nav class="menu" aria-label="Pages">
+    <a href="/" data-nav="map" data-en="Live map" data-ur="تازہ نقشہ" data-hi="लाइव नक्शा">Live map</a>
+    <a href="/sites/" data-nav="sites" data-en="Pollution sites" data-ur="آلودگی کے مقامات" data-hi="प्रदूषण के ठिकाने">Pollution sites</a>
+    <a href="/about/" data-nav="about" data-en="About" data-ur="تعارف" data-hi="परिचय">About</a>
+  </nav>
+  <div class="top-right">
+    <div class="lang" role="group" aria-label="Language">
+      <button data-lang="en">EN</button><button data-lang="ur" lang="ur">اردو</button><button data-lang="hi" lang="hi">हिन्दी</button>
+    </div>
+  </div>
+</header>
+
+<main class="doc">
+<article data-lang="en">
+<h1>Use the data</h1>
+  <p class="lede">Everything on the map is open. You can view it in Google Earth, load it into your own GIS, or read the raw feeds.</p>
+
+  <h2 id="google-earth">Open the live map in Google Earth</h2>
+  <p>One link brings the whole map into Google Earth: <a href="/hamarihawa.kml"><code>hamarihawa.org/hamarihawa.kml</code></a>. Each layer can be switched on and off and refreshes on its own schedule:</p>
+  <ul>
+    <li><b>Fires in the last 24 hours</b>, refreshed every 15 minutes, plus a 7-day layer. Colour shows age and size shows fire power. Each fire has the nearest village, time, satellite and likely type.</li>
+    <li><b>City air now</b>: US AQI and PM2.5 for 17 cities, with cigarette and WHO-limit equivalents. These are Copernicus CAMS model estimates, refreshed every 30 minutes.</li>
+    <li><b>Traffic and industry NO₂</b>: our 2-week Sentinel-5P average with the strongest hotspots labelled as traffic, power plant, industry or kiln belt.</li>
+    <li><b>Haze, smoke and the satellite photo</b>: daily NASA images, one day behind so they have finished processing.</li>
+    <li><b>Pollution sites</b>: landfills leaking methane or burning, plants with CO₂ plumes, fossil power plants, always-hot industrial sites and the districts with the most brick kilns.</li>
+  </ul>
+  <h3>How to open it</h3>
+  <ul>
+    <li><b>Google Earth Pro (desktop)</b>: Add → Network Link, and paste the link. The layers then refresh by themselves.</li>
+    <li><b>Google Earth on the web or phone</b>: download the file, then Projects → Open → Import KML file. It loads the latest data each time you open it.</li>
+  </ul>
+
+  <h2 id="google-maps">What about Google Maps?</h2>
+  <p>Google Maps doesn't let outside sources add live layers, and the Google Maps app only shows Google's own data. Google's <b>My Maps</b> can import a KML file, but it keeps a copy that never refreshes, and it allows at most 2,000 places per layer, which a busy day of fires goes over. The pollution sites fit well, so import <a href="/kml/sources.kml"><code>hamarihawa.org/kml/sources.kml</code></a> into My Maps. For anything live, use Google Earth.</p>
+
+  <h2 id="gis">QGIS, ArcGIS, Civil 3D and other tools</h2>
+  <p>These are standard KML files, so any GIS or CAD tool that reads KML can use them. The individual layers are:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Layer</th><th>Link</th><th>Updated</th></tr>
+    <tr><td>Fires</td><td><code>/fires.kml?hours=24</code> (also 48, 168)</td><td>Every 15 min</td></tr>
+    <tr><td>City air</td><td><code>/kml/air.kml</code></td><td>Every 30 min</td></tr>
+    <tr><td>Traffic and industry NO₂</td><td><code>/kml/traffic.kml</code></td><td>Daily</td></tr>
+    <tr><td>Haze and satellite photo</td><td><code>/kml/satellite.kml</code></td><td>Daily</td></tr>
+    <tr><td>Pollution sites</td><td><code>/kml/sources.kml</code></td><td>When we rebuild the sources</td></tr>
+  </table></div>
+
+  <h2 id="json">JSON feeds</h2>
+  <p>The site itself runs on these. They can be read from any web page (CORS is open).</p>
+  <ul>
+    <li><code>/api/fires?hours=24</code> (also 48, 168): stats, grouped events and every fire point.</li>
+    <li><code>/api/no2.json</code>: the 2-week NO₂ average's dates, bounds and labelled hotspots. The image is <code>/api/no2.png</code> (Web Mercator) or <code>/api/no2-geo.png</code> (plain latitude and longitude).</li>
+    <li><code>/sources/sites.json</code>: persistent pollution sites by category.</li>
+    <li><code>/sources/kilns.json</code>, <code>osm-landfill.json</code>, <code>osm-industrial.json</code>, <code>plants.json</code>, <code>hotspots.json</code>, <code>carbonmapper.json</code>, <code>roads.json</code>: the source layers.</li>
+  </ul>
+
+  <h2 id="licences">Licences and credit</h2>
+  <ul>
+    <li><b>Fire feed and NO₂ hotspots</b>: CC BY 4.0. Built from NASA FIRMS and Copernicus Sentinel-5P via NASA GIBS, with place names from GeoNames (CC BY 4.0).</li>
+    <li><b>Brick kilns and the Pollution sites list</b>: CC BY-NC 4.0, non-commercial only, because they include SentinelKilnDB (IIT Gandhinagar). The Pakistan kiln emissions come from the Brick Kiln Dataset for Pakistan's IGP Region (CC BY 4.0).</li>
+    <li><b>Landfills, industrial areas, power plants and roads</b>: © OpenStreetMap contributors, ODbL. If you share a changed copy, keep it under ODbL.</li>
+    <li><b>Methane and CO₂ plumes</b>: Carbon Mapper, under its own terms.</li>
+    <li><b>City air</b>: Copernicus CAMS via Open-Meteo (CC BY 4.0).</li>
+  </ul>
+  <p>Please credit "HamariHawa (hamarihawa.org)" along with the original sources. Found a problem, or want the data in another shape? Write to <a href="mailto:hello@hamarihawa.org">hello@hamarihawa.org</a>.</p>
+  <p class="foot-links"><a href="/">← Back to the live map</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a></p>
+</article>
+<article data-lang="ur" hidden>
+<h1>ڈیٹا استعمال کریں</h1>
+  <p class="lede">نقشے کا سارا ڈیٹا کھلا ہے۔ اسے گوگل ارتھ میں دیکھیں، اپنے GIS میں لوڈ کریں، یا براہِ راست فیڈ پڑھیں۔</p>
+
+  <h2 id="google-earth">تازہ نقشہ گوگل ارتھ میں کھولیں</h2>
+  <p>ایک لنک سے پورا نقشہ گوگل ارتھ میں آ جاتا ہے: <a href="/hamarihawa.kml"><code>hamarihawa.org/hamarihawa.kml</code></a>۔ ہر تہہ الگ سے چالو یا بند ہو سکتی ہے اور اپنے وقت پر تازہ ہوتی ہے:</p>
+  <ul>
+    <li><b>پچھلے 24 گھنٹوں کی آگ</b>، ہر 15 منٹ بعد تازہ، اور 7 دن کی تہہ بھی۔ رنگ وقت بتاتا ہے اور سائز آگ کی شدت۔ ہر آگ کے ساتھ قریبی گاؤں، وقت، سیٹلائٹ اور ممکنہ قسم لکھی ہے۔</li>
+    <li><b>شہروں کی ہوا ابھی</b>: 17 شہروں کا US AQI اور PM2.5، سگریٹ اور WHO حد کے موازنے کے ساتھ۔ یہ Copernicus CAMS ماڈل کے اندازے ہیں، ہر 30 منٹ بعد تازہ۔</li>
+    <li><b>ٹریفک اور صنعت کا NO₂</b>: سینٹینل-5P کی دو ہفتوں کی اوسط، اور سب سے مضبوط ہاٹ اسپاٹس پر ٹریفک، بجلی گھر، صنعت یا بھٹوں کی پٹی کا لیبل۔</li>
+    <li><b>دھند، دھواں اور سیٹلائٹ تصویر</b>: ناسا کی روزانہ تصاویر، ایک دن پیچھے تاکہ مکمل تیار ہوں۔</li>
+    <li><b>آلودگی کے مقامات</b>: میتھین خارج کرتی یا جلتی کچرا کنڈیاں، CO₂ کے بادلوں والے پلانٹ، فوسل ایندھن کے بجلی گھر، ہمیشہ گرم صنعتی جگہیں اور سب سے زیادہ بھٹوں والے اضلاع۔</li>
+  </ul>
+  <h3>کیسے کھولیں</h3>
+  <ul>
+    <li><b>گوگل ارتھ پرو (کمپیوٹر)</b>: Add → Network Link میں لنک چسپاں کریں۔ تہیں خود تازہ ہوتی رہیں گی۔</li>
+    <li><b>ویب یا فون پر گوگل ارتھ</b>: فائل ڈاؤن لوڈ کریں، پھر Projects → Open → Import KML file۔ ہر بار کھولنے پر تازہ ڈیٹا آتا ہے۔</li>
+  </ul>
+
+  <h2 id="google-maps">گوگل میپس کا کیا؟</h2>
+  <p>گوگل میپس باہر کے ذرائع کو تازہ تہیں شامل کرنے نہیں دیتا، اور گوگل میپس ایپ صرف گوگل کا اپنا ڈیٹا دکھاتی ہے۔ گوگل کا <b>My Maps</b> KML فائل امپورٹ کر لیتا ہے، مگر اس کی ایک نقل رکھتا ہے جو کبھی تازہ نہیں ہوتی، اور ایک تہہ میں زیادہ سے زیادہ 2,000 جگہیں رکھتا ہے، جبکہ مصروف دن میں آگ اس سے زیادہ ہوتی ہے۔ آلودگی کے مقامات اس میں آسانی سے آ جاتے ہیں، اس لیے My Maps میں <a href="/kml/sources.kml"><code>hamarihawa.org/kml/sources.kml</code></a> امپورٹ کریں۔ تازہ ڈیٹا کے لیے گوگل ارتھ استعمال کریں۔</p>
+
+  <h2 id="gis">QGIS، ArcGIS، Civil 3D اور دوسرے پروگرام</h2>
+  <p>یہ عام KML فائلیں ہیں، اس لیے KML پڑھنے والا کوئی بھی GIS یا CAD پروگرام انہیں استعمال کر سکتا ہے۔ الگ الگ تہیں یہ ہیں:</p>
+  <div class="table-wrap"><table>
+    <tr><th>تہہ</th><th>لنک</th><th>تازگی</th></tr>
+    <tr><td>آگ</td><td><code>/fires.kml?hours=24</code> (48، 168 بھی)</td><td>ہر 15 منٹ</td></tr>
+    <tr><td>شہروں کی ہوا</td><td><code>/kml/air.kml</code></td><td>ہر 30 منٹ</td></tr>
+    <tr><td>ٹریفک اور صنعت کا NO₂</td><td><code>/kml/traffic.kml</code></td><td>روزانہ</td></tr>
+    <tr><td>دھند اور سیٹلائٹ تصویر</td><td><code>/kml/satellite.kml</code></td><td>روزانہ</td></tr>
+    <tr><td>آلودگی کے مقامات</td><td><code>/kml/sources.kml</code></td><td>جب ہم ذرائع دوبارہ بنائیں</td></tr>
+  </table></div>
+
+  <h2 id="json">JSON فیڈ</h2>
+  <p>سائٹ خود انہی پر چلتی ہے۔ انہیں کسی بھی ویب صفحے سے پڑھا جا سکتا ہے (CORS کھلا ہے)۔</p>
+  <ul>
+    <li><code>/api/fires?hours=24</code> (48، 168 بھی): اعداد و شمار، گروپ کیے واقعات اور ہر آگ کا مقام۔</li>
+    <li><code>/api/no2.json</code>: دو ہفتوں کی NO₂ اوسط کی تاریخیں، حدود اور لیبل والے ہاٹ اسپاٹ۔ تصویر <code>/api/no2.png</code> (ویب مرکیٹر) یا <code>/api/no2-geo.png</code> (سادہ عرض و طول) ہے۔</li>
+    <li><code>/sources/sites.json</code>: قسم وار مستقل آلودگی کے مقامات۔</li>
+    <li><code>/sources/kilns.json</code>، <code>osm-landfill.json</code>، <code>osm-industrial.json</code>، <code>plants.json</code>، <code>hotspots.json</code>، <code>carbonmapper.json</code>، <code>roads.json</code>: ذرائع کی تہیں۔</li>
+  </ul>
+
+  <h2 id="licences">لائسنس اور حوالہ</h2>
+  <ul>
+    <li><b>آگ کی فیڈ اور NO₂ ہاٹ اسپاٹ</b>: CC BY 4.0۔ ناسا FIRMS اور Copernicus Sentinel-5P (ناسا GIBS کے ذریعے) سے، جگہوں کے نام GeoNames (CC BY 4.0) سے۔</li>
+    <li><b>اینٹوں کے بھٹے اور آلودگی کے مقامات کی فہرست</b>: CC BY-NC 4.0، صرف غیر تجارتی استعمال، کیونکہ ان میں SentinelKilnDB (IIT گاندھی نگر) شامل ہے۔ پاکستان کے بھٹوں کا اخراج Brick Kiln Dataset for Pakistan's IGP Region (CC BY 4.0) سے ہے۔</li>
+    <li><b>کچرا کنڈیاں، صنعتی علاقے، بجلی گھر اور سڑکیں</b>: © OpenStreetMap، ODbL۔ ترمیم شدہ نقل شیئر کریں تو اسے ODbL ہی کے تحت رکھیں۔</li>
+    <li><b>میتھین اور CO₂ کے بادل</b>: Carbon Mapper، اس کی اپنی شرائط کے تحت۔</li>
+    <li><b>شہروں کی ہوا</b>: Copernicus CAMS، Open-Meteo کے ذریعے (CC BY 4.0)۔</li>
+  </ul>
+  <p>براہِ کرم اصل ذرائع کے ساتھ "HamariHawa (hamarihawa.org)" کا حوالہ دیں۔ کوئی مسئلہ ملے یا ڈیٹا کسی اور شکل میں چاہیے؟ لکھیں: <a href="mailto:hello@hamarihawa.org">hello@hamarihawa.org</a></p>
+  <p class="foot-links"><a href="/">تازہ نقشے پر واپس →</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a></p>
+</article>
+<article data-lang="hi" hidden>
+<h1>डेटा इस्तेमाल करें</h1>
+  <p class="lede">नक्शे का सारा डेटा खुला है। इसे गूगल अर्थ में देखें, अपने GIS में लोड करें, या सीधे फ़ीड पढ़ें।</p>
+
+  <h2 id="google-earth">लाइव नक्शा गूगल अर्थ में खोलें</h2>
+  <p>एक लिंक से पूरा नक्शा गूगल अर्थ में आ जाता है: <a href="/hamarihawa.kml"><code>hamarihawa.org/hamarihawa.kml</code></a>। हर परत अलग से चालू या बंद हो सकती है और अपने समय पर ताज़ा होती है:</p>
+  <ul>
+    <li><b>पिछले 24 घंटे की आग</b>, हर 15 मिनट में ताज़ा, और 7 दिन की परत भी। रंग समय बताता है और आकार आग की ताक़त। हर आग के साथ नज़दीकी गाँव, समय, उपग्रह और संभावित प्रकार लिखा है।</li>
+    <li><b>शहरों की हवा अभी</b>: 17 शहरों का US AQI और PM2.5, सिगरेट और WHO सीमा की तुलना के साथ। ये Copernicus CAMS मॉडल के अनुमान हैं, हर 30 मिनट में ताज़ा।</li>
+    <li><b>ट्रैफ़िक और उद्योग का NO₂</b>: सेंटिनल-5P का दो हफ़्तों का औसत, और सबसे मज़बूत हॉटस्पॉट पर ट्रैफ़िक, बिजलीघर, उद्योग या भट्ठा पट्टी का लेबल।</li>
+    <li><b>धुंध, धुआँ और उपग्रह तस्वीर</b>: नासा की रोज़ की तस्वीरें, एक दिन पीछे ताकि पूरी तैयार हों।</li>
+    <li><b>प्रदूषण के ठिकाने</b>: मीथेन छोड़ते या जलते कचरा डंप, CO₂ गुबार वाले संयंत्र, जीवाश्म ईंधन के बिजलीघर, हमेशा गर्म औद्योगिक जगहें और सबसे ज़्यादा भट्ठों वाले ज़िले।</li>
+  </ul>
+  <h3>कैसे खोलें</h3>
+  <ul>
+    <li><b>गूगल अर्थ प्रो (कंप्यूटर)</b>: Add → Network Link में लिंक चिपकाएँ। परतें अपने आप ताज़ा होती रहेंगी।</li>
+    <li><b>वेब या फ़ोन पर गूगल अर्थ</b>: फ़ाइल डाउनलोड करें, फिर Projects → Open → Import KML file। हर बार खोलने पर ताज़ा डेटा आता है।</li>
+  </ul>
+
+  <h2 id="google-maps">गूगल मैप्स का क्या?</h2>
+  <p>गूगल मैप्स बाहरी स्रोतों को लाइव परतें जोड़ने नहीं देता, और गूगल मैप्स ऐप सिर्फ़ गूगल का अपना डेटा दिखाता है। गूगल का <b>My Maps</b> KML फ़ाइल इम्पोर्ट कर लेता है, पर उसकी एक कॉपी रखता है जो कभी ताज़ा नहीं होती, और एक परत में ज़्यादा से ज़्यादा 2,000 जगहें रखता है, जबकि व्यस्त दिन में आग इससे ज़्यादा होती है। प्रदूषण के ठिकाने इसमें आराम से आ जाते हैं, इसलिए My Maps में <a href="/kml/sources.kml"><code>hamarihawa.org/kml/sources.kml</code></a> इम्पोर्ट करें। लाइव डेटा के लिए गूगल अर्थ इस्तेमाल करें।</p>
+
+  <h2 id="gis">QGIS, ArcGIS, Civil 3D और दूसरे टूल</h2>
+  <p>ये सामान्य KML फ़ाइलें हैं, इसलिए KML पढ़ने वाला कोई भी GIS या CAD टूल इन्हें इस्तेमाल कर सकता है। अलग-अलग परतें ये हैं:</p>
+  <div class="table-wrap"><table>
+    <tr><th>परत</th><th>लिंक</th><th>ताज़गी</th></tr>
+    <tr><td>आग</td><td><code>/fires.kml?hours=24</code> (48, 168 भी)</td><td>हर 15 मिनट</td></tr>
+    <tr><td>शहरों की हवा</td><td><code>/kml/air.kml</code></td><td>हर 30 मिनट</td></tr>
+    <tr><td>ट्रैफ़िक और उद्योग का NO₂</td><td><code>/kml/traffic.kml</code></td><td>रोज़</td></tr>
+    <tr><td>धुंध और उपग्रह तस्वीर</td><td><code>/kml/satellite.kml</code></td><td>रोज़</td></tr>
+    <tr><td>प्रदूषण के ठिकाने</td><td><code>/kml/sources.kml</code></td><td>जब हम स्रोत दोबारा बनाएँ</td></tr>
+  </table></div>
+
+  <h2 id="json">JSON फ़ीड</h2>
+  <p>साइट ख़ुद इन्हीं पर चलती है। इन्हें किसी भी वेब पेज से पढ़ा जा सकता है (CORS खुला है)।</p>
+  <ul>
+    <li><code>/api/fires?hours=24</code> (48, 168 भी): आँकड़े, समूह में बँटी घटनाएँ और हर आग की जगह।</li>
+    <li><code>/api/no2.json</code>: दो हफ़्तों के NO₂ औसत की तारीख़ें, सीमाएँ और लेबल वाले हॉटस्पॉट। तस्वीर <code>/api/no2.png</code> (वेब मर्केटर) या <code>/api/no2-geo.png</code> (सादा अक्षांश-देशांतर) है।</li>
+    <li><code>/sources/sites.json</code>: श्रेणीवार स्थायी प्रदूषण ठिकाने।</li>
+    <li><code>/sources/kilns.json</code>, <code>osm-landfill.json</code>, <code>osm-industrial.json</code>, <code>plants.json</code>, <code>hotspots.json</code>, <code>carbonmapper.json</code>, <code>roads.json</code>: स्रोतों की परतें।</li>
+  </ul>
+
+  <h2 id="licences">लाइसेंस और श्रेय</h2>
+  <ul>
+    <li><b>आग की फ़ीड और NO₂ हॉटस्पॉट</b>: CC BY 4.0। नासा FIRMS और Copernicus Sentinel-5P (नासा GIBS के ज़रिए) से, जगहों के नाम GeoNames (CC BY 4.0) से।</li>
+    <li><b>ईंट भट्ठे और प्रदूषण ठिकानों की सूची</b>: CC BY-NC 4.0, सिर्फ़ ग़ैर-व्यावसायिक इस्तेमाल, क्योंकि इनमें SentinelKilnDB (IIT गांधीनगर) शामिल है। पाकिस्तान के भट्ठों का उत्सर्जन Brick Kiln Dataset for Pakistan's IGP Region (CC BY 4.0) से है।</li>
+    <li><b>कचरा डंप, औद्योगिक इलाक़े, बिजलीघर और सड़कें</b>: © OpenStreetMap, ODbL। बदली हुई कॉपी साझा करें तो उसे ODbL के तहत ही रखें।</li>
+    <li><b>मीथेन और CO₂ के गुबार</b>: Carbon Mapper, उसकी अपनी शर्तों के तहत।</li>
+    <li><b>शहरों की हवा</b>: Copernicus CAMS, Open-Meteo के ज़रिए (CC BY 4.0)।</li>
+  </ul>
+  <p>कृपया मूल स्रोतों के साथ "HamariHawa (hamarihawa.org)" का श्रेय दें। कोई समस्या मिले या डेटा किसी और रूप में चाहिए? लिखें: <a href="mailto:hello@hamarihawa.org">hello@hamarihawa.org</a></p>
+  <p class="foot-links"><a href="/">← लाइव नक्शे पर वापस</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a></p>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+(() => {
+  let lang = "en";
+  try { lang = localStorage.getItem("hh-lang") || "en"; } catch {}
+  const qLang = new URLSearchParams(location.search).get("lang");
+  if (qLang) lang = qLang;
+  if (!["en", "ur", "hi"].includes(lang)) lang = "en";
+  function apply() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
+    document.querySelectorAll("article[data-lang]").forEach((a) => { a.hidden = a.dataset.lang !== lang; });
+    document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
+    document.querySelectorAll("[data-en]").forEach((el) => { el.textContent = el.dataset[lang] || el.dataset.en; });
+    sketch();
+  }
+  function sketch() {
+    if (!window.rough) return;
+    document.querySelectorAll("article:not([hidden]) .sketch").forEach((el) => {
+      const w = el.clientWidth, h = el.clientHeight;
+      el.querySelector("svg.rough")?.remove();
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "rough"); svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      svg.appendChild(rough.svg(svg).rectangle(1.5, 1.5, w - 3, h - 3, { roughness: 1, bowing: 0.8, stroke: "#2b2b2b", strokeWidth: 1.1, seed: 5 }));
+      el.appendChild(svg);
+    });
+  }
+  document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
+    lang = b.dataset.lang;
+    try { localStorage.setItem("hh-lang", lang); } catch {}
+    apply();
+  }));
+  addEventListener("resize", sketch);
+  if (!window.rough) document.documentElement.classList.add("no-rough");
+  apply();
+})();
+</script>
+</body>
+</html>
