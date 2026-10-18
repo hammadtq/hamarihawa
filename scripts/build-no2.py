@@ -150,6 +150,19 @@ def main():
     img.save(png, "PNG", optimize=True)
     open(os.path.join(a.out, "no2.png"), "wb").write(png.getvalue())
 
+    # The same picture in plain lat/lon rows for Google Earth, whose ground overlays assume an
+    # equirectangular image (the Mercator one would sit up to ~30 km off).
+    s_, n_ = tile2lat(Y1 + 1, Z), tile2lat(Y0, Z)
+    geo = Image.new("RGBA", (W, H))
+    for r in range(H):
+        la = math.radians(n_ - (n_ - s_) * (r + 0.5) / H)
+        ty = (1 - math.log(math.tan(la) + 1 / math.cos(la)) / math.pi) / 2 * 2 ** Z
+        src = min(H - 1, max(0, int((ty - Y0) * 256)))
+        geo.paste(img.crop((0, src, W, src + 1)), (0, r))
+    geo_png = io.BytesIO()
+    geo.save(geo_png, "PNG", optimize=True)
+    open(os.path.join(a.out, "no2-geo.png"), "wb").write(geo_png.getvalue())
+
     # Hotspots: local maxima of a 5x5-smoothed field, at least 1.8x the regional median.
     def at(x, y):
         return mean[y * W + x] if 0 <= x < W and 0 <= y < H else None
@@ -249,6 +262,7 @@ def main():
         base = f"https://api.cloudflare.com/client/v4/accounts/{acct}/storage/kv/namespaces/{ns}/values"
         auth = {"Authorization": f"Bearer {tok}"}
         get(f"{base}/no2-png", data=png.getvalue(), method="PUT", headers={**auth, "Content-Type": "application/octet-stream"})
+        get(f"{base}/no2-geo-png", data=geo_png.getvalue(), method="PUT", headers={**auth, "Content-Type": "application/octet-stream"})
         get(f"{base}/no2-json", data=json.dumps(meta).encode(), method="PUT", headers={**auth, "Content-Type": "application/json"})
         print("uploaded to KV")
 

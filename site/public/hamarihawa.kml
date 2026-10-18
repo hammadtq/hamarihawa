@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>HamariHawa: live fires, Pakistan and North India</name>
-    <description>Fires seen by NASA satellites in the last 24 hours, refreshed every 15 minutes. Live map: https://hamarihawa.org</description>
+    <name>HamariHawa: live air map of Pakistan and North India</name>
+    <description>Fires, city air, traffic NO₂, haze and pollution sites from satellite data, each refreshing on its own schedule. Live map: https://hamarihawa.org</description>
+    <open>1</open>
+    <LookAt><longitude>75.5</longitude><latitude>29.8</latitude><range>1900000</range></LookAt>
     <NetworkLink>
-      <name>Fires, last 24 hours</name>
-      <open>1</open>
-      <Link>
-        <href>https://hamarihawa.org/fires.kml?hours=24</href>
-        <refreshMode>onInterval</refreshMode>
-        <refreshInterval>900</refreshInterval>
-      </Link>
+      <name>Fires, last 24 hours (NASA FIRMS)</name>
+      <Link><href>https://hamarihawa.org/fires.kml?hours=24</href><refreshMode>onInterval</refreshMode><refreshInterval>900</refreshInterval></Link>
     </NetworkLink>
     <NetworkLink>
       <name>Fires, last 7 days</name>
       <visibility>0</visibility>
-      <Link>
-        <href>https://hamarihawa.org/fires.kml?hours=168</href>
-        <refreshMode>onInterval</refreshMode>
-        <refreshInterval>3600</refreshInterval>
-      </Link>
+      <Link><href>https://hamarihawa.org/fires.kml?hours=168</href><refreshMode>onInterval</refreshMode><refreshInterval>3600</refreshInterval></Link>
+    </NetworkLink>
+    <NetworkLink>
+      <name>City air now (US AQI, model estimate)</name>
+      <Link><href>https://hamarihawa.org/kml/air.kml</href><refreshMode>onInterval</refreshMode><refreshInterval>1800</refreshInterval></Link>
+    </NetworkLink>
+    <NetworkLink>
+      <name>Traffic and industry NO₂ (2-week average)</name>
+      <visibility>0</visibility>
+      <Link><href>https://hamarihawa.org/kml/traffic.kml</href><refreshMode>onInterval</refreshMode><refreshInterval>21600</refreshInterval></Link>
+    </NetworkLink>
+    <NetworkLink>
+      <name>Haze, smoke and satellite photo (NASA GIBS)</name>
+      <visibility>0</visibility>
+      <Link><href>https://hamarihawa.org/kml/satellite.kml</href><refreshMode>onInterval</refreshMode><refreshInterval>21600</refreshInterval></Link>
+    </NetworkLink>
+    <NetworkLink>
+      <name>Pollution sites: landfills, plants, always-hot sites, kiln belts</name>
+      <Link><href>https://hamarihawa.org/kml/sources.kml</href><refreshMode>onInterval</refreshMode><refreshInterval>86400</refreshInterval></Link>
     </NetworkLink>
   </Document>
 </kml>

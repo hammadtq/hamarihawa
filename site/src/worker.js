@@ -1,3 +1,4 @@
+import { airKml, trafficKml, satelliteKml, kmlResponse } from "./kml.js";
 // Hamari Hawa: serves the static site and the fire feed.
 // The feed itself is built every 15 minutes by scripts/build-feed.py (GitHub Actions)
 // and stored in KV, because naming every fire after its village is too much work
@@ -77,6 +78,20 @@ async function handle(request, env, url) {
         "content-disposition": `inline; filename="hamarihawa-fires-${hours}h.kml"`,
         "cache-control": "public, max-age=300", "access-control-allow-origin": "*" } });
     }
+    if (url.pathname === "/api/no2-geo.png") {
+      const body = await env.FEED.get("no2-geo-png", { type: "arrayBuffer", cacheTtl: 300 });
+      if (!body) return new Response("not built yet", { status: 503 });
+      return new Response(body, { headers: { "content-type": "image/png", "cache-control": "public, max-age=900", "access-control-allow-origin": "*" } });
+    }
+    if (url.pathname === "/kml/air.kml") {
+      const body = await airKml();
+      return body ? kmlResponse(body, 1800) : new Response("City air is unavailable right now.", { status: 503 });
+    }
+    if (url.pathname === "/kml/traffic.kml") {
+      const meta = await env.FEED.get("no2-json", { type: "json", cacheTtl: 300 });
+      return meta ? kmlResponse(trafficKml(meta), 3600) : new Response("not built yet", { status: 503 });
+    }
+    if (url.pathname === "/kml/satellite.kml") return kmlResponse(satelliteKml(), 3600);
     if (url.pathname !== "/api/fires") {
       const res = await env.ASSETS.fetch(request);
       // hamarihawa.org is the canonical site; keep the workers.dev copy out of search results.
