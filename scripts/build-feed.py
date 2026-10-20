@@ -13,7 +13,7 @@ Upload needs CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID and KV_NAMESPACE_ID in 
 Uploads are skipped when NASA's files haven't changed since the last run (KV key "meta").
 """
 import argparse, csv, io, json, math, os, sys, time, urllib.request, urllib.error
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 PLACES = os.path.join(ROOT, "site", "public", "places")
@@ -161,6 +161,23 @@ def parse(sat_i, sat, text):
     return out
 
 
+def distinct(points):
+    """Distinct fire spots: merge the same ~400 m spot seen by several VIIRS satellites,
+    and drop MODIS (1 km) detections that a VIIRS satellite already caught nearby.
+    Keyed dict of the first (newest) point at each spot."""
+    spots, viirs_grid = {}, set()
+    for p in points:
+        if p["si"] < 3:
+            spots.setdefault((round(p["lat"] / 0.004), round(p["lon"] / 0.004)), p)
+            viirs_grid.add((round(p["lat"] / 0.01), round(p["lon"] / 0.01)))
+    for p in points:
+        if p["si"] == 3:
+            g = (round(p["lat"] / 0.01), round(p["lon"] / 0.01))
+            if not any((g[0] + i, g[1] + j) in viirs_grid for i in (-1, 0, 1) for j in (-1, 0, 1)):
+                spots.setdefault(("m",) + g, p)
+    return spots
+
+
 def build(hours, csvs):
     points = []
     for (si, sat, _), text in zip(SOURCES, csvs):
@@ -224,18 +241,7 @@ def build(hours, csvs):
         e["kind"] = max(e["kinds"].items(), key=lambda kv: kv[1])[0]
     events.sort(key=lambda e: (-e["t"], -e["n"]))
 
-    # Distinct fire spots: merge the same ~400 m spot seen by several VIIRS satellites,
-    # and drop MODIS (1 km) detections that a VIIRS satellite already caught nearby.
-    spots, viirs_grid = {}, set()
-    for p in points:
-        if p["si"] < 3:
-            spots.setdefault((round(p["lat"] / 0.004), round(p["lon"] / 0.004)), p)
-            viirs_grid.add((round(p["lat"] / 0.01), round(p["lon"] / 0.01)))
-    for p in points:
-        if p["si"] == 3:
-            g = (round(p["lat"] / 0.01), round(p["lon"] / 0.01))
-            if not any((g[0] + i, g[1] + j) in viirs_grid for i in (-1, 0, 1) for j in (-1, 0, 1)):
-                spots.setdefault(("m",) + g, p)
+    spots = distinct(points)
     stats = {"detections": len(points), "spots": len(spots), "pk": 0, "in": 0, "crop": 0, "kinds": {}}
     by_d = {}
     for p in spots.values():
@@ -262,6 +268,8 @@ def build(hours, csvs):
         "points": [row(p) for p in points],
         # One placemark per distinct spot for the KML; removed before the JSON is written.
         "_spots": [row(p) for p in points if id(p) in spot_ids],
+        # Every point, for the daily archive and the trend; also removed before writing.
+        "_all": points,
     }
 
 
@@ -302,6 +310,54 @@ def kml(feed):
     return "\n".join(out).encode()
 
 
+# Days run on Pakistan time (UTC+5) so the ~1:30 am pass belongs to the date it happened on.
+LOCAL = timedelta(hours=5)
+TREND_DAYS = 14
+
+
+def local_date(t):
+    return (datetime.fromtimestamp(t / 1000, timezone.utc) + LOCAL).strftime("%Y-%m-%d")
+
+
+def summarise(spots):
+    s = {"spots": len(spots), "pk": 0, "in": 0, "night": 0, "crop": 0, "frp": 0}
+    for p in spots:
+        if p["cc"] == "PK": s["pk"] += 1
+        elif p["cc"] == "IN": s["in"] += 1
+        if p["night"]: s["night"] += 1
+        if p["kind"] == "crop": s["crop"] += 1
+        s["frp"] += p["frp"]
+    s["frp"] = round(s["frp"])
+    return s
+
+
+def archive(points, now):
+    """Split the 7-day points into Pakistan-time days. Returns {date: day file}. The oldest date in
+    the window is cut off part way, so it is left out."""
+    by_day = {}
+    for p in points:
+        by_day.setdefault(local_date(p["t"]), []).append(p)
+    first = local_date(now - 168 * 3600 * 1000)
+    out = {}
+    for date, pts in sorted(by_day.items()):
+        if date <= first:
+            continue
+        spots = sorted(distinct(pts).values(), key=lambda p: p["t"])
+        out[date] = {"date": date, "summary": summarise(spots),
+                     "fields": ["lat", "lon", "t", "frp", "sat", "district", "state", "cc", "kind", "night"],
+                     "spots": [[p["lat"], p["lon"], p["t"], round(p["frp"], 1),
+                                {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}[p["sat"]],
+                                p["district"], p["state"], p["cc"], p["kind"], 1 if p["night"] else 0] for p in spots]}
+    return out
+
+
+def previous(points, now, hours):
+    """Spots in the window just before the last `hours`, for the "up on yesterday" tag."""
+    lo, hi = now - 2 * hours * 3600 * 1000, now - hours * 3600 * 1000
+    s = summarise(list(distinct([p for p in points if lo <= p["t"] < hi]).values()))
+    return {k: s[k] for k in ("spots", "pk", "in")}
+
+
 def kv(method, key, body=None):
     acct, ns, tok = os.environ["CLOUDFLARE_ACCOUNT_ID"], os.environ["KV_NAMESPACE_ID"], os.environ["CLOUDFLARE_API_TOKEN"]
     url = f"https://api.cloudflare.com/client/v4/accounts/{acct}/storage/kv/namespaces/{ns}/values/{key}"
@@ -328,7 +384,13 @@ def main():
             print("NASA files unchanged since last upload; nothing to do")
             return
 
-    for hours, win in WINDOWS.items():
+    # The 7-day file goes first: it feeds the daily archive and the trend shown on the shorter windows.
+    days_path = os.path.join(a.out, "days.json")
+    index = json.loads(kv("GET", "days") or b"{}") if a.upload else (
+        json.load(open(days_path)) if os.path.exists(days_path) else {})
+    now, history = int(time.time() * 1000), None
+    for hours in sorted(WINDOWS, reverse=True):
+        win = WINDOWS[hours]
         csvs = []
         for _, sat, path in SOURCES:
             body, _ = get(f"{FIRMS}/{path}_{win}.csv")
@@ -336,8 +398,34 @@ def main():
         if not any(csvs):
             sys.exit(f"no FIRMS data for {win}")
         feed = build(hours, csvs)
+        if hours == 168:
+            history = feed["_all"]
+            days = archive(history, now)
+            today = local_date(now)
+            yesterday = local_date(now - 86400 * 1000)
+            os.makedirs(os.path.join(a.out, "days"), exist_ok=True)
+            for date, day in days.items():
+                # Today and yesterday are still filling in; older days are only written once.
+                if date not in index or date in (today, yesterday):
+                    dbody = json.dumps(day, separators=(",", ":"), ensure_ascii=False).encode()
+                    open(os.path.join(a.out, "days", f"{date}.json"), "wb").write(dbody)
+                    if a.upload:
+                        kv("PUT", f"day-{date}", dbody)
+                index[date] = {**day["summary"], "partial": date == today}
+            ibody = json.dumps(index, separators=(",", ":"), sort_keys=True).encode()
+            open(days_path, "wb").write(ibody)
+            if a.upload:
+                kv("PUT", "days", ibody)
+            print(f"archive: {len(days)} days, {len(index)} in index")
+        recent = sorted(index)[-TREND_DAYS:]
+        feed["trend"] = {
+            "prev": previous(history, now, hours) if hours < 168 else None,
+            "fields": ["date", "spots", "pk", "in", "night", "partial"],
+            "days": [[d, index[d]["spots"], index[d]["pk"], index[d]["in"], index[d]["night"],
+                      1 if index[d].get("partial") else 0] for d in recent],
+        }
         kbody = kml(feed)
-        del feed["_spots"]
+        del feed["_spots"], feed["_all"]
         body = json.dumps(feed, separators=(",", ":"), ensure_ascii=False).encode()
         open(os.path.join(a.out, f"fires-{hours}.json"), "wb").write(body)
         print(f"{win}: {feed['stats']['spots']} spots, {len(feed['events'])} events, {len(body) // 1024} KB")

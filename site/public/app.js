@@ -428,6 +428,34 @@
     return s;
   }
 
+  // "↑ 55% on the 24 h before" plus a bar per day from the daily archive. Follows the country chip.
+  function renderTrend(d, total, w) {
+    const box = $("#hTrend"), tr = d.trend;
+    const pick = (o) => (state.cc === "PK" ? o.pk : state.cc === "IN" ? o.in : o.spots);
+    const days = (tr?.days || []).map(([date, spots, pk, inn, , partial]) => ({ date, n: pick({ spots, pk, in: inn }), partial }));
+    if (!tr || (!tr.prev && days.length < 2)) { box.hidden = true; return; }
+    let txt = "";
+    if (tr.prev && pick(tr.prev) > 0) {
+      const pct = Math.round(((total - pick(tr.prev)) / pick(tr.prev)) * 100);
+      txt = Math.abs(pct) < 5 ? t("trendSame", { w }) : t(pct > 0 ? "trendUp" : "trendDown", { p: nf(Math.abs(pct)), w });
+      box.classList.toggle("up", pct >= 5);
+    } else {
+      txt = t("trendDays", { n: nf(days.length) });
+      box.classList.remove("up");
+    }
+    $("#hTrendTxt").textContent = txt;
+    box.title = t("trendNote");
+    const svg = $("#hSpark"), max = Math.max(1, ...days.map((x) => x.n)), bw = 5, gap = 2, h = 18;
+    svg.setAttribute("viewBox", `0 0 ${days.length * (bw + gap) - gap} ${h}`);
+    svg.style.width = `${days.length * (bw + gap) - gap}px`;
+    const fmt = new Intl.DateTimeFormat(LOCALES[state.lang], { day: "numeric", month: "short", timeZone: "Asia/Karachi" });
+    svg.innerHTML = days.map((x, i) => {
+      const bh = Math.max(1, Math.round((x.n / max) * h));
+      return `<rect x="${i * (bw + gap)}" y="${h - bh}" width="${bw}" height="${bh}" rx="1"${x.partial ? ' class="partial"' : ""}><title>${esc(fmt.format(Date.parse(x.date + "T12:00:00+05:00")))}: ${nf(x.n)}</title></rect>`;
+    }).join("");
+    box.hidden = false;
+  }
+
   function renderFeed() {
     const d = state.data;
     if (!d) return;
@@ -437,6 +465,7 @@
     const w = state.hours == 24 ? t("window24") : state.hours == 48 ? t("window48") : t("window7d");
     $("#hFiresLbl").textContent = t("headLbl", { w });
     $("#hSplit").textContent = t("headSplit", { pk: nf(s.pk), in: nf(s.in) });
+    renderTrend(d, total, w);
 
     let evs = d.events.filter((e) => !state.cc || e.cc === state.cc);
     if (state.me) evs = evs.map((e) => ({ ...e, _km: distKm(state.me, [e.lat, e.lon]) })).filter((e) => e._km < 150);

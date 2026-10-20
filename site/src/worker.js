@@ -85,6 +85,19 @@ async function handle(request, env, url) {
       return new Response(body, { headers: { "content-type": "image/png", "cache-control": "public, max-age=900", "access-control-allow-origin": "*" } });
     }
     // Wind right now on a 1° grid over the plains (Open-Meteo, one request for all points, cached at the edge).
+    // Daily archive: the index of per-day totals, and each Pakistan-time day's distinct fire spots.
+    if (url.pathname === "/api/days") {
+      const body = await env.FEED.get("days", { cacheTtl: 300 });
+      return body ? json(body, 200, 600) : json(JSON.stringify({}), 200, 60);
+    }
+    if (url.pathname === "/api/day") {
+      const d = url.searchParams.get("d") || "";
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return json(JSON.stringify({ error: "Use ?d=YYYY-MM-DD" }), 400, 3600);
+      const body = await env.FEED.get(`day-${d}`, { cacheTtl: 300 });
+      if (!body) return json(JSON.stringify({ error: "No archive for that day" }), 404, 300);
+      return json(body, 200, 900);
+    }
+
     if (url.pathname === "/api/wind") {
       const lats = [], lons = [];
       for (let la = WIND.s; la <= WIND.n; la++) for (let lo = WIND.w; lo <= WIND.e; lo++) { lats.push(la); lons.push(lo); }

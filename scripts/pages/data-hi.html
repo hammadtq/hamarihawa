@@ -34,6 +34,8 @@
   <p>साइट ख़ुद इन्हीं पर चलती है। इन्हें किसी भी वेब पेज से पढ़ा जा सकता है (CORS खुला है)।</p>
   <ul>
     <li><code>/api/fires?hours=24</code> (48, 168 भी): आँकड़े, समूह में बँटी घटनाएँ और हर आग की जगह।</li>
+    <li><code>/api/days</code>: रोज़ की आग की कुल गिनती (पाकिस्तान के समय से, अलग-अलग जगहें, पाकिस्तान और भारत अलग, रात का हिस्सा), 14 अक्टूबर 2026 से सुरक्षित। हर दिन की आग <code>/api/day?d=2026-10-19</code> पर है।</li>
+    <li><code>/api/wind</code>: अभी की हवा 1° के जाल पर (रफ़्तार किमी/घंटा, और जिस दिशा से आ रही है), हर 30 मिनट में ताज़ा।</li>
     <li><code>/api/no2.json</code>: दो हफ़्तों के NO₂ औसत की तारीख़ें, सीमाएँ और लेबल वाले हॉटस्पॉट। तस्वीर <code>/api/no2.png</code> (वेब मर्केटर) या <code>/api/no2-geo.png</code> (सादा अक्षांश-देशांतर) है।</li>
     <li><code>/sources/sites.json</code>: श्रेणीवार स्थायी प्रदूषण ठिकाने।</li>
     <li><code>/sources/kilns.json</code>, <code>osm-landfill.json</code>, <code>osm-industrial.json</code>, <code>plants.json</code>, <code>hotspots.json</code>, <code>carbonmapper.json</code>, <code>roads.json</code>: स्रोतों की परतें।</li>

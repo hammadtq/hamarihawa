@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-20-fire-trend",
+    "date": "2026-10-20",
+    "title": {
+      "en": "Are fires rising? A daily trend, and a daily archive",
+      "ur": "کیا آگ بڑھ رہی ہے؟ روز کا رجحان اور روزانہ ریکارڈ",
+      "hi": "क्या आग बढ़ रही है? रोज़ का रुझान और रोज़ाना रिकॉर्ड"
+    },
+    "body": {
+      "en": "<p>Under the fire count there is now a small bar for each day and a line comparing the last 24 hours with the 24 hours before (for example \"↑ 55% on the 24 h before\"). It follows the Pakistan and India filters. We also now keep every day's fires, starting from 14 October 2026, so we can later show how burning moves across districts, dates, and day and night passes. Satellites can't see fires through cloud or thick smoke, so single days swing. Daily totals are open at <a href=\"/data/#json\">/api/days</a>.</p>",
+      "ur": "<p>آگ کی گنتی کے نیچے اب ہر دن کی ایک چھوٹی پٹی ہے، اور ایک سطر جو پچھلے 24 گھنٹوں کا اس سے پہلے کے 24 گھنٹوں سے موازنہ کرتی ہے (مثلاً \"اس سے پہلے کے 24 گھنٹے سے 55% زیادہ\")۔ یہ پاکستان اور ہندوستان کے فلٹر کے ساتھ بدلتی ہے۔ ہم اب 14 اکتوبر 2026 سے ہر دن کی آگ محفوظ بھی کر رہے ہیں، تاکہ آگے دکھا سکیں کہ آگ اضلاع، تاریخوں اور دن رات کے گزرنے میں کیسے بدلتی ہے۔ بادل یا گہرے دھوئیں میں سیٹلائٹ آگ نہیں دیکھ پاتے، اس لیے ایک دن کی گنتی اوپر نیچے ہوتی ہے۔ روزانہ اعداد <a href=\"/data/#json\">/api/days</a> پر کھلے ہیں۔</p>",
+      "hi": "<p>आग की गिनती के नीचे अब हर दिन की एक छोटी पट्टी है, और एक पंक्ति जो पिछले 24 घंटों की तुलना उससे पहले के 24 घंटों से करती है (जैसे \"उससे पहले के 24 घंटे से 55% ज़्यादा\")। यह पाकिस्तान और भारत के फ़िल्टर के साथ बदलती है। हम अब 14 अक्टूबर 2026 से हर दिन की आग सुरक्षित भी कर रहे हैं, ताकि आगे दिखा सकें कि आग ज़िलों, तारीख़ों और दिन-रात के गुज़रने में कैसे बदलती है। बादल या घने धुएँ में उपग्रह आग नहीं देख पाते, इसलिए एक दिन की गिनती ऊपर-नीचे होती है। रोज़ के आँकड़े <a href=\"/data/#json\">/api/days</a> पर खुले हैं।</p>"
+    }
+  },
+  {
     "id": "2026-10-19-wind",
     "date": "2026-10-19",
     "title": {
