@@ -24,7 +24,8 @@ MONTHS = {
     "hi": "जनवरी फ़रवरी मार्च अप्रैल मई जून जुलाई अगस्त सितंबर अक्टूबर नवंबर दिसंबर".split(),
 }
 NAV = [("/", "map", "Live map", "تازہ نقشہ", "लाइव नक्शा"), ("/sites/", "sites", "Pollution sites", "آلودگی کے مقامات", "प्रदूषण के ठिकाने"),
-       ("/trends/", "trends", "Fire trends", "آگ کا رجحان", "आग का रुझान"), ("/about/", "about", "About", "تعارف", "परिचय")]
+       ("/trends/", "trends", "Fire trends", "آگ کا رجحان", "आग का रुझान"), ("/reports/", "reports", "Reports", "رپورٹس", "रिपोर्ट"),
+       ("/about/", "about", "About", "تعارف", "परिचय")]
 FOOT = {
     "en": '<a href="/">← Back to the live map</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a>',
     "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a>',
@@ -40,7 +41,7 @@ def fmt_date(iso, lang):
 def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=False):
     url = f"{SITE}{path}"
     t, dsc = html.escape(title), html.escape(desc)
-    nav = "\n".join(f'    <a href="{h}" data-nav="{k}"{' aria-current="page"' if h == path else ""} data-en="{en}" data-ur="{ur}" data-hi="{hi}">{en}</a>'
+    nav = "\n".join(f'    <a href="{h}" data-nav="{k}"{' aria-current="page"' if h == path or (k == "reports" and path.startswith("/report")) else ""} data-en="{en}" data-ur="{ur}" data-hi="{hi}">{en}</a>'
                      for h, k, en, ur, hi in NAV)
     arts = "\n".join(f'<article data-lang="{l}"{"" if l == "en" else " hidden"}>\n{articles[l]}\n  <p class="foot-links">{FOOT[l]}</p>\n</article>'
                      for l in LANGS)
@@ -263,7 +264,37 @@ def trends_page():
     print("trends page written")
 
 
+REPORTS = [  # newest first: (path, date, title, summary per language)
+    ("/report/two-punjabs/", "2026-10-20", "Two Punjabs: seven seasons of crop fires", {
+        "en": "Satellite-seen crop fires fell 95% in Indian Punjab since 2021 but not in Pakistani Punjab, which has had more since 2024. Checked against India's official counts, with district tables and why fire counts undercount. In English.",
+        "ur": "2021 کے بعد ہندوستانی پنجاب میں سیٹلائٹ سے دکھنے والی آگ 95% کم ہوئی مگر پاکستانی پنجاب میں نہیں، جہاں 2024 سے زیادہ آگ دکھ رہی ہے۔ ہندوستان کے سرکاری اعداد سے جانچ، اضلاع کی فہرست، اور یہ کہ گنتی کم کیوں ہوتی ہے۔ انگریزی میں۔",
+        "hi": "2021 के बाद भारतीय पंजाब में उपग्रह से दिखने वाली आग 95% कम हुई पर पाकिस्तानी पंजाब में नहीं, जहाँ 2024 से ज़्यादा आग दिख रही है। भारत के सरकारी आँकड़ों से जाँच, ज़िलों की तालिका, और गिनती कम क्यों होती है। अंग्रेज़ी में।"}),
+    ("/report/", "2026-09-15", "Lahore & Islamabad Air Ledger", {
+        "en": "24 months of PM2.5 and AQI in Lahore and Islamabad side by side: monthly IQAir data, sources, health impact and projections. In English, with a PDF.",
+        "ur": "لاہور اور اسلام آباد کے 24 مہینوں کا PM2.5 اور AQI ساتھ ساتھ: IQAir کا ماہانہ ڈیٹا، ذرائع، صحت پر اثر اور اندازے۔ انگریزی میں، PDF کے ساتھ۔",
+        "hi": "लाहौर और इस्लामाबाद के 24 महीनों का PM2.5 और AQI साथ-साथ: IQAir का मासिक डेटा, स्रोत, सेहत पर असर और अनुमान। अंग्रेज़ी में, PDF के साथ।"}),
+]
+
+
+def reports_page():
+    head = {"en": ("Reports", "Longer pieces built from HamariHawa's data, newest first."),
+            "ur": ("رپورٹس", "ہماری ہوا کے ڈیٹا سے بنی تفصیلی رپورٹس، تازہ ترین سب سے پہلے۔"),
+            "hi": ("रिपोर्ट", "हमारी हवा के डेटा से बनी विस्तृत रिपोर्ट, सबसे नई सबसे पहले।")}
+    arts = {l: f'  <h1>{head[l][0]}</h1>\n  <p class="lede">{head[l][1]}</p>\n' + "\n".join(
+        f'  <section class="entry"><time datetime="{d}">{fmt_date(d, l)}</time><h2><a href="{p}">{html.escape(t)}</a></h2><p>{s[l]}</p></section>'
+        for p, d, t, s in REPORTS) for l in LANGS}
+    jsonld = {"@context": "https://schema.org", "@type": "CollectionPage", "@id": f"{SITE}/reports/#page", "name": "HamariHawa reports",
+              "url": f"{SITE}/reports/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG,
+              "hasPart": [{"@type": "Report", "name": t, "url": f"{SITE}{p}", "datePublished": d} for p, d, t, _ in REPORTS]}
+    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and North India: Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
+               arts, jsonld)
+    os.makedirs(os.path.join(PUB, "reports"), exist_ok=True)
+    open(os.path.join(PUB, "reports", "index.html"), "w", encoding="utf-8").write(out)
+    print("reports page written")
+
+
 if __name__ == "__main__":
     data_page()
     trends_page()
+    reports_page()
     updates()

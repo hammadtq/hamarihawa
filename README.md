@@ -4,6 +4,7 @@ Live satellite map of fires, smoke and pollution over Pakistan and North India, 
 
 - `site/`: Cloudflare Worker (`src/worker.js`) plus the static page (`public/`). Deploy with `cd site && npx wrangler deploy`.
 - `scripts/build-feed.py`: downloads NASA FIRMS fire detections (VIIRS + MODIS), names each fire after the nearest GeoNames village, and writes the feed to Workers KV. Runs every 15 minutes from `.github/workflows/feed.yml`. It also keeps a daily archive in KV (`days` index, `day-YYYY-MM-DD` spots, Pakistan time) and adds a `trend` block to each feed.
+- `scripts/season-stats.py` + `scripts/build-report-punjabs.py`: Suomi NPP season stats for the two Punjabs (from the backfill cache) and the Two Punjabs report built from them (`site/public/report/two-punjabs/`).
 - `scripts/backfill-days.py`: one-off fill of past days in the same archive from the FIRMS area API (needs a MAP_KEY in `~/.config/hamarihawa/firms_key`). Seasons 1 Oct–30 Nov 2019–2025 are filled.
 - `scripts/build-places.py`: rebuilds the village index in `site/public/places/` from GeoNames dumps.
 - `scripts/build-no2.py`: 14-day Sentinel-5P NO2 average and labelled traffic/industry hotspots, uploaded to KV daily by `.github/workflows/no2.yml`.

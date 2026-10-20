@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-20-two-punjabs",
+    "date": "2026-10-20",
+    "title": {
+      "en": "Report: Two Punjabs, seven seasons of crop fires",
+      "ur": "رپورٹ: دو پنجاب، فصلوں کی آگ کے سات موسم",
+      "hi": "रिपोर्ट: दो पंजाब, फ़सल की आग के सात मौसम"
+    },
+    "body": {
+      "en": "<p>Our new report, <a href=\"/report/two-punjabs/\">Two Punjabs</a>, counts the crop fires NASA's Suomi NPP satellite saw on both sides of the border every October and November since 2019, the same way on both sides. Indian Punjab's count fell 95% from 2021 to 2025; Pakistani Punjab's didn't fall, and since 2024 it has been higher. Our Indian numbers match India's official counts closely (correlation 0.99). The report also explains why fire counts now undercount Indian burning, and finds no sign of the same shift on the Pakistani side. All reports are now listed under <a href=\"/reports/\">Reports</a>.</p>",
+      "ur": "<p>ہماری نئی رپورٹ <a href=\"/report/two-punjabs/\">دو پنجاب</a> سرحد کے دونوں طرف 2019 سے ہر اکتوبر نومبر میں ناسا کے Suomi NPP سیٹلائٹ کی دیکھی آگ ایک ہی طریقے سے گنتی ہے۔ ہندوستانی پنجاب کی گنتی 2021 سے 2025 تک 95% گری؛ پاکستانی پنجاب کی نہیں گری، اور 2024 سے یہ زیادہ ہے۔ ہمارے ہندوستانی اعداد ہندوستان کے سرکاری اعداد سے بہت قریب ہیں۔ رپورٹ یہ بھی بتاتی ہے کہ گنتی اب ہندوستانی آگ کم کیوں دکھاتی ہے۔ ساری رپورٹس اب <a href=\"/reports/\">رپورٹس</a> میں ہیں۔ رپورٹ انگریزی میں ہے۔</p>",
+      "hi": "<p>हमारी नई रिपोर्ट <a href=\"/report/two-punjabs/\">दो पंजाब</a> सरहद के दोनों तरफ़ 2019 से हर अक्टूबर-नवंबर में नासा के Suomi NPP उपग्रह की देखी आग एक ही तरीक़े से गिनती है। भारतीय पंजाब की गिनती 2021 से 2025 तक 95% गिरी; पाकिस्तानी पंजाब की नहीं गिरी, और 2024 से यह ज़्यादा है। हमारे भारतीय आँकड़े भारत के सरकारी आँकड़ों से बहुत मिलते हैं। रिपोर्ट यह भी बताती है कि गिनती अब भारतीय आग कम क्यों दिखाती है। सारी रिपोर्ट अब <a href=\"/reports/\">रिपोर्ट</a> में हैं। रिपोर्ट अंग्रेज़ी में है।</p>"
+    }
+  },
+  {
     "id": "2026-10-20-trends",
     "date": "2026-10-20",
     "title": {
