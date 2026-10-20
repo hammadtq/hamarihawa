@@ -365,7 +365,9 @@
       new IntersectionObserver((ents, io) => {
         if (!ents.some((e) => e.isIntersecting)) return;
         io.disconnect();
-        fetch("/api/districts").then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => {
+        // Tagged with the archive's latest day, so a browser never keeps a copy older than the index it just read.
+        const last = Object.keys(days).sort().pop();
+        fetch(`/api/districts?v=${last}-${days[last]?.spots ?? 0}`).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => {
           // An empty answer means the district file isn't there; say so rather than show a dead slider.
           if (!d || !Object.keys(d).length) { b.node.querySelector(".bctl").textContent = T("err"); return; }
           dist = d;
@@ -413,7 +415,8 @@
     }, 150);
   });
   renderFilter();
-  fetch("/api/days").then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => {
+  // Always check with the server (it answers from Cloudflare's cache), so a stale browser copy can't break the charts.
+  fetch("/api/days", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => {
     if (!d || !Object.keys(d).length) { failed = true; renderHeadline(); return; }
     days = d;
     build();
