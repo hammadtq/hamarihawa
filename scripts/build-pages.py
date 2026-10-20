@@ -266,9 +266,9 @@ def trends_page():
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
     ("/report/two-punjabs/", "2026-10-20", "Two Punjabs: seven seasons of crop fires", {
-        "en": "Satellite-seen crop fires fell 95% in Indian Punjab since 2021 but not in Pakistani Punjab, which has had more since 2024. Checked against India's official counts, with district tables and why fire counts undercount. In English.",
-        "ur": "2021 کے بعد ہندوستانی پنجاب میں سیٹلائٹ سے دکھنے والی آگ 95% کم ہوئی مگر پاکستانی پنجاب میں نہیں، جہاں 2024 سے زیادہ آگ دکھ رہی ہے۔ ہندوستان کے سرکاری اعداد سے جانچ، اضلاع کی فہرست، اور یہ کہ گنتی کم کیوں ہوتی ہے۔ انگریزی میں۔",
-        "hi": "2021 के बाद भारतीय पंजाब में उपग्रह से दिखने वाली आग 95% कम हुई पर पाकिस्तानी पंजाब में नहीं, जहाँ 2024 से ज़्यादा आग दिख रही है। भारत के सरकारी आँकड़ों से जाँच, ज़िलों की तालिका, और गिनती कम क्यों होती है। अंग्रेज़ी में।"}),
+        "en": "Satellite-seen crop fires fell 95% in Indian Punjab since 2021 but not in Pakistani Punjab, which has had more since 2024. Checked against India's official counts, with district tables and why fire counts undercount.",
+        "ur": "2021 کے بعد ہندوستانی پنجاب میں سیٹلائٹ سے دکھنے والی آگ 95% کم ہوئی مگر پاکستانی پنجاب میں نہیں، جہاں 2024 سے زیادہ آگ دکھ رہی ہے۔ ہندوستان کے سرکاری اعداد سے جانچ، اضلاع کی فہرست، اور یہ کہ گنتی کم کیوں ہوتی ہے۔",
+        "hi": "2021 के बाद भारतीय पंजाब में उपग्रह से दिखने वाली आग 95% कम हुई पर पाकिस्तानी पंजाब में नहीं, जहाँ 2024 से ज़्यादा आग दिख रही है। भारत के सरकारी आँकड़ों से जाँच, ज़िलों की तालिका, और गिनती कम क्यों होती है।"}),
     ("/report/", "2026-09-15", "Lahore & Islamabad Air Ledger", {
         "en": "24 months of PM2.5 and AQI in Lahore and Islamabad side by side: monthly IQAir data, sources, health impact and projections. In English, with a PDF.",
         "ur": "لاہور اور اسلام آباد کے 24 مہینوں کا PM2.5 اور AQI ساتھ ساتھ: IQAir کا ماہانہ ڈیٹا، ذرائع، صحت پر اثر اور اندازے۔ انگریزی میں، PDF کے ساتھ۔",
