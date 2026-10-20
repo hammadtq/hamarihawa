@@ -196,7 +196,7 @@ def updates():
     entries.sort(key=lambda e: e["date"], reverse=True)
     head = {
         "en": ("What's new", "Everything we add or fix on HamariHawa, newest first. Follow along with the <a href=\"/updates/feed.xml\">feed</a>."),
-        "ur": ("نیا کیا ہے", "ہماری ہوا میں جو کچھ شامل یا درست ہوتا ہے، تازہ ترین سب سے پہلے۔ <a href=\"/updates/feed.xml\">فیڈ</a> سے باخبر رہیں۔"),
+        "ur": ("نیا کیا ہے", "ہماری ہوا میں جو کچھ بھی شامل یا درست کیا جاتا ہے، وہ یہاں درج ہے، اور تازہ ترین سب سے اوپر ہے۔ <a href=\"/updates/feed.xml\">فیڈ</a> کے ذریعے باخبر رہیں۔"),
         "hi": ("नया क्या है", "हमारी हवा में जो भी जुड़ता या ठीक होता है, सबसे नया सबसे पहले। <a href=\"/updates/feed.xml\">फ़ीड</a> से जुड़े रहें।"),
     }
     arts = {}
@@ -267,18 +267,18 @@ def trends_page():
 REPORTS = [  # newest first: (path, date, title, summary per language)
     ("/report/two-punjabs/", "2026-10-20", "Two Punjabs: seven seasons of crop fires", {
         "en": "Satellite-seen crop fires fell 95% in Indian Punjab since 2021 but not in Pakistani Punjab, which has had more since 2024. Checked against India's official counts, with district tables and why fire counts undercount.",
-        "ur": "2021 کے بعد ہندوستانی پنجاب میں سیٹلائٹ سے دکھنے والی آگ 95% کم ہوئی مگر پاکستانی پنجاب میں نہیں، جہاں 2024 سے زیادہ آگ دکھ رہی ہے۔ ہندوستان کے سرکاری اعداد سے جانچ، اضلاع کی فہرست، اور یہ کہ گنتی کم کیوں ہوتی ہے۔",
+        "ur": "2021 کے بعد ہندوستانی پنجاب میں سیٹلائٹ کو نظر آنے والی آگ 95% کم ہو گئی، مگر پاکستانی پنجاب میں کم نہیں ہوئی، جہاں 2024 سے ہندوستانی پنجاب سے زیادہ آگ دیکھی جا رہی ہے۔ رپورٹ میں ہندوستان کے سرکاری اعداد سے جانچ، اضلاع کی فہرست، اور یہ وضاحت بھی ہے کہ آگ کی گنتی اصل سے کم کیوں ہوتی ہے۔",
         "hi": "2021 के बाद भारतीय पंजाब में उपग्रह से दिखने वाली आग 95% कम हुई पर पाकिस्तानी पंजाब में नहीं, जहाँ 2024 से ज़्यादा आग दिख रही है। भारत के सरकारी आँकड़ों से जाँच, ज़िलों की तालिका, और गिनती कम क्यों होती है।"}),
     ("/report/", "2026-09-15", "Lahore & Islamabad Air Ledger", {
         "en": "24 months of PM2.5 and AQI in Lahore and Islamabad side by side: monthly IQAir data, sources, health impact and projections. In English, with a PDF.",
-        "ur": "لاہور اور اسلام آباد کے 24 مہینوں کا PM2.5 اور AQI ساتھ ساتھ: IQAir کا ماہانہ ڈیٹا، ذرائع، صحت پر اثر اور اندازے۔ انگریزی میں، PDF کے ساتھ۔",
+        "ur": "لاہور اور اسلام آباد میں 24 مہینوں کا PM2.5 اور AQI، ایک ساتھ: IQAir کا ماہانہ ڈیٹا، آلودگی کے ذرائع، صحت پر اثر اور آئندہ کے اندازے۔ انگریزی میں، PDF کے ساتھ۔",
         "hi": "लाहौर और इस्लामाबाद के 24 महीनों का PM2.5 और AQI साथ-साथ: IQAir का मासिक डेटा, स्रोत, सेहत पर असर और अनुमान। अंग्रेज़ी में, PDF के साथ।"}),
 ]
 
 
 def reports_page():
     head = {"en": ("Reports", "Longer pieces built from HamariHawa's data, newest first."),
-            "ur": ("رپورٹس", "ہماری ہوا کے ڈیٹا سے بنی تفصیلی رپورٹس، تازہ ترین سب سے پہلے۔"),
+            "ur": ("رپورٹس", "ہماری ہوا کے ڈیٹا سے تیار کی گئی تفصیلی رپورٹس، تازہ ترین سب سے اوپر۔"),
             "hi": ("रिपोर्ट", "हमारी हवा के डेटा से बनी विस्तृत रिपोर्ट, सबसे नई सबसे पहले।")}
     arts = {l: f'  <h1>{head[l][0]}</h1>\n  <p class="lede">{head[l][1]}</p>\n' + "\n".join(
         f'  <section class="entry"><time datetime="{d}">{fmt_date(d, l)}</time><h2><a href="{p}">{html.escape(t)}</a></h2><p>{s[l]}</p></section>'
