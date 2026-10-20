@@ -4,3 +4,9 @@ node_modules/
 site/.wrangler/
 feed/
 no2/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.dev.vars
+.env

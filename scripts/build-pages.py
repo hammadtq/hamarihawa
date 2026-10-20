@@ -27,9 +27,9 @@ NAV = [("/", "map", "Live map", "تازہ نقشہ", "लाइव नक्श�
        ("/trends/", "trends", "Fire trends", "آگ کا رجحان", "आग का रुझान"), ("/reports/", "reports", "Reports", "رپورٹس", "रिपोर्ट"),
        ("/about/", "about", "About", "تعارف", "परिचय")]
 FOOT = {
-    "en": '<a href="/">← Back to the live map</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a>',
-    "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a>',
-    "hi": '<a href="/">← लाइव नक्शे पर वापस</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a>',
+    "en": '<a href="/">← Back to the live map</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
+    "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
+    "hi": '<a href="/">← लाइव नक्शे पर वापस</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
 }
 
 
