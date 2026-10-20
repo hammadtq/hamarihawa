@@ -103,7 +103,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
-<link rel="stylesheet" href="/app.css?v=202610201730">
+<link rel="stylesheet" href="/app.css?v=202610210100">
 <style>
   .doc { max-width: 760px; margin: 0 auto; padding: 36px 20px 60px; }
   .doc h1 { font-family: var(--hand); font-size: clamp(32px, 5vw, 44px); }
@@ -146,6 +146,7 @@
     <a href="/about/" data-nav="about" data-en="About" data-ur="تعارف" data-hi="परिचय">About</a>
   </nav>
   <div class="top-right">
+    <a class="gh" href="https://github.com/hammadtq/hamarihawa" aria-label="Source code on GitHub" title="Source code on GitHub"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
     <div class="lang" role="group" aria-label="Language">
       <button data-lang="en">EN</button><button data-lang="ur" lang="ur">اردو</button><button data-lang="hi" lang="hi">हिन्दी</button>
     </div>
@@ -163,6 +164,7 @@
     <div class="fact sketch"><b dir="ltr">3.5×</b><span>Pakistani vs Indian Punjab, 2025</span></div>
     <div class="fact sketch"><b dir="ltr">0.99</b><span>match with India's official counts</span></div>
   </div>
+  <div class="callout sketch"><p><b>Check this report.</b> Every number here is in <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a>, which two scripts in our <a href="https://github.com/hammadtq/hamarihawa">open-source code</a> rebuild from NASA's archive: <code>scripts/backfill-days.py</code>, then <code>scripts/season-stats.py</code> (you need a free NASA FIRMS key). As a cross-check, our Indian Punjab counts and India's official ones have a correlation of 0.988.</p></div>
   <p>This is the first season-by-season comparison of both Punjabs counted the same way that we know of. India publishes daily fire counts for its states, and its press reports them every day of the season. We could find no equivalent public series for Pakistani Punjab. To compare the two fairly we counted every fire spot NASA's Suomi NPP satellite saw on either side of the border in each October and November since 2019, using one method throughout.</p>
 
   <h2 id="crossed">The lines crossed in 2024</h2>
@@ -265,6 +267,7 @@
     <div class="fact sketch"><b dir="ltr">3.5×</b><span>ہندوستانی پنجاب کے مقابلے میں پاکستانی پنجاب (2025)</span></div>
     <div class="fact sketch"><b dir="ltr">0.99</b><span>ہندوستان کے سرکاری اعداد سے مطابقت</span></div>
   </div>
+  <div class="callout sketch"><p><b>اس رپورٹ کو خود جانچیں۔</b> یہاں کا ہر عدد <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a> میں موجود ہے، جسے ہمارے <a href="https://github.com/hammadtq/hamarihawa">اوپن سورس کوڈ</a> کے دو اسکرپٹس ناسا کے ریکارڈ سے دوبارہ بناتے ہیں: پہلے <code>scripts/backfill-days.py</code> اور پھر <code>scripts/season-stats.py</code> (اس کے لیے ناسا FIRMS کی مفت key درکار ہے)۔ مزید جانچ کے طور پر، ہندوستانی پنجاب کے ہمارے اعداد اور ہندوستان کے سرکاری اعداد کا باہمی تعلق 0.988 ہے۔</p></div>
   <p>جہاں تک ہمیں معلوم ہے، یہ پہلا موقع ہے کہ دونوں پنجابوں کی آگ کو ایک ہی طریقے سے، موسم بہ موسم گنا اور پرکھا گیا ہے۔ ہندوستان اپنی ریاستوں میں آگ کے روزانہ اعداد و شمار جاری کرتا ہے، اور وہاں کے اخبارات پورے موسم میں ہر روز ان کی خبر دیتے ہیں۔ پاکستانی پنجاب کے لیے ہمیں ایسے کوئی عوامی اعداد و شمار نہیں ملے۔ دونوں کا منصفانہ موازنہ کرنے کے لیے ہم نے 2019 سے اب تک ہر سال اکتوبر اور نومبر میں سرحد کے دونوں جانب وہ تمام مقامات گنے جہاں ناسا کے Suomi NPP سیٹلائٹ نے آگ دیکھی، اور شروع سے آخر تک ایک ہی طریقہ استعمال کیا۔</p>
 
   <h2 id="crossed">2024 میں دونوں لکیریں ایک دوسرے کو کاٹ گئیں</h2>
@@ -367,6 +370,7 @@
     <div class="fact sketch"><b dir="ltr">3.5×</b><span>भारतीय पंजाब की तुलना में पाकिस्तानी पंजाब (2025)</span></div>
     <div class="fact sketch"><b dir="ltr">0.99</b><span>भारत के सरकारी आँकड़ों से मेल</span></div>
   </div>
+  <div class="callout sketch"><p><b>इस रिपोर्ट को ख़ुद जाँचें।</b> यहाँ का हर आँकड़ा <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a> में मौजूद है, जिसे हमारे <a href="https://github.com/hammadtq/hamarihawa">ओपन सोर्स कोड</a> की दो स्क्रिप्ट नासा के रिकॉर्ड से दोबारा बनाती हैं: पहले <code>scripts/backfill-days.py</code> और फिर <code>scripts/season-stats.py</code> (इसके लिए नासा FIRMS की मुफ़्त key चाहिए)। अतिरिक्त जाँच के तौर पर, भारतीय पंजाब के हमारे आँकड़ों और भारत के सरकारी आँकड़ों का सहसंबंध 0.988 है।</p></div>
   <p>जहाँ तक हमें पता है, यह पहली बार है जब दोनों पंजाबों की आग को एक ही तरीक़े से, मौसम-दर-मौसम गिना और परखा गया है। भारत अपने राज्यों में आग के रोज़ाना आँकड़े जारी करता है, और वहाँ के अख़बार पूरे मौसम में हर दिन इनकी ख़बर छापते हैं। पाकिस्तानी पंजाब के लिए हमें ऐसे कोई सार्वजनिक आँकड़े नहीं मिले। दोनों की निष्पक्ष तुलना के लिए हमने 2019 से अब तक हर साल अक्टूबर और नवंबर में सरहद के दोनों तरफ़ वे सभी जगहें गिनीं जहाँ नासा के Suomi NPP उपग्रह ने आग देखी, और शुरू से आख़िर तक एक ही तरीक़ा अपनाया।</p>
 
   <h2 id="crossed">2024 में दोनों रेखाएँ एक-दूसरे को काट गईं</h2>

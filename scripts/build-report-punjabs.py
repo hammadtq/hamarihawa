@@ -172,6 +172,7 @@ TEXT = {
     <div class="fact sketch"><b dir="ltr">{ratio}×</b><span>Pakistani vs Indian Punjab, {last}</span></div>
     <div class="fact sketch"><b dir="ltr">{r2}</b><span>match with India's official counts</span></div>
   </div>
+  <div class="callout sketch"><p><b>Check this report.</b> Every number here is in <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a>, which two scripts in our <a href="https://github.com/hammadtq/hamarihawa">open-source code</a> rebuild from NASA's archive: <code>scripts/backfill-days.py</code>, then <code>scripts/season-stats.py</code> (you need a free NASA FIRMS key). As a cross-check, our Indian Punjab counts and India's official ones have a correlation of {r3}.</p></div>
   <p>This is the first season-by-season comparison of both Punjabs counted the same way that we know of. India publishes daily fire counts for its states, and its press reports them every day of the season. We could find no equivalent public series for Pakistani Punjab. To compare the two fairly we counted every fire spot NASA's Suomi NPP satellite saw on either side of the border in each October and November since {y0}, using one method throughout.</p>
 
   <h2 id="crossed">The lines crossed in {cross}</h2>
@@ -224,6 +225,7 @@ TEXT = {
     <div class="fact sketch"><b dir="ltr">{ratio}×</b><span>ہندوستانی پنجاب کے مقابلے میں پاکستانی پنجاب ({last})</span></div>
     <div class="fact sketch"><b dir="ltr">{r2}</b><span>ہندوستان کے سرکاری اعداد سے مطابقت</span></div>
   </div>
+  <div class="callout sketch"><p><b>اس رپورٹ کو خود جانچیں۔</b> یہاں کا ہر عدد <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a> میں موجود ہے، جسے ہمارے <a href="https://github.com/hammadtq/hamarihawa">اوپن سورس کوڈ</a> کے دو اسکرپٹس ناسا کے ریکارڈ سے دوبارہ بناتے ہیں: پہلے <code>scripts/backfill-days.py</code> اور پھر <code>scripts/season-stats.py</code> (اس کے لیے ناسا FIRMS کی مفت key درکار ہے)۔ مزید جانچ کے طور پر، ہندوستانی پنجاب کے ہمارے اعداد اور ہندوستان کے سرکاری اعداد کا باہمی تعلق {r3} ہے۔</p></div>
   <p>جہاں تک ہمیں معلوم ہے، یہ پہلا موقع ہے کہ دونوں پنجابوں کی آگ کو ایک ہی طریقے سے، موسم بہ موسم گنا اور پرکھا گیا ہے۔ ہندوستان اپنی ریاستوں میں آگ کے روزانہ اعداد و شمار جاری کرتا ہے، اور وہاں کے اخبارات پورے موسم میں ہر روز ان کی خبر دیتے ہیں۔ پاکستانی پنجاب کے لیے ہمیں ایسے کوئی عوامی اعداد و شمار نہیں ملے۔ دونوں کا منصفانہ موازنہ کرنے کے لیے ہم نے {y0} سے اب تک ہر سال اکتوبر اور نومبر میں سرحد کے دونوں جانب وہ تمام مقامات گنے جہاں ناسا کے Suomi NPP سیٹلائٹ نے آگ دیکھی، اور شروع سے آخر تک ایک ہی طریقہ استعمال کیا۔</p>
 
   <h2 id="crossed">{cross} میں دونوں لکیریں ایک دوسرے کو کاٹ گئیں</h2>
@@ -276,6 +278,7 @@ TEXT = {
     <div class="fact sketch"><b dir="ltr">{ratio}×</b><span>भारतीय पंजाब की तुलना में पाकिस्तानी पंजाब ({last})</span></div>
     <div class="fact sketch"><b dir="ltr">{r2}</b><span>भारत के सरकारी आँकड़ों से मेल</span></div>
   </div>
+  <div class="callout sketch"><p><b>इस रिपोर्ट को ख़ुद जाँचें।</b> यहाँ का हर आँकड़ा <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a> में मौजूद है, जिसे हमारे <a href="https://github.com/hammadtq/hamarihawa">ओपन सोर्स कोड</a> की दो स्क्रिप्ट नासा के रिकॉर्ड से दोबारा बनाती हैं: पहले <code>scripts/backfill-days.py</code> और फिर <code>scripts/season-stats.py</code> (इसके लिए नासा FIRMS की मुफ़्त key चाहिए)। अतिरिक्त जाँच के तौर पर, भारतीय पंजाब के हमारे आँकड़ों और भारत के सरकारी आँकड़ों का सहसंबंध {r3} है।</p></div>
   <p>जहाँ तक हमें पता है, यह पहली बार है जब दोनों पंजाबों की आग को एक ही तरीक़े से, मौसम-दर-मौसम गिना और परखा गया है। भारत अपने राज्यों में आग के रोज़ाना आँकड़े जारी करता है, और वहाँ के अख़बार पूरे मौसम में हर दिन इनकी ख़बर छापते हैं। पाकिस्तानी पंजाब के लिए हमें ऐसे कोई सार्वजनिक आँकड़े नहीं मिले। दोनों की निष्पक्ष तुलना के लिए हमने {y0} से अब तक हर साल अक्टूबर और नवंबर में सरहद के दोनों तरफ़ वे सभी जगहें गिनीं जहाँ नासा के Suomi NPP उपग्रह ने आग देखी, और शुरू से आख़िर तक एक ही तरीक़ा अपनाया।</p>
 
   <h2 id="crossed">{cross} में दोनों रेखाएँ एक-दूसरे को काट गईं</h2>

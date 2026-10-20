@@ -59,6 +59,17 @@ Then open http://127.0.0.1:8791. `DEV:1` turns off the HTTPS redirect for local 
 2. Change or remove the custom-domain `routes` in `site/wrangler.jsonc`, then `cd site && npx wrangler deploy`.
 3. In the GitHub repository, add the secret `CLOUDFLARE_API_TOKEN` (permission: Workers KV Storage, Edit) and the variable `CLOUDFLARE_ACCOUNT_ID`. Point `FIRMS_BASE` in `.github/workflows/feed.yml` at your own Worker's `/api/firms`, since GitHub's runners can't reach NASA directly.
 
+## Check our numbers yourself
+
+Nothing on the site needs to be taken on trust: the inputs are public and every step is in this repository. If you use a coding assistant (Claude Code, Cursor, GitHub Copilot and the like), point it at this repo and ask it to verify a claim. Some starting points:
+
+- "Using `scripts/backfill-days.py` and `scripts/season-stats.py` with my NASA FIRMS key, rebuild `site/public/report/two-punjabs/seasons.json` from scratch and tell me whether every number in the Two Punjabs report matches."
+- "Read `scripts/build-feed.py` and explain how a fire gets its village name and its 'likely type'. Find ways a fire could be tagged as a brick kiln or crop burning wrongly, and test a few against the live feed at https://hamarihawa.org/api/fires."
+- "Compare the Indian Punjab season counts in `seasons.json` with India's official CAQM figures and explain the year where they disagree."
+- "Check the health numbers in `site/public/app.js` (cigarettes, multiple of the WHO limit, years of life, extra deaths) against the sources cited on the About page."
+
+A free FIRMS key is only needed to rebuild past seasons (https://firms.modaps.eosdis.nasa.gov/api/map_key). The live feed and the local site need no keys. If you find something wrong, open an issue.
+
 ## Contributing
 
 Issues and pull requests are welcome, especially:
