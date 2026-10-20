@@ -408,12 +408,13 @@ def main():
               "abstract": f"Satellite-detected crop fires in Indian Punjab fell {in_fall}% between {peak_in} and {last}; in Pakistani Punjab they did not fall. "
                           f"Since {cross} NASA's Suomi NPP has seen more crop fires in Pakistani Punjab, {ratio_last:.1f} times as many in {last}. "
                           "Part of India's fall reflects burning moved out of the satellite's view.",
+              "image": f"{bp.SITE}/og/two-punjabs.png",
               "isBasedOn": {"@type": "Dataset", "name": "Two Punjabs season statistics", "url": f"{bp.SITE}/report/two-punjabs/seasons.json",
                             "license": "https://creativecommons.org/licenses/by/4.0/"}}
     out = bp.page("/report/two-punjabs/", "Two Punjabs: seven seasons of crop fires",
-                  f"Crop fires seen by NASA's satellites fell {in_fall}% in Indian Punjab from {peak_in} to {last} but not in Pakistani Punjab, "
-                  f"which has had more since {cross}. District counts, peak weeks, a check against India's official numbers, and why fire counts undercount.",
-                  arts, jsonld, extra_head=CSS, wide=True)
+                  f"NASA saw crop fires fall {in_fall}% in Indian Punjab from {peak_in} to {last}, but not in Pakistani Punjab, which has had more since {cross}.",
+                  arts, jsonld, extra_head=CSS, wide=True, og_image="/og/two-punjabs.png",
+                  og_alt=f"Two Punjabs: crop fires fell {in_fall}% in Indian Punjab but not in Pakistani Punjab, which had {ratio_last:.1f} times as many in {last}")
     open(os.path.join(DIR, "index.html"), "w", encoding="utf-8").write(out)
     print(f"report written: India -{in_fall}% since {peak_in}, Pakistan {pk_vs_2019:+}% since {YEARS[0]}, crossed {cross}, r={r:.3f}")
 

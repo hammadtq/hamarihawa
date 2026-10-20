@@ -38,7 +38,8 @@ def fmt_date(iso, lang):
     return f"{d.day} {MONTHS[lang][d.month - 1]} {d.year}"
 
 
-def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=False):
+def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=False,
+         og_image="/og/map-v2.png", og_alt="HamariHawa: live fire and air map of Pakistan and North India"):
     url = f"{SITE}{path}"
     t, dsc = html.escape(title), html.escape(desc)
     nav = "\n".join(f'    <a href="{h}" data-nav="{k}"{' aria-current="page"' if h == path or (k == "reports" and path.startswith("/report")) else ""} data-en="{en}" data-ur="{ur}" data-hi="{hi}">{en}</a>'
@@ -74,10 +75,10 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
 <meta property="og:description" content="{dsc}">
 <meta property="og:site_name" content="HamariHawa">
 <meta property="og:url" content="{url}">
-<meta property="og:image" content="{SITE}/og/map-v2.png">
+<meta property="og:image" content="{SITE}{og_image}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="HamariHawa: live fire and air map of Pakistan and North India">
+<meta property="og:image:alt" content="{html.escape(og_alt)}">
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="ur_PK">
 <meta property="og:locale:alternate" content="hi_IN">
@@ -85,8 +86,8 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
 <meta name="twitter:site" content="@hammadtariq">
 <meta name="twitter:title" content="{t} · HamariHawa">
 <meta name="twitter:description" content="{dsc}">
-<meta name="twitter:image" content="{SITE}/og/map-v2.png">
-<meta name="twitter:image:alt" content="HamariHawa: live fire and air map of Pakistan and North India">
+<meta name="twitter:image" content="{SITE}{og_image}">
+<meta name="twitter:image:alt" content="{html.escape(og_alt)}">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="alternate" type="application/atom+xml" title="HamariHawa updates" href="/updates/feed.xml">
 {extra_head}<script type="application/ld+json">
@@ -234,7 +235,7 @@ def data_page():
     jsonld = {"@context": "https://schema.org", "@type": "WebPage", "@id": f"{SITE}/data/#page", "name": "Use HamariHawa's data",
               "url": f"{SITE}/data/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG, "isPartOf": {"@id": f"{SITE}/#website"},
               "about": ["Google Earth KML feed of fires and air pollution in Pakistan and North India", "Open air-quality data APIs"]}
-    out = page("/data/", "Use the data", "Open HamariHawa's live fires, city air, traffic NO₂, haze and pollution sites in Google Earth, QGIS, ArcGIS or Civil 3D, or use the JSON feeds. Why Google Maps can't show live layers, and the licence for each dataset.",
+    out = page("/data/", "Use the data", "Open HamariHawa's live fires, city air, NO₂, haze and pollution sites in Google Earth, QGIS or ArcGIS, or use the JSON feeds.",
                arts, jsonld)
     open(os.path.join(PUB, "data", "index.html"), "w", encoding="utf-8").write(out)
     print("data page written")
@@ -258,8 +259,8 @@ def trends_page():
             f'<link rel="stylesheet" href="/trends/trends.css?v={js_v}">\n')
     scripts = ('<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n'
                f'<script src="/trends/trends.js?v={js_v}"></script>\n')
-    out = page("/trends/", "Fire trends", "How crop burning in Pakistan and North India has changed since 2019: every October-November season compared, "
-               "this year against last, where in Punjab and Haryana the fires move, and the day and night satellite passes. From NASA FIRMS data.",
+    out = page("/trends/", "Fire trends", "Crop burning in Pakistan and North India since 2019: every October–November season compared, this year against last, "
+               "district by district, from NASA satellite data.",
                arts, jsonld, extra_head=head, scripts=scripts, wide=True)
     open(os.path.join(PUB, "trends", "index.html"), "w", encoding="utf-8").write(out)
     print("trends page written")
@@ -294,8 +295,52 @@ def reports_page():
     print("reports page written")
 
 
+# Sitemap: one entry per page, with the date its source last changed in git and, for the
+# trilingual pages, every language version (matching the hreflang links in each page's head).
+SITEMAP = [  # (path, source files whose last commit dates the page, changefreq, priority, trilingual)
+    ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
+    ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
+    ("/trends/", ["scripts/pages/trends-en.html", "site/public/trends/trends.js"], "daily", "0.8", True),
+    ("/report/two-punjabs/", ["scripts/build-report-punjabs.py", "site/public/report/two-punjabs/seasons.json"], "monthly", "0.8", True),
+    ("/data/", ["scripts/pages/data-en.html"], "monthly", "0.7", True),
+    ("/updates/", ["site/public/updates/updates.json"], "weekly", "0.7", True),
+    ("/reports/", ["scripts/build-pages.py"], "monthly", "0.6", True),
+    ("/about/", ["site/public/about/index.html"], "monthly", "0.6", True),
+    ("/report/", ["site/public/report/index.html"], "yearly", "0.5", False),
+]
+
+
+def last_changed(files):
+    """Newest commit date (YYYY-MM-DD) among files; today for anything changed but not yet committed."""
+    import subprocess
+    dates = []
+    for f in files:
+        dirty = subprocess.run(["git", "status", "--porcelain", "--", f], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        if dirty:
+            dates.append(date.today().isoformat())
+            continue
+        out = subprocess.run(["git", "log", "-1", "--format=%cs", "--", f], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        if out:
+            dates.append(out)
+    return max(dates) if dates else date.today().isoformat()
+
+
+def sitemap():
+    rows = ['<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    for path, files, freq, prio, tri in SITEMAP:
+        url = f"{SITE}{path}"
+        alt = "".join(f'\n    <xhtml:link rel="alternate" hreflang="{l}" href="{url}?lang={l}"/>' for l in LANGS) + \
+              f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{url}"/>' if tri else ""
+        rows.append(f"  <url><loc>{url}</loc><lastmod>{last_changed(files)}</lastmod><changefreq>{freq}</changefreq><priority>{prio}</priority>{alt}</url>")
+    rows.append("</urlset>")
+    open(os.path.join(PUB, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(rows) + "\n")
+    print(f"sitemap: {len(SITEMAP)} pages")
+
+
 if __name__ == "__main__":
     data_page()
     trends_page()
     reports_page()
     updates()
+    sitemap()

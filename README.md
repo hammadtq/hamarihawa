@@ -29,8 +29,9 @@ The heavy work (naming every fire after its village, merging duplicate detection
 - `scripts/build-places.py`: rebuilds the village index in `site/public/places/` from GeoNames dumps.
 - `scripts/build-sites.py`, `scripts/build-sources.py`: the Pollution sites directory and source layers in `site/public/sources/`.
 - `scripts/osm-industrial.py`: industrial estates, named fossil power plants and major roads (`--roads`) from Geofabrik OpenStreetMap extracts.
+- `scripts/build-og-report.py`: the Two Punjabs link-preview card (`site/public/og/two-punjabs.png`), in the same style as `scripts/build-og.py`.
 - `scripts/build-kml.py`: the pollution-sites layer for Google Earth (`site/public/kml/sources.kml`). `site/public/hamarihawa.kml` links it with the live layers the Worker serves.
-- `scripts/build-pages.py`: builds `/data/`, `/trends/`, `/reports/` and the rolling `/updates/` page with its Atom feed. Page text is in `scripts/pages/{data,trends}-{en,ur,hi}.html`. To post an update, add an entry at the top of `site/public/updates/updates.json` and rerun it.
+- `scripts/build-pages.py`: builds `/data/`, `/trends/`, `/reports/`, the rolling `/updates/` page with its Atom feed, and `sitemap.xml` (dates from git). Page text is in `scripts/pages/{data,trends}-{en,ur,hi}.html`. To post an update, add an entry at the top of `site/public/updates/updates.json` and rerun it.
 - `report/`: the 24-month Lahore and Islamabad Air Ledger, also served at `/report/`.
 - `docs/IDEA.md`: the original plan, kept for history.
 

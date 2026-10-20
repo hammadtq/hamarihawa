@@ -37,6 +37,7 @@
 
 ## Source code
 Open source (code MIT, data licences per file) at https://github.com/hammadtq/hamarihawa
+To reproduce the Two Punjabs numbers: scripts/backfill-days.py (needs a free NASA FIRMS key) then scripts/season-stats.py rebuilds site/public/report/two-punjabs/seasons.json.
 
 ## Please cite as
 HamariHawa (hamarihawa.org), using NASA FIRMS, NASA GIBS / Copernicus Sentinel-5P, Copernicus CAMS via Open-Meteo, Carbon Mapper, SentinelKilnDB, the Pakistan IGP Brick Kiln Dataset, OpenStreetMap and GeoNames.
