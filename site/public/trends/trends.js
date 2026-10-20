@@ -323,6 +323,7 @@
   }
   function renderBubbleControls() {
     const b = bubble, years = model.years.filter((yr) => bubbleMax(yr) >= 0);
+    if (!years.length) { b.node.querySelector(".bctl").textContent = T("err"); return; }
     if (!years.includes(b.year)) b.year = years[years.length - 1];
     const max = bubbleMax(b.year);
     b.i = Math.min(b.i, max);
@@ -363,7 +364,8 @@
         if (!ents.some((e) => e.isIntersecting)) return;
         io.disconnect();
         fetch("/api/districts").then((r) => (r.ok ? r.json() : null)).catch(() => null).then((d) => {
-          if (!d) { b.node.querySelector(".bctl").textContent = T("err"); return; }
+          // An empty answer means the district file isn't there; say so rather than show a dead slider.
+          if (!d || !Object.keys(d).length) { b.node.querySelector(".bctl").textContent = T("err"); return; }
           dist = d;
           b.year = model.cur;
           b.i = bubbleMax(b.year);
