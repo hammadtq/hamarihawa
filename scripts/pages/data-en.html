@@ -34,7 +34,7 @@
   <p>The site itself runs on these. They can be read from any web page (CORS is open).</p>
   <ul>
     <li><code>/api/fires?hours=24</code> (also 48, 168): stats, grouped events and every fire point.</li>
-    <li><code>/api/days</code>: daily fire totals (Pakistan time, distinct spots, Pakistan and India split, night share), archived since 14 Oct 2026. Each day's fires are at <code>/api/day?d=2026-10-19</code>.</li>
+    <li><code>/api/days</code>: daily fire totals (Pakistan time, distinct spots, Pakistan and India split, night share), for every day since 1 Oct 2026 and for each October–November season back to 2019. <code>snpp</code> counts only what Suomi NPP saw, the one satellite flying in every year, so use it to compare years. Each day's fires are at <code>/api/day?d=2026-10-19</code>.</li>
     <li><code>/api/wind</code>: wind right now on a 1° grid (speed in km/h, direction it comes from), refreshed every 30 minutes.</li>
     <li><code>/api/no2.json</code>: the 2-week NO₂ average's dates, bounds and labelled hotspots. The image is <code>/api/no2.png</code> (Web Mercator) or <code>/api/no2-geo.png</code> (plain latitude and longitude).</li>
     <li><code>/sources/sites.json</code>: persistent pollution sites by category.</li>

@@ -18,7 +18,7 @@
 
 ## Open data (JSON). Fire feed and NO₂: CC BY 4.0. Pollution sites and kiln layers: CC BY-NC 4.0 (non-commercial, because they include SentinelKilnDB). Landfills, industrial areas, power plants and roads: © OpenStreetMap contributors, ODbL.
 - https://hamarihawa.org/api/fires?hours=24 (also 48, 168): fire feed with stats, events and points. trend.prev is the count in the window just before; trend.days the last 14 daily totals.
-- https://hamarihawa.org/api/days: daily fire totals since 14 Oct 2026 (days on Pakistan time, UTC+5; distinct spots; pk, in, night, crop, frp). https://hamarihawa.org/api/day?d=YYYY-MM-DD gives that day's spots.
+- https://hamarihawa.org/api/days: daily fire totals (days on Pakistan time, UTC+5; distinct spots; pk, in, night, crop, frp; snpp = spots Suomi NPP saw alone, comparable across years). Past seasons (1 Oct–30 Nov, 2019–2025) come from FIRMS final processing. https://hamarihawa.org/api/day?d=YYYY-MM-DD gives that day's spots.
 - https://hamarihawa.org/api/no2.json: 14-day NO₂ average metadata and labelled hotspots. Image: /api/no2.png (Web Mercator) or /api/no2-geo.png (equirectangular).
 - https://hamarihawa.org/sources/sites.json: persistent pollution sites by category.
 - https://hamarihawa.org/sources/kilns.json, osm-landfill.json, osm-industrial.json, plants.json, hotspots.json, carbonmapper.json, roads.json (major roads, context under the NO₂ layer): source layers.

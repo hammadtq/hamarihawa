@@ -331,24 +331,31 @@ def summarise(spots):
     return s
 
 
-def archive(points, now):
-    """Split the 7-day points into Pakistan-time days. Returns {date: day file}. The oldest date in
-    the window is cut off part way, so it is left out."""
+def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"):
+    """Split points into Pakistan-time days: {date: day file} for the dates `keep` accepts.
+    summary.snpp counts spots Suomi NPP saw on its own, the one satellite flying every year since
+    2012, so past seasons compare fairly with today's four-satellite counts."""
     by_day = {}
     for p in points:
         by_day.setdefault(local_date(p["t"]), []).append(p)
-    first = local_date(now - 168 * 3600 * 1000)
     out = {}
     for date, pts in sorted(by_day.items()):
-        if date <= first:
+        if not keep(date):
             continue
         spots = sorted(distinct(pts).values(), key=lambda p: p["t"])
-        out[date] = {"date": date, "summary": summarise(spots),
+        summary = {**summarise(spots), "snpp": len(distinct([p for p in pts if p["si"] == 0]))}
+        out[date] = {"date": date, "source": source, "summary": summary,
                      "fields": ["lat", "lon", "t", "frp", "sat", "district", "state", "cc", "kind", "night"],
                      "spots": [[p["lat"], p["lon"], p["t"], round(p["frp"], 1),
                                 {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}[p["sat"]],
                                 p["district"], p["state"], p["cc"], p["kind"], 1 if p["night"] else 0] for p in spots]}
     return out
+
+
+def archive(points, now):
+    """The 7-day points as day files. The oldest date in the window is cut off part way, so it is left out."""
+    first = local_date(now - 168 * 3600 * 1000)
+    return day_files(points, keep=lambda date: date > first)
 
 
 def previous(points, now, hours):

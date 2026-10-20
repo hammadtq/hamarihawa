@@ -154,7 +154,7 @@
   <p>The site itself runs on these. They can be read from any web page (CORS is open).</p>
   <ul>
     <li><code>/api/fires?hours=24</code> (also 48, 168): stats, grouped events and every fire point.</li>
-    <li><code>/api/days</code>: daily fire totals (Pakistan time, distinct spots, Pakistan and India split, night share), archived since 14 Oct 2026. Each day's fires are at <code>/api/day?d=2026-10-19</code>.</li>
+    <li><code>/api/days</code>: daily fire totals (Pakistan time, distinct spots, Pakistan and India split, night share), for every day since 1 Oct 2026 and for each October–November season back to 2019. <code>snpp</code> counts only what Suomi NPP saw, the one satellite flying in every year, so use it to compare years. Each day's fires are at <code>/api/day?d=2026-10-19</code>.</li>
     <li><code>/api/wind</code>: wind right now on a 1° grid (speed in km/h, direction it comes from), refreshed every 30 minutes.</li>
     <li><code>/api/no2.json</code>: the 2-week NO₂ average's dates, bounds and labelled hotspots. The image is <code>/api/no2.png</code> (Web Mercator) or <code>/api/no2-geo.png</code> (plain latitude and longitude).</li>
     <li><code>/sources/sites.json</code>: persistent pollution sites by category.</li>
@@ -209,7 +209,7 @@
   <p>سائٹ خود انہی پر چلتی ہے۔ انہیں کسی بھی ویب صفحے سے پڑھا جا سکتا ہے (CORS کھلا ہے)۔</p>
   <ul>
     <li><code>/api/fires?hours=24</code> (48، 168 بھی): اعداد و شمار، گروپ کیے واقعات اور ہر آگ کا مقام۔</li>
-    <li><code>/api/days</code>: روزانہ آگ کی کل تعداد (پاکستان کے وقت سے، الگ الگ مقامات، پاکستان اور ہندوستان الگ، رات کا حصہ)، 14 اکتوبر 2026 سے محفوظ۔ ہر دن کی آگ <code>/api/day?d=2026-10-19</code> پر ہے۔</li>
+    <li><code>/api/days</code>: روزانہ آگ کی کل تعداد (پاکستان کے وقت سے، الگ الگ مقامات، پاکستان اور ہندوستان الگ، رات کا حصہ)، 1 اکتوبر 2026 سے ہر دن کے لیے، اور 2019 سے ہر سال اکتوبر اور نومبر کے لیے۔ <code>snpp</code> صرف Suomi NPP کی دیکھی آگ گنتا ہے، جو ہر سال موجود واحد سیٹلائٹ ہے، اس لیے سالوں کا موازنہ اسی سے کریں۔ ہر دن کی آگ <code>/api/day?d=2026-10-19</code> پر ہے۔</li>
     <li><code>/api/wind</code>: ابھی کی ہوا 1° کے جال پر (رفتار کلومیٹر فی گھنٹہ، اور جس سمت سے آ رہی ہے)، ہر 30 منٹ بعد تازہ۔</li>
     <li><code>/api/no2.json</code>: دو ہفتوں کی NO₂ اوسط کی تاریخیں، حدود اور لیبل والے ہاٹ اسپاٹ۔ تصویر <code>/api/no2.png</code> (ویب مرکیٹر) یا <code>/api/no2-geo.png</code> (سادہ عرض و طول) ہے۔</li>
     <li><code>/sources/sites.json</code>: قسم وار مستقل آلودگی کے مقامات۔</li>
@@ -264,7 +264,7 @@
   <p>साइट ख़ुद इन्हीं पर चलती है। इन्हें किसी भी वेब पेज से पढ़ा जा सकता है (CORS खुला है)।</p>
   <ul>
     <li><code>/api/fires?hours=24</code> (48, 168 भी): आँकड़े, समूह में बँटी घटनाएँ और हर आग की जगह।</li>
-    <li><code>/api/days</code>: रोज़ की आग की कुल गिनती (पाकिस्तान के समय से, अलग-अलग जगहें, पाकिस्तान और भारत अलग, रात का हिस्सा), 14 अक्टूबर 2026 से सुरक्षित। हर दिन की आग <code>/api/day?d=2026-10-19</code> पर है।</li>
+    <li><code>/api/days</code>: रोज़ की आग की कुल गिनती (पाकिस्तान के समय से, अलग-अलग जगहें, पाकिस्तान और भारत अलग, रात का हिस्सा), 1 अक्टूबर 2026 से हर दिन के लिए, और 2019 से हर साल अक्टूबर और नवंबर के लिए। <code>snpp</code> सिर्फ़ Suomi NPP की देखी आग गिनता है, जो हर साल मौजूद अकेला उपग्रह है, इसलिए सालों की तुलना इसी से करें। हर दिन की आग <code>/api/day?d=2026-10-19</code> पर है।</li>
     <li><code>/api/wind</code>: अभी की हवा 1° के जाल पर (रफ़्तार किमी/घंटा, और जिस दिशा से आ रही है), हर 30 मिनट में ताज़ा।</li>
     <li><code>/api/no2.json</code>: दो हफ़्तों के NO₂ औसत की तारीख़ें, सीमाएँ और लेबल वाले हॉटस्पॉट। तस्वीर <code>/api/no2.png</code> (वेब मर्केटर) या <code>/api/no2-geo.png</code> (सादा अक्षांश-देशांतर) है।</li>
     <li><code>/sources/sites.json</code>: श्रेणीवार स्थायी प्रदूषण ठिकाने।</li>
