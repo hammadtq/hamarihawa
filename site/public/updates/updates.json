@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-20-trends",
+    "date": "2026-10-20",
+    "title": {
+      "en": "Fire trends: every burning season since 2019",
+      "ur": "آگ کا رجحان: 2019 سے ہر سال کا موسم",
+      "hi": "आग का रुझान: 2019 से हर साल का मौसम"
+    },
+    "body": {
+      "en": "<p>A new page, <a href=\"/trends/\">Fire trends</a>, compares every October–November burning season since 2019 using NASA's archive: daily fires for each season, this year against the same dates in earlier years, where in the two Punjabs the fires are day by day (press play to watch a season), and how many fires the satellite catches at night. Fire counts have fallen by about two-thirds since 2021, but the share seen on the 1:30 am pass has roughly tripled, which suggests some burning has moved to the evening, when no satellite is overhead. Filter any chart by Pakistan or India.</p>",
+      "ur": "<p>نیا صفحہ <a href=\"/trends/\">آگ کا رجحان</a> ناسا کے ریکارڈ سے 2019 کے بعد ہر اکتوبر نومبر کا موازنہ کرتا ہے: ہر موسم کی روزانہ آگ، اس سال کا پچھلے سالوں کی انہی تاریخوں سے مقابلہ، دونوں پنجابوں میں دن بہ دن آگ کہاں ہے (پورا موسم دیکھنے کے لیے چلائیں دبائیں)، اور سیٹلائٹ رات کو کتنی آگ دیکھتا ہے۔ 2021 کے بعد آگ کی گنتی تقریباً دو تہائی کم ہوئی ہے، مگر رات ڈیڑھ بجے دکھنے والی آگ کا حصہ تقریباً تین گنا ہو گیا ہے، جس سے لگتا ہے کہ کچھ آگ اب شام کو لگتی ہے جب کوئی سیٹلائٹ اوپر نہیں ہوتا۔ ہر چارٹ کو پاکستان یا ہندوستان سے چھانٹ سکتے ہیں۔</p>",
+      "hi": "<p>नया पेज <a href=\"/trends/\">आग का रुझान</a> नासा के रिकॉर्ड से 2019 के बाद हर अक्टूबर-नवंबर की तुलना करता है: हर मौसम की रोज़ की आग, इस साल की पिछले सालों की उन्हीं तारीख़ों से तुलना, दोनों पंजाबों में दिन-ब-दिन आग कहाँ है (पूरा मौसम देखने के लिए चलाएँ दबाएँ), और उपग्रह रात में कितनी आग देखता है। 2021 के बाद आग की गिनती लगभग दो-तिहाई कम हुई है, पर रात डेढ़ बजे दिखने वाली आग का हिस्सा लगभग तीन गुना हो गया है, जिससे लगता है कि कुछ आग अब शाम को लगती है जब कोई उपग्रह ऊपर नहीं होता। हर चार्ट को पाकिस्तान या भारत से छाँट सकते हैं।</p>"
+    }
+  },
+  {
     "id": "2026-10-20-fire-trend",
     "date": "2026-10-20",
     "title": {

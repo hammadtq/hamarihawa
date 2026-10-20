@@ -60,6 +60,20 @@
  "blogPost": [
   {
    "@type": "BlogPosting",
+   "headline": "Fire trends: every burning season since 2019",
+   "datePublished": "2026-10-20",
+   "url": "https://hamarihawa.org/updates/#2026-10-20-trends",
+   "description": "A new page, Fire trends, compares every October–November burning season since 2019 using NASA's archive: daily fires for each season, this year against the same dates in earlier years, where in the two Punjabs the fires are day by day (press play to watch a season), and how many fires the satellite ",
+   "author": {
+    "@id": "https://hamarihawa.org/#org"
+   },
+   "publisher": {
+    "@id": "https://hamarihawa.org/#org"
+   },
+   "image": "https://hamarihawa.org/og/map-v2.png"
+  },
+  {
+   "@type": "BlogPosting",
    "headline": "Are fires rising? A daily trend, and a daily archive",
    "datePublished": "2026-10-20",
    "url": "https://hamarihawa.org/updates/#2026-10-20-fire-trend",
@@ -174,6 +188,7 @@
   .doc ul, .doc ol { padding-inline-start: 22px; margin: 8px 0; }
   .doc li + li { margin-top: 6px; }
   .doc code { font-size: 14px; background: #f4f2ec; padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .doc.wide { max-width: 980px; }
   .doc .lede { font-size: 18px; color: var(--ink); margin-top: 8px; }
   .doc .callout { padding: 16px 20px; margin: 22px 0; }
   .doc .callout p { color: var(--ink); }
@@ -200,6 +215,7 @@
   <nav class="menu" aria-label="Pages">
     <a href="/" data-nav="map" data-en="Live map" data-ur="تازہ نقشہ" data-hi="लाइव नक्शा">Live map</a>
     <a href="/sites/" data-nav="sites" data-en="Pollution sites" data-ur="آلودگی کے مقامات" data-hi="प्रदूषण के ठिकाने">Pollution sites</a>
+    <a href="/trends/" data-nav="trends" data-en="Fire trends" data-ur="آگ کا رجحان" data-hi="आग का रुझान">Fire trends</a>
     <a href="/about/" data-nav="about" data-en="About" data-ur="تعارف" data-hi="परिचय">About</a>
   </nav>
   <div class="top-right">
@@ -213,6 +229,7 @@
 <article data-lang="en">
   <h1>What's new</h1>
   <p class="lede">Everything we add or fix on HamariHawa, newest first. Follow along with the <a href="/updates/feed.xml">feed</a>.</p>
+  <section class="entry" id="2026-10-20-trends"><time datetime="2026-10-20">20 October 2026</time><h2><a href="#2026-10-20-trends">Fire trends: every burning season since 2019</a></h2><p>A new page, <a href="/trends/">Fire trends</a>, compares every October–November burning season since 2019 using NASA's archive: daily fires for each season, this year against the same dates in earlier years, where in the two Punjabs the fires are day by day (press play to watch a season), and how many fires the satellite catches at night. Fire counts have fallen by about two-thirds since 2021, but the share seen on the 1:30 am pass has roughly tripled, which suggests some burning has moved to the evening, when no satellite is overhead. Filter any chart by Pakistan or India.</p></section>
   <section class="entry" id="2026-10-20-fire-trend"><time datetime="2026-10-20">20 October 2026</time><h2><a href="#2026-10-20-fire-trend">Are fires rising? A daily trend, and a daily archive</a></h2><p>Under the fire count there is now a small bar for each day and a line comparing the last 24 hours with the 24 hours before (for example "↑ 55% on the 24 h before"). It follows the Pakistan and India filters. We also now keep every day's fires, starting from 14 October 2026, so we can later show how burning moves across districts, dates, and day and night passes. Satellites can't see fires through cloud or thick smoke, so single days swing. Daily totals are open at <a href="/data/#json">/api/days</a>.</p></section>
   <section class="entry" id="2026-10-19-wind"><time datetime="2026-10-19">19 October 2026</time><h2><a href="#2026-10-19-wind">Wind on the map: where the air is coming from</a></h2><p>A new "Wind right now" layer shows ink streaks drifting the way the wind is blowing across the plains, from weather-model winds refreshed every half hour (Open-Meteo). Under "Your air" the site now also says which way the wind is blowing where you are, and which big towns it is coming from and heading towards, so you can see whether smoke from fires upwind is likely to reach you.</p></section>
   <section class="entry" id="2026-10-18-google-earth"><time datetime="2026-10-18">18 October 2026</time><h2><a href="#2026-10-18-google-earth">The whole map in Google Earth</a></h2><p>You can now open HamariHawa in Google Earth: <a href="/hamarihawa.kml">hamarihawa.org/hamarihawa.kml</a>. It has the same layers as the site, each refreshing on its own schedule: fires in the last 24 hours (every 15 minutes) and 7 days, air quality now in 17 cities, traffic and industry NO₂ hotspots, haze and the daily satellite photo, and the pollution sites. It is a standard KML file, so it also opens in QGIS, ArcGIS and Civil 3D. <a href="/data/">How to use it</a>.</p></section>
@@ -225,6 +242,7 @@
 <article data-lang="ur" hidden>
   <h1>نیا کیا ہے</h1>
   <p class="lede">ہماری ہوا میں جو کچھ شامل یا درست ہوتا ہے، تازہ ترین سب سے پہلے۔ <a href="/updates/feed.xml">فیڈ</a> سے باخبر رہیں۔</p>
+  <section class="entry" id="2026-10-20-trends"><time datetime="2026-10-20">20 اکتوبر 2026</time><h2><a href="#2026-10-20-trends">آگ کا رجحان: 2019 سے ہر سال کا موسم</a></h2><p>نیا صفحہ <a href="/trends/">آگ کا رجحان</a> ناسا کے ریکارڈ سے 2019 کے بعد ہر اکتوبر نومبر کا موازنہ کرتا ہے: ہر موسم کی روزانہ آگ، اس سال کا پچھلے سالوں کی انہی تاریخوں سے مقابلہ، دونوں پنجابوں میں دن بہ دن آگ کہاں ہے (پورا موسم دیکھنے کے لیے چلائیں دبائیں)، اور سیٹلائٹ رات کو کتنی آگ دیکھتا ہے۔ 2021 کے بعد آگ کی گنتی تقریباً دو تہائی کم ہوئی ہے، مگر رات ڈیڑھ بجے دکھنے والی آگ کا حصہ تقریباً تین گنا ہو گیا ہے، جس سے لگتا ہے کہ کچھ آگ اب شام کو لگتی ہے جب کوئی سیٹلائٹ اوپر نہیں ہوتا۔ ہر چارٹ کو پاکستان یا ہندوستان سے چھانٹ سکتے ہیں۔</p></section>
   <section class="entry" id="2026-10-20-fire-trend"><time datetime="2026-10-20">20 اکتوبر 2026</time><h2><a href="#2026-10-20-fire-trend">کیا آگ بڑھ رہی ہے؟ روز کا رجحان اور روزانہ ریکارڈ</a></h2><p>آگ کی گنتی کے نیچے اب ہر دن کی ایک چھوٹی پٹی ہے، اور ایک سطر جو پچھلے 24 گھنٹوں کا اس سے پہلے کے 24 گھنٹوں سے موازنہ کرتی ہے (مثلاً "اس سے پہلے کے 24 گھنٹے سے 55% زیادہ")۔ یہ پاکستان اور ہندوستان کے فلٹر کے ساتھ بدلتی ہے۔ ہم اب 14 اکتوبر 2026 سے ہر دن کی آگ محفوظ بھی کر رہے ہیں، تاکہ آگے دکھا سکیں کہ آگ اضلاع، تاریخوں اور دن رات کے گزرنے میں کیسے بدلتی ہے۔ بادل یا گہرے دھوئیں میں سیٹلائٹ آگ نہیں دیکھ پاتے، اس لیے ایک دن کی گنتی اوپر نیچے ہوتی ہے۔ روزانہ اعداد <a href="/data/#json">/api/days</a> پر کھلے ہیں۔</p></section>
   <section class="entry" id="2026-10-19-wind"><time datetime="2026-10-19">19 اکتوبر 2026</time><h2><a href="#2026-10-19-wind">نقشے پر ہوا: ہوا کہاں سے آ رہی ہے</a></h2><p>نئی تہہ "ابھی ہوا کا رخ" میدانوں پر ہوا کے رخ میں بہتی سیاہی جیسی لکیریں دکھاتی ہے، موسمی ماڈل کی ہواؤں سے جو ہر آدھے گھنٹے تازہ ہوتی ہیں (Open-Meteo)۔ "آپ کی ہوا" کے نیچے اب یہ بھی لکھا آتا ہے کہ آپ کے ہاں ہوا کس رخ چل رہی ہے، اور کن بڑے شہروں کی طرف سے آ کر کن کی جانب جا رہی ہے، تاکہ آپ دیکھ سکیں کہ ہوا کے رخ پر لگی آگ کا دھواں آپ تک پہنچ سکتا ہے یا نہیں۔</p></section>
   <section class="entry" id="2026-10-18-google-earth"><time datetime="2026-10-18">18 اکتوبر 2026</time><h2><a href="#2026-10-18-google-earth">پورا نقشہ اب گوگل ارتھ میں</a></h2><p>اب آپ ہماری ہوا کو گوگل ارتھ میں کھول سکتے ہیں: <a href="/hamarihawa.kml">hamarihawa.org/hamarihawa.kml</a>۔ اس میں سائٹ والی تمام تہیں ہیں، اور ہر ایک اپنے وقت پر تازہ ہوتی ہے: پچھلے 24 گھنٹوں (ہر 15 منٹ) اور 7 دنوں کی آگ، 17 شہروں کی ہوا، ٹریفک اور صنعت کے NO₂ ہاٹ اسپاٹ، دھند اور روزانہ سیٹلائٹ تصویر، اور آلودگی کے مقامات۔ یہ عام KML فائل ہے، اس لیے QGIS، ArcGIS اور Civil 3D میں بھی کھلتی ہے۔ <a href="/data/">استعمال کا طریقہ</a>۔</p></section>
@@ -237,6 +255,7 @@
 <article data-lang="hi" hidden>
   <h1>नया क्या है</h1>
   <p class="lede">हमारी हवा में जो भी जुड़ता या ठीक होता है, सबसे नया सबसे पहले। <a href="/updates/feed.xml">फ़ीड</a> से जुड़े रहें।</p>
+  <section class="entry" id="2026-10-20-trends"><time datetime="2026-10-20">20 अक्टूबर 2026</time><h2><a href="#2026-10-20-trends">आग का रुझान: 2019 से हर साल का मौसम</a></h2><p>नया पेज <a href="/trends/">आग का रुझान</a> नासा के रिकॉर्ड से 2019 के बाद हर अक्टूबर-नवंबर की तुलना करता है: हर मौसम की रोज़ की आग, इस साल की पिछले सालों की उन्हीं तारीख़ों से तुलना, दोनों पंजाबों में दिन-ब-दिन आग कहाँ है (पूरा मौसम देखने के लिए चलाएँ दबाएँ), और उपग्रह रात में कितनी आग देखता है। 2021 के बाद आग की गिनती लगभग दो-तिहाई कम हुई है, पर रात डेढ़ बजे दिखने वाली आग का हिस्सा लगभग तीन गुना हो गया है, जिससे लगता है कि कुछ आग अब शाम को लगती है जब कोई उपग्रह ऊपर नहीं होता। हर चार्ट को पाकिस्तान या भारत से छाँट सकते हैं।</p></section>
   <section class="entry" id="2026-10-20-fire-trend"><time datetime="2026-10-20">20 अक्टूबर 2026</time><h2><a href="#2026-10-20-fire-trend">क्या आग बढ़ रही है? रोज़ का रुझान और रोज़ाना रिकॉर्ड</a></h2><p>आग की गिनती के नीचे अब हर दिन की एक छोटी पट्टी है, और एक पंक्ति जो पिछले 24 घंटों की तुलना उससे पहले के 24 घंटों से करती है (जैसे "उससे पहले के 24 घंटे से 55% ज़्यादा")। यह पाकिस्तान और भारत के फ़िल्टर के साथ बदलती है। हम अब 14 अक्टूबर 2026 से हर दिन की आग सुरक्षित भी कर रहे हैं, ताकि आगे दिखा सकें कि आग ज़िलों, तारीख़ों और दिन-रात के गुज़रने में कैसे बदलती है। बादल या घने धुएँ में उपग्रह आग नहीं देख पाते, इसलिए एक दिन की गिनती ऊपर-नीचे होती है। रोज़ के आँकड़े <a href="/data/#json">/api/days</a> पर खुले हैं।</p></section>
   <section class="entry" id="2026-10-19-wind"><time datetime="2026-10-19">19 अक्टूबर 2026</time><h2><a href="#2026-10-19-wind">नक्शे पर हवा: हवा कहाँ से आ रही है</a></h2><p>नई परत "अभी हवा का रुख़" मैदानों पर हवा के रुख़ में बहती स्याही जैसी रेखाएँ दिखाती है, मौसम मॉडल की हवाओं से जो हर आधे घंटे ताज़ा होती हैं (Open-Meteo)। "आपकी हवा" के नीचे अब यह भी लिखा आता है कि आपके यहाँ हवा किस रुख़ चल रही है, और किन बड़े शहरों की तरफ़ से आकर किनकी ओर जा रही है, ताकि आप देख सकें कि हवा के रुख़ पर लगी आग का धुआँ आप तक पहुँच सकता है या नहीं।</p></section>
   <section class="entry" id="2026-10-18-google-earth"><time datetime="2026-10-18">18 अक्टूबर 2026</time><h2><a href="#2026-10-18-google-earth">पूरा नक्शा अब गूगल अर्थ में</a></h2><p>अब आप हमारी हवा को गूगल अर्थ में खोल सकते हैं: <a href="/hamarihawa.kml">hamarihawa.org/hamarihawa.kml</a>। इसमें साइट की सभी परतें हैं, और हर परत अपने समय पर ताज़ा होती है: पिछले 24 घंटे (हर 15 मिनट) और 7 दिन की आग, 17 शहरों की हवा, ट्रैफ़िक और उद्योग के NO₂ हॉटस्पॉट, धुंध और रोज़ की उपग्रह तस्वीर, और प्रदूषण के ठिकाने। यह सामान्य KML फ़ाइल है, इसलिए QGIS, ArcGIS और Civil 3D में भी खुलती है। <a href="/data/">इस्तेमाल का तरीक़ा</a>।</p></section>
@@ -263,6 +282,7 @@
     document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
     document.querySelectorAll("[data-en]").forEach((el) => { el.textContent = el.dataset[lang] || el.dataset.en; });
     sketch();
+    dispatchEvent(new CustomEvent("hh:lang", { detail: lang }));
   }
   function sketch() {
     if (!window.rough) return;

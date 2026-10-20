@@ -129,6 +129,7 @@ def main():
     ap.add_argument("--season", help="years, e.g. 2019-2025 (1 Oct-30 Nov each)")
     ap.add_argument("--range", nargs=2, metavar=("FROM", "TO"))
     ap.add_argument("--upload", action="store_true")
+    ap.add_argument("--summaries", action="store_true", help="only recompute the days and dist indexes")
     a = ap.parse_args()
     if not (a.season or a.range):
         ap.error("give --season and/or --range")
@@ -137,6 +138,9 @@ def main():
     index_path = os.path.join(a.out, "days.json")
     index = json.loads(bf.kv("GET", "days") or b"{}") if a.upload else (
         json.load(open(index_path)) if os.path.exists(index_path) else {})
+    dist_path = os.path.join(a.out, "dist.json")
+    dist = json.loads(bf.kv("GET", "dist") or b"{}") if a.upload else (
+        json.load(open(dist_path)) if os.path.exists(dist_path) else {})
     firms, added = Firms(os.path.join(a.out, "raw")), []
     for d0, d1 in periods(a):
         # Pakistan-time days start at 19:00 UTC the day before, so fetch one extra UTC day in front.
@@ -144,17 +148,26 @@ def main():
         feed = bf.build(24, csvs)
         source = "NASA FIRMS " + ("final processing (SP)" if d1.isoformat() <= firms.sp_end.get("VIIRS_SNPP", "")
                                   else "near real time (NRT)")
-        days = bf.day_files(feed["_all"], keep=lambda s: d0.isoformat() <= s <= d1.isoformat() and s not in index,
+        # --summaries recomputes the index and district entries from cached downloads without rewriting day files.
+        days = bf.day_files(feed["_all"], keep=lambda s: d0.isoformat() <= s <= d1.isoformat() and (a.summaries or s not in index),
                             source=source)
         for d, day in days.items():
+            index[d] = {**day["summary"], "partial": False}
+            dist[d] = day.pop("districts")
+            if a.summaries:
+                continue
             body = json.dumps(day, separators=(",", ":"), ensure_ascii=False).encode()
             open(os.path.join(a.out, "days", f"{d}.json"), "wb").write(body)
-            index[d] = {**day["summary"], "partial": False}
             added.append((d, body))
         tot = sum(day["summary"]["spots"] for day in days.values())
         print(f"{d0}..{d1}: {len(days)} new days, {tot} spots, {firms.calls} API calls so far")
 
     open(index_path, "w").write(json.dumps(index, separators=(",", ":"), sort_keys=True))
+    open(dist_path, "w").write(json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False))
+    if a.upload and a.summaries:
+        bf.kv("PUT", "days", json.dumps(index, separators=(",", ":"), sort_keys=True).encode())
+        bf.kv("PUT", "dist", json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+        print("uploaded the days and dist indexes")
     if a.upload and added:
         acct, ns, tok = os.environ["CLOUDFLARE_ACCOUNT_ID"], os.environ["KV_NAMESPACE_ID"], os.environ["CLOUDFLARE_API_TOKEN"]
         url = f"https://api.cloudflare.com/client/v4/accounts/{acct}/storage/kv/namespaces/{ns}/bulk"
@@ -163,7 +176,8 @@ def main():
             bf.get(url, method="PUT", data=json.dumps(batch).encode(),
                    headers={"Authorization": f"Bearer {tok}", "Content-Type": "application/json"})
         bf.kv("PUT", "days", json.dumps(index, separators=(",", ":"), sort_keys=True).encode())
-        print(f"uploaded {len(added)} days and the index to KV")
+        bf.kv("PUT", "dist", json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+        print(f"uploaded {len(added)} days and the indexes to KV")
 
 
 if __name__ == "__main__":

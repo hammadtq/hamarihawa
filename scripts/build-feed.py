@@ -334,7 +334,9 @@ def summarise(spots):
 def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"):
     """Split points into Pakistan-time days: {date: day file} for the dates `keep` accepts.
     summary.snpp counts spots Suomi NPP saw on its own, the one satellite flying every year since
-    2012, so past seasons compare fairly with today's four-satellite counts."""
+    2012, so past seasons compare fairly with today's four-satellite counts; summary.sn splits it as
+    [all, PK, IN, night all, night PK, night IN]. The day file's "districts" lists the busiest
+    districts as [district, state, cc, spots, lat, lon] (centre of that day's fires), for the trends map."""
     by_day = {}
     for p in points:
         by_day.setdefault(local_date(p["t"]), []).append(p)
@@ -343,8 +345,24 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
         if not keep(date):
             continue
         spots = sorted(distinct(pts).values(), key=lambda p: p["t"])
-        summary = {**summarise(spots), "snpp": len(distinct([p for p in pts if p["si"] == 0]))}
-        out[date] = {"date": date, "source": source, "summary": summary,
+        sn_spots = distinct([p for p in pts if p["si"] == 0]).values()
+        sn = [0] * 6
+        for p in sn_spots:
+            col = 1 if p["cc"] == "PK" else 2 if p["cc"] == "IN" else None
+            sn[0] += 1
+            if col: sn[col] += 1
+            if p["night"]:
+                sn[3] += 1
+                if col: sn[3 + col] += 1
+        summary = {**summarise(spots), "snpp": sn[0], "sn": sn}
+        by_d = {}
+        for p in spots:
+            k = (p["district"] or p["state"] or "?", p["state"] or "", p["cc"] or "")
+            a = by_d.setdefault(k, [0, 0.0, 0.0])
+            a[0] += 1; a[1] += p["lat"]; a[2] += p["lon"]
+        districts = [[d, st, cc, n, round(la / n, 2), round(lo / n, 2)]
+                     for (d, st, cc), (n, la, lo) in sorted(by_d.items(), key=lambda kv: -kv[1][0]) if n >= 2][:80]
+        out[date] = {"date": date, "source": source, "summary": summary, "districts": districts,
                      "fields": ["lat", "lon", "t", "frp", "sat", "district", "state", "cc", "kind", "night"],
                      "spots": [[p["lat"], p["lon"], p["t"], round(p["frp"], 1),
                                 {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}[p["sat"]],
@@ -393,8 +411,11 @@ def main():
 
     # The 7-day file goes first: it feeds the daily archive and the trend shown on the shorter windows.
     days_path = os.path.join(a.out, "days.json")
+    dist_path = os.path.join(a.out, "dist.json")
     index = json.loads(kv("GET", "days") or b"{}") if a.upload else (
         json.load(open(days_path)) if os.path.exists(days_path) else {})
+    dist = json.loads(kv("GET", "dist") or b"{}") if a.upload else (
+        json.load(open(dist_path)) if os.path.exists(dist_path) else {})
     now, history = int(time.time() * 1000), None
     for hours in sorted(WINDOWS, reverse=True):
         win = WINDOWS[hours]
@@ -419,10 +440,14 @@ def main():
                     if a.upload:
                         kv("PUT", f"day-{date}", dbody)
                 index[date] = {**day["summary"], "partial": date == today}
+                dist[date] = day["districts"]
             ibody = json.dumps(index, separators=(",", ":"), sort_keys=True).encode()
+            dbody = json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode()
             open(days_path, "wb").write(ibody)
+            open(dist_path, "wb").write(dbody)
             if a.upload:
                 kv("PUT", "days", ibody)
+                kv("PUT", "dist", dbody)
             print(f"archive: {len(days)} days, {len(index)} in index")
         recent = sorted(index)[-TREND_DAYS:]
         feed["trend"] = {

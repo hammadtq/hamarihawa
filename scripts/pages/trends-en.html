@@ -1,0 +1,28 @@
+  <h1>Fire trends</h1>
+  <p class="lede" data-chart="headline">Loading the archive…</p>
+  <div data-chart="filter"></div>
+
+  <h2 id="seasons">Every burning season since 2019</h2>
+  <p>Each line is one season, 1 October to 30 November, when farmers burn rice stubble before sowing wheat. The red line is this year. To compare years fairly, these charts count only what NASA's <b>Suomi NPP</b> satellite saw, because it has flown every year. Newer satellites see more fires, so adding them would make recent years look worse than they are.</p>
+  <div data-chart="season"></div>
+
+  <h2 id="totals">Season totals</h2>
+  <p>The dark part of each bar is 1 October up to the latest full day of this season, so you can compare this year with the same dates in earlier years. The light part is the rest of that season.</p>
+  <div data-chart="totals"></div>
+
+  <h2 id="districts">Where the burning moves</h2>
+  <p>Each bubble is a district, sized by the fire spots all satellites saw there that day. Pick a year and press play to watch a season unfold. Most of the burning is in the two Punjabs: Sangrur, Bathinda, Firozpur and Moga on the Indian side, and Jhang, Okara, Hafizabad, Gujranwala and Nankana Sahib on the Pakistani side.</p>
+  <div data-chart="bubbles"></div>
+
+  <h2 id="night">Day and night</h2>
+  <p>Suomi NPP crosses the region around 1:30 in the afternoon and 1:30 at night. Each bar shows what share of a season's fires it caught on the night pass. That share has grown from about 3% in 2019 to about 8% in 2025, which fits reports that more farmers now burn in the late afternoon and evening, after the daytime pass. A fire lit at 4 pm that dies down before 1:30 am is missed by both passes. So part of the fall in fire counts may be fires the satellites didn't see, rather than fires that didn't happen.</p>
+  <div data-chart="night"></div>
+
+  <h2 id="method">How this is counted</h2>
+  <ul>
+    <li><b>Fire spots</b>: places hot enough for the satellite to notice, in 375 m squares. The same spot seen by several satellites counts once.</li>
+    <li><b>Cloud and smoke</b> hide fires, so single days swing. The season lines use a 7-day average.</li>
+    <li><b>Days</b> run on Pakistan time, so the 1:30 am pass belongs to the date it happened on.</li>
+    <li><b>Sources</b>: NASA FIRMS. Past seasons are from NASA's final processing; this season is from its near-real-time feed, which can differ by a few percent.</li>
+    <li><b>The data</b>: daily totals at <a href="/api/days"><code>/api/days</code></a> and districts at <a href="/api/districts"><code>/api/districts</code></a>. See <a href="/data/#json">Use the data</a>.</li>
+  </ul>

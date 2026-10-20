@@ -81,6 +81,7 @@
   .doc ul, .doc ol { padding-inline-start: 22px; margin: 8px 0; }
   .doc li + li { margin-top: 6px; }
   .doc code { font-size: 14px; background: #f4f2ec; padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .doc.wide { max-width: 980px; }
   .doc .lede { font-size: 18px; color: var(--ink); margin-top: 8px; }
   .doc .callout { padding: 16px 20px; margin: 22px 0; }
   .doc .callout p { color: var(--ink); }
@@ -107,6 +108,7 @@
   <nav class="menu" aria-label="Pages">
     <a href="/" data-nav="map" data-en="Live map" data-ur="تازہ نقشہ" data-hi="लाइव नक्शा">Live map</a>
     <a href="/sites/" data-nav="sites" data-en="Pollution sites" data-ur="آلودگی کے مقامات" data-hi="प्रदूषण के ठिकाने">Pollution sites</a>
+    <a href="/trends/" data-nav="trends" data-en="Fire trends" data-ur="آگ کا رجحان" data-hi="आग का रुझान">Fire trends</a>
     <a href="/about/" data-nav="about" data-en="About" data-ur="تعارف" data-hi="परिचय">About</a>
   </nav>
   <div class="top-right">
@@ -299,6 +301,7 @@
     document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
     document.querySelectorAll("[data-en]").forEach((el) => { el.textContent = el.dataset[lang] || el.dataset.en; });
     sketch();
+    dispatchEvent(new CustomEvent("hh:lang", { detail: lang }));
   }
   function sketch() {
     if (!window.rough) return;

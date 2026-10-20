@@ -90,6 +90,10 @@ async function handle(request, env, url) {
       const body = await env.FEED.get("days", { cacheTtl: 300 });
       return body ? json(body, 200, 600) : json(JSON.stringify({}), 200, 60);
     }
+    if (url.pathname === "/api/districts") {
+      const body = await env.FEED.get("dist", { cacheTtl: 300 });
+      return body ? json(body, 200, 1800) : json(JSON.stringify({}), 200, 60);
+    }
     if (url.pathname === "/api/day") {
       const d = url.searchParams.get("d") || "";
       if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return json(JSON.stringify({ error: "Use ?d=YYYY-MM-DD" }), 400, 3600);

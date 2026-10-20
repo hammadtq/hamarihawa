@@ -1,0 +1,44 @@
+/* Fire trends page. Charts are plain SVG in the site's ink-and-paper style. */
+.doc .lede[data-chart="headline"] { font-size: 19px; min-height: 3.2em; }
+.tfilter { margin: 14px 0 4px; }
+.tfilter button { font-size: 14px; padding: 2px 14px; }
+
+.tchart { position: relative; margin: 14px 0 6px; }
+.tchart svg { display: block; width: 100%; height: auto; overflow: visible; touch-action: pan-y; }
+.tchart .grid { stroke: var(--hair); stroke-width: 1; }
+.tchart .tick { font: 11.5px var(--sans); fill: var(--ink-3); }
+.tchart .axis { font: 12px var(--sans); fill: var(--ink-2); }
+.tchart .ylabel { font: 12px var(--hand); }
+.tchart .val { font: 700 13px var(--hand); fill: var(--ink); }
+@media (max-width: 560px) { .tchart .val { font-size: 11.5px; } .tchart .tick { font-size: 10.5px; } }
+.tchart .guide { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 3; }
+.tchart .bar-rest { fill: #ebe6db; }
+.tchart .bar-same { fill: #8a857b; }
+.tchart .bar-night { fill: #3b4a6b; }
+.tchart .bar-cur { fill: var(--fire); }
+.tchart .dot-same { fill: #fff; stroke: var(--fire); stroke-width: 2; }
+html[lang="ur"] .tchart .tick, html[lang="ur"] .tchart .axis { font-family: var(--urdu); font-size: 11px; }
+
+.ttip { position: absolute; top: 18px; min-width: 112px; background: #fff; border: 1.2px solid var(--line); border-radius: 10px 7px 11px 6px;
+  padding: 6px 10px; font: 12.5px var(--sans); line-height: 1.5; pointer-events: none; box-shadow: 2px 2px 0 rgba(0, 0, 0, .06); }
+.ttip[hidden] { display: none; }
+.ttip .td { font-family: var(--hand); font-weight: 700; margin-bottom: 2px; }
+.ttip div:not(.td) { display: flex; justify-content: space-between; gap: 14px; color: var(--ink-2); }
+.ttip .cur { color: var(--fire) !important; font-weight: 600; }
+
+.tkey { font-size: 13px !important; color: var(--ink-3) !important; margin-top: 4px; }
+.tkey i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; vertical-align: -1px; margin: 0 5px 0 12px; }
+.tkey i:first-child { margin-inline-start: 0; }
+.tkey .k-same { background: #8a857b; } .tkey .k-rest { background: #ebe6db; } .tkey .k-cur { background: var(--fire); }
+.tkey .k-night { background: #3b4a6b; } .tkey .k-dot { background: #fff; border: 2px solid var(--fire); border-radius: 50%; }
+
+.tbubbles { margin: 14px 0 6px; }
+.tbubbles .chips { margin: 0 0 8px; }
+.tbubbles .chips button { font-size: 13px; }
+.tbubbles .brow { display: flex; align-items: center; gap: 10px; }
+.tbubbles .bplay { flex: none; min-width: 88px; background: var(--ink); color: #fff; border: 0; border-radius: 13px 9px 12px 8px; padding: 4px 12px; font-size: 13px; cursor: pointer; }
+.tbubbles input[type=range] { flex: 1; accent-color: var(--fire); }
+.tbubbles .bdate { font: 700 17px var(--hand) !important; color: var(--ink) !important; margin: 6px 0 8px; min-height: 1.5em; }
+html[lang="ur"] .tbubbles .bdate, html[lang="ur"] .tbubbles .bplay { font-family: var(--urdu) !important; font-weight: 400; font-size: 14px !important; }
+.tbubbles .bmap { height: 470px; border-radius: 4px; }
+@media (max-width: 860px) { .tbubbles .bmap { height: 360px; } .doc .lede[data-chart="headline"] { font-size: 17px; } }

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<!-- Google tag (gtag.js), only on the real site so local and preview traffic isn't counted -->
+<script>
+  if (location.hostname === "hamarihawa.org") {
+    var s = document.createElement("script");
+    s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=G-JQFHSTFN9H";
+    document.head.appendChild(s);
+  }
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JQFHSTFN9H');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fire trends · HamariHawa</title>
+<meta name="description" content="How crop burning in Pakistan and North India has changed since 2019: every October-November season compared, this year against last, where in Punjab and Haryana the fires move, and the day and night satellite passes. From NASA FIRMS data.">
+<link rel="canonical" href="https://hamarihawa.org/trends/">
+<link rel="alternate" hreflang="en" href="https://hamarihawa.org/trends/?lang=en">
+<link rel="alternate" hreflang="ur" href="https://hamarihawa.org/trends/?lang=ur">
+<link rel="alternate" hreflang="hi" href="https://hamarihawa.org/trends/?lang=hi">
+<link rel="alternate" hreflang="x-default" href="https://hamarihawa.org/trends/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fire trends · HamariHawa">
+<meta property="og:description" content="How crop burning in Pakistan and North India has changed since 2019: every October-November season compared, this year against last, where in Punjab and Haryana the fires move, and the day and night satellite passes. From NASA FIRMS data.">
+<meta property="og:site_name" content="HamariHawa">
+<meta property="og:url" content="https://hamarihawa.org/trends/">
+<meta property="og:image" content="https://hamarihawa.org/og/map-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="HamariHawa: live fire and air map of Pakistan and North India">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="ur_PK">
+<meta property="og:locale:alternate" content="hi_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@hammadtariq">
+<meta name="twitter:title" content="Fire trends · HamariHawa">
+<meta name="twitter:description" content="How crop burning in Pakistan and North India has changed since 2019: every October-November season compared, this year against last, where in Punjab and Haryana the fires move, and the day and night satellite passes. From NASA FIRMS data.">
+<meta name="twitter:image" content="https://hamarihawa.org/og/map-v2.png">
+<meta name="twitter:image:alt" content="HamariHawa: live fire and air map of Pakistan and North India">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="alternate" type="application/atom+xml" title="HamariHawa updates" href="/updates/feed.xml">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="/trends/trends.css?v=1792505652">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "@id": "https://hamarihawa.org/trends/#page",
+ "name": "Crop fire trends in Pakistan and North India since 2019",
+ "url": "https://hamarihawa.org/trends/",
+ "inLanguage": [
+  "en",
+  "ur",
+  "hi"
+ ],
+ "publisher": {
+  "@id": "https://hamarihawa.org/#org"
+ },
+ "isPartOf": {
+  "@id": "https://hamarihawa.org/#website"
+ },
+ "about": [
+  "Crop residue burning in Punjab and Haryana",
+  "Satellite fire counts by season, district, day and night"
+ ],
+ "mainEntity": {
+  "@type": "Dataset",
+  "name": "HamariHawa daily fire archive",
+  "description": "Daily counts of satellite fire spots over Pakistan and North India (25-35.5 N, 66-88.5 E) from NASA FIRMS, October-November 2019 onwards and every day since 1 October 2026, split by country, day/night pass and district.",
+  "url": "https://hamarihawa.org/trends/",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creator": {
+   "@id": "https://hamarihawa.org/#org"
+  },
+  "temporalCoverage": "2019-10-01/..",
+  "distribution": [
+   {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "https://hamarihawa.org/api/days"
+   },
+   {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "https://hamarihawa.org/api/districts"
+   }
+  ]
+ }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z' fill='none' stroke='%23d62d20' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
+<link rel="stylesheet" href="/app.css?v=202610201730">
+<style>
+  .doc { max-width: 760px; margin: 0 auto; padding: 36px 20px 60px; }
+  .doc h1 { font-family: var(--hand); font-size: clamp(32px, 5vw, 44px); }
+  .doc h2 { font-size: 23px; margin: 34px 0 8px; }
+  .doc h3 { font-size: 18px; margin: 20px 0 6px; }
+  .doc p, .doc li { color: var(--ink-2); font-size: 16.5px; line-height: 1.65; }
+  .doc p + p { margin-top: 10px; }
+  .doc ul, .doc ol { padding-inline-start: 22px; margin: 8px 0; }
+  .doc li + li { margin-top: 6px; }
+  .doc code { font-size: 14px; background: #f4f2ec; padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .doc.wide { max-width: 980px; }
+  .doc .lede { font-size: 18px; color: var(--ink); margin-top: 8px; }
+  .doc .callout { padding: 16px 20px; margin: 22px 0; }
+  .doc .callout p { color: var(--ink); }
+  .doc .entry { padding: 18px 0; border-top: 1px dashed var(--hair); }
+  .doc .entry time { font-family: var(--hand); color: var(--ink-3); font-size: 15px; }
+  .doc .entry h2 { margin: 2px 0 6px; font-size: 21px; }
+  .doc .entry h2 a { color: inherit; text-decoration: none; }
+  .doc .foot-links { margin-top: 40px; font-size: 14px; }
+  .doc table { border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0; }
+  .doc th, .doc td { text-align: start; padding: 6px 8px; border-bottom: 1px solid var(--hair); vertical-align: top; color: var(--ink-2); }
+  .doc .table-wrap { overflow-x: auto; }
+  article[hidden] { display: none; }
+  html[lang="ur"] .doc p, html[lang="ur"] .doc li, html[lang="ur"] .doc td { line-height: 2.2; font-size: 15.5px; }
+  html[lang="ur"] .doc h1, html[lang="ur"] .doc h2, html[lang="ur"] .doc h3 { font-family: var(--urdu); line-height: 1.9; }
+  @media (max-width: 860px) { .doc { padding: 24px 16px 48px; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/" aria-label="HamariHawa home">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="30" height="30"><path d="M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 24c4-2 7 2 11 0s7-2 11 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+    <span class="word">HamariHawa</span>
+  </a>
+  <nav class="menu" aria-label="Pages">
+    <a href="/" data-nav="map" data-en="Live map" data-ur="تازہ نقشہ" data-hi="लाइव नक्शा">Live map</a>
+    <a href="/sites/" data-nav="sites" data-en="Pollution sites" data-ur="آلودگی کے مقامات" data-hi="प्रदूषण के ठिकाने">Pollution sites</a>
+    <a href="/trends/" data-nav="trends" aria-current="page" data-en="Fire trends" data-ur="آگ کا رجحان" data-hi="आग का रुझान">Fire trends</a>
+    <a href="/about/" data-nav="about" data-en="About" data-ur="تعارف" data-hi="परिचय">About</a>
+  </nav>
+  <div class="top-right">
+    <div class="lang" role="group" aria-label="Language">
+      <button data-lang="en">EN</button><button data-lang="ur" lang="ur">اردو</button><button data-lang="hi" lang="hi">हिन्दी</button>
+    </div>
+  </div>
+</header>
+
+<main class="doc wide">
+<article data-lang="en">
+<h1>Fire trends</h1>
+  <p class="lede" data-chart="headline">Loading the archive…</p>
+  <div data-chart="filter"></div>
+
+  <h2 id="seasons">Every burning season since 2019</h2>
+  <p>Each line is one season, 1 October to 30 November, when farmers burn rice stubble before sowing wheat. The red line is this year. To compare years fairly, these charts count only what NASA's <b>Suomi NPP</b> satellite saw, because it has flown every year. Newer satellites see more fires, so adding them would make recent years look worse than they are.</p>
+  <div data-chart="season"></div>
+
+  <h2 id="totals">Season totals</h2>
+  <p>The dark part of each bar is 1 October up to the latest full day of this season, so you can compare this year with the same dates in earlier years. The light part is the rest of that season.</p>
+  <div data-chart="totals"></div>
+
+  <h2 id="districts">Where the burning moves</h2>
+  <p>Each bubble is a district, sized by the fire spots all satellites saw there that day. Pick a year and press play to watch a season unfold. Most of the burning is in the two Punjabs: Sangrur, Bathinda, Firozpur and Moga on the Indian side, and Jhang, Okara, Hafizabad, Gujranwala and Nankana Sahib on the Pakistani side.</p>
+  <div data-chart="bubbles"></div>
+
+  <h2 id="night">Day and night</h2>
+  <p>Suomi NPP crosses the region around 1:30 in the afternoon and 1:30 at night. Each bar shows what share of a season's fires it caught on the night pass. That share has grown from about 3% in 2019 to about 8% in 2025, which fits reports that more farmers now burn in the late afternoon and evening, after the daytime pass. A fire lit at 4 pm that dies down before 1:30 am is missed by both passes. So part of the fall in fire counts may be fires the satellites didn't see, rather than fires that didn't happen.</p>
+  <div data-chart="night"></div>
+
+  <h2 id="method">How this is counted</h2>
+  <ul>
+    <li><b>Fire spots</b>: places hot enough for the satellite to notice, in 375 m squares. The same spot seen by several satellites counts once.</li>
+    <li><b>Cloud and smoke</b> hide fires, so single days swing. The season lines use a 7-day average.</li>
+    <li><b>Days</b> run on Pakistan time, so the 1:30 am pass belongs to the date it happened on.</li>
+    <li><b>Sources</b>: NASA FIRMS. Past seasons are from NASA's final processing; this season is from its near-real-time feed, which can differ by a few percent.</li>
+    <li><b>The data</b>: daily totals at <a href="/api/days"><code>/api/days</code></a> and districts at <a href="/api/districts"><code>/api/districts</code></a>. See <a href="/data/#json">Use the data</a>.</li>
+  </ul>
+  <p class="foot-links"><a href="/">← Back to the live map</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a></p>
+</article>
+<article data-lang="ur" hidden>
+<h1>آگ کا رجحان</h1>
+  <p class="lede" data-chart="headline">ریکارڈ لوڈ ہو رہا ہے…</p>
+  <div data-chart="filter"></div>
+
+  <h2 id="seasons">2019 سے ہر سال کا موسم</h2>
+  <p>ہر لکیر ایک موسم ہے، 1 اکتوبر سے 30 نومبر تک، جب کسان گندم بونے سے پہلے دھان کی پرالی جلاتے ہیں۔ سرخ لکیر اس سال کی ہے۔ سالوں کا منصفانہ موازنہ کرنے کے لیے یہ چارٹ صرف ناسا کے <b>Suomi NPP</b> سیٹلائٹ کی دیکھی آگ گنتے ہیں، کیونکہ وہ ہر سال موجود رہا ہے۔ نئے سیٹلائٹ زیادہ آگ دیکھتے ہیں، انہیں شامل کرنے سے حالیہ سال اصل سے زیادہ برے لگتے۔</p>
+  <div data-chart="season"></div>
+
+  <h2 id="totals">ہر موسم کی کل آگ</h2>
+  <p>ہر پٹی کا گہرا حصہ 1 اکتوبر سے اس موسم کے آخری مکمل دن تک ہے، تاکہ آپ اس سال کا پچھلے سالوں کی انہی تاریخوں سے موازنہ کر سکیں۔ ہلکا حصہ اس موسم کا باقی وقت ہے۔</p>
+  <div data-chart="totals"></div>
+
+  <h2 id="districts">آگ کہاں کہاں جاتی ہے</h2>
+  <p>ہر بلبلہ ایک ضلع ہے، اور اس کا سائز بتاتا ہے کہ اس دن تمام سیٹلائٹس نے وہاں کتنی جگہ آگ دیکھی۔ سال چنیں اور چلائیں دبائیں تاکہ پورا موسم سامنے آئے۔ زیادہ تر آگ دونوں پنجابوں میں ہے: ہندوستانی طرف سنگرور، بٹھنڈا، فیروزپور اور موگا، اور پاکستانی طرف جھنگ، اوکاڑہ، حافظ آباد، گوجرانوالہ اور ننکانہ صاحب۔</p>
+  <div data-chart="bubbles"></div>
+
+  <h2 id="night">دن اور رات</h2>
+  <p>Suomi NPP اس علاقے پر سے دوپہر تقریباً ڈیڑھ بجے اور رات تقریباً ڈیڑھ بجے گزرتا ہے۔ ہر پٹی بتاتی ہے کہ موسم کی کتنی آگ رات کے گزرنے پر دکھی۔ یہ حصہ 2019 میں تقریباً 3% سے بڑھ کر 2025 میں تقریباً 8% ہو گیا ہے، جو ان خبروں سے میل کھاتا ہے کہ اب زیادہ کسان دن کے سیٹلائٹ کے گزرنے کے بعد، شام کو آگ لگاتے ہیں۔ شام 4 بجے لگی آگ جو رات ڈیڑھ بجے سے پہلے بجھ جائے، دونوں بار نظر نہیں آتی۔ اس لیے آگ کی گنتی میں کمی کا کچھ حصہ وہ آگ ہو سکتی ہے جو سیٹلائٹ نے دیکھی ہی نہیں۔</p>
+  <div data-chart="night"></div>
+
+  <h2 id="method">یہ کیسے گنا گیا</h2>
+  <ul>
+    <li><b>آگ کی جگہیں</b>: 375 میٹر کے چوکور جو سیٹلائٹ کو کافی گرم دکھیں۔ ایک ہی جگہ کئی سیٹلائٹ دیکھیں تو ایک بار گنی جاتی ہے۔</li>
+    <li><b>بادل اور دھواں</b> آگ چھپا لیتے ہیں، اس لیے ایک دن کی گنتی اوپر نیچے ہوتی ہے۔ موسم کی لکیریں 7 دن کی اوسط ہیں۔</li>
+    <li><b>دن</b> پاکستان کے وقت سے گنے گئے ہیں، تاکہ رات ڈیڑھ بجے کا گزرنا اسی تاریخ میں آئے۔</li>
+    <li><b>ذرائع</b>: ناسا FIRMS۔ پچھلے موسم ناسا کی حتمی پروسیسنگ سے ہیں؛ یہ موسم فوری فیڈ سے، جس میں چند فیصد فرق ہو سکتا ہے۔</li>
+    <li><b>ڈیٹا</b>: روزانہ اعداد <a href="/api/days"><code>/api/days</code></a> پر اور اضلاع <a href="/api/districts"><code>/api/districts</code></a> پر۔ دیکھیں <a href="/data/#json">ڈیٹا استعمال کریں</a>۔</li>
+  </ul>
+  <p class="foot-links"><a href="/">تازہ نقشے پر واپس →</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a></p>
+</article>
+<article data-lang="hi" hidden>
+<h1>आग का रुझान</h1>
+  <p class="lede" data-chart="headline">रिकॉर्ड लोड हो रहा है…</p>
+  <div data-chart="filter"></div>
+
+  <h2 id="seasons">2019 से हर साल का मौसम</h2>
+  <p>हर रेखा एक मौसम है, 1 अक्टूबर से 30 नवंबर तक, जब किसान गेहूँ बोने से पहले धान की पराली जलाते हैं। लाल रेखा इस साल की है। सालों की सही तुलना के लिए ये चार्ट सिर्फ़ नासा के <b>Suomi NPP</b> उपग्रह की देखी आग गिनते हैं, क्योंकि वह हर साल मौजूद रहा है। नए उपग्रह ज़्यादा आग देखते हैं, उन्हें जोड़ने से हाल के साल असल से ज़्यादा बुरे लगते।</p>
+  <div data-chart="season"></div>
+
+  <h2 id="totals">हर मौसम की कुल आग</h2>
+  <p>हर पट्टी का गहरा हिस्सा 1 अक्टूबर से इस मौसम के आख़िरी पूरे दिन तक है, ताकि आप इस साल की तुलना पिछले सालों की उन्हीं तारीख़ों से कर सकें। हल्का हिस्सा उस मौसम का बाक़ी समय है।</p>
+  <div data-chart="totals"></div>
+
+  <h2 id="districts">आग कहाँ-कहाँ जाती है</h2>
+  <p>हर बुलबुला एक ज़िला है, और उसका आकार बताता है कि उस दिन सभी उपग्रहों ने वहाँ कितनी जगह आग देखी। साल चुनें और चलाएँ दबाएँ ताकि पूरा मौसम सामने आए। ज़्यादातर आग दोनों पंजाबों में है: भारतीय तरफ़ संगरूर, बठिंडा, फ़िरोज़पुर और मोगा, और पाकिस्तानी तरफ़ झंग, ओकाड़ा, हाफ़िज़ाबाद, गुजरांवाला और ननकाना साहिब।</p>
+  <div data-chart="bubbles"></div>
+
+  <h2 id="night">दिन और रात</h2>
+  <p>Suomi NPP इस इलाक़े के ऊपर से दोपहर लगभग डेढ़ बजे और रात लगभग डेढ़ बजे गुज़रता है। हर पट्टी बताती है कि मौसम की कितनी आग रात के गुज़रने पर दिखी। यह हिस्सा 2019 में लगभग 3% से बढ़कर 2025 में लगभग 8% हो गया है, जो उन ख़बरों से मेल खाता है कि अब ज़्यादा किसान दिन के उपग्रह के गुज़रने के बाद, शाम को आग लगाते हैं। शाम 4 बजे लगी आग जो रात डेढ़ बजे से पहले बुझ जाए, दोनों बार नहीं दिखती। इसलिए आग की गिनती में कमी का कुछ हिस्सा वह आग हो सकती है जो उपग्रह ने देखी ही नहीं।</p>
+  <div data-chart="night"></div>
+
+  <h2 id="method">यह कैसे गिना गया</h2>
+  <ul>
+    <li><b>आग की जगहें</b>: 375 मीटर के चौकोर जो उपग्रह को काफ़ी गर्म दिखें। एक ही जगह कई उपग्रह देखें तो एक बार गिनी जाती है।</li>
+    <li><b>बादल और धुआँ</b> आग छिपा लेते हैं, इसलिए एक दिन की गिनती ऊपर-नीचे होती है। मौसम की रेखाएँ 7 दिन का औसत हैं।</li>
+    <li><b>दिन</b> पाकिस्तान के समय से गिने गए हैं, ताकि रात डेढ़ बजे का गुज़रना उसी तारीख़ में आए।</li>
+    <li><b>स्रोत</b>: नासा FIRMS। पिछले मौसम नासा की अंतिम प्रोसेसिंग से हैं; यह मौसम तुरंत वाली फ़ीड से, जिसमें कुछ प्रतिशत का फ़र्क़ हो सकता है।</li>
+    <li><b>डेटा</b>: रोज़ के आँकड़े <a href="/api/days"><code>/api/days</code></a> पर और ज़िले <a href="/api/districts"><code>/api/districts</code></a> पर। देखें <a href="/data/#json">डेटा इस्तेमाल करें</a>।</li>
+  </ul>
+  <p class="foot-links"><a href="/">← लाइव नक्शे पर वापस</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a></p>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+(() => {
+  let lang = "en";
+  try { lang = localStorage.getItem("hh-lang") || "en"; } catch {}
+  const qLang = new URLSearchParams(location.search).get("lang");
+  if (qLang) lang = qLang;
+  if (!["en", "ur", "hi"].includes(lang)) lang = "en";
+  function apply() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ur" ? "rtl" : "ltr";
+    document.querySelectorAll("article[data-lang]").forEach((a) => { a.hidden = a.dataset.lang !== lang; });
+    document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
+    document.querySelectorAll("[data-en]").forEach((el) => { el.textContent = el.dataset[lang] || el.dataset.en; });
+    sketch();
+    dispatchEvent(new CustomEvent("hh:lang", { detail: lang }));
+  }
+  function sketch() {
+    if (!window.rough) return;
+    document.querySelectorAll("article:not([hidden]) .sketch").forEach((el) => {
+      const w = el.clientWidth, h = el.clientHeight;
+      el.querySelector("svg.rough")?.remove();
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "rough"); svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      svg.appendChild(rough.svg(svg).rectangle(1.5, 1.5, w - 3, h - 3, { roughness: 1, bowing: 0.8, stroke: "#2b2b2b", strokeWidth: 1.1, seed: 5 }));
+      el.appendChild(svg);
+    });
+  }
+  document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
+    lang = b.dataset.lang;
+    try { localStorage.setItem("hh-lang", lang); } catch {}
+    apply();
+  }));
+  addEventListener("resize", sketch);
+  if (!window.rough) document.documentElement.classList.add("no-rough");
+  apply();
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="/trends/trends.js?v=1792505652"></script>
+</body>
+</html>

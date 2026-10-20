@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Build the "Use the data" page and the rolling "Updates" page (plus its Atom feed).
+"""Build the "Use the data" page, the "Fire trends" page and the rolling "Updates" page (plus its Atom feed).
 
 To post an update: add an entry at the top of site/public/updates/updates.json
 (id, date, title and body in en/ur/hi; body is HTML), then run this script and deploy.
-The data page text lives in scripts/pages/data-{en,ur,hi}.html.
+The data and trends page text lives in scripts/pages/{data,trends}-{en,ur,hi}.html; the trends
+charts are drawn by site/public/trends/trends.js into the [data-chart] placeholders.
 
 Usage: python3 -I scripts/build-pages.py
-Writes site/public/data/index.html, site/public/updates/index.html, site/public/updates/feed.xml.
+Writes site/public/data/index.html, site/public/trends/index.html, site/public/updates/index.html,
+site/public/updates/feed.xml.
 """
 import html, json, os, re
 from datetime import date
@@ -22,7 +24,7 @@ MONTHS = {
     "hi": "जनवरी फ़रवरी मार्च अप्रैल मई जून जुलाई अगस्त सितंबर अक्टूबर नवंबर दिसंबर".split(),
 }
 NAV = [("/", "map", "Live map", "تازہ نقشہ", "लाइव नक्शा"), ("/sites/", "sites", "Pollution sites", "آلودگی کے مقامات", "प्रदूषण के ठिकाने"),
-       ("/about/", "about", "About", "تعارف", "परिचय")]
+       ("/trends/", "trends", "Fire trends", "آگ کا رجحان", "आग का रुझान"), ("/about/", "about", "About", "تعارف", "परिचय")]
 FOOT = {
     "en": '<a href="/">← Back to the live map</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a>',
     "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a>',
@@ -35,10 +37,11 @@ def fmt_date(iso, lang):
     return f"{d.day} {MONTHS[lang][d.month - 1]} {d.year}"
 
 
-def page(path, title, desc, articles, jsonld, extra_head=""):
+def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=False):
     url = f"{SITE}{path}"
     t, dsc = html.escape(title), html.escape(desc)
-    nav = "\n".join(f'    <a href="{h}" data-nav="{k}" data-en="{en}" data-ur="{ur}" data-hi="{hi}">{en}</a>' for h, k, en, ur, hi in NAV)
+    nav = "\n".join(f'    <a href="{h}" data-nav="{k}"{' aria-current="page"' if h == path else ""} data-en="{en}" data-ur="{ur}" data-hi="{hi}">{en}</a>'
+                     for h, k, en, ur, hi in NAV)
     arts = "\n".join(f'<article data-lang="{l}"{"" if l == "en" else " hidden"}>\n{articles[l]}\n  <p class="foot-links">{FOOT[l]}</p>\n</article>'
                      for l in LANGS)
     return f"""<!doctype html>
@@ -103,6 +106,7 @@ def page(path, title, desc, articles, jsonld, extra_head=""):
   .doc ul, .doc ol {{ padding-inline-start: 22px; margin: 8px 0; }}
   .doc li + li {{ margin-top: 6px; }}
   .doc code {{ font-size: 14px; background: #f4f2ec; padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }}
+  .doc.wide {{ max-width: 980px; }}
   .doc .lede {{ font-size: 18px; color: var(--ink); margin-top: 8px; }}
   .doc .callout {{ padding: 16px 20px; margin: 22px 0; }}
   .doc .callout p {{ color: var(--ink); }}
@@ -136,7 +140,7 @@ def page(path, title, desc, articles, jsonld, extra_head=""):
   </div>
 </header>
 
-<main class="doc">
+<main class="doc{" wide" if wide else ""}">
 {arts}
 </main>
 
@@ -155,6 +159,7 @@ def page(path, title, desc, articles, jsonld, extra_head=""):
     document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
     document.querySelectorAll("[data-en]").forEach((el) => {{ el.textContent = el.dataset[lang] || el.dataset.en; }});
     sketch();
+    dispatchEvent(new CustomEvent("hh:lang", {{ detail: lang }}));
   }}
   function sketch() {{
     if (!window.rough) return;
@@ -177,7 +182,7 @@ def page(path, title, desc, articles, jsonld, extra_head=""):
   apply();
 }})();
 </script>
-</body>
+{scripts}</body>
 </html>
 """
 
@@ -233,6 +238,32 @@ def data_page():
     print("data page written")
 
 
+def trends_page():
+    arts = {l: open(os.path.join(ROOT, "scripts", "pages", f"trends-{l}.html"), encoding="utf-8").read().strip() for l in LANGS}
+    js_v = int(os.path.getmtime(os.path.join(PUB, "trends", "trends.js")))
+    jsonld = {"@context": "https://schema.org", "@type": "WebPage", "@id": f"{SITE}/trends/#page",
+              "name": "Crop fire trends in Pakistan and North India since 2019", "url": f"{SITE}/trends/",
+              "inLanguage": ["en", "ur", "hi"], "publisher": ORG, "isPartOf": {"@id": f"{SITE}/#website"},
+              "about": ["Crop residue burning in Punjab and Haryana", "Satellite fire counts by season, district, day and night"],
+              "mainEntity": {"@type": "Dataset", "name": "HamariHawa daily fire archive",
+                             "description": "Daily counts of satellite fire spots over Pakistan and North India (25-35.5 N, 66-88.5 E) from NASA FIRMS, "
+                                            "October-November 2019 onwards and every day since 1 October 2026, split by country, day/night pass and district.",
+                             "url": f"{SITE}/trends/", "license": "https://creativecommons.org/licenses/by/4.0/",
+                             "creator": ORG, "temporalCoverage": "2019-10-01/..",
+                             "distribution": [{"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": f"{SITE}/api/days"},
+                                              {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": f"{SITE}/api/districts"}]}}
+    head = ('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n'
+            f'<link rel="stylesheet" href="/trends/trends.css?v={js_v}">\n')
+    scripts = ('<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n'
+               f'<script src="/trends/trends.js?v={js_v}"></script>\n')
+    out = page("/trends/", "Fire trends", "How crop burning in Pakistan and North India has changed since 2019: every October-November season compared, "
+               "this year against last, where in Punjab and Haryana the fires move, and the day and night satellite passes. From NASA FIRMS data.",
+               arts, jsonld, extra_head=head, scripts=scripts, wide=True)
+    open(os.path.join(PUB, "trends", "index.html"), "w", encoding="utf-8").write(out)
+    print("trends page written")
+
+
 if __name__ == "__main__":
     data_page()
+    trends_page()
     updates()

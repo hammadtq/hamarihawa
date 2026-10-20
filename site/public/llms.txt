@@ -7,6 +7,7 @@
 - [Pollution sites](https://hamarihawa.org/sites/): traffic NO₂ hotspots, landfills with methane plumes, power and industrial plants with CO₂ plumes, always-hot industrial sites and the districts with the most brick kilns.
 - [About, method and disclaimer](https://hamarihawa.org/about/): methods, limits, privacy, credits.
 - [Use the data](https://hamarihawa.org/data/): Google Earth KML feed, how to use it in GIS tools, why Google Maps can't show live layers, JSON feeds and licences.
+- [Fire trends](https://hamarihawa.org/trends/): every October–November burning season since 2019 compared (Suomi NPP counts, so years compare fairly), this season against the same dates last year, season totals, the share of fires seen on the night pass, and a day-by-day district bubble map.
 - [What's new](https://hamarihawa.org/updates/): dated list of additions and fixes, newest first. Atom feed: https://hamarihawa.org/updates/feed.xml
 - [24-month Lahore and Islamabad air report](https://hamarihawa.org/report/).
 
@@ -36,4 +37,5 @@
 HamariHawa (hamarihawa.org), using NASA FIRMS, NASA GIBS / Copernicus Sentinel-5P, Copernicus CAMS via Open-Meteo, Carbon Mapper, SentinelKilnDB, the Pakistan IGP Brick Kiln Dataset, OpenStreetMap and GeoNames.
 
 ## Caveats
+- Fire counts since 2021 have fallen by about two-thirds, but the share seen on the 1:30 am pass rose from about 3% (2019) to 8% (2025), consistent with reports of burning moving to late afternoon and evening, between satellite passes. Lower counts may partly be missed fires.
 Being shown on this site means satellites detected heat or pollution at a place; it does not identify who lit a fire or show that anyone broke the law.
