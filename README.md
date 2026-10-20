@@ -10,11 +10,15 @@ A live satellite map of fires, smoke and air pollution over Pakistan and North I
 
 ## How it works
 
-```
-NASA FIRMS ──► GitHub Action (every 15 min) ──► Cloudflare KV ──► Worker ──► the page
-  fires          scripts/build-feed.py            fires-24/48/168, days, dist   /api/*
-Sentinel-5P ──► GitHub Action (daily)    ──► KV no2-*
-Open-Meteo  ───────────────────────────────────────────────► Worker (cached) ──► air, wind
+```mermaid
+flowchart LR
+  firms["NASA FIRMS<br/>satellite fires"] --> feed["GitHub Action, every 15 min<br/>scripts/build-feed.py"]
+  s5p["Sentinel-5P<br/>NO₂"] --> no2["GitHub Action, daily<br/>scripts/build-no2.py"]
+  feed --> kv[("Cloudflare KV<br/>fires-24/48/168, days, dist, no2-*")]
+  no2 --> kv
+  kv --> worker["Cloudflare Worker<br/>/api/*"]
+  meteo["Open-Meteo<br/>city air, wind"] --> worker
+  worker --> page["hamarihawa.org"]
 ```
 
 The heavy work (naming every fire after its village, merging duplicate detections, building the KML and the daily archive) runs in GitHub Actions, so the Worker only serves files from KV and caches them at the edge. Everything fits Cloudflare's free plan.
