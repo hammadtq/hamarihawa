@@ -197,7 +197,7 @@ def updates():
     head = {
         "en": ("What's new", "Everything we add or fix on HamariHawa, newest first. Follow along with the <a href=\"/updates/feed.xml\">feed</a>."),
         "ur": ("نیا کیا ہے", "ہماری ہوا میں جو کچھ شامل یا درست ہوتا ہے، تازہ ترین سب سے پہلے۔ <a href=\"/updates/feed.xml\">فیڈ</a> سے باخبر رہیں۔"),
-        "hi": ("नया क्या है", "हमारी हवा में जो भी जुड़ता या ठीक होता है, सबसे नया सबसे पहले। <a href=\"/updates/feed.xml\">फ़ीड</a> से जुड़े रहें।"),
+        "hi": ("नया क्या है", "हमारी हवा में जो कुछ भी जोड़ा या ठीक किया जाता है, वह यहाँ दर्ज है, सबसे नया सबसे ऊपर। ताज़ा जानकारी के लिए <a href=\"/updates/feed.xml\">फ़ीड</a> से जुड़ें।"),
     }
     arts = {}
     for l in LANGS:
@@ -268,18 +268,18 @@ REPORTS = [  # newest first: (path, date, title, summary per language)
     ("/report/two-punjabs/", "2026-10-20", "Two Punjabs: seven seasons of crop fires", {
         "en": "Satellite-seen crop fires fell 95% in Indian Punjab since 2021 but not in Pakistani Punjab, which has had more since 2024. Checked against India's official counts, with district tables and why fire counts undercount.",
         "ur": "2021 کے بعد ہندوستانی پنجاب میں سیٹلائٹ سے دکھنے والی آگ 95% کم ہوئی مگر پاکستانی پنجاب میں نہیں، جہاں 2024 سے زیادہ آگ دکھ رہی ہے۔ ہندوستان کے سرکاری اعداد سے جانچ، اضلاع کی فہرست، اور یہ کہ گنتی کم کیوں ہوتی ہے۔",
-        "hi": "2021 के बाद भारतीय पंजाब में उपग्रह से दिखने वाली आग 95% कम हुई पर पाकिस्तानी पंजाब में नहीं, जहाँ 2024 से ज़्यादा आग दिख रही है। भारत के सरकारी आँकड़ों से जाँच, ज़िलों की तालिका, और गिनती कम क्यों होती है।"}),
+        "hi": "2021 के बाद भारतीय पंजाब में उपग्रह को दिखने वाली आग 95% घट गई, लेकिन पाकिस्तानी पंजाब में नहीं घटी, जहाँ 2024 से ज़्यादा आग दिख रही है। साथ में भारत के सरकारी आँकड़ों से जाँच, ज़िलों की तालिकाएँ, और यह कि आग की गिनती असल से कम क्यों रहती है।"}),
     ("/report/", "2026-09-15", "Lahore & Islamabad Air Ledger", {
         "en": "24 months of PM2.5 and AQI in Lahore and Islamabad side by side: monthly IQAir data, sources, health impact and projections. In English, with a PDF.",
         "ur": "لاہور اور اسلام آباد کے 24 مہینوں کا PM2.5 اور AQI ساتھ ساتھ: IQAir کا ماہانہ ڈیٹا، ذرائع، صحت پر اثر اور اندازے۔ انگریزی میں، PDF کے ساتھ۔",
-        "hi": "लाहौर और इस्लामाबाद के 24 महीनों का PM2.5 और AQI साथ-साथ: IQAir का मासिक डेटा, स्रोत, सेहत पर असर और अनुमान। अंग्रेज़ी में, PDF के साथ।"}),
+        "hi": "लाहौर और इस्लामाबाद के 24 महीनों के PM2.5 और AQI की आमने-सामने तुलना: IQAir का मासिक डेटा, प्रदूषण के स्रोत, सेहत पर असर और आगे के अनुमान। अंग्रेज़ी में, PDF के साथ।"}),
 ]
 
 
 def reports_page():
     head = {"en": ("Reports", "Longer pieces built from HamariHawa's data, newest first."),
             "ur": ("رپورٹس", "ہماری ہوا کے ڈیٹا سے بنی تفصیلی رپورٹس، تازہ ترین سب سے پہلے۔"),
-            "hi": ("रिपोर्ट", "हमारी हवा के डेटा से बनी विस्तृत रिपोर्ट, सबसे नई सबसे पहले।")}
+            "hi": ("रिपोर्ट", "हमारी हवा के डेटा पर आधारित विस्तृत रिपोर्टें, सबसे नई सबसे ऊपर।")}
     arts = {l: f'  <h1>{head[l][0]}</h1>\n  <p class="lede">{head[l][1]}</p>\n' + "\n".join(
         f'  <section class="entry"><time datetime="{d}">{fmt_date(d, l)}</time><h2><a href="{p}">{html.escape(t)}</a></h2><p>{s[l]}</p></section>'
         for p, d, t, s in REPORTS) for l in LANGS}
