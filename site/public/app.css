@@ -371,3 +371,6 @@ html[lang="ur"] .trend { line-height: 1.9; }
 /* Source-code link in the header: an icon only, so it doesn't compete with the page. */
 .gh { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: var(--ink-2); text-decoration: none; flex: none; }
 .gh:hover { color: var(--ink); background: #f4f1ea; }
+
+/* Roman Urdu/Hindi line in the footer: how people type these searches. */
+.foot .roman { color: var(--ink-3); font-size: 13.5px; margin-bottom: 10px; }

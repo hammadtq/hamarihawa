@@ -35,6 +35,9 @@
 - Health estimates: cigarettes ≈ PM2.5 ÷ 22 (Berkeley Earth); WHO 24-h guideline 15 µg/m³; life expectancy −0.098 years per µg/m³ above 5 if sustained (AQLI); extra daily deaths +0.68% per 10 µg/m³ above 15 (Liu et al., NEJM 2019). Population-level estimates only.
 - Source shares (PM2.5): Lahore, PAQI 2025 (emitted): vehicles 35%, industry 28%, brick kilns 17%, waste 6%. Islamabad–Rawalpindi, PAQI 2025: vehicles 53%, kilns 18%, waste 11%, industry 9%. Punjab (Pakistan), World Bank 2024 (in the air): dust 25%, residential 23%, transport 16%, industry 16%, agriculture 13%, waste 7%. Delhi winter, TERI-ARAI 2018 (in the air): vehicles 28%, dust 17%, industry 16%, biomass 14%, residential 10%, brick kilns 8%, power 6%.
 
+## How people search for this
+Often searched in Roman Urdu/Hindi: "Lahore smog aaj", "Lahore ki hawa aaj", "Delhi AQI aaj", "parali ki aag", "parali jalana", "smog kahan se aata hai". Urdu: لاہور اسموگ، پرالی کی آگ. Hindi: दिल्ली AQI आज, पराली जलाना.
+
 ## Source code
 Open source (code MIT, data licences per file) at https://github.com/hammadtq/hamarihawa
 To reproduce the Two Punjabs numbers: scripts/backfill-days.py (needs a free NASA FIRMS key) then scripts/season-stats.py rebuilds site/public/report/two-punjabs/seasons.json.

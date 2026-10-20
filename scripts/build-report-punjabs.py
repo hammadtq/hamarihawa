@@ -166,6 +166,7 @@ TEXT = {
 "en": """  <p class="kicker">Report · {date}</p>
   <h1>Two Punjabs: seven seasons of crop fires</h1>
   <p class="lede">Between {peak_in} and {last}, the crop fires NASA's satellites saw in Indian Punjab fell by {in_fall}%. Across the border, Pakistani Punjab ended higher than it started: {pk0} fire spots in {y0}, {pk1} in {last}. Since {cross}, the satellite has seen more crop fires in Pakistani Punjab than in Indian Punjab, and in {last} it saw {ratio} times as many.</p>
+  <p class="muted">Parali ki aag: {peak_in} se {last} tak Indian Punjab mein satellite ko dikhne wali aag {in_fall}% kam hui, magar Pakistani Punjab mein nahi. {last} mein Pakistani Punjab mein {ratio} guna zyada aag dikhi.</p>
   <div class="facts">
     <div class="fact sketch"><b dir="ltr">−{in_fall}%</b><span>Indian Punjab, {peak_in} to {last}</span></div>
     <div class="fact sketch"><b dir="ltr">{pk_pct}%</b><span>Pakistani Punjab, {y0} to {last}</span></div>
