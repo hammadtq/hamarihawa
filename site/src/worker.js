@@ -29,7 +29,7 @@ export default {
     if (!r.ok) console.log("feed dispatch failed", r.status, await r.text());
   },
 
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     // Always HTTPS, always the bare domain.
     // `wrangler dev --var DEV:1` serves plain http locally, so the redirect is skipped there.
@@ -38,7 +38,7 @@ export default {
       if (url.hostname === "www.hamarihawa.org") url.hostname = "hamarihawa.org";
       return Response.redirect(url.toString(), 301);
     }
-    const res = await handle(request, env, url);
+    const res = await handle(request, env, url, ctx);
     if (url.hostname !== "hamarihawa.org") return res;
     const r = new Response(res.body, res);
     r.headers.set("strict-transport-security", "max-age=31536000; includeSubDomains");
@@ -46,7 +46,7 @@ export default {
   },
 };
 
-async function handle(request, env, url) {
+async function handle(request, env, url, ctx) {
   {
     // Approximate visitor location from Cloudflare's IP lookup, so the page can show "your air".
     // Computed per request, never stored or logged by us.
@@ -87,19 +87,24 @@ async function handle(request, env, url) {
     // Wind right now on a 1° grid over the plains (Open-Meteo, one request for all points, cached at the edge).
     // Daily archive: the index of per-day totals, and each Pakistan-time day's distinct fire spots.
     if (url.pathname === "/api/days") {
-      const body = await env.FEED.get("days", { cacheTtl: 300 });
-      return body ? json(body, 200, 600) : json(JSON.stringify({}), 200, 60);
+      return edgeCached(ctx, "/api/days", 300, async () => {
+        const body = await env.FEED.get("days");
+        return body ? json(body, 200, 300) : json(JSON.stringify({}), 200, 60);
+      });
     }
     if (url.pathname === "/api/districts") {
-      const body = await env.FEED.get("dist", { cacheTtl: 300 });
-      return body ? json(body, 200, 1800) : json(JSON.stringify({}), 200, 60);
+      return edgeCached(ctx, "/api/districts", 900, async () => {
+        const body = await env.FEED.get("dist");
+        return body ? json(body, 200, 900) : json(JSON.stringify({}), 200, 60);
+      });
     }
     if (url.pathname === "/api/day") {
       const d = url.searchParams.get("d") || "";
       if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return json(JSON.stringify({ error: "Use ?d=YYYY-MM-DD" }), 400, 3600);
-      const body = await env.FEED.get(`day-${d}`, { cacheTtl: 300 });
-      if (!body) return json(JSON.stringify({ error: "No archive for that day" }), 404, 300);
-      return json(body, 200, 900);
+      return edgeCached(ctx, `/api/day?d=${d}`, 900, async () => {
+        const body = await env.FEED.get(`day-${d}`);
+        return body ? json(body, 200, 900) : json(JSON.stringify({ error: "No archive for that day" }), 404, 300);
+      });
     }
 
     if (url.pathname === "/api/wind") {
@@ -135,12 +140,30 @@ async function handle(request, env, url) {
     }
 
     const hours = WINDOWS.has(url.searchParams.get("hours")) ? url.searchParams.get("hours") : "24";
-    const body = await env.FEED.get(`fires-${hours}`, { cacheTtl: 120 });
-    if (!body) {
-      return json(JSON.stringify({ error: "The fire feed hasn't been built yet. Try again in a few minutes." }), 503, 30);
-    }
-    return json(body, 200, 120);
+    return edgeCached(ctx, `/api/fires?hours=${hours}`, 120, async () => {
+      const body = await env.FEED.get(`fires-${hours}`, { cacheTtl: 120 });
+      if (!body) {
+        return json(JSON.stringify({ error: "The fire feed hasn't been built yet. Try again in a few minutes." }), 503, 30);
+      }
+      return json(body, 200, 120);
+    });
   }
+}
+
+// Answer from this data centre's cache when we can, so repeat requests (and scrapers adding junk
+// query strings) don't each cost a KV read. Only successful answers are kept, for `ttl` seconds.
+async function edgeCached(ctx, path, ttl, make) {
+  const key = new Request(`https://cache.hamarihawa.org${path}`);
+  const cache = caches.default;
+  const hit = await cache.match(key);
+  if (hit) return hit;
+  const res = await make();
+  if (res.status === 200) {
+    const copy = new Response(res.clone().body, res);
+    copy.headers.set("cache-control", `public, max-age=${ttl}`);
+    ctx.waitUntil(cache.put(key, copy));
+  }
+  return res;
 }
 
 function json(body, status, maxAge) {

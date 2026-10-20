@@ -263,6 +263,8 @@
     const done = cutoff >= LEN - 1;
     const share = years.map((yr) => nightShare(entries[yr]));
     const same = years.map((yr) => nightShare(entries[yr].slice(0, Math.max(0, cutoff) + 1)));
+    // An archive copy from before the night split existed has nothing to draw; say so instead of an empty chart.
+    if (!share.concat(same).some((v) => v != null)) { box.innerHTML = `<p class="tkey">${esc(T("err"))}</p>`; return; }
     const ax = axis(Math.max(0.05, ...share.concat(same).filter((v) => v != null)));
     const band = (W - m.l - m.r) / years.length, bw = Math.min(56, band * 0.58);
     const y = (v) => H - m.b - (v / ax.max) * (H - m.t - m.b);
