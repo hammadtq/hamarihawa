@@ -373,4 +373,7 @@ html[lang="ur"] .trend { line-height: 1.9; }
 .gh:hover { color: var(--ink); background: #f4f1ea; }
 
 /* Roman Urdu/Hindi line in the footer: how people type these searches. */
+.my-t .my-pick { display: block; font-size: 11.5px; color: var(--ink-3); margin-top: 3px; }
+.my-t .my-pick[hidden] { display: none; }
+.my-t .my-pick select { font: inherit; color: var(--ink); background: #fff; border: 1px solid var(--hair); border-radius: 6px; padding: 1px 4px; max-width: 12em; }
 .foot .roman { color: var(--ink-3); font-size: 13.5px; margin-bottom: 10px; }

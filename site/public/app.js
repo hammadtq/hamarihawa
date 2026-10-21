@@ -532,7 +532,7 @@
       meMarker = L.marker(state.me, { icon: L.divIcon({ className: "", html: '<div class="me-dot"></div>', iconSize: [14, 14] }) })
         .bindTooltip(t("you")).addTo(map);
       map.flyTo(state.me, 8);
-      loadMyAir({ lat: state.me[0], lon: state.me[1], city: state.local?.approx ? "" : state.local?.city, approx: false });
+      loadMyAir(exactSpot(state.me[0], state.me[1]));
       state.shown = PAGE; renderFeed();
     }, (err) => console.warn("[hh] geolocation", err.message), { timeout: 10000 });
   });
@@ -674,7 +674,55 @@
   $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; renderCards(); });
 
   // ---------- Your air ----------
-  // City estimated from the visitor's connection (Cloudflare), or their exact position if they tap "Fires near me".
+  // City estimated from the visitor's connection (Cloudflare), a city they picked, or their exact position.
+  // IP lookups in Pakistan often land in Karachi whatever the real city, so the picker lets people correct it,
+  // and the choice is kept in this browser only.
+  const CITY_KEY = "hh-city";
+  const cityPos = (c) => ({ lat: c.lat, lon: c.lon, city: c.name.en, cityId: c.id, approx: false });
+  function nearestCity(lat, lon, maxKm = 60) {
+    let best = null, bd = maxKm;
+    for (const c of CITIES) { const d = distKm([lat, lon], [c.lat, c.lon]); if (d < bd) { best = c; bd = d; } }
+    return best;
+  }
+  function exactSpot(lat, lon) {
+    const c = nearestCity(lat, lon);
+    return { lat, lon, city: c ? c.name.en : "", cityId: c ? c.id : "", approx: false };
+  }
+  function locateMe() {
+    return new Promise((ok, fail) => {
+      if (!navigator.geolocation) return fail(new Error("no geolocation"));
+      navigator.geolocation.getCurrentPosition((p) => ok(exactSpot(p.coords.latitude, p.coords.longitude)), fail, { timeout: 10000 });
+    });
+  }
+  async function startMyAir() {
+    const saved = store.get(CITY_KEY);
+    const picked = saved && CITIES.find((c) => c.id === saved);
+    if (picked) return loadMyAir(cityPos(picked));
+    if (saved === "gps") {
+      // Only reuse the exact location if the browser already allows it, so a visit never opens a prompt by itself.
+      const perm = await navigator.permissions?.query({ name: "geolocation" }).catch(() => null);
+      if (perm?.state === "granted") return locateMe().then(loadMyAir, () => loadMyAir());
+    }
+    return loadMyAir();
+  }
+  function fillCityPicker() {
+    const sel = $("#myCity"), L0 = state.local;
+    if (!sel) return;
+    const cur = L0?.cityId || (L0?.city && CITIES.find((c) => c.name.en.toLowerCase() === L0.city.toLowerCase())?.id) || "";
+    const group = (cc) => `<optgroup label="${esc(t(cc === "PK" ? "pk" : "in"))}">` +
+      CITIES.filter((c) => c.cc === cc).map((c) => `<option value="${c.id}"${c.id === cur ? " selected" : ""}>${esc(c.name[state.lang])}</option>`).join("") + "</optgroup>";
+    sel.innerHTML = (cur ? "" : '<option value="" selected>—</option>') + group("PK") + group("IN") + `<option value="gps">📍 ${esc(t("myAirGps"))}</option>`;
+  }
+  $("#myCity")?.addEventListener("change", async (e) => {
+    const v = e.target.value;
+    if (v === "gps") {
+      try { const me = await locateMe(); store.set(CITY_KEY, "gps"); loadMyAir(me); }
+      catch (err) { console.warn("[hh] geolocation", err.message); fillCityPicker(); }
+      return;
+    }
+    const c = CITIES.find((x) => x.id === v);
+    if (c) { store.set(CITY_KEY, c.id); loadMyAir(cityPos(c)); }
+  });
   async function loadMyAir(pos) {
     try {
       let me = pos;
@@ -708,6 +756,8 @@
     $("#myAirN").textContent = nf(Math.round(L0.aqi));
     $("#myAirSub").textContent = `${t("aqi_" + band)} · ${t("myAirCigs", { n: nf(L0.pm24 / 22, { maximumFractionDigits: 1 }) })}`;
     $("#myAirNote").textContent = L0.approx ? t("myAirApprox") : "";
+    $("#myPick").hidden = false;
+    fillCityPicker();
   }
 
   // ---------- Share ----------
@@ -772,7 +822,7 @@
   window.HH_HASH_SRC = applyHash();
   loadFires(true).then(updateShare);
   loadAir();
-  loadMyAir();
+  startMyAir();
   setInterval(() => loadFires(false).then(updateShare), POLL_MS);
   setInterval(loadAir, 30 * 60 * 1000);
   setInterval(() => { if (state.data) renderFeed(); }, 60 * 1000); // keep "x min ago" fresh
