@@ -66,10 +66,6 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
 <title>{t} · HamariHawa</title>
 <meta name="description" content="{dsc}">
 <link rel="canonical" href="{url}">
-<link rel="alternate" hreflang="en" href="{url}?lang=en">
-<link rel="alternate" hreflang="ur" href="{url}?lang=ur">
-<link rel="alternate" hreflang="hi" href="{url}?lang=hi">
-<link rel="alternate" hreflang="x-default" href="{url}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{t} · HamariHawa">
 <meta property="og:description" content="{dsc}">
@@ -295,8 +291,9 @@ def reports_page():
     print("reports page written")
 
 
-# Sitemap: one entry per page, with the date its source last changed in git and, for the
-# trilingual pages, every language version (matching the hreflang links in each page's head).
+# Sitemap: one entry per page, with the date its source last changed in git. The trilingual
+# pages carry all three languages in one URL (the toggle is client-side), so there are no
+# hreflang alternates: ?lang= URLs would only canonicalise back to the bare URL.
 SITEMAP = [  # (path, source files whose last commit dates the page, changefreq, priority, trilingual)
     ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
     ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
@@ -327,12 +324,10 @@ def last_changed(files):
 
 def sitemap():
     rows = ['<?xml version="1.0" encoding="UTF-8"?>',
-            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for path, files, freq, prio, tri in SITEMAP:
         url = f"{SITE}{path}"
-        alt = "".join(f'\n    <xhtml:link rel="alternate" hreflang="{l}" href="{url}?lang={l}"/>' for l in LANGS) + \
-              f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{url}"/>' if tri else ""
-        rows.append(f"  <url><loc>{url}</loc><lastmod>{last_changed(files)}</lastmod><changefreq>{freq}</changefreq><priority>{prio}</priority>{alt}</url>")
+        rows.append(f"  <url><loc>{url}</loc><lastmod>{last_changed(files)}</lastmod><changefreq>{freq}</changefreq><priority>{prio}</priority></url>")
     rows.append("</urlset>")
     open(os.path.join(PUB, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(rows) + "\n")
     print(f"sitemap: {len(SITEMAP)} pages")
