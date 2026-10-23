@@ -103,7 +103,8 @@ async function handle(request, env, url, ctx) {
         const parts = (await Promise.all(years.map((k) => env.FEED.get(`dist-${k}`)))).filter((b) => b && b.length > 2);
         if (parts.length) return json(`{${parts.map((b) => b.slice(1, -1)).join(",")}}`, 200, 900);
         const old = y ? null : await env.FEED.get("dist");  // before the split into years
-        return old ? json(old, 200, 900) : json(JSON.stringify({}), 200, 60);
+        // A 404 isn't kept in the edge cache, so a year that appears later is served at once.
+        return old ? json(old, 200, 900) : json(JSON.stringify({}), 404, 60);
       });
     }
     if (url.pathname === "/api/day") {
