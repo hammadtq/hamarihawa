@@ -7,11 +7,16 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    "run_worker_first": true
+    // Only these paths run the Worker; static files are served straight from the asset store, which the
+    // free plan doesn't count against the 100,000 Worker requests a day. Paths with no static file still
+    // reach the Worker. HSTS for static files is in public/_headers; www is redirected by www/ (its own Worker).
+    "run_worker_first": [
+      "/api/*", "/fires", "/fires/", "/fires/2*", "/district", "/district/*", "/sitemap-daily.xml",
+      "/fires.kml", "/kml/air.kml", "/kml/traffic.kml", "/kml/satellite.kml"
+    ]
   },
   "routes": [
-    { "pattern": "hamarihawa.org", "custom_domain": true },
-    { "pattern": "www.hamarihawa.org", "custom_domain": true }
+    { "pattern": "hamarihawa.org", "custom_domain": true }
   ],
   "kv_namespaces": [
     { "binding": "FEED", "id": "80f0abe06205411bb5d4feb087c165f6" }

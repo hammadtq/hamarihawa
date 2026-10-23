@@ -1,0 +1,8 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "hamarihawa-www",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": false,
+  "routes": [{ "pattern": "www.hamarihawa.org", "custom_domain": true }]
+}

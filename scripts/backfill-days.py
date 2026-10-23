@@ -139,7 +139,7 @@ def main():
     index = json.loads(bf.kv("GET", "days") or b"{}") if a.upload else (
         json.load(open(index_path)) if os.path.exists(index_path) else {})
     dist_path = os.path.join(a.out, "dist.json")
-    dist = json.loads(bf.kv("GET", "dist") or b"{}") if a.upload else (
+    dist = bf.load_dist(date.today().year) if a.upload else (
         json.load(open(dist_path)) if os.path.exists(dist_path) else {})
     firms, added = Firms(os.path.join(a.out, "raw")), []
     for d0, d1 in periods(a):
@@ -164,9 +164,15 @@ def main():
 
     open(index_path, "w").write(json.dumps(index, separators=(",", ":"), sort_keys=True))
     open(dist_path, "w").write(json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False))
+    def put_dist():
+        # Only the years this run touched; each year is its own key (see build-feed.py dist_years).
+        touched = {d[:4] for d, _ in added} | {str(p0.year) for p0, _ in periods(a)}
+        for y, part in bf.dist_years(dist).items():
+            if y in touched:
+                bf.kv("PUT", f"dist-{y}", json.dumps(part, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
     if a.upload and a.summaries:
         bf.kv("PUT", "days", json.dumps(index, separators=(",", ":"), sort_keys=True).encode())
-        bf.kv("PUT", "dist", json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+        put_dist()
         print("uploaded the days and dist indexes")
     if a.upload and added:
         acct, ns, tok = os.environ["CLOUDFLARE_ACCOUNT_ID"], os.environ["KV_NAMESPACE_ID"], os.environ["CLOUDFLARE_API_TOKEN"]
@@ -176,7 +182,7 @@ def main():
             bf.get(url, method="PUT", data=json.dumps(batch).encode(),
                    headers={"Authorization": f"Bearer {tok}", "Content-Type": "application/json"})
         bf.kv("PUT", "days", json.dumps(index, separators=(",", ":"), sort_keys=True).encode())
-        bf.kv("PUT", "dist", json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+        put_dist()
         print(f"uploaded {len(added)} days and the indexes to KV")
 
 

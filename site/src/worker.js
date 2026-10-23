@@ -93,10 +93,17 @@ async function handle(request, env, url, ctx) {
         return body ? json(body, 200, 300) : json(JSON.stringify({}), 200, 60);
       });
     }
+    // The busiest districts per day, one KV key per year (dist-YYYY). ?y=YYYY gives one year; without it
+    // the years are joined as strings, so the Worker never parses the whole archive.
     if (url.pathname === "/api/districts") {
-      return edgeCached(ctx, "/api/districts", 900, async () => {
-        const body = await env.FEED.get("dist");
-        return body ? json(body, 200, 900) : json(JSON.stringify({}), 200, 60);
+      const y = url.searchParams.get("y") || "", last = new Date().getUTCFullYear();
+      if (y && !(/^\d{4}$/.test(y) && +y >= 2019 && +y <= last)) return json(JSON.stringify({ error: "Use ?y=YYYY, 2019 or later" }), 400, 3600);
+      return edgeCached(ctx, y ? `/api/districts?y=${y}` : "/api/districts", 900, async () => {
+        const years = y ? [+y] : Array.from({ length: last - 2018 }, (_, i) => 2019 + i);
+        const parts = (await Promise.all(years.map((k) => env.FEED.get(`dist-${k}`)))).filter((b) => b && b.length > 2);
+        if (parts.length) return json(`{${parts.map((b) => b.slice(1, -1)).join(",")}}`, 200, 900);
+        const old = y ? null : await env.FEED.get("dist");  // before the split into years
+        return old ? json(old, 200, 900) : json(JSON.stringify({}), 200, 60);
       });
     }
     if (url.pathname === "/api/day") {

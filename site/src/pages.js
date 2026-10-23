@@ -1,6 +1,7 @@
 // Daily fire pages (/fires/, /fires/YYYY-MM-DD/) and district pages (/district/, /district/<slug>/),
 // rendered from the daily archive in KV: "days" (per-day totals), "day-YYYY-MM-DD" (that day's spots,
-// busiest districts and villages) and "dpages" (per-district season totals, built by scripts/build-feed.py).
+// busiest districts and villages) and "dpages-index" plus "dpages-<cc>-<state>" (per-district season totals,
+// built by scripts/build-feed.py).
 // The page shell (header, nav, language switch) is site/src/shell.html, written by scripts/build-pages.py.
 // Every page is cached at the edge, so a visit rarely costs a KV read.
 import SHELL from "./shell.html";
@@ -204,12 +205,21 @@ function bars(rows, l, { link = true } = {}) {
 }
 
 // ---------- Data ----------
-async function load(env) {
-  const [days, dp] = await Promise.all([
-    env.FEED.get("days", { type: "json", cacheTtl: 300 }),
-    env.FEED.get("dpages", { type: "json", cacheTtl: 300 }),
+// "dpages-index" lists every district with the two seasons the listings show; each district's full history
+// is in its state's shard (e.shard). The old single "dpages" key is read until the first split upload.
+async function load(env, withDays = true) {
+  const [days, idx] = await Promise.all([
+    withDays ? env.FEED.get("days", { type: "json", cacheTtl: 300 }) : null,
+    env.FEED.get("dpages-index", { type: "json", cacheTtl: 300 }),
   ]);
+  const dp = idx || (await env.FEED.get("dpages", { type: "json", cacheTtl: 300 }));
   return { days: days || {}, dp: dp || { d: {}, recent: [] } };
+}
+async function district(env, dp, sl) {
+  const e = dp.d?.[sl];
+  if (!e || !e.shard) return e || null;
+  const part = await env.FEED.get(e.shard, { type: "json", cacheTtl: 300 });
+  return part?.[sl] ? { ...e, ...part[sl] } : null;
 }
 function slugOf(dp) {
   const m = new Map();
@@ -326,7 +336,7 @@ ${topD.map(([sl, e, v]) => `   <tr><td><a href="/district/${sl}/">${esc(dname(e.
 
 // ---------- /district/ ----------
 async function districtIndex(env) {
-  const { dp } = await load(env);
+  const { dp } = await load(env, false);
   if (!dp.last) return null;
   const y = dp.season, to = dp.to, toIso = `${y}-${to}`;
   const rows = Object.entries(dp.d).map(([sl, e]) => [sl, e, e.s?.[y]?.[1] ?? 0, e.s?.[y - 1]?.[1], e.s?.[y - 1]?.[0]]);
@@ -346,8 +356,8 @@ ${rows.filter((r) => r[1].cc === cc).sort((a, b) => b[2] - a[2] || (b[4] ?? 0) -
 
 // ---------- /district/<slug>/ ----------
 async function districtPage(env, sl) {
-  const { days, dp } = await load(env);
-  const e = dp.d?.[sl];
+  const { dp } = await load(env, false);
+  const e = await district(env, dp, sl);
   if (!e) return null;
   const y = dp.season, to = dp.to, toIso = `${y}-${to}`, name = dname(e.name);
   const now = e.s?.[y] || [0, 0, 0, 0], last = e.s?.[y - 1];

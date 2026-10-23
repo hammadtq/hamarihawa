@@ -10,9 +10,11 @@ Usage:
   python3 -I scripts/build-feed.py --out <dir> --upload    # also PUT them to KV
 
 Upload needs CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID and KV_NAMESPACE_ID in the environment.
-Uploads are skipped when NASA's files haven't changed since the last run (KV key "meta").
+Cloudflare's free plan allows 1,000 KV writes a day, so every write goes through Publisher: values that
+haven't changed are skipped, the 24 h feed is written at most every 20 minutes and everything else at most
+hourly, and the day's total stops at Publisher.LIMIT. The run's bookkeeping lives in the KV key "state".
 """
-import argparse, csv, io, json, math, os, re, sys, time, urllib.request, urllib.error
+import argparse, csv, hashlib, io, json, math, os, re, sys, time, urllib.request, urllib.error
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -486,6 +488,92 @@ def district_index(index, dist):
     return {"last": last, "season": cur, "to": to, "recent": recent, "d": out}
 
 
+def split_dpages(dp):
+    """The district pages' data as a small index (every district's name, place, rank and the two seasons
+    the listings show) plus one shard per country and state with the full history, so a page render parses
+    a few KB instead of every district. Returns (index, {shard key: {slug: detail}})."""
+    if not dp.get("d"):
+        return dp, {}
+    cur = dp["season"]
+    idx, shards = {k: v for k, v in dp.items() if k != "d"}, {}
+    idx["d"] = {}
+    for sl, e in dp["d"].items():
+        key = f"dpages-{e['cc']}-{slug(e['state']) or 'other'}"
+        idx["d"][sl] = {"name": e["name"], "state": e["state"], "cc": e["cc"], "lat": e["lat"], "lon": e["lon"],
+                        "rank": e["rank"], "of": e["of"], "shard": key,
+                        "s": {y: v for y, v in e["s"].items() if y in (str(cur), str(cur - 1))}}
+        shards.setdefault(key, {})[sl] = {"s": e["s"], "r": e["r"], "peak": e["peak"]}
+    return idx, shards
+
+
+def dist_years(dist):
+    """The per-day district lists split by year (KV keys dist-YYYY), so no single value grows past KV's limit."""
+    out = {}
+    for d, rows in dist.items():
+        out.setdefault(d[:4], {})[d] = rows
+    return out
+
+
+FIRST_YEAR = 2019
+
+
+def load_dist(now_year):
+    """Every dist-YYYY key merged; falls back to the old single "dist" key the first time."""
+    dist, found = {}, False
+    for y in range(FIRST_YEAR, now_year + 1):
+        body = kv("GET", f"dist-{y}")
+        if body:
+            dist.update(json.loads(body)); found = True
+    if not found:
+        dist = json.loads(kv("GET", "dist") or b"{}")
+    return dist
+
+
+class Publisher:
+    """Every KV write goes through here. The free plan allows 1,000 writes a day (reset 00:00 UTC); this job
+    stops at LIMIT, leaving the rest for the NO2 job, wind and hand-run fixes. Values whose content hasn't
+    changed since they were last written (hash kept in the state key) are skipped."""
+    LIMIT = 850
+
+    def __init__(self, upload, state, out):
+        self.upload, self.state, self.out = upload, state, out
+        utc_day = time.strftime("%Y-%m-%d", time.gmtime())
+        if state.get("wday") != utc_day:
+            state["wday"], state["writes"] = utc_day, 0
+        self.hashes = state.setdefault("hash", {})
+        self.written, self.skipped = [], []
+
+    def put(self, key, body, same=None):
+        """Write body to KV key; `same` is the part that must change for a write to count (default: body)."""
+        h = hashlib.sha1(same if same is not None else body).hexdigest()[:16]
+        if self.hashes.get(key) == h:
+            return False
+        if self.state["writes"] + 2 > self.LIMIT:  # one is kept for the state key itself
+            self.skipped.append(key)
+            return False
+        if self.upload:
+            kv("PUT", key, body)
+        self.state["writes"] += 1
+        self.hashes[key] = h
+        self.written.append(key)
+        return True
+
+    def finish(self):
+        if self.skipped:
+            print(f"  write budget reached ({self.state['writes']} today); left for later: {', '.join(self.skipped)}", file=sys.stderr)
+        if self.upload and self.written:
+            self.state["writes"] += 1
+            kv("PUT", "state", json.dumps(self.state, separators=(",", ":"), sort_keys=True).encode())
+        print(f"wrote {len(self.written)} KV keys ({self.state['writes']} today): {', '.join(self.written) or 'none'}")
+
+
+def feed_body(feed):
+    """The feed as uploaded, and the part that decides whether it changed (everything but `generated`)."""
+    body = json.dumps(feed, separators=(",", ":"), ensure_ascii=False).encode()
+    same = json.dumps({k: v for k, v in feed.items() if k != "generated"}, separators=(",", ":"), ensure_ascii=False).encode()
+    return body, same
+
+
 def archive(points, now):
     """The 7-day points as day files. The oldest date in the window is cut off part way, so it is left out."""
     first = local_date(now - 168 * 3600 * 1000)
@@ -515,34 +603,63 @@ def kv(method, key, body=None):
     return data
 
 
+# Write tiers: the 24 h feed is what most visitors see, so it goes out at most every FAST seconds; the rest
+# (48 h and 7 d feeds and KML, the archive and its indexes) at most every SLOW seconds. A minute of slack
+# because scheduled runs drift.
+FAST, SLOW = 20 * 60 - 60, 60 * 60 - 60
+
+
+def tiers_due(state, rev, now_s, pk_today, force=False):
+    """(fast, slow): whether each tier should publish now. A tier publishes when NASA's files changed since
+    it last did and its interval has passed; the hourly tier also runs once after Pakistan midnight with no
+    new data, to close yesterday's day file."""
+    tiers = state.get("tiers", {})
+    def due(name, every, extra=False):
+        t = tiers.get(name, {})
+        return force or ((t.get("src") != rev or extra) and now_s - t.get("at", 0) >= every)
+    return due("fast", FAST), due("slow", SLOW, extra=tiers.get("slow", {}).get("pkday") != pk_today)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
     ap.add_argument("--upload", action="store_true")
-    ap.add_argument("--force", action="store_true", help="upload even if NASA's files are unchanged")
+    ap.add_argument("--force", action="store_true", help="publish every tier now, even if nothing is due")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
+    now_s = int(time.time())
+    now = now_s * 1000
 
-    # NASA's files change a few times a day; skip the run when nothing is new.
+    # NASA's files change a few times a day; a tier only publishes when they have changed since it last did.
     stamps = {}
     for _, sat, path in SOURCES:
         _, h = get(f"{FIRMS}/{path}_24h.csv", method="HEAD")
         stamps[sat] = h.get("Last-Modified", "")
-    if a.upload and not a.force:
-        prev = kv("GET", "meta")
-        if prev and json.loads(prev).get("stamps") == stamps:
-            print("NASA files unchanged since last upload; nothing to do")
-            return
+    rev = hashlib.sha1(json.dumps(stamps, sort_keys=True).encode()).hexdigest()[:16]
+    state_path = os.path.join(a.out, "state.json")
+    state = json.loads(kv("GET", "state") or b"{}") if a.upload else (
+        json.load(open(state_path)) if os.path.exists(state_path) else {})
+    tiers = state.setdefault("tiers", {})
+    pk_today = local_date(now)
+
+    fast, slow = tiers_due(state, rev, now_s, pk_today, a.force)
+    if not (fast or slow):
+        print("nothing due: NASA files unchanged, or published less than", FAST // 60, "min ago")
+        return
+    pub = Publisher(a.upload, state, a.out)
 
     # The 7-day file goes first: it feeds the daily archive and the trend shown on the shorter windows.
     days_path = os.path.join(a.out, "days.json")
     dist_path = os.path.join(a.out, "dist.json")
     index = json.loads(kv("GET", "days") or b"{}") if a.upload else (
         json.load(open(days_path)) if os.path.exists(days_path) else {})
-    dist = json.loads(kv("GET", "dist") or b"{}") if a.upload else (
+    dist = load_dist(int(pk_today[:4])) if a.upload else (
         json.load(open(dist_path)) if os.path.exists(dist_path) else {})
-    now, history = int(time.time() * 1000), None
+    history = None
     for hours in sorted(WINDOWS, reverse=True):
+        tier_ok = fast if hours == 24 else slow
+        if hours != 168 and not tier_ok:
+            continue
         win = WINDOWS[hours]
         csvs = []
         for _, sat, path in SOURCES:
@@ -554,31 +671,35 @@ def main():
         if hours == 168:
             history = feed["_all"]
             days = archive(history, now)
-            today = local_date(now)
             yesterday = local_date(now - 86400 * 1000)
             os.makedirs(os.path.join(a.out, "days"), exist_ok=True)
             for date, day in days.items():
                 # Today and yesterday are still filling in; older days are only written once.
-                if date not in index or date in (today, yesterday):
+                if date not in index or date in (pk_today, yesterday):
                     dbody = json.dumps(day, separators=(",", ":"), ensure_ascii=False).encode()
                     open(os.path.join(a.out, "days", f"{date}.json"), "wb").write(dbody)
-                    if a.upload:
-                        kv("PUT", f"day-{date}", dbody)
-                index[date] = {**day["summary"], "partial": date == today}
+                    if slow:
+                        pub.put(f"day-{date}", dbody)
+                index[date] = {**day["summary"], "partial": date == pk_today}
                 dist[date] = day["districts"]
             ibody = json.dumps(index, separators=(",", ":"), sort_keys=True).encode()
-            dbody = json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode()
             open(days_path, "wb").write(ibody)
-            open(dist_path, "wb").write(dbody)
-            pbody = json.dumps(district_index(index, dist), separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode()
-            open(os.path.join(a.out, "dpages.json"), "wb").write(pbody)
-            if a.upload:
-                kv("PUT", "days", ibody)
-                kv("PUT", "dist", dbody)
-                # The district pages change about once a day, so skip the write when nothing moved.
-                if kv("GET", "dpages") != pbody:
-                    kv("PUT", "dpages", pbody)
-            print(f"archive: {len(days)} days, {len(index)} in index")
+            open(dist_path, "wb").write(json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+            dp_index, shards = split_dpages(district_index(index, dist))
+            open(os.path.join(a.out, "dpages-index.json"), "wb").write(
+                json.dumps(dp_index, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+            if slow:
+                pub.put("days", ibody)
+                touched = {d[:4] for d in days}
+                for y, part in dist_years(dist).items():
+                    # Years this run changed, plus any year never written as its own key (the split from "dist").
+                    if y in touched or a.force or f"dist-{y}" not in pub.hashes:
+                        pub.put(f"dist-{y}", json.dumps(part, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+                # The district pages change about once a day; only changed shards are written.
+                for key, part in sorted(shards.items()):
+                    pub.put(key, json.dumps(part, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+                pub.put("dpages-index", json.dumps(dp_index, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
+            print(f"archive: {len(days)} days, {len(index)} in index, {len(shards)} district shards")
         recent = sorted(index)[-TREND_DAYS:]
         cur, prev = compare(history, hours) if hours < 168 else (None, None)
         feed["trend"] = {
@@ -590,16 +711,20 @@ def main():
         }
         kbody = kml(feed)
         del feed["_spots"], feed["_all"]
-        body = json.dumps(feed, separators=(",", ":"), ensure_ascii=False).encode()
+        body, same = feed_body(feed)
         open(os.path.join(a.out, f"fires-{hours}.json"), "wb").write(body)
         print(f"{win}: {feed['stats']['spots']} spots, {len(feed['events'])} events, {len(body) // 1024} KB")
         open(os.path.join(a.out, f"fires-{hours}.kml"), "wb").write(kbody)
-        if a.upload:
-            kv("PUT", f"fires-{hours}", body)
-            kv("PUT", f"kml-{hours}", kbody)
-    if a.upload:
-        kv("PUT", "meta", json.dumps({"stamps": stamps, "at": int(time.time())}).encode())
-        print("uploaded to KV")
+        # The KML colours fires by age at build time, so it goes out with its feed, never on its own.
+        if tier_ok and pub.put(f"fires-{hours}", body, same):
+            pub.put(f"kml-{hours}", kbody)
+    for name, ran in (("fast", fast), ("slow", slow)):
+        if ran:
+            tiers[name] = {"src": rev, "at": now_s, "pkday": pk_today}
+    state["stamps"] = stamps
+    if not a.upload:
+        open(state_path, "w").write(json.dumps(state, separators=(",", ":"), sort_keys=True))
+    pub.finish()
 
 
 if __name__ == "__main__":

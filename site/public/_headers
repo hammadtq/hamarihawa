@@ -1,0 +1,7 @@
+# Headers for static files (the Worker sets its own on the pages and APIs it serves).
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# The workers.dev copy stays out of search results; hamarihawa.org is the canonical site.
+https://hamarihawa.hammadtariq.workers.dev/*
+  X-Robots-Tag: noindex
