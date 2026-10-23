@@ -351,7 +351,7 @@
     pulseLayer.clearLayers();
     const d = state.data;
     if (!d) return;
-    const pts = d.points.filter((p) => !state.cc || p[7] === state.cc).slice().reverse(); // oldest first, newest drawn on top
+    const pts = d.mapPoints.filter((p) => !state.cc || p[7] === state.cc).slice().reverse(); // oldest first, newest drawn on top
     for (const p of pts) {
       const [lat, lon, ts, frp, sat, place, district, cc, kind] = p;
       L.circleMarker([lat, lon], {
@@ -399,11 +399,30 @@
   }
   const evKey = (e) => `${e.sat}|${e.t}|${e.district}|${e.state}`;
 
+  // The v2 feed stores names once (dict) and points as rows of numbers; expand them to the v1 row
+  // [lat, lon, t, frp, sat, place, district, cc, kind] the rest of the page uses. "mapPoints" are the
+  // points drawn on the map: the distinct spots on the 7-day view, every detection otherwise.
+  function expandFeed(d) {
+    if (d.v !== 2) { d.mapPoints = d.points; return d; }
+    const P = d.dict.place, D = d.dict.district, K = d.dict.kind;
+    d.points = d.points.map((r) => [r[0], r[1], d.t0 + r[2] * 60000, r[3], r[4], P[r[5]], D[r[6]][0], D[r[6]][2], K[r[7]]]);
+    d.events = d.events.map((r) => {
+      const kinds = {};
+      for (let i = 0; i < r[10].length; i += 2) kinds[K[r[10][i]]] = r[10][i + 1];
+      return { t: d.t0 + r[0] * 60000, sat: SATS[r[1]], district: D[r[2]][0], state: D[r[2]][1], cc: D[r[2]][2], night: !!r[3],
+        n: r[4], high: r[5], frpMax: r[6], frpSum: r[7], lat: r[8], lon: r[9], kinds, places: r[11].map((i) => P[i]), sites: r[12],
+        place: P[r[13]], placeKm: r[14], town: r[15] < 0 ? null : P[r[15]], townKm: r[16], flat: r[17], flon: r[18], kind: K[r[19]] };
+    });
+    d.mapPoints = d.spots ? d.spots.map((i) => d.points[i]) : d.points;
+    return d;
+  }
+
   async function loadFires(first) {
     try {
-      const r = await fetch(`/api/fires?hours=${state.hours}`, { cache: "no-store" });
+      const r = await fetch(`/api/fires?hours=${state.hours}&v=2`, { cache: "no-store" });
       const d = await r.json();
       if (!r.ok || d.error) throw new Error(d.error || r.status);
+      expandFeed(d);
       const fresh = new Set();
       if (!first && state.data && state.data.hours === d.hours) for (const e of d.events) if (!state.seen.has(evKey(e))) fresh.add(evKey(e));
       state.seen = new Set(d.events.map(evKey));
@@ -802,7 +821,7 @@
   window.addEventListener("hh:sketch", () => sketchAll());
 
   // Shared with share.js (the shareable card).
-  window.HH = { state, t, nf, health, aqiBand, CITIES, map, siteName, setLayer, trafficMeta: loadTrafficMeta, locale: () => LOCALES[state.lang] };
+  window.HH = { state, t, nf, health, aqiBand, CITIES, map, siteName, setLayer, trafficMeta: loadTrafficMeta, expandFeed, locale: () => LOCALES[state.lang] };
 
   // Deep links from the Pollution sites page: /#at=lat,lon,zoom&layer=traffic&src=kilns
   function applyHash() {

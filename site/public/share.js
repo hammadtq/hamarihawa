@@ -58,8 +58,8 @@
 
   async function loadFeed() {
     if (feed && Date.now() - feed._at < 5 * 60 * 1000) return feed;
-    const r = await fetch("/api/fires?hours=24");
-    feed = await r.json();
+    const r = await fetch("/api/fires?hours=24&v=2");
+    feed = HH.expandFeed(await r.json());
     feed._at = Date.now();
     return feed;
   }

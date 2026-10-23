@@ -13,13 +13,16 @@
     data(el.dataset.day).then((day) => {
       if (!day?.spots?.length) return;
       const f = Object.fromEntries(day.fields.map((k, i) => [k, i]));
+      // v2 day files store each district once, as [name, state, cc] in dict.district.
+      const D = day.dict?.district;
+      const where = (s) => (D ? D[s[f.district]] || [] : [s[f.district], s[f.state]]);
       const canvas = L.canvas({ padding: 0.3 });
       const pts = [];
       for (const s of day.spots) {
         const ll = [s[f.lat], s[f.lon]];
         pts.push(ll);
         L.circleMarker(ll, { renderer: canvas, radius: 3, weight: 0.6, color: s[f.night] ? "#5b1a14" : "#a3170d", fillColor: s[f.night] ? "#7a2a22" : "#d62d20", fillOpacity: 0.7 })
-          .bindTooltip(`${s[f.district] || ""}${s[f.state] ? ", " + s[f.state] : ""}`, { direction: "top" })
+          .bindTooltip(((w) => `${w[0] || ""}${w[1] ? ", " + w[1] : ""}`)(where(s)), { direction: "top" })
           .addTo(map);
       }
       // Frame where most fires were, so a few far-off spots don't zoom the map out.

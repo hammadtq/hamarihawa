@@ -292,7 +292,7 @@ ${years.map(([y, k, sn]) => `   <tr><td><a href="/fires/${k}/">${y}</a></td>${sn
       distribution: [{ "@type": "DataDownload", encodingFormat: "application/json", contentUrl: `${SITE}/api/day?d=${d}` }] } };
   const html = render({ path: `/fires/${d}/`, title: T.en.dayTitle(D), desc: T.en.dayDesc(D, s, top, "en"), body, jsonld, noindex: s.spots < QUIET,
     head: STYLE + '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n',
-    scripts: '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n<script src="/fires/fires.js?v=1"></script>\n' });
+    scripts: '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n<script src="/fires/fires.js?v=2"></script>\n' });
   return { html, fresh: s.partial || d >= shift(complete(days).at(-1) || d, -1) };
 }
 

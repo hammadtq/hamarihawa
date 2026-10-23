@@ -301,6 +301,7 @@ def build(hours, csvs):
                              for (d, s, c), n in sorted(by_d.items(), key=lambda kv: -kv[1])[:10]]
 
     spot_ids = {id(p) for p in spots.values()}
+    spot_idx = [i for i, p in enumerate(points) if id(p) in spot_ids]
     row = lambda p: [p["lat"], p["lon"], p["t"], round(p["frp"], 1),
                      {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}[p["sat"]],
                      p["place"], p["district"], p["cc"], p["kind"]]
@@ -316,7 +317,57 @@ def build(hours, csvs):
         "_spots": [row(p) for p in points if id(p) in spot_ids],
         # Every point, for the daily archive and the trend; also removed before writing.
         "_all": points,
+        # Positions in "points" of the distinct spots, for the v2 feed's map list.
+        "_spot_idx": spot_idx,
     }
+
+
+SAT_INDEX = {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}
+V2_FIELDS = ["lat", "lon", "t", "frp", "sat", "place", "district", "kind"]
+V2_EVENT = ["t", "sat", "district", "night", "n", "high", "frpMax", "frpSum", "lat", "lon", "kinds", "places", "sites",
+            "place", "placeKm", "town", "townKm", "flat", "flon", "kind"]
+
+
+class Dict:
+    """Values to small integers, in first-seen order: the v2 formats store each name once."""
+    def __init__(self):
+        self.items, self.ix = [], {}
+
+    def __call__(self, v):
+        if v not in self.ix:
+            self.ix[v] = len(self.items)
+            self.items.append(v)
+        return self.ix[v]
+
+
+def feed_v2(feed):
+    """The v2 fire feed (/api/fires?v=2): names stored once in "dict" and points as rows of numbers.
+    A point is [lat, lon, t, frp, sat, place, district, kind]: t in minutes after "t0" (ms), sat as in v1,
+    and place, district and kind are positions in dict.place, dict.district ([name, state, cc]) and
+    dict.kind. The 7-day feed also lists, in "spots", the points that are distinct fire spots. Events are rows
+    too, in the order of "event_fields": t and sat as for points, district/place/town/kind as positions in
+    the dictionaries (town -1 when none), kinds as a flat [kind, count, ...] list and places as positions."""
+    places, districts, kinds = Dict(), Dict(), Dict()
+    pts = feed["_all"]
+    t0 = min((p["t"] for p in pts), default=0)
+    rows = [[round(p["lat"], 4), round(p["lon"], 4), (p["t"] - t0) // 60000, round(p["frp"], 1), SAT_INDEX[p["sat"]],
+             places(p.get("place") or ""), districts((p.get("district") or "", p.get("state") or "", p.get("cc") or "")),
+             kinds(p["kind"])] for p in pts]
+    ev = [[(e["t"] - t0) // 60000, SAT_INDEX[e["sat"]], districts((e["district"] or "", e["state"] or "", e["cc"] or "")),
+           1 if e["night"] else 0, e["n"], e["high"], e["frpMax"], e["frpSum"], e["lat"], e["lon"],
+           [x for k, c in e["kinds"].items() for x in (kinds(k), c)], [places(x) for x in e["places"]], e["sites"],
+           places(e.get("place") or ""), e.get("placeKm"), places(e["town"]) if e.get("town") else -1, e.get("townKm"),
+           round(e["flat"], 4), round(e["flon"], 4), kinds(e["kind"])] for e in feed["events"]]
+    out = {k: v for k, v in feed.items() if not k.startswith("_") and k not in ("points", "events")}
+    out.update(v=2, t0=t0, fields=V2_FIELDS, event_fields=V2_EVENT, events=ev,
+               dict={"place": places.items, "district": [list(d) for d in districts.items], "kind": kinds.items},
+               points=rows)
+    if feed["hours"] == 168:
+        out["spots"] = feed["_spot_idx"]
+    return out
+
+
+KML_MAX = 25_000  # placemarks; about 600 bytes each, which keeps a KML well under KV's 25 MiB
 
 
 KIND_TEXT = {"crop": "likely crop burning", "urban": "near a town: waste or industry?", "open": "open land",
@@ -341,7 +392,12 @@ def kml(feed):
                        "<href>https://maps.google.com/mapfiles/kml/shapes/shaded_dot.png</href></Icon></IconStyle>"
                        "<LabelStyle><scale>0</scale></LabelStyle></Style>")
     sats = ["Suomi NPP", "NOAA-20", "NOAA-21", "Aqua", "Terra"]
-    for lat, lon, t, frp, si, place, district, cc, kind in feed["_spots"]:
+    spots = feed["_spots"]
+    if len(spots) > KML_MAX:
+        # Too many for one file: keep the strongest fires and say so.
+        out.append(f"<Snippet>The {KML_MAX:,} strongest of {len(spots):,} fire spots; the full list is in the JSON feed.</Snippet>")
+        spots = sorted(spots, key=lambda r: -r[3])[:KML_MAX]
+    for lat, lon, t, frp, si, place, district, cc, kind in spots:
         age = (now - t) / 3.6e6
         st = ("a" if age < 3 else "b" if age < 12 else "c") + ("l" if frp >= 50 else "m" if frp >= 10 else "s")
         when = datetime.fromtimestamp(t / 1000, timezone.utc)
@@ -413,15 +469,33 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
             if p.get("place"):
                 pk = (p["place"], p["district"] or "", p["cc"] or "")
                 by_p[pk] = by_p.get(pk, 0) + 1
+        # Per state (country|state): [spots, night spots, Suomi NPP spots, Suomi NPP night spots], every state,
+        # so regional series (the two Punjabs, Haryana) never depend on the capped district list.
+        states = {}
+        for p in spots:
+            a = states.setdefault(f"{p['cc'] or ''}|{p['state'] or ''}", [0, 0, 0, 0])
+            a[0] += 1; a[1] += 1 if p["night"] else 0
+        for p in sn_spots:
+            a = states.setdefault(f"{p['cc'] or ''}|{p['state'] or ''}", [0, 0, 0, 0])
+            a[2] += 1; a[3] += 1 if p["night"] else 0
+        summary["states"] = dict(sorted(states.items()))
         districts = [[d, st, cc, n, round(la / n, 2), round(lo / n, 2), sn_d.get((d, st, cc), 0)]
                      for (d, st, cc), (n, la, lo) in sorted(by_d.items(), key=lambda kv: -kv[1][0]) if n >= 2][:80]
         places = [[pl, d, cc, n] for (pl, d, cc), n in sorted(by_p.items(), key=lambda kv: -kv[1]) if n >= 2][:12]
-        out[date] = {"date": date, "source": source, "summary": summary, "districts": districts, "places": places,
-                     "fields": ["lat", "lon", "t", "frp", "sat", "district", "state", "cc", "kind", "night"],
-                     "spots": [[p["lat"], p["lon"], p["t"], round(p["frp"], 1),
-                                {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}[p["sat"]],
-                                p["district"], p["state"], p["cc"], p["kind"], 1 if p["night"] else 0] for p in spots]}
+        dd = Dict()
+        rows = [[round(p["lat"], 4), round(p["lon"], 4), p["t"], round(p["frp"], 1), SAT_INDEX[p["sat"]],
+                 dd((p["district"] or "", p["state"] or "", p["cc"] or "")), p["kind"], 1 if p["night"] else 0] for p in spots]
+        # "dict" must come before "fields": the Worker parses only the part of the file before "fields".
+        out[date] = {"date": date, "v": 2, "source": source, "summary": summary, "districts": districts, "places": places,
+                     "dict": {"district": [list(d) for d in dd.items]},
+                     "fields": ["lat", "lon", "t", "frp", "sat", "district", "kind", "night"], "spots": rows}
     return out
+
+
+def index_entry(summary, partial):
+    """A day's entry in the "days" index: the day summary without the per-state breakdown, which only the
+    day file carries (the index is parsed on every page render, so it stays small)."""
+    return {**{k: v for k, v in summary.items() if k != "states"}, "partial": partial}
 
 
 def slug(name):
@@ -529,6 +603,9 @@ def load_dist(now_year):
     return dist
 
 
+MAX_VALUE = 24 * 2**20  # KV refuses values over 25 MiB
+
+
 class Publisher:
     """Every KV write goes through here. The free plan allows 1,000 writes a day (reset 00:00 UTC); this job
     stops at LIMIT, leaving the rest for the NO2 job, wind and hand-run fixes. Values whose content hasn't
@@ -547,6 +624,10 @@ class Publisher:
         """Write body to KV key; `same` is the part that must change for a write to count (default: body)."""
         h = hashlib.sha1(same if same is not None else body).hexdigest()[:16]
         if self.hashes.get(key) == h:
+            return False
+        if len(body) > MAX_VALUE:
+            print(f"  {key} is {len(body) / 2**20:.1f} MiB, over KV's limit; not written", file=sys.stderr)
+            self.skipped.append(key)
             return False
         if self.state["writes"] + 2 > self.LIMIT:  # one is kept for the state key itself
             self.skipped.append(key)
@@ -680,7 +761,7 @@ def main():
                     open(os.path.join(a.out, "days", f"{date}.json"), "wb").write(dbody)
                     if slow:
                         pub.put(f"day-{date}", dbody)
-                index[date] = {**day["summary"], "partial": date == pk_today}
+                index[date] = index_entry(day["summary"], date == pk_today)
                 dist[date] = day["districts"]
             ibody = json.dumps(index, separators=(",", ":"), sort_keys=True).encode()
             open(days_path, "wb").write(ibody)
@@ -710,14 +791,18 @@ def main():
                       1 if index[d].get("partial") else 0] for d in recent],
         }
         kbody = kml(feed)
-        del feed["_spots"], feed["_all"]
+        v2body, v2same = feed_body(feed_v2(feed))
+        del feed["_spots"], feed["_all"], feed["_spot_idx"]
         body, same = feed_body(feed)
+        open(os.path.join(a.out, f"fires-{hours}-v2.json"), "wb").write(v2body)
         open(os.path.join(a.out, f"fires-{hours}.json"), "wb").write(body)
-        print(f"{win}: {feed['stats']['spots']} spots, {len(feed['events'])} events, {len(body) // 1024} KB")
+        print(f"{win}: {feed['stats']['spots']} spots, {len(feed['events'])} events, {len(body) // 1024} KB (v2 {len(v2body) // 1024} KB)")
         open(os.path.join(a.out, f"fires-{hours}.kml"), "wb").write(kbody)
         # The KML colours fires by age at build time, so it goes out with its feed, never on its own.
-        if tier_ok and pub.put(f"fires-{hours}", body, same):
-            pub.put(f"kml-{hours}", kbody)
+        if tier_ok:
+            pub.put(f"fires-{hours}-v2", v2body, v2same)
+            if pub.put(f"fires-{hours}", body, same):
+                pub.put(f"kml-{hours}", kbody)
     for name, ran in (("fast", fast), ("slow", slow)):
         if ran:
             tiers[name] = {"src": rev, "at": now_s, "pkday": pk_today}

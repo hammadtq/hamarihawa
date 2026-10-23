@@ -152,7 +152,7 @@ def main():
         days = bf.day_files(feed["_all"], keep=lambda s: d0.isoformat() <= s <= d1.isoformat() and (a.summaries or s not in index),
                             source=source)
         for d, day in days.items():
-            index[d] = {**day["summary"], "partial": False}
+            index[d] = bf.index_entry(day["summary"], False)
             dist[d] = day.pop("districts")
             if a.summaries:
                 continue

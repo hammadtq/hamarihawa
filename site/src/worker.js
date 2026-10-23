@@ -150,8 +150,10 @@ async function handle(request, env, url, ctx) {
     }
 
     const hours = WINDOWS.has(url.searchParams.get("hours")) ? url.searchParams.get("hours") : "24";
-    return edgeCached(ctx, `/api/fires?hours=${hours}`, 120, async () => {
-      const body = await env.FEED.get(`fires-${hours}`, { cacheTtl: 120 });
+    // ?v=2 is the compact feed (names stored once); until its first upload the v1 feed is served instead.
+    const v2 = url.searchParams.get("v") === "2";
+    return edgeCached(ctx, `/api/fires?hours=${hours}${v2 ? "&v=2" : ""}`, 120, async () => {
+      const body = (v2 && (await env.FEED.get(`fires-${hours}-v2`, { cacheTtl: 120 }))) || (await env.FEED.get(`fires-${hours}`, { cacheTtl: 120 }));
       if (!body) {
         return json(JSON.stringify({ error: "The fire feed hasn't been built yet. Try again in a few minutes." }), 503, 30);
       }
