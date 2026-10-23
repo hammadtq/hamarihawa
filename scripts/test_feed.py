@@ -133,8 +133,10 @@ class ComparisonTest(unittest.TestCase):
     def test_districts_outside_the_box_have_no_year_comparison(self):
         days = [f"2026-10-{d:02d}" for d in range(1, 26)]
         rows = [["Okara", "Punjab", "PK", 30, 30.8, 73.4, 10, 10], ["Angul", "Odisha", "IN", 30, 20.8, 85.1, 0, 10]]
-        d = bf.district_index({x: {"spots": 1} for x in days}, {x: rows for x in days})["d"]
-        self.assertEqual(d["okara"]["s"]["2026"][0], 250)
+        dist = {x: rows for x in days}
+        dist["2026-10-01"] = [r[:7] for r in rows]  # one day from before the rebuild
+        d = bf.district_index({x: {"spots": 1} for x in days}, dist)["d"]
+        self.assertEqual(d["okara"]["s"]["2026"][0], 250)  # box counts: 25 days x 10
         self.assertIsNone(d["angul"]["s"]["2026"][0])
         self.assertEqual(d["angul"]["s"]["2026"][2], 750)
 
@@ -153,6 +155,41 @@ class SlugTest(unittest.TestCase):
         got = bf.district_index(index, dist, first)["d"]
         self.assertEqual(got["hyderabad"]["state"], "Sindh")
         self.assertEqual(got["hyderabad-telangana"]["state"], "Telangana")
+
+
+class RebuildTest(unittest.TestCase):
+    days = [f"2025-10-{d:02d}" for d in range(1, 26)]
+
+    def test_renamed_district_gets_an_alias(self):
+        old = bf.district_index({d: {} for d in self.days}, {d: [["District Jalaun", "Uttar Pradesh", "IN", 30, 26.1, 79.4, 5]] for d in self.days})
+        self.assertIn("district-jalaun", old["d"])
+        new = bf.district_index({d: {} for d in self.days}, {d: [["Jalaun", "Uttar Pradesh", "IN", 30, 26.1, 79.4, 5, 5]] for d in self.days}, old)
+        self.assertEqual(new["alias"], {"district-jalaun": "jalaun"})
+        again = bf.district_index({d: {} for d in self.days}, {d: [["Jalaun", "Uttar Pradesh", "IN", 30, 26.1, 79.4, 5, 5]] for d in self.days},
+                                  bf.split_dpages(new)[0])
+        self.assertEqual(again["alias"], {"district-jalaun": "jalaun"})  # kept on later runs
+
+    def test_alias_survives_a_rebuild_in_parts(self):
+        idx = {d: {} for d in self.days}
+        both = bf.district_index(idx, {d: [["District Jalaun", "Uttar Pradesh", "IN", 30, 26.1, 79.4, 5],
+                                           ["Jalaun", "Uttar Pradesh", "IN", 30, 26.1, 79.4, 5, 5]] for d in self.days},
+                                 bf.split_dpages(bf.district_index(idx, {d: [["District Jalaun", "Uttar Pradesh", "IN", 30, 26.1, 79.4, 5]] for d in self.days}))[0])
+        self.assertIn("district-jalaun", both["d"])
+        self.assertIn("jalaun", both["d"])
+        after = bf.district_index(idx, {d: [["Jalaun", "Uttar Pradesh", "IN", 30, 26.1, 79.4, 5, 5]] for d in self.days}, bf.split_dpages(both)[0])
+        self.assertEqual(after["alias"], {"district-jalaun": "jalaun"})
+
+    def test_whole_district_counts_once_rebuilt(self):
+        rows = [["Angul", "Odisha", "IN", 30, 20.8, 85.1, 0, 10]]
+        d = bf.district_index({x: {"snc": [1] * 6} for x in self.days}, {x: rows for x in self.days})["d"]
+        self.assertEqual(d["angul"]["s"]["2025"][0], 250)
+
+    def test_no_whole_district_while_a_season_day_is_old(self):
+        rows = [["Angul", "Odisha", "IN", 30, 20.8, 85.1, 0, 10]]
+        idx = {x: {"snc": [1] * 6} for x in self.days}
+        idx[self.days[0]] = {}
+        d = bf.district_index(idx, {x: rows for x in self.days})["d"]
+        self.assertIsNone(d["angul"]["s"]["2025"][0])
 
 
 class BudgetSimulation(unittest.TestCase):

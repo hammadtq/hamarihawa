@@ -7,7 +7,7 @@ For Pakistani Punjab, Indian Punjab and Haryana it records the season total, nig
 power, the daily series and the count per district. India's official season totals are stored next to
 ours so the report can check one against the other.
 
-Usage: python3 -I scripts/season-stats.py <backfill out dir>
+Usage: python3 -I scripts/season-stats.py <download cache folder, e.g. ~/.cache/hamarihawa/raw/60.5_5.5_97.5_37.5>
 Writes site/public/report/two-punjabs/seasons.json.
 """
 import importlib.util, json, os, sys
@@ -46,7 +46,8 @@ def season_csv(raw, year, stem="VIIRS_SNPP_"):
 
 
 def main():
-    raw = os.path.join(sys.argv[1], "raw")
+    # The download cache itself (one folder per area, as backfill-days.py now keeps it), or an out dir holding raw/.
+    raw = sys.argv[1] if any(f.endswith(".csv") for f in os.listdir(sys.argv[1])) else os.path.join(sys.argv[1], "raw")
     seasons = {}
     for y in YEARS:
         # The other VIIRS satellites go in too, so the desert-burst filter has the same witnesses as the live

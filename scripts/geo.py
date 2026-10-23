@@ -13,8 +13,7 @@ FEED_BOX = REGION
 # The box covered from 2019 until then. Year-on-year comparisons stay inside it (summary.snc) until the
 # past seasons are rebuilt for the whole region, and the stubble-season pages keep using it after that.
 COMPARE_BOX = {"s": 25.0, "n": 35.5, "w": 66.0, "e": 88.5}
-# First Pakistan-time day the archive holds for the whole region; earlier days cover COMPARE_BOX only.
-REGION_FROM = "2026-10-17"
+# Day summaries built for the whole region carry snc (Suomi NPP inside COMPARE_BOX); older ones cover the box only.
 
 BAND = 4  # edges are indexed by latitude band, 1/4 degree
 

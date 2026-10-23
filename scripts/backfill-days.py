@@ -4,18 +4,22 @@
 The live feed (build-feed.py) only sees the last 7 days. This one-off script fetches older
 days with a FIRMS MAP_KEY, names and classifies the fires the same way, and writes the same
 day files (KV "day-YYYY-MM-DD") and index entries (KV "days"). Dates already in the index are
-left alone, so it never overwrites what the live feed archived.
+left alone, so it never overwrites what the live feed archived, unless --rebuild is given: then every
+date in the periods is regenerated (after a change of region or method) and written locally only, for
+scripts/push-archive.py to upload a few hundred keys a day within the free plan's write limit.
 
 Usage:
   python3 -I scripts/backfill-days.py --out <dir> --season 2019-2025          # 1 Oct-30 Nov each year
   python3 -I scripts/backfill-days.py --out <dir> --range 2026-10-01 2026-10-13
   ... --upload   # also write to KV (needs CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, KV_NAMESPACE_ID)
+  ... --rebuild  # regenerate every date locally, from an empty index, for push-archive.py
 
 The MAP_KEY is read from ~/.config/hamarihawa/firms_key (or FIRMS_MAP_KEY) and is never printed.
 FIRMS allows 5,000 transactions per 10 minutes; this paces itself and stops well before that.
-Raw CSVs are cached in <out>/raw so a rerun doesn't fetch again.
+Raw CSVs are cached in <out>/raw (or --raw), one folder per area, so a rerun doesn't fetch again.
 """
-import argparse, importlib.util, json, os, sys, time, urllib.error, urllib.request
+import argparse, importlib.util, json, os, sys, threading, time, urllib.error, urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -62,8 +66,10 @@ def fetch(url):
 
 class Firms:
     def __init__(self, raw_dir):
-        self.k, self.raw, self.calls = key(), raw_dir, 0
-        os.makedirs(raw_dir, exist_ok=True)
+        # One cache folder per area: the region grew in October 2026, and old downloads cover the old box only.
+        self.k, self.raw, self.calls = key(), os.path.join(raw_dir, f"{W}_{S}_{E}_{N}"), 0
+        self.lock = threading.Lock()
+        os.makedirs(self.raw, exist_ok=True)
         # Final ("SP") processing ends a few months back; newer dates come from near real time ("NRT").
         self.sp_end = {}
         for line in fetch(f"{API}/api/data_availability/csv/{self.k}/all").splitlines()[1:]:
@@ -88,15 +94,39 @@ class Firms:
         cache = os.path.join(self.raw, f"{product}_{start}_{days}.csv")
         if os.path.exists(cache):
             return open(cache, encoding="utf-8").read()
-        if self.calls and self.calls % 50 == 0:
+        with self.lock:
+            check = self.calls and self.calls % 50 == 0
+            self.calls += 1
+        if check:
             self.budget()
         text = fetch(f"{API}/api/area/csv/{self.k}/{product}/{W},{S},{E},{N}/{days}/{start}")
-        self.calls += 1
         time.sleep(1)
         if not text.startswith("latitude"):
             sys.exit(f"FIRMS answered {product} {start} with: {text[:120]!r}")
-        open(cache, "w", encoding="utf-8").write(text)
+        # Write then rename, so an interrupted run never leaves a truncated file in the cache.
+        open(cache + ".part", "w", encoding="utf-8").write(text)
+        os.replace(cache + ".part", cache)
         return text
+
+    def prefetch(self, periods, workers):
+        """Fill the cache for every chunk the periods need, a few requests at a time (each takes 20-60 s)."""
+        jobs = []
+        for d0, d1 in periods:
+            for stem, _ in SATS:
+                d = d0
+                while d <= d1:
+                    n = min(CHUNK, (d1 - d).days + 1)
+                    jobs.append((stem, d, n))
+                    d += timedelta(days=n)
+        done = [0]
+        def one(job):
+            self.chunk(*job)
+            with self.lock:
+                done[0] += 1
+                if done[0] % 20 == 0:
+                    print(f"  prefetched {done[0]} of {len(jobs)}", flush=True)
+        with ThreadPoolExecutor(workers) as ex:
+            list(ex.map(one, jobs))
 
     def csvs(self, d0, d1):
         """One CSV per satellite (build-feed's order) covering UTC dates d0..d1, in the 5-day chunks the API allows."""
@@ -130,18 +160,25 @@ def main():
     ap.add_argument("--range", nargs=2, metavar=("FROM", "TO"))
     ap.add_argument("--upload", action="store_true")
     ap.add_argument("--summaries", action="store_true", help="only recompute the days and dist indexes")
+    ap.add_argument("--rebuild", action="store_true", help="regenerate every date, locally, from an empty index")
+    ap.add_argument("--raw", help="download cache folder (default <out>/raw)")
+    ap.add_argument("--workers", type=int, default=1, help="parallel downloads before building (FIRMS allows a few)")
     a = ap.parse_args()
     if not (a.season or a.range):
         ap.error("give --season and/or --range")
+    if a.rebuild and (a.upload or a.summaries):
+        ap.error("--rebuild writes locally only; upload with scripts/push-archive.py")
     os.makedirs(os.path.join(a.out, "days"), exist_ok=True)
 
     index_path = os.path.join(a.out, "days.json")
-    index = json.loads(bf.kv("GET", "days") or b"{}") if a.upload else (
-        json.load(open(index_path)) if os.path.exists(index_path) else {})
+    index = {} if a.rebuild else json.loads(bf.kv("GET", "days") or b"{}") if a.upload else (
+        json.load(open(index_path)) if os.path.exists(index_path) and not a.rebuild else {})
     dist_path = os.path.join(a.out, "dist.json")
-    dist = bf.load_dist(date.today().year) if a.upload else (
+    dist = {} if a.rebuild else bf.load_dist(date.today().year) if a.upload else (
         json.load(open(dist_path)) if os.path.exists(dist_path) else {})
-    firms, added = Firms(os.path.join(a.out, "raw")), []
+    firms, added = Firms(a.raw or os.path.join(a.out, "raw")), []
+    if a.workers > 1:
+        firms.prefetch([(d0 - timedelta(days=1), d1) for d0, d1 in periods(a)], a.workers)
     for d0, d1 in periods(a):
         # Pakistan-time days start at 19:00 UTC the day before, so fetch one extra UTC day in front.
         csvs = firms.csvs(d0 - timedelta(days=1), d1)
@@ -160,7 +197,7 @@ def main():
             open(os.path.join(a.out, "days", f"{d}.json"), "wb").write(body)
             added.append((d, body))
         tot = sum(day["summary"]["spots"] for day in days.values())
-        print(f"{d0}..{d1}: {len(days)} new days, {tot} spots, {firms.calls} API calls so far")
+        print(f"{d0}..{d1}: {len(days)} new days, {tot} spots, {firms.calls} API calls so far", flush=True)
 
     open(index_path, "w").write(json.dumps(index, separators=(",", ":"), sort_keys=True))
     open(dist_path, "w").write(json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False))

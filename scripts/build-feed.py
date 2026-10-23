@@ -622,8 +622,12 @@ def district_index(index, dist, prev=None):
     Only complete days count. Each season is [Suomi NPP spots, Suomi NPP to this season's date,
     all-satellite spots, all-satellite to date]; the Suomi NPP figures are None when some day lacks them.
     Totals are a floor: the dist index keeps each day's 150 busiest districts with 2+ spots.
+    The Suomi NPP figures count the whole district when every one of its rows was built for the whole region
+    (8 fields), and otherwise only its part inside geo.COMPARE_BOX, which every archived year covers; a district
+    wholly outside the box then has no comparison.
     prev is the last published index ({"d": {slug: {...}}}): a district keeps the slug it was published under,
-    so its address doesn't change when a namesake elsewhere later qualifies for a page."""
+    so its address doesn't change when a namesake elsewhere later qualifies for a page; a published slug whose
+    district was renamed (a cleaned-up name, say) is kept in "alias" pointing at the new one, for redirects."""
     done = sorted(d for d in index if not index[d].get("partial") and d in dist)
     if not done:
         return {}
@@ -631,6 +635,9 @@ def district_index(index, dist, prev=None):
     cur = int(last[:4]) if last[5:] >= SEASON[0] else int(last[:4]) - 1
     to = min(last[5:], SEASON[1]) if cur == int(last[:4]) else SEASON[1]
     recent = done[-30:]
+    # Whole districts only once every season day was built for the whole region: on an old day a district
+    # outside the old box has no row at all, so 8-field rows alone don't show a complete season.
+    whole = all(index[d].get("snc") for d in done if SEASON[0] <= d[5:] <= SEASON[1])
     by = {}
     for date in done:
         y, md = int(date[:4]), date[5:]
@@ -639,14 +646,22 @@ def district_index(index, dist, prev=None):
             name, state, cc, n = r[0], r[1], r[2], r[3]
             if not name or name == "?" or name == state:
                 continue
-            e = by.setdefault((name, state, cc), {"n": 0, "days": 0, "la": 0.0, "lo": 0.0, "s": {}, "daily": {}, "peak": None, "box": 0})
+            e = by.setdefault((name, state, cc), {"n": 0, "days": 0, "la": 0.0, "lo": 0.0, "s": {}, "sa": {}, "daily": {},
+                                                  "peak": None, "box": 0, "full": True})
             e["n"] += n; e["days"] += 1; e["la"] += r[4] * n; e["lo"] += r[5] * n
             e["daily"][date] = n
             if season is not None:
                 t = e["s"].setdefault(season, [0, 0, 0, 0])
-                # Suomi NPP inside the box every year covers, so a district crossing its edge compares like with like.
+                # Suomi NPP inside the box every year covers, so a district crossing its edge compares like with
+                # like, and for the whole district once all its rows have that (r[7]).
                 sn = r[6] if len(r) > 6 else None
                 e["box"] += sn or 0
+                ta = e["sa"].setdefault(season, [0, 0])
+                if len(r) > 7:
+                    ta[0] += r[7]
+                    if md <= to: ta[1] += r[7]
+                else:
+                    e["full"] = False
                 t[2] += n
                 if md <= to: t[3] += n
                 if sn is None or t[0] is None:
@@ -658,8 +673,10 @@ def district_index(index, dist, prev=None):
                     e["peak"] = [date, n]
     keep = {k: e for k, e in by.items() if e["n"] >= PAGE_MIN[0] and e["days"] >= PAGE_MIN[1]}
     for e in keep.values():
-        if not e["box"]:  # wholly outside the old box: earlier years weren't covered, so there is nothing to compare
-            for t in e["s"].values():
+        for y, t in e["s"].items():
+            if whole and e["full"]:
+                t[0], t[1] = e["sa"][y]
+            elif not e["box"]:  # wholly outside the old box: earlier years weren't covered, so nothing to compare
                 t[0] = t[1] = None
     # Short slugs ("okara"), falling back to name + state, then + country, when two districts share one.
     slugs, out = {}, {}
@@ -678,6 +695,33 @@ def district_index(index, dist, prev=None):
         for k in ks:
             if len(ks) > 1 and had.get(k) != sl:
                 named[k] = slug(f"{k[0]} {k[1]} {k[2]}")
+    # Published slugs whose district is gone under that name: point them at the same district's new entry,
+    # matched by its name without "District " in the same state, or else the nearest new district in that state.
+    alias = dict((prev or {}).get("alias") or {})
+    new = {sl: k for k, sl in named.items()}
+    fresh = [k for k in keep if had.get(k) is None]
+    clean = lambda x: re.sub(r"^district\s+", "", x.lower()).strip()
+    for sl, pe in ((prev or {}).get("d") or {}).items():
+        if sl in new:
+            continue
+        # The name match looks at every district, not just new ones: when the archive is rebuilt in parts, the
+        # renamed district gets its page while the old name still has one, and is no longer new once that goes.
+        hit = next((k for k in keep if k[2] == pe["cc"] and k[1] == pe["state"] and k != (pe["name"], pe["state"], pe["cc"])
+                    and clean(k[0]) == clean(pe["name"])), None)
+        cands = [k for k in fresh if k[2] == pe["cc"] and k[1] == pe["state"]]
+        if hit is None and cands:
+            near = min(cands, key=lambda k: dist2(pe["lat"], pe["lon"], keep[k]["la"] / keep[k]["n"], keep[k]["lo"] / keep[k]["n"]))
+            if dist2(pe["lat"], pe["lon"], keep[near]["la"] / keep[near]["n"], keep[near]["lo"] / keep[near]["n"]) < 0.15 ** 2:
+                hit = near
+        if hit is not None:
+            alias[sl] = named[hit]
+    # Follow chains (a -> b -> c), and drop aliases for slugs that are pages again or point at nothing.
+    for a in list(alias):
+        seen, b = {a}, alias[a]
+        while b in alias and b not in seen:
+            seen.add(b); b = alias[b]
+        alias[a] = b
+    alias = {a: b for a, b in sorted(alias.items()) if a not in new and b in new}
     for cc in ("PK", "IN"):
         ranked = sorted((k for k in keep if k[2] == cc), key=lambda k: -(keep[k]["s"].get(cur, [0, 0, 0, 0])[3]))
         for i, k in enumerate(ranked):
@@ -687,7 +731,7 @@ def district_index(index, dist, prev=None):
                              "s": {str(y): v for y, v in sorted(e["s"].items())},
                              "r": [e["daily"].get(d, 0) for d in recent], "peak": e["peak"],
                              "rank": i + 1, "of": len(ranked)}
-    return {"last": last, "season": cur, "to": to, "recent": recent, "d": out}
+    return {"last": last, "season": cur, "to": to, "recent": recent, "d": out, **({"alias": alias} if alias else {})}
 
 
 def split_dpages(dp):
@@ -912,8 +956,13 @@ def main():
                     pub.put(key, json.dumps(part, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
                 pub.put("dpages-index", json.dumps(dp_index, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
             print(f"archive: {len(days)} days, {len(index)} in index, {len(shards)} district shards")
-        # Only days covering the whole region, so the chart doesn't jump where the coverage grew.
-        recent = [d for d in sorted(index) if d >= geo.REGION_FROM][-TREND_DAYS:]
+        # Only the latest run of days built for the whole region (they carry snc), so the chart doesn't
+        # jump where the coverage grew.
+        recent = []
+        for d in sorted(index, reverse=True)[:TREND_DAYS]:
+            if "snc" not in index[d]:
+                break
+            recent.insert(0, d)
         cur, prev = compare(history, hours) if hours < 168 else (None, None)
         feed["trend"] = {
             # cur and prev are the same window length cut from the same points; the page compares those two.
