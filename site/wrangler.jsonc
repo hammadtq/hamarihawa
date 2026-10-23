@@ -10,9 +10,12 @@
     // Only these paths run the Worker; static files are served straight from the asset store, which the
     // free plan doesn't count against the 100,000 Worker requests a day. Paths with no static file still
     // reach the Worker. HSTS for static files is in public/_headers; www is redirected by www/ (its own Worker).
+    // The HTML pages also run the Worker (one request per page view), so a first visit over plain http is
+    // upgraded to https; the scripts and styles they load then come over https and skip it.
     "run_worker_first": [
       "/api/*", "/fires", "/fires/", "/fires/2*", "/district", "/district/*", "/sitemap-daily.xml",
-      "/fires.kml", "/kml/air.kml", "/kml/traffic.kml", "/kml/satellite.kml"
+      "/fires.kml", "/kml/air.kml", "/kml/traffic.kml", "/kml/satellite.kml",
+      "/", "/index.html", "/about/", "/data/", "/sites/", "/trends/", "/reports/", "/report/", "/report/two-punjabs/", "/updates/"
     ]
   },
   "routes": [
