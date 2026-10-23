@@ -18,7 +18,8 @@ const QUIET = 150; // days with fewer spots stay out of search results and the s
 const FIRST_DAILY = "2026-10-01"; // every day is archived from here on; before it, only Oct-Nov seasons
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-const nf = (n, l) => new Intl.NumberFormat(LOC[l]).format(n);
+const NF = {}; // one formatter per language: building an Intl.NumberFormat costs far more than using it
+const nf = (n, l) => (NF[l] ||= new Intl.NumberFormat(LOC[l])).format(n);
 const pct = (a, b) => (b ? Math.round((a / b) * 100) : 0);
 const fdate = (iso, l, short) => {
   const [y, m, d] = iso.split("-").map(Number);
@@ -216,7 +217,11 @@ async function dayPage(env, d) {
   const { days, dp } = await load(env);
   const s = days[d];
   if (!s) return null;
-  const day = await env.FEED.get(`day-${d}`, { type: "json", cacheTtl: 900 });
+  // Day files carry every spot (up to ~1 MB on a peak day). The page only needs what comes before
+  // "fields", so parse that slice and leave the spots, which the map fetches from /api/day, unparsed.
+  const txt = await env.FEED.get(`day-${d}`, { cacheTtl: 900 });
+  const cut = txt ? txt.indexOf(',"fields":') : -1;
+  const day = txt ? JSON.parse(cut > 0 ? txt.slice(0, cut) + "}" : txt) : null;
   const slug = slugOf(dp);
   const prevD = shift(d, -1), nextD = shift(d, 1);
   const lyKey = `${+d.slice(0, 4) - 1}${d.slice(4)}`;
