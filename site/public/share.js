@@ -12,14 +12,14 @@
   };
   const INK = "#1d1d1f", INK2 = "#4a4a4c", INK3 = "#7c7c80", FIRE = "#d62d20", HAIR = "#e6e3dc";
   const AQI = ["#5aa846", "#e3b52a", "#ec8a2b", "#d93b30", "#8b3fa8", "#7b1d2f"];
-  const BOX = { s: 24, n: 35.8, w: 66, e: 88.5 };
+  const BOX = { s: 6, n: 37.5, w: 60.5, e: 97.5 }; // scripts/geo.py REGION
   const LABELS = [
-    ["Lahore", 31.55, 74.34], ["Karachi", 24.86, 67.0], ["Islamabad", 33.69, 73.06], ["Multan", 30.2, 71.47],
-    ["Delhi", 28.61, 77.21], ["Lucknow", 26.85, 80.95], ["Patna", 25.59, 85.14], ["Jaipur", 26.91, 75.79],
+    ["Lahore", 31.55, 74.34], ["Karachi", 24.86, 67.0], ["Islamabad", 33.69, 73.06], ["Delhi", 28.61, 77.21],
+    ["Lucknow", 26.85, 80.95], ["Mumbai", 19.08, 72.88], ["Kolkata", 22.57, 88.36], ["Chennai", 13.08, 80.27], ["Bengaluru", 12.97, 77.59],
   ];
   const LABEL_I18N = {
-    ur: { Lahore: "لاہور", Karachi: "کراچی", Islamabad: "اسلام آباد", Multan: "ملتان", Delhi: "دہلی", Lucknow: "لکھنؤ", Patna: "پٹنہ", Amritsar: "امرتسر", Jaipur: "جے پور", PAKISTAN: "پاکستان", INDIA: "ہندوستان" },
-    hi: { Lahore: "लाहौर", Karachi: "कराची", Islamabad: "इस्लामाबाद", Multan: "मुल्तान", Delhi: "दिल्ली", Lucknow: "लखनऊ", Patna: "पटना", Amritsar: "अमृतसर", Jaipur: "जयपुर", PAKISTAN: "पाकिस्तान", INDIA: "भारत" },
+    ur: { Lahore: "لاہور", Karachi: "کراچی", Islamabad: "اسلام آباد", Multan: "ملتان", Delhi: "دہلی", Lucknow: "لکھنؤ", Patna: "پٹنہ", Amritsar: "امرتسر", Jaipur: "جے پور", Mumbai: "ممبئی", Kolkata: "کولکاتہ", Chennai: "چنئی", Bengaluru: "بنگلور", PAKISTAN: "پاکستان", INDIA: "ہندوستان" },
+    hi: { Lahore: "लाहौर", Karachi: "कराची", Islamabad: "इस्लामाबाद", Multan: "मुल्तान", Delhi: "दिल्ली", Lucknow: "लखनऊ", Patna: "पटना", Amritsar: "अमृतसर", Jaipur: "जयपुर", Mumbai: "मुंबई", Kolkata: "कोलकाता", Chennai: "चेन्नई", Bengaluru: "बेंगलुरु", PAKISTAN: "पाकिस्तान", INDIA: "भारत" },
   };
 
   let fmt = "square", feed = null, blob = null;
@@ -121,25 +121,27 @@
 
   function drawMap(ctx, rc, x, y, w, h, pts, hot = []) {
     // Equirectangular with a cos(lat) squash, fitted to the box.
-    const k = Math.cos((30 * Math.PI) / 180);
+    const k = Math.cos((22 * Math.PI) / 180);
     const sx = w / ((BOX.e - BOX.w) * k), sy = h / (BOX.n - BOX.s), sc = Math.min(sx, sy);
     const ox = x + (w - (BOX.e - BOX.w) * k * sc) / 2, oy = y + (h - (BOX.n - BOX.s) * sc) / 2;
     const P = (lat, lon) => [ox + (lon - BOX.w) * k * sc, oy + (BOX.n - lat) * sc];
+    // Text and marker size, independent of how many degrees the box spans.
+    const u = Math.max(sc, Math.min(w, h) / 20);
     ctx.fillStyle = "#faf8f3";
     ctx.fillRect(x, y, w, h);
     // light pencil graticule
     ctx.save();
     ctx.strokeStyle = HAIR; ctx.lineWidth = 1; ctx.setLineDash([3, 6]);
-    for (let lon = 68; lon <= 88; lon += 4) { const [a, b] = P(BOX.n, lon), [, d] = P(BOX.s, lon); ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(a, d); ctx.stroke(); }
-    for (let lat = 26; lat <= 34; lat += 4) { const [a, b] = P(lat, BOX.w), [c] = P(lat, BOX.e); ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(c, b); ctx.stroke(); }
+    for (let lon = 64; lon <= 96; lon += 8) { const [a, b] = P(BOX.n, lon), [, d] = P(BOX.s, lon); ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(a, d); ctx.stroke(); }
+    for (let lat = 10; lat <= 34; lat += 8) { const [a, b] = P(lat, BOX.w), [c] = P(lat, BOX.e); ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(c, b); ctx.stroke(); }
     ctx.restore();
     const L = LABEL_I18N[lang()] || {};
     const f = fonts();
     // country labels
     ctx.textAlign = "center"; ctx.direction = lang() === "ur" ? "rtl" : "ltr";
-    ctx.font = `600 ${Math.round(sc * 0.55)}px ${f.sans}`; ctx.fillStyle = "#c9c4b9";
-    let [px, py] = P(27.6, 68.6); ctx.fillText(L.PAKISTAN || "PAKISTAN", px, py);
-    [px, py] = P(24.9, 80.5); ctx.fillText(L.INDIA || "INDIA", px, py);
+    ctx.font = `600 ${Math.round(u * 0.55)}px ${f.sans}`; ctx.fillStyle = "#c9c4b9";
+    let [px, py] = P(28.2, 65.6); ctx.fillText(L.PAKISTAN || "PAKISTAN", px, py);
+    [px, py] = P(21.5, 78.5); ctx.fillText(L.INDIA || "INDIA", px, py);
     // fires: oldest first so the newest sit on top
     const now = Date.now();
     const list = pts.slice().sort((a, b) => a[2] - b[2]);
@@ -154,7 +156,7 @@
     // Traffic hotspots: numbered red rings matching the line under the map.
     hot.forEach((hs, i) => {
       const [cx, cy] = P(hs[0], hs[1]);
-      const r = Math.max(10, sc * 0.3);
+      const r = Math.max(10, u * 0.3);
       ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.fill();
       ctx.lineWidth = 3; ctx.strokeStyle = FIRE; ctx.stroke();
@@ -162,15 +164,15 @@
       ctx.fillText(String(i + 1), cx, cy + r * 0.42);
     });
     // city reference points
-    ctx.font = `600 ${Math.round(sc * 0.5)}px ${f.sans}`;
+    ctx.font = `600 ${Math.round(u * 0.5)}px ${f.sans}`;
     for (const [name, lat, lon] of LABELS) {
       const [cx, cy] = P(lat, lon);
-      ctx.fillStyle = INK; ctx.beginPath(); ctx.arc(cx, cy, sc * 0.09, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = "#fff"; ctx.lineWidth = sc * 0.12; ctx.lineJoin = "round";
+      ctx.fillStyle = INK; ctx.beginPath(); ctx.arc(cx, cy, u * 0.09, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = "#fff"; ctx.lineWidth = u * 0.12; ctx.lineJoin = "round";
       ctx.textAlign = "left"; ctx.direction = "ltr";
       const label = L[name] || name;
-      ctx.strokeText(label, cx + sc * 0.18, cy + sc * 0.14);
-      ctx.fillStyle = INK2; ctx.fillText(label, cx + sc * 0.18, cy + sc * 0.14);
+      ctx.strokeText(label, cx + u * 0.18, cy + u * 0.14);
+      ctx.fillStyle = INK2; ctx.fillText(label, cx + u * 0.18, cy + u * 0.14);
     }
     roughRect(rc, x, y, w, h, 11);
   }

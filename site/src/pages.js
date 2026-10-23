@@ -34,35 +34,35 @@ const dname = (n) => String(n).replace(/^District\s+/, "");
 const T = {
   en: {
     dayH1: (D) => `Fires on ${D}`,
-    dayLede: (D, s, l) => `NASA's satellites saw fire at <b>${nf(s.spots, l)}</b> spots across Pakistan and North India on ${D}: <b>${nf(s.pk, l)}</b> in Pakistan and <b>${nf(s.in, l)}</b> in India.`,
+    dayLede: (D, s, l) => `NASA's satellites saw fire at <b>${nf(s.spots, l)}</b> spots across ${s.snc ? "Pakistan and India" : "Pakistan and North India"} on ${D}: <b>${nf(s.pk, l)}</b> in Pakistan and <b>${nf(s.in, l)}</b> in India.`,
     up: (p, prev) => ` That is ${p}% more than the day before (${prev}).`,
     down: (p, prev) => ` That is ${p}% fewer than the day before (${prev}).`,
     same: (prev) => ` About the same as the day before (${prev}).`,
     partial: "This day isn't over yet (Pakistan time), so these numbers will grow. The page updates every 15 minutes.",
     night: (n, p) => `${n} spots (${p}%) were seen on night passes.`,
     crop: (n, p) => `${n} (${p}%) were on farmland and look like crop-residue burning; the rest were in forest, scrub or towns, or at brick kilns and factories. Fire types are our estimate from the ground they were on.`,
-    yoy: (a, b, c, e) => `Year on year: Suomi NPP, the one satellite that has flown every season since 2019, saw ${a} spots in Pakistan and ${b} in India on this day, against ${c} and ${e} on the same date last year.`,
-    yoyGap: (a, b) => `Year on year: Suomi NPP, the one satellite that has flown every season since 2019, saw ${a} spots in Pakistan and ${b} in India on this day. It returned no usable data on the same date last year, so there is nothing to compare with.`,
+    yoy: (a, b, c, e) => `Year on year, in the northern area covered every year since 2019: Suomi NPP, the one satellite that has flown every season, saw ${a} spots in Pakistan and ${b} in India on this day, against ${c} and ${e} on the same date last year.`,
+    yoyGap: (a, b) => `Year on year, in the northern area covered every year since 2019: Suomi NPP, the one satellite that has flown every season, saw ${a} spots in Pakistan and ${b} in India on this day. It returned no usable data on the same date last year, so there is nothing to compare with.`,
     gapCell: "no data",
     hDistricts: "Busiest districts", thDistrict: "District", thState: "Province or state", thCountry: "Country", thSpots: "Spots",
     hPlaces: "Villages with the most fires", place: (p, d, c, n) => `${p} (${d}, ${c}): ${n}`,
     hTwoWeeks: "The last two weeks",
-    hYears: "The same date in earlier years", yearsNote: "Suomi NPP only, so the years compare fairly.", thYear: "Year",
+    hYears: "The same date in earlier years", yearsNote: "Suomi NPP only, and only the northern area covered every year since 2019, so the years compare fairly.", thYear: "Year",
     hMap: "Map", mapNote: "Every spot seen that day. Each dot is about 375 m across on the ground; zoom in to see the fields.",
     caveat: (api) => `Counts are a floor: clouds and smoke hide fires, and a fire lit and put out between two satellite passes is never seen. A spot is a 375 m square that looked as hot as a fire, not one field. Days run from midnight to midnight, Pakistan time. Source: NASA FIRMS. This day as data: ${api}. More in <a href="/trends/">Fire trends</a> and the <a href="/report/two-punjabs/">Two Punjabs report</a>.`,
     prev: (D) => `← ${D}`, next: (D) => `${D} →`, allDays: "All days", byDistrict: "Fires by district",
     pk: "Pakistan", in: "India",
-    dayTitle: (D) => `Fires in Pakistan and North India on ${D}`,
+    dayTitle: (D, s) => `Fires in ${s?.snc ? "Pakistan and India" : "Pakistan and North India"} on ${D}`,
     dayDesc: (D, s, top, l) => `${nf(s.spots, l)} fire spots seen by NASA satellites on ${D}: ${nf(s.pk, l)} in Pakistan, ${nf(s.in, l)} in India.${top ? ` Busiest districts: ${top}.` : ""}`,
-    idxTitle: "Fires today in Pakistan and North India", idxH1: "Daily fires",
-    idxDesc: "Crop and other fires seen by NASA satellites across Pakistan and North India, day by day: totals, busiest districts and villages, and the same date in earlier years.",
+    idxTitle: "Fires today in Pakistan and India", idxH1: "Daily fires",
+    idxDesc: "Crop and other fires seen by NASA satellites across Pakistan and India, day by day: totals, busiest districts and villages, and the same date in earlier years.",
     idxLede: (D, s, l) => `On ${D}, the latest full day, NASA's satellites saw fire at <b>${nf(s.spots, l)}</b> spots: <b>${nf(s.pk, l)}</b> in Pakistan and <b>${nf(s.in, l)}</b> in India.`,
     readDay: "Read that day's report", todaySoFar: (n, href) => `Today so far: <a href="${href}">${n} spots</a>.`,
-    season: (to, a, b, c, e) => `This season, 1 October to ${to}, Suomi NPP has seen ${a} spots in Pakistan and ${b} in India. By the same date last year it had seen ${c} and ${e}.`,
+    season: (to, a, b, c, e) => `This season, 1 October to ${to}, in the northern area covered every year since 2019, Suomi NPP has seen ${a} spots in Pakistan and ${b} in India. By the same date last year it had seen ${c} and ${e}.`,
     hDays: "Day by day", thDate: "Date", thNight: "At night",
     hTopDistricts: (to) => `Busiest districts this season (to ${to})`, allDistricts: "All districts →",
-    distH1: "Fires by district", distTitle: "Crop fires by district in Pakistan and North India",
-    distDesc: "Every district in Pakistan and North India with frequent satellite-seen fires: this season against the same dates last year, and every season since 2019.",
+    distH1: "Fires by district", distTitle: "Crop fires by district in Pakistan and India",
+    distDesc: "Every district in Pakistan and India with frequent satellite-seen fires: this season against the same dates last year, and every season since 2019.",
     distLede: (to) => `Every district with at least 500 fire spots in our archive since 2019. The columns count only Suomi NPP, so the years compare fairly: this season from 1 October to ${to}, the same dates last year, and the whole of last season.`,
     distNote: "Counts are a floor: clouds and smoke hide fires, and fires lit and put out between satellite passes are never seen. A dash means a district had no Suomi NPP count for those dates.",
     colNow: (y, to) => `${y}, to ${to}`, colLast: (y) => `${y}, same dates`, colFull: (y) => `${y}, whole season`,
@@ -79,20 +79,20 @@ const T = {
   },
   ur: {
     dayH1: (D) => `${D}: کہاں کہاں آگ لگی`,
-    dayLede: (D, s, l) => `${D} کو ناسا کے سیٹلائٹس نے پاکستان اور شمالی ہندوستان میں <b>${nf(s.spots, l)}</b> مقامات پر آگ دیکھی: <b>${nf(s.pk, l)}</b> پاکستان میں اور <b>${nf(s.in, l)}</b> ہندوستان میں۔`,
+    dayLede: (D, s, l) => `${D} کو ناسا کے سیٹلائٹس نے ${s.snc ? "پاکستان اور ہندوستان" : "پاکستان اور شمالی ہندوستان"} میں <b>${nf(s.spots, l)}</b> مقامات پر آگ دیکھی: <b>${nf(s.pk, l)}</b> پاکستان میں اور <b>${nf(s.in, l)}</b> ہندوستان میں۔`,
     up: (p, prev) => ` یہ پچھلے دن (${prev}) سے ${p}% زیادہ ہے۔`,
     down: (p, prev) => ` یہ پچھلے دن (${prev}) سے ${p}% کم ہے۔`,
     same: (prev) => ` یہ تعداد پچھلے دن (${prev}) کے تقریباً برابر ہے۔`,
     partial: "یہ دن (پاکستانی وقت کے مطابق) ابھی ختم نہیں ہوا، اس لیے یہ تعداد بڑھے گی۔ یہ صفحہ ہر 15 منٹ بعد تازہ ہوتا ہے۔",
     night: (n, p) => `${n} مقامات (${p}%) پر آگ رات کے چکر میں نظر آئی۔`,
     crop: (n, p) => `ہمارے اندازے کے مطابق ${n} مقامات (${p}%) کھیتوں میں تھے اور وہاں فصلوں کی باقیات جلائی جا رہی تھیں؛ باقی آگ جنگل، جھاڑیوں یا شہروں میں، یا اینٹوں کے بھٹوں اور کارخانوں پر تھی۔ یہ اندازہ اس زمین سے لگایا گیا ہے جہاں آگ تھی۔`,
-    yoy: (a, b, c, e) => `پچھلے سال سے موازنہ: Suomi NPP، جو 2019 سے ہر موسم میں کام کرتا رہا ہے، اس دن پاکستان میں ${a} اور ہندوستان میں ${b} مقامات پر آگ دیکھ پایا۔ پچھلے سال اسی تاریخ کو یہ تعداد ${c} اور ${e} تھی۔`,
-    yoyGap: (a, b) => `پچھلے سال سے موازنہ: Suomi NPP، جو 2019 سے ہر موسم میں کام کرتا رہا ہے، اس دن پاکستان میں ${a} اور ہندوستان میں ${b} مقامات پر آگ دیکھ پایا۔ پچھلے سال اسی تاریخ کو اس سیٹلائٹ کا ڈیٹا دستیاب نہیں تھا، اس لیے موازنہ ممکن نہیں۔`,
+    yoy: (a, b, c, e) => `پچھلے سال سے موازنہ، اس شمالی علاقے میں جو 2019 سے ہر سال ریکارڈ میں ہے: Suomi NPP، جو 2019 سے ہر موسم میں کام کرتا رہا ہے، اس دن پاکستان میں ${a} اور ہندوستان میں ${b} مقامات پر آگ دیکھ پایا۔ پچھلے سال اسی تاریخ کو یہ تعداد ${c} اور ${e} تھی۔`,
+    yoyGap: (a, b) => `پچھلے سال سے موازنہ، اس شمالی علاقے میں جو 2019 سے ہر سال ریکارڈ میں ہے: Suomi NPP، جو 2019 سے ہر موسم میں کام کرتا رہا ہے، اس دن پاکستان میں ${a} اور ہندوستان میں ${b} مقامات پر آگ دیکھ پایا۔ پچھلے سال اسی تاریخ کو اس سیٹلائٹ کا ڈیٹا دستیاب نہیں تھا، اس لیے موازنہ ممکن نہیں۔`,
     gapCell: "ڈیٹا نہیں",
     hDistricts: "سب سے زیادہ آگ والے اضلاع", thDistrict: "ضلع", thState: "صوبہ یا ریاست", thCountry: "ملک", thSpots: "مقامات",
     hPlaces: "سب سے زیادہ آگ والے دیہات", place: (p, d, c, n) => `${p} (${d}، ${c}): ${n}`,
     hTwoWeeks: "پچھلے دو ہفتے",
-    hYears: "پچھلے برسوں میں یہی تاریخ", yearsNote: "صرف Suomi NPP کی گنتی، تاکہ برسوں کا موازنہ درست رہے۔", thYear: "سال",
+    hYears: "پچھلے برسوں میں یہی تاریخ", yearsNote: "صرف Suomi NPP کی گنتی، اور صرف وہ شمالی علاقہ جو 2019 سے ہر سال ریکارڈ میں ہے، تاکہ برسوں کا موازنہ درست رہے۔", thYear: "سال",
     hMap: "نقشہ", mapNote: "اس دن نظر آنے والا ہر مقام۔ ہر نقطہ زمین پر تقریباً 375 میٹر چوڑا ہے؛ کھیت دیکھنے کے لیے نقشہ قریب کریں۔",
     caveat: (api) => `یہ گنتی کم از کم تعداد ہے: بادل اور دھواں آگ کو چھپا لیتے ہیں، اور جو آگ سیٹلائٹ کے دو چکروں کے درمیان لگ کر بجھ جائے وہ کبھی نظر نہیں آتی۔ ایک مقام 375 میٹر کا وہ چوکور ہے جو سیٹلائٹ کو آگ جتنا گرم دکھائی دیا، کوئی ایک کھیت نہیں۔ دن پاکستانی وقت کے مطابق آدھی رات سے آدھی رات تک گنا گیا ہے۔ ذریعہ: ناسا FIRMS۔ اس دن کا ڈیٹا: ${api}۔ مزید کے لیے <a href="/trends/">آگ کا رجحان</a> اور <a href="/report/two-punjabs/">دو پنجاب رپورٹ</a> دیکھیں۔`,
     prev: (D) => `→ ${D}`, next: (D) => `${D} ←`, allDays: "تمام دن", byDistrict: "اضلاع کے لحاظ سے آگ",
@@ -100,7 +100,7 @@ const T = {
     idxH1: "روزانہ آگ",
     idxLede: (D, s, l) => `${D} کو، جو آخری مکمل دن ہے، ناسا کے سیٹلائٹس نے <b>${nf(s.spots, l)}</b> مقامات پر آگ دیکھی: <b>${nf(s.pk, l)}</b> پاکستان میں اور <b>${nf(s.in, l)}</b> ہندوستان میں۔`,
     readDay: "اس دن کی رپورٹ پڑھیں", todaySoFar: (n, href) => `آج اب تک: <a href="${href}">${n} مقامات</a>۔`,
-    season: (to, a, b, c, e) => `اس موسم میں، 1 اکتوبر سے ${to} تک، Suomi NPP نے پاکستان میں ${a} اور ہندوستان میں ${b} مقامات پر آگ دیکھی ہے۔ پچھلے سال اسی تاریخ تک یہ تعداد ${c} اور ${e} تھی۔`,
+    season: (to, a, b, c, e) => `اس موسم میں، 1 اکتوبر سے ${to} تک، اس شمالی علاقے میں جو 2019 سے ہر سال ریکارڈ میں ہے، Suomi NPP نے پاکستان میں ${a} اور ہندوستان میں ${b} مقامات پر آگ دیکھی ہے۔ پچھلے سال اسی تاریخ تک یہ تعداد ${c} اور ${e} تھی۔`,
     hDays: "دن بہ دن", thDate: "تاریخ", thNight: "رات کو",
     hTopDistricts: (to) => `اس موسم میں سب سے زیادہ آگ والے اضلاع (${to} تک)`, allDistricts: "تمام اضلاع ←",
     distH1: "اضلاع کے لحاظ سے آگ",
@@ -119,20 +119,20 @@ const T = {
   },
   hi: {
     dayH1: (D) => `${D}: कहाँ-कहाँ आग लगी`,
-    dayLede: (D, s, l) => `${D} को नासा के उपग्रहों ने पाकिस्तान और उत्तर भारत में <b>${nf(s.spots, l)}</b> जगहों पर आग देखी: <b>${nf(s.pk, l)}</b> पाकिस्तान में और <b>${nf(s.in, l)}</b> भारत में।`,
+    dayLede: (D, s, l) => `${D} को नासा के उपग्रहों ने ${s.snc ? "पाकिस्तान और भारत" : "पाकिस्तान और उत्तर भारत"} में <b>${nf(s.spots, l)}</b> जगहों पर आग देखी: <b>${nf(s.pk, l)}</b> पाकिस्तान में और <b>${nf(s.in, l)}</b> भारत में।`,
     up: (p, prev) => ` यह पिछले दिन (${prev}) से ${p}% ज़्यादा है।`,
     down: (p, prev) => ` यह पिछले दिन (${prev}) से ${p}% कम है।`,
     same: (prev) => ` यह संख्या पिछले दिन (${prev}) के लगभग बराबर है।`,
     partial: "यह दिन (पाकिस्तान के समय के हिसाब से) अभी ख़त्म नहीं हुआ है, इसलिए यह संख्या बढ़ेगी। यह पन्ना हर 15 मिनट में ताज़ा होता है।",
     night: (n, p) => `${n} जगहों (${p}%) पर आग रात वाले चक्कर में दिखी।`,
     crop: (n, p) => `हमारे अनुमान से ${n} जगहें (${p}%) खेतों में थीं और वहाँ फ़सल के अवशेष जलाए जा रहे थे; बाक़ी आग जंगल, झाड़ियों या शहरों में, या ईंट भट्ठों और कारख़ानों पर थी। यह अनुमान उस ज़मीन से लगाया गया है जहाँ आग थी।`,
-    yoy: (a, b, c, e) => `पिछले साल से तुलना: Suomi NPP, जो 2019 से हर मौसम में काम करता रहा है, ने इस दिन पाकिस्तान में ${a} और भारत में ${b} जगहों पर आग देखी। पिछले साल इसी तारीख़ को ये आँकड़े ${c} और ${e} थे।`,
-    yoyGap: (a, b) => `पिछले साल से तुलना: Suomi NPP, जो 2019 से हर मौसम में काम करता रहा है, ने इस दिन पाकिस्तान में ${a} और भारत में ${b} जगहों पर आग देखी। पिछले साल इसी तारीख़ को इस उपग्रह का डेटा उपलब्ध नहीं था, इसलिए तुलना संभव नहीं।`,
+    yoy: (a, b, c, e) => `पिछले साल से तुलना, उस उत्तरी इलाक़े में जो 2019 से हर साल रिकॉर्ड में है: Suomi NPP, जो 2019 से हर मौसम में काम करता रहा है, ने इस दिन पाकिस्तान में ${a} और भारत में ${b} जगहों पर आग देखी। पिछले साल इसी तारीख़ को ये आँकड़े ${c} और ${e} थे।`,
+    yoyGap: (a, b) => `पिछले साल से तुलना, उस उत्तरी इलाक़े में जो 2019 से हर साल रिकॉर्ड में है: Suomi NPP, जो 2019 से हर मौसम में काम करता रहा है, ने इस दिन पाकिस्तान में ${a} और भारत में ${b} जगहों पर आग देखी। पिछले साल इसी तारीख़ को इस उपग्रह का डेटा उपलब्ध नहीं था, इसलिए तुलना संभव नहीं।`,
     gapCell: "डेटा नहीं",
     hDistricts: "सबसे ज़्यादा आग वाले ज़िले", thDistrict: "ज़िला", thState: "प्रांत या राज्य", thCountry: "देश", thSpots: "जगहें",
     hPlaces: "सबसे ज़्यादा आग वाले गाँव", place: (p, d, c, n) => `${p} (${d}, ${c}): ${n}`,
     hTwoWeeks: "पिछले दो हफ़्ते",
-    hYears: "पिछले सालों में यही तारीख़", yearsNote: "सिर्फ़ Suomi NPP की गिनती, ताकि सालों की तुलना सही रहे।", thYear: "साल",
+    hYears: "पिछले सालों में यही तारीख़", yearsNote: "सिर्फ़ Suomi NPP की गिनती, और सिर्फ़ वह उत्तरी इलाक़ा जो 2019 से हर साल रिकॉर्ड में है, ताकि सालों की तुलना सही रहे।", thYear: "साल",
     hMap: "नक्शा", mapNote: "उस दिन दिखी हर जगह। हर बिंदु ज़मीन पर लगभग 375 मीटर चौड़ा है; खेत देखने के लिए ज़ूम करें।",
     caveat: (api) => `यह गिनती कम से कम संख्या है: बादल और धुआँ आग को छिपा लेते हैं, और जो आग उपग्रह के दो चक्करों के बीच लगकर बुझ जाए वह कभी नहीं दिखती। एक जगह 375 मीटर का वह चौकोर है जो उपग्रह को आग जितना गर्म दिखा, कोई एक खेत नहीं। दिन पाकिस्तान के समय से आधी रात से आधी रात तक गिना गया है। स्रोत: नासा FIRMS। इस दिन का डेटा: ${api}। और जानकारी के लिए <a href="/trends/">आग का रुझान</a> और <a href="/report/two-punjabs/">दो पंजाब रिपोर्ट</a> देखें।`,
     prev: (D) => `← ${D}`, next: (D) => `${D} →`, allDays: "सभी दिन", byDistrict: "ज़िलेवार आग",
@@ -140,7 +140,7 @@ const T = {
     idxH1: "रोज़ की आग",
     idxLede: (D, s, l) => `${D} को, जो आख़िरी पूरा दिन है, नासा के उपग्रहों ने <b>${nf(s.spots, l)}</b> जगहों पर आग देखी: <b>${nf(s.pk, l)}</b> पाकिस्तान में और <b>${nf(s.in, l)}</b> भारत में।`,
     readDay: "उस दिन की रिपोर्ट पढ़ें", todaySoFar: (n, href) => `आज अब तक: <a href="${href}">${n} जगहें</a>।`,
-    season: (to, a, b, c, e) => `इस मौसम में, 1 अक्टूबर से ${to} तक, Suomi NPP ने पाकिस्तान में ${a} और भारत में ${b} जगहों पर आग देखी है। पिछले साल इसी तारीख़ तक ये आँकड़े ${c} और ${e} थे।`,
+    season: (to, a, b, c, e) => `इस मौसम में, 1 अक्टूबर से ${to} तक, उस उत्तरी इलाक़े में जो 2019 से हर साल रिकॉर्ड में है, Suomi NPP ने पाकिस्तान में ${a} और भारत में ${b} जगहों पर आग देखी है। पिछले साल इसी तारीख़ तक ये आँकड़े ${c} और ${e} थे।`,
     hDays: "दिन-ब-दिन", thDate: "तारीख़", thNight: "रात में",
     hTopDistricts: (to) => `इस मौसम में सबसे ज़्यादा आग वाले ज़िले (${to} तक)`, allDistricts: "सभी ज़िले →",
     distH1: "ज़िलेवार आग",
@@ -230,6 +230,12 @@ const complete = (days) => Object.keys(days).filter((d) => !days[d].partial).sor
 // Suomi NPP returned no usable data (NASA's 2-6 Nov 2024 outage, dropped passes) when it saw almost nothing
 // on a day the other satellites saw plenty. Its count is then missing, not zero.
 const snGap = (e) => !!e && !!e.sn && e.sn[0] < 20 && e.spots >= 200 && e.sn[0] * 20 < e.spots;
+// Suomi NPP inside the northern box every archived year covers. Days from REGION_FROM cover all of Pakistan
+// and India and carry it as snc; earlier days only covered that box, so their sn already is it.
+const REGION_FROM = "2026-10-17";
+const snOf = (e) => e?.snc || e?.sn;
+// Day-to-day comparisons only between days covering the same area.
+const sameArea = (a, b) => (a >= REGION_FROM) === (b >= REGION_FROM);
 
 // ---------- /fires/YYYY-MM-DD/ ----------
 async function dayPage(env, d) {
@@ -249,20 +255,21 @@ async function dayPage(env, d) {
   const places = (day?.places || []).slice(0, 8);
   // The two weeks up to this day, as long as the archive has them back to back.
   const two = [];
-  for (let i = 13; i >= 0; i--) { const k = shift(d, -i); if (days[k]) two.push([k, days[k].pk, days[k].in]); }
+  for (let i = 13; i >= 0; i--) { const k = shift(d, -i); if (days[k] && sameArea(k, d)) two.push([k, days[k].pk, days[k].in]); }
   const years = [];
-  for (let y = 2019; y < +d.slice(0, 4); y++) { const k = `${y}${d.slice(4)}`; if (days[k]?.sn) years.push([y, k, days[k].sn]); }
+  for (let y = 2019; y < +d.slice(0, 4); y++) { const k = `${y}${d.slice(4)}`; if (days[k]?.sn) years.push([y, k, snOf(days[k])]); }
   const top = districts.slice(0, 3).map((r) => dname(r[0])).join(", ");
   const body = {};
   for (const l of LANGS) {
     const t = T[l], D = fdate(d, l), n = (v) => nf(v, l);
     let lede = t.dayLede(D, s, l);
-    if (prev && !s.partial) {
+    if (prev && !s.partial && sameArea(d, prevD)) {
       const p = pct(s.spots - prev.spots, prev.spots);
       lede += Math.abs(p) < 5 ? t.same(n(prev.spots)) : p > 0 ? t.up(p, n(prev.spots)) : t.down(-p, n(prev.spots));
     }
     const facts = [t.night(n(s.night), pct(s.night, s.spots)), t.crop(n(s.crop), pct(s.crop, s.spots))];
-    if (ly?.sn && s.sn) facts.push(snGap(ly) ? t.yoyGap(n(s.sn[1]), n(s.sn[2])) : t.yoy(n(s.sn[1]), n(s.sn[2]), n(ly.sn[1]), n(ly.sn[2])));
+    const c = snOf(s), lc = snOf(ly);
+    if (lc && c) facts.push(snGap(ly) ? t.yoyGap(n(c[1]), n(c[2])) : t.yoy(n(c[1]), n(c[2]), n(lc[1]), n(lc[2])));
     const link = (r) => { const sl = slug(r[0], r[1], r[2]); const nm = esc(dname(r[0])); return sl ? `<a href="/district/${sl}/">${nm}</a>` : nm; };
     const api = `<a href="/api/day?d=${d}"><code>/api/day?d=${d}</code></a>`;
     body[l] = `  <h1>${t.dayH1(D)}</h1>
@@ -276,7 +283,7 @@ ${districts.map((r) => `   <tr><td>${link(r)}</td><td>${esc(r[1])}</td><td>${COU
   <p>${t.yearsNote}</p>
   <div class="table-wrap"><table><thead><tr><th>${t.thYear}</th><th class="n">${t.pk}</th><th class="n">${t.in}</th></tr></thead><tbody>
 ${years.map(([y, k, sn]) => `   <tr><td><a href="/fires/${k}/">${y}</a></td>${snGap(days[k]) ? `<td class="n" colspan="2">${t.gapCell}</td>` : `<td class="n">${n(sn[1])}</td><td class="n">${n(sn[2])}</td>`}</tr>`).join("\n")}
-   <tr><td><b>${d.slice(0, 4)}</b></td><td class="n"><b>${n(s.sn?.[1] ?? 0)}</b></td><td class="n"><b>${n(s.sn?.[2] ?? 0)}</b></td></tr>
+   <tr><td><b>${d.slice(0, 4)}</b></td><td class="n"><b>${n(snOf(s)?.[1] ?? 0)}</b></td><td class="n"><b>${n(snOf(s)?.[2] ?? 0)}</b></td></tr>
   </tbody></table></div>\n` : ""}  <h2>${t.hMap}</h2>
   <p class="muted">${t.mapNote}</p>
   <div class="ff-map" data-day="${d}"></div>
@@ -284,13 +291,13 @@ ${years.map(([y, k, sn]) => `   <tr><td><a href="/fires/${k}/">${y}</a></td>${sn
   <nav class="ff-nav">${days[prevD] ? `<a href="/fires/${prevD}/">${t.prev(fdate(prevD, l))}</a>` : "<span></span>"}<a href="/fires/">${t.allDays}</a>${days[nextD] ? `<a href="/fires/${nextD}/">${t.next(fdate(nextD, l))}</a>` : "<span></span>"}</nav>`;
   }
   const D = fdate(d, "en");
-  const jsonld = { "@context": "https://schema.org", "@type": "WebPage", "@id": `${SITE}/fires/${d}/#page`, name: T.en.dayTitle(D), url: `${SITE}/fires/${d}/`,
+  const jsonld = { "@context": "https://schema.org", "@type": "WebPage", "@id": `${SITE}/fires/${d}/#page`, name: T.en.dayTitle(D, s), url: `${SITE}/fires/${d}/`,
     inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` }, datePublished: shift(d, 1),
-    mainEntity: { "@type": "Dataset", name: `Satellite fire spots in Pakistan and North India, ${D}`, description: T.en.dayDesc(D, s, top, "en"),
-      temporalCoverage: d, spatialCoverage: "Pakistan and North India (25-35.5 N, 66-88.5 E)", license: "https://creativecommons.org/licenses/by/4.0/",
+    mainEntity: { "@type": "Dataset", name: `Satellite fire spots in ${s.snc ? "Pakistan and India" : "Pakistan and North India"}, ${D}`, description: T.en.dayDesc(D, s, top, "en"),
+      temporalCoverage: d, spatialCoverage: s.snc ? "Pakistan and India" : "Pakistan and North India (25-35.5 N, 66-88.5 E)", license: "https://creativecommons.org/licenses/by/4.0/",
       creator: ORG, isBasedOn: "https://firms.modaps.eosdis.nasa.gov/",
       distribution: [{ "@type": "DataDownload", encodingFormat: "application/json", contentUrl: `${SITE}/api/day?d=${d}` }] } };
-  const html = render({ path: `/fires/${d}/`, title: T.en.dayTitle(D), desc: T.en.dayDesc(D, s, top, "en"), body, jsonld, noindex: s.spots < QUIET,
+  const html = render({ path: `/fires/${d}/`, title: T.en.dayTitle(D, s), desc: T.en.dayDesc(D, s, top, "en"), body, jsonld, noindex: s.spots < QUIET,
     head: STYLE + '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n',
     scripts: '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n<script src="/fires/fires.js?v=2"></script>\n' });
   return { html, fresh: s.partial || d >= shift(complete(days).at(-1) || d, -1) };
@@ -308,7 +315,7 @@ async function indexPage(env) {
   // Season so far against the same dates last year (Suomi NPP only).
   let season = null;
   if (dp.season && last.slice(5) >= "10-01" && last.slice(5) <= "11-30") {
-    const sum = (y) => { const t = [0, 0]; for (let k = `${y}-10-01`; k <= `${y}-${last.slice(5)}`; k = shift(k, 1)) if (days[k]?.sn) { t[0] += days[k].sn[1]; t[1] += days[k].sn[2]; } return t; };
+    const sum = (y) => { const t = [0, 0]; for (let k = `${y}-10-01`; k <= `${y}-${last.slice(5)}`; k = shift(k, 1)) if (days[k]?.sn) { t[0] += snOf(days[k])[1]; t[1] += snOf(days[k])[2]; } return t; };
     season = [sum(+last.slice(0, 4)), sum(+last.slice(0, 4) - 1)];
   }
   const topD = Object.entries(dp.d || {}).map(([sl, e]) => [sl, e, e.s?.[dp.season]?.[3] || 0]).filter((x) => x[2] > 0).sort((a, b) => b[2] - a[2]).slice(0, 10);
@@ -317,7 +324,7 @@ async function indexPage(env) {
     const t = T[l], n = (v) => nf(v, l), to = fdate(last, l);
     body[l] = `  <h1>${t.idxH1}</h1>
   <p class="lede">${t.idxLede(fdate(last, l), days[last], l)} <a href="/fires/${last}/">${t.readDay}</a>.</p>
-${today ? `  <p>${t.todaySoFar(n(days[today].spots), `/fires/${today}/`)}</p>\n` : ""}${season ? `  <p>${t.season(to, n(season[0][0]), n(season[0][1]), n(season[1][0]), n(season[1][1]))}</p>\n` : ""}  ${bars(recent.filter((d) => !days[d].partial).reverse().map((d) => [d, days[d].pk, days[d].in]), l)}
+${today ? `  <p>${t.todaySoFar(n(days[today].spots), `/fires/${today}/`)}</p>\n` : ""}${season ? `  <p>${t.season(to, n(season[0][0]), n(season[0][1]), n(season[1][0]), n(season[1][1]))}</p>\n` : ""}  ${bars(recent.filter((d) => !days[d].partial && sameArea(d, last)).reverse().map((d) => [d, days[d].pk, days[d].in]), l)}
   <h2>${t.hDays}</h2>
   <div class="table-wrap"><table><thead><tr><th>${t.thDate}</th><th class="n">${t.pk}</th><th class="n">${t.in}</th><th class="n">${t.thNight}</th></tr></thead><tbody>
 ${recent.map((d) => `   <tr><td><a href="/fires/${d}/">${fdate(d, l)}</a></td><td class="n">${n(days[d].pk)}</td><td class="n">${n(days[d].in)}</td><td class="n">${n(days[d].night)}</td></tr>`).join("\n")}
@@ -330,7 +337,7 @@ ${topD.map(([sl, e, v]) => `   <tr><td><a href="/district/${sl}/">${esc(dname(e.
   }
   const jsonld = { "@context": "https://schema.org", "@type": "CollectionPage", "@id": `${SITE}/fires/#page`, name: T.en.idxTitle, url: `${SITE}/fires/`,
     inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` }, dateModified: last,
-    hasPart: recent.slice(0, 30).map((d) => ({ "@type": "WebPage", name: T.en.dayTitle(fdate(d, "en")), url: `${SITE}/fires/${d}/` })) };
+    hasPart: recent.slice(0, 30).map((d) => ({ "@type": "WebPage", name: T.en.dayTitle(fdate(d, "en"), days[d]), url: `${SITE}/fires/${d}/` })) };
   return render({ path: "/fires/", title: T.en.idxTitle, desc: T.en.idxDesc, body, jsonld, head: STYLE });
 }
 

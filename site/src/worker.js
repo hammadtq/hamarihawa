@@ -6,7 +6,6 @@ import { pages } from "./pages.js";
 // for one request on the free Workers plan. Satellites only pass a few times a day anyway.
 
 const WINDOWS = new Set(["24", "48", "168"]);
-const WIND = { s: 24, n: 36, w: 66, e: 89 };
 
 // GitHub's runners can't reach NASA FIRMS directly, so the feed builder fetches the
 // public CSVs through here. Only these exact files are allowed, cached for 10 minutes.
@@ -117,16 +116,11 @@ async function handle(request, env, url, ctx) {
     }
 
     if (url.pathname === "/api/wind") {
-      const lats = [], lons = [];
-      for (let la = WIND.s; la <= WIND.n; la++) for (let lo = WIND.w; lo <= WIND.e; lo++) { lats.push(la); lons.push(lo); }
-      const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}` +
-        "&current=wind_speed_10m,wind_direction_10m&wind_speed_unit=kmh&timezone=GMT", { cf: { cacheTtl: 1800, cacheEverything: true } });
-      if (!r.ok) return new Response("wind unavailable", { status: 503 });
-      const rows = await r.json();
-      const body = { time: rows[0]?.current?.time, lat0: WIND.s, lon0: WIND.w, nx: WIND.e - WIND.w + 1, ny: WIND.n - WIND.s + 1,
-        speed: rows.map((x) => x.current.wind_speed_10m), dir: rows.map((x) => x.current.wind_direction_10m),
-        source: "Open-Meteo forecast (best-match weather models), 10 m wind, km/h; dir is where the wind comes from" };
-      return json(JSON.stringify(body), 200, 900);
+      // A 2-degree grid over the whole region, refreshed hourly by .github/workflows/wind.yml.
+      return edgeCached(ctx, "/api/wind", 600, async () => {
+        const body = await env.FEED.get("wind");
+        return body ? json(body, 200, 600) : new Response("wind unavailable", { status: 503 });
+      });
     }
     if (url.pathname === "/kml/air.kml") {
       const body = await airKml();

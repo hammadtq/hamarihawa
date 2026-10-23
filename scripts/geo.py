@@ -8,8 +8,13 @@ import json, math
 
 # Everything we may cover, as named bounds (the old scripts used tuples in different orders).
 REGION = {"s": 5.5, "n": 37.5, "w": 60.5, "e": 97.5}
-# What the live feed covers today. Stage 4 of the all-India plan switches this to REGION.
-FEED_BOX = {"s": 25.0, "n": 35.5, "w": 66.0, "e": 88.5}
+# What the live feed covers: all of Pakistan and India (since 23 Oct 2026; before that 25-35.5N, 66-88.5E).
+FEED_BOX = REGION
+# The box covered from 2019 until then. Year-on-year comparisons stay inside it (summary.snc) until the
+# past seasons are rebuilt for the whole region, and the stubble-season pages keep using it after that.
+COMPARE_BOX = {"s": 25.0, "n": 35.5, "w": 66.0, "e": 88.5}
+# First Pakistan-time day the archive holds for the whole region; earlier days cover COMPARE_BOX only.
+REGION_FROM = "2026-10-17"
 
 BAND = 4  # edges are indexed by latitude band, 1/4 degree
 

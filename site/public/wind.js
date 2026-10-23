@@ -1,4 +1,4 @@
-// Wind right now: ink streaks drifting the way the wind blows (Open-Meteo 10 m wind on a 1° grid,
+// Wind right now: ink streaks drifting the way the wind blows (Open-Meteo 10 m wind on a 2° grid,
 // via /api/wind), and a "from X towards Y" line under the Your-air box.
 (() => {
   "use strict";
@@ -22,7 +22,7 @@
   }
   // Bilinear wind [u, v] in km/h at a point, or null outside the grid.
   function sample(lat, lon) {
-    const g = grid, x = lon - g.lon0, y = lat - g.lat0;
+    const g = grid, st = g.step || 1, x = (lon - g.lon0) / st, y = (lat - g.lat0) / st;
     if (x < 0 || y < 0 || x > g.nx - 1 || y > g.ny - 1) return null;
     const x0 = Math.min(g.nx - 2, Math.floor(x)), y0 = Math.min(g.ny - 2, Math.floor(y)), fx = x - x0, fy = y - y0;
     const at = (a, yy, xx) => a[yy * g.nx + xx];

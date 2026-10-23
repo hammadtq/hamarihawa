@@ -2,10 +2,10 @@
 // Fires come prebuilt from the GitHub Action (KV "kml-24" etc.); these are cheap enough to build per request.
 
 const SITE = "https://hamarihawa.org";
-const BOX = { s: 24, n: 35.8, w: 66, e: 88.5 };
+const BOX = { s: 6, n: 37.5, w: 60.5, e: 97.5 }; // scripts/geo.py REGION
 
 // Same cities as public/cities.js (name, lat, lon, country).
-const CITIES = [["Lahore",31.5497,74.3436,"PK"],["Karachi",24.8607,67.0011,"PK"],["Faisalabad",31.418,73.079,"PK"],["Rawalpindi",33.5973,73.0479,"PK"],["Islamabad",33.6938,73.0652,"PK"],["Gujranwala",32.1617,74.1883,"PK"],["Multan",30.1978,71.4711,"PK"],["Peshawar",34.008,71.5785,"PK"],["Delhi",28.6139,77.209,"IN"],["Gurugram",28.4595,77.0266,"IN"],["Amritsar",31.634,74.8723,"IN"],["Ludhiana",30.901,75.8573,"IN"],["Chandigarh",30.7333,76.7794,"IN"],["Lucknow",26.8467,80.9462,"IN"],["Kanpur",26.4499,80.3319,"IN"],["Varanasi",25.3176,82.9739,"IN"],["Patna",25.5941,85.1376,"IN"]];
+const CITIES = [["Lahore",31.5497,74.3436,"PK"],["Karachi",24.8607,67.0011,"PK"],["Faisalabad",31.418,73.079,"PK"],["Rawalpindi",33.5973,73.0479,"PK"],["Islamabad",33.6938,73.0652,"PK"],["Gujranwala",32.1617,74.1883,"PK"],["Multan",30.1978,71.4711,"PK"],["Peshawar",34.008,71.5785,"PK"],["Quetta",30.1798,66.975,"PK"],["Hyderabad (Sindh)",25.396,68.3578,"PK"],["Delhi",28.6139,77.209,"IN"],["Gurugram",28.4595,77.0266,"IN"],["Amritsar",31.634,74.8723,"IN"],["Ludhiana",30.901,75.8573,"IN"],["Chandigarh",30.7333,76.7794,"IN"],["Lucknow",26.8467,80.9462,"IN"],["Kanpur",26.4499,80.3319,"IN"],["Varanasi",25.3176,82.9739,"IN"],["Patna",25.5941,85.1376,"IN"],["Mumbai",19.076,72.8777,"IN"],["Kolkata",22.5726,88.3639,"IN"],["Bengaluru",12.9716,77.5946,"IN"],["Chennai",13.0827,80.2707,"IN"],["Hyderabad",17.385,78.4867,"IN"],["Ahmedabad",23.0225,72.5714,"IN"],["Surat",21.1702,72.8311,"IN"],["Pune",18.5204,73.8567,"IN"],["Jaipur",26.9124,75.7873,"IN"],["Indore",22.7196,75.8577,"IN"],["Nagpur",21.1458,79.0882,"IN"],["Bhopal",23.2599,77.4126,"IN"],["Kochi",9.9312,76.2673,"IN"],["Visakhapatnam",17.6868,83.2185,"IN"],["Raipur",21.2514,81.6296,"IN"],["Ranchi",23.3441,85.3096,"IN"],["Guwahati",26.1445,91.7362,"IN"],["Bhubaneswar",20.2961,85.8245,"IN"]];
 
 // US AQI bands, as on the site; KML colours are aabbggrr.
 const BANDS = [
@@ -68,7 +68,7 @@ export function trafficKml(meta) {
 // Haze stacks two days so orbit gaps show the day before.
 export function satelliteKml() {
   const wms = (layer, d, fmt) => `https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&amp;REQUEST=GetMap&amp;VERSION=1.1.1&amp;STYLES=&amp;SRS=EPSG:4326` +
-    `&amp;BBOX=${BOX.w},${BOX.s},${BOX.e},${BOX.n}&amp;WIDTH=2048&amp;HEIGHT=1074&amp;TRANSPARENT=TRUE&amp;FORMAT=${fmt}&amp;LAYERS=${layer}&amp;TIME=${d}`;
+    `&amp;BBOX=${BOX.w},${BOX.s},${BOX.e},${BOX.n}&amp;WIDTH=2048&amp;HEIGHT=1744&amp;TRANSPARENT=TRUE&amp;FORMAT=${fmt}&amp;LAYERS=${layer}&amp;TIME=${d}`;
   const box = `<LatLonBox><north>${BOX.n}</north><south>${BOX.s}</south><east>${BOX.e}</east><west>${BOX.w}</west></LatLonBox>`;
   const ov = (name, layer, d, fmt, order, colour, vis) =>
     `<GroundOverlay><name>${esc(name)}</name><visibility>${vis}</visibility><drawOrder>${order}</drawOrder><color>${colour}</color>` +

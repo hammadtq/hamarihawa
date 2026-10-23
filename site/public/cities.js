@@ -1,5 +1,5 @@
 // Cities shown in the health section.
-// pop: approximate urban population (Pakistan 2023 census city/district figures; India 2026 urban estimates).
+// pop: approximate urban population (Pakistan 2023 census city/district figures; India 2026 urban-agglomeration estimates).
 // cdr: crude death rate per 1,000 per year (Pakistan ~6.5, World Bank 2023; India 6.8, SRS 2022).
 window.HH_CITIES = [
   { id: "lahore", cc: "PK", lat: 31.5497, lon: 74.3436, pop: 13004000, cdr: 6.5, name: { en: "Lahore", ur: "لاہور", hi: "लाहौर" } },
@@ -19,4 +19,24 @@ window.HH_CITIES = [
   { id: "kanpur", cc: "IN", lat: 26.4499, lon: 80.3319, pop: 3200000, cdr: 6.8, name: { en: "Kanpur", ur: "کانپور", hi: "कानपुर" } },
   { id: "varanasi", cc: "IN", lat: 25.3176, lon: 82.9739, pop: 1600000, cdr: 6.8, name: { en: "Varanasi", ur: "وارانسی", hi: "वाराणसी" } },
   { id: "patna", cc: "IN", lat: 25.5941, lon: 85.1376, pop: 2500000, cdr: 6.8, name: { en: "Patna", ur: "پٹنہ", hi: "पटना" } },
+  { id: "quetta", cc: "PK", lat: 30.1798, lon: 66.975, pop: 1565000, cdr: 6.5, name: { en: "Quetta", ur: "کوئٹہ", hi: "क्वेटा" } },
+  { id: "hyderabad-sindh", cc: "PK", lat: 25.396, lon: 68.3578, pop: 1921000, cdr: 6.5, name: { en: "Hyderabad (Sindh)", ur: "حیدرآباد (سندھ)", hi: "हैदराबाद (सिंध)" } },
+  { id: "mumbai", cc: "IN", lat: 19.076, lon: 72.8777, pop: 22100000, cdr: 6.8, name: { en: "Mumbai", ur: "ممبئی", hi: "मुंबई" } },
+  { id: "kolkata", cc: "IN", lat: 22.5726, lon: 88.3639, pop: 15800000, cdr: 6.8, name: { en: "Kolkata", ur: "کولکاتہ", hi: "कोलकाता" } },
+  { id: "bengaluru", cc: "IN", lat: 12.9716, lon: 77.5946, pop: 14000000, cdr: 6.8, name: { en: "Bengaluru", ur: "بنگلور", hi: "बेंगलुरु" } },
+  { id: "chennai", cc: "IN", lat: 13.0827, lon: 80.2707, pop: 12300000, cdr: 6.8, name: { en: "Chennai", ur: "چنئی", hi: "चेन्नई" } },
+  { id: "hyderabad", cc: "IN", lat: 17.385, lon: 78.4867, pop: 11300000, cdr: 6.8, name: { en: "Hyderabad", ur: "حیدرآباد (دکن)", hi: "हैदराबाद" } },
+  { id: "ahmedabad", cc: "IN", lat: 23.0225, lon: 72.5714, pop: 8900000, cdr: 6.8, name: { en: "Ahmedabad", ur: "احمد آباد", hi: "अहमदाबाद" } },
+  { id: "surat", cc: "IN", lat: 21.1702, lon: 72.8311, pop: 8000000, cdr: 6.8, name: { en: "Surat", ur: "سورت", hi: "सूरत" } },
+  { id: "pune", cc: "IN", lat: 18.5204, lon: 73.8567, pop: 7300000, cdr: 6.8, name: { en: "Pune", ur: "پونے", hi: "पुणे" } },
+  { id: "jaipur", cc: "IN", lat: 26.9124, lon: 75.7873, pop: 4300000, cdr: 6.8, name: { en: "Jaipur", ur: "جے پور", hi: "जयपुर" } },
+  { id: "indore", cc: "IN", lat: 22.7196, lon: 75.8577, pop: 3300000, cdr: 6.8, name: { en: "Indore", ur: "اندور", hi: "इंदौर" } },
+  { id: "nagpur", cc: "IN", lat: 21.1458, lon: 79.0882, pop: 3000000, cdr: 6.8, name: { en: "Nagpur", ur: "ناگپور", hi: "नागपुर" } },
+  { id: "bhopal", cc: "IN", lat: 23.2599, lon: 77.4126, pop: 2600000, cdr: 6.8, name: { en: "Bhopal", ur: "بھوپال", hi: "भोपाल" } },
+  { id: "kochi", cc: "IN", lat: 9.9312, lon: 76.2673, pop: 2500000, cdr: 6.8, name: { en: "Kochi", ur: "کوچی", hi: "कोच्चि" } },
+  { id: "visakhapatnam", cc: "IN", lat: 17.6868, lon: 83.2185, pop: 2400000, cdr: 6.8, name: { en: "Visakhapatnam", ur: "وشاکھاپٹنم", hi: "विशाखापत्तनम" } },
+  { id: "raipur", cc: "IN", lat: 21.2514, lon: 81.6296, pop: 1900000, cdr: 6.8, name: { en: "Raipur", ur: "رائے پور", hi: "रायपुर" } },
+  { id: "ranchi", cc: "IN", lat: 23.3441, lon: 85.3096, pop: 1700000, cdr: 6.8, name: { en: "Ranchi", ur: "رانچی", hi: "रांची" } },
+  { id: "guwahati", cc: "IN", lat: 26.1445, lon: 91.7362, pop: 1300000, cdr: 6.8, name: { en: "Guwahati", ur: "گوہاٹی", hi: "गुवाहाटी" } },
+  { id: "bhubaneswar", cc: "IN", lat: 20.2961, lon: 85.8245, pop: 1300000, cdr: 6.8, name: { en: "Bhubaneswar", ur: "بھونیشور", hi: "भुवनेश्वर" } },
 ];

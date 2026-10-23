@@ -1,9 +1,9 @@
 # HamariHawa
 
-A live satellite map of fires, smoke and air pollution over Pakistan and North India, in English, Urdu and Hindi: **https://hamarihawa.org**
+A live satellite map of fires, smoke and air pollution over Pakistan and India, in English, Urdu and Hindi: **https://hamarihawa.org**
 
 - **Live map**: every fire NASA's satellites see across the plains, named after the nearest village and tagged when it sits on a brick kiln, landfill or industrial estate. Layers for traffic and industry NO₂ (with major roads underneath), haze, smoke, clouds and wind, plus "your air" for the visitor's city.
-- **City air**: PM2.5 and AQI for 17 cities, with cigarette and WHO-limit equivalents.
+- **City air**: PM2.5 and AQI for 37 cities, with cigarette and WHO-limit equivalents.
 - **[Pollution sites](https://hamarihawa.org/sites/)**: landfills, power plants, industrial hotspots and kiln districts.
 - **[Fire trends](https://hamarihawa.org/trends/)** and the **[Two Punjabs report](https://hamarihawa.org/report/two-punjabs/)**: every October–November crop-burning season since 2019, on both sides of the border.
 - **[Daily fires](https://hamarihawa.org/fires/)** and **[fires by district](https://hamarihawa.org/district/)**: a page for every day and for every district with frequent fires, rendered by the Worker from the archive.
@@ -30,6 +30,7 @@ The heavy work (naming every fire after its village, merging duplicate detection
 - `scripts/build-feed.py`: downloads NASA FIRMS fire detections (VIIRS + MODIS), names each fire after the nearest GeoNames village and writes the feed to Workers KV. Runs every 15 minutes from `.github/workflows/feed.yml`. It also keeps the daily archive in KV (`days` index, `dist` districts, `day-YYYY-MM-DD` spots, on Pakistan time) and adds a `trend` block to each feed. The `dpages` key holds the per-district season numbers for the district pages. It drops unconfirmed daytime "fire" bursts over the Thar desert (see `drop_bursts`).
 - `scripts/backfill-days.py`: one-off fill of past days in the same archive from the FIRMS area API (needs a free MAP_KEY in `~/.config/hamarihawa/firms_key`). Seasons 1 Oct–30 Nov 2019–2025 are filled.
 - `scripts/season-stats.py` + `scripts/build-report-punjabs.py`: Suomi NPP season statistics for the two Punjabs (from the backfill cache) and the Two Punjabs report built from them (`site/public/report/two-punjabs/`).
+- `scripts/build-wind.py`: 10 m wind on a 2° grid over the region from Open-Meteo, uploaded hourly to the KV key `wind` by `.github/workflows/wind.yml` and served at `/api/wind`.
 - `scripts/build-no2.py`: 14-day Sentinel-5P NO₂ average and labelled traffic/industry hotspots, uploaded to KV daily by `.github/workflows/no2.yml`.
 - `scripts/build-places.py`: rebuilds the village index in `data/places/` from GeoNames dumps, plus the Pakistan and India outlines (geoBoundaries) that decide which country a fire is in. `scripts/geo.py` holds the region and the point-in-polygon test.
 - `scripts/build-landcover.py`: one-time cropland and tree-cover grid (`data/landcover.bin.gz`) from ESA WorldCover 2021, which decides a fire's type. Needs rasterio and numpy.
@@ -63,7 +64,7 @@ Then open http://127.0.0.1:8791. `DEV:1` turns off the HTTPS redirect for local 
 
 ## Deploy your own copy
 
-1. Create a KV namespace (`npx wrangler kv namespace create FEED`) and put its id in `site/wrangler.jsonc` and in the two workflows.
+1. Create a KV namespace (`npx wrangler kv namespace create FEED`) and put its id in `site/wrangler.jsonc` and in the three workflows.
 2. Change or remove the custom-domain `routes` in `site/wrangler.jsonc`, then `cd site && npx wrangler deploy`.
 3. In the GitHub repository, add the secret `CLOUDFLARE_API_TOKEN` (permission: Workers KV Storage, Edit) and the variable `CLOUDFLARE_ACCOUNT_ID`. Point `FIRMS_BASE` in `.github/workflows/feed.yml` at your own Worker's `/api/firms`, since GitHub's runners can't reach NASA directly.
 

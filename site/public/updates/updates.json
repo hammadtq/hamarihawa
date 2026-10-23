@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-23-all-india",
+    "date": "2026-10-23",
+    "title": {
+      "en": "The map now covers all of Pakistan and India",
+      "ur": "نقشہ اب پورے پاکستان اور پورے ہندوستان کا احاطہ کرتا ہے",
+      "hi": "नक़्शा अब पूरे पाकिस्तान और पूरे भारत को दिखाता है"
+    },
+    "body": {
+      "en": "<p>Until today HamariHawa showed fires only on the northern plains, from Peshawar and Karachi's edge to Patna. Now the live map, the daily fire pages and the district pages cover every fire NASA's satellites see anywhere in Pakistan and India, from Gwadar to Arunachal and down to Kanyakumari. City air now covers 37 cities, adding Quetta, Hyderabad (Sindh), Mumbai, Kolkata, Bengaluru, Chennai, Hyderabad and 13 more, with the 12 worst shown first. Wind streaks cover the whole map too.</p><p>Outside the north, many fires are not crop burning. Coal fields, steel plants and refineries in Jharkhand, Odisha, Chhattisgarh and West Bengal burn all year and are tagged as always-hot sites; forest fires and shifting cultivation are common in the North-East.</p><p>The archive before 17 October 2026 covers only the northern plains. So that years stay comparable, every year-on-year number on the daily pages and the trends page counts only that northern area. We will rebuild the past seasons for the whole region over the coming days.</p>",
+      "ur": "<p>آج تک ہماری ہوا صرف شمالی میدانوں کی آگ دکھاتی تھی، پشاور اور کراچی کے کنارے سے پٹنہ تک۔ اب براہِ راست نقشہ، روزانہ کے صفحات اور اضلاع کے صفحات پاکستان اور ہندوستان میں کہیں بھی ناسا کے سیٹلائٹس کو نظر آنے والی ہر آگ دکھاتے ہیں، گوادر سے اروناچل تک اور نیچے کنیاکماری تک۔ شہروں کی ہوا اب 37 شہروں کی ہے، جن میں کوئٹہ، حیدرآباد (سندھ)، ممبئی، کولکاتہ، بنگلور، چنئی، حیدرآباد (دکن) اور 13 اور شامل ہیں، اور سب سے خراب ہوا والے 12 شہر پہلے دکھائے جاتے ہیں۔ ہوا کی لکیریں بھی اب پورے نقشے پر ہیں۔</p><p>شمال سے باہر بہت سی آگ فصلوں کی نہیں ہوتی۔ جھارکھنڈ، اوڈیشہ، چھتیس گڑھ اور مغربی بنگال میں کوئلے کی کانیں، اسٹیل کے کارخانے اور ریفائنریاں سارا سال جلتی ہیں، اور انہیں ہمیشہ گرم رہنے والی جگہیں کہا جاتا ہے؛ شمال مشرق میں جنگل کی آگ اور جھوم کاشت عام ہے۔</p><p>17 اکتوبر 2026 سے پہلے کا ریکارڈ صرف شمالی میدانوں کا ہے۔ تاکہ برسوں کا موازنہ درست رہے، روزانہ کے صفحات اور آگ کے رجحان والے صفحے پر پچھلے برسوں سے ہر موازنہ صرف اسی شمالی علاقے کا ہے۔ اگلے چند دنوں میں ہم پچھلے موسموں کو بھی پورے علاقے کے لیے دوبارہ بنائیں گے۔</p>",
+      "hi": "<p>आज तक हमारी हवा सिर्फ़ उत्तरी मैदानों की आग दिखाती थी, पेशावर और कराची के किनारे से पटना तक। अब लाइव नक़्शा, रोज़ाना के पन्ने और ज़िलों के पन्ने पाकिस्तान और भारत में कहीं भी नासा के उपग्रहों को दिखने वाली हर आग दिखाते हैं, ग्वादर से अरुणाचल तक और नीचे कन्याकुमारी तक। शहरों की हवा अब 37 शहरों की है, जिनमें क्वेटा, हैदराबाद (सिंध), मुंबई, कोलकाता, बेंगलुरु, चेन्नई, हैदराबाद और 13 और शामिल हैं, और सबसे ख़राब हवा वाले 12 शहर पहले दिखते हैं। हवा की लकीरें भी अब पूरे नक़्शे पर हैं।</p><p>उत्तर से बाहर बहुत सी आग फ़सलों की नहीं होती। झारखंड, ओडिशा, छत्तीसगढ़ और पश्चिम बंगाल में कोयले की खदानें, स्टील के कारख़ाने और रिफ़ाइनरियाँ साल भर जलती हैं, और उन्हें हमेशा गर्म रहने वाली जगहें कहा जाता है; पूर्वोत्तर में जंगल की आग और झूम खेती आम है।</p><p>17 अक्टूबर 2026 से पहले का रिकॉर्ड सिर्फ़ उत्तरी मैदानों का है। ताकि सालों की तुलना सही रहे, रोज़ाना के पन्नों और आग के रुझान वाले पन्ने पर पिछले सालों से हर तुलना सिर्फ़ इसी उत्तरी इलाक़े की है। अगले कुछ दिनों में हम पिछले मौसमों को भी पूरे इलाक़े के लिए दोबारा बनाएँगे।</p>"
+    }
+  },
+  {
     "id": "2026-10-23-fire-types",
     "date": "2026-10-23",
     "title": {

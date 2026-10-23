@@ -26,6 +26,7 @@
     air: null,
     wind: null,
     sort: "aqi",
+    allCards: false,
     me: null,
   };
 
@@ -76,9 +77,10 @@
   }
 
   // ---------- Map ----------
-  const IGP = [[25, 66], [35.5, 88.5]];
-  const map = L.map("map", { zoomControl: false, preferCanvas: true, minZoom: 5, maxZoom: 13, scrollWheelZoom: false,
-    zoomSnap: 0.25, maxBounds: [[14, 54], [42, 100]], maxBoundsViscosity: 0.8 });
+  // All of Pakistan and India (scripts/geo.py REGION), and the northern plains the stubble season is about.
+  const REGION = [[6, 60.5], [37.5, 97.5]], NORTH = [[28.5, 68], [33.5, 78]];
+  const map = L.map("map", { zoomControl: false, preferCanvas: true, minZoom: 3, maxZoom: 13, scrollWheelZoom: false,
+    zoomSnap: 0.25, maxBounds: [[0, 50], [44, 106]], maxBoundsViscosity: 0.8 });
   // Wheel-zoom only after the reader clicks the map, so scrolling the page doesn't get trapped.
   map.on("click focus", () => map.scrollWheelZoom.enable());
   map.getContainer().addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
@@ -111,7 +113,9 @@
     el.addEventListener("gestureend", (e) => { e.preventDefault(); startZoom = null; }, { passive: false });
   })();
   const zoomCtl = L.control.zoom({ position: "topright" }).addTo(map);
-  map.fitBounds(window.innerWidth < 860 ? [[28.5, 68], [33.5, 78]] : [[25.5, 66.5], [34.8, 86]]);
+  // Phones open on the north in the burning season (October to February), when that is where the fires are.
+  const season = [9, 10, 11, 0, 1].includes(new Date().getMonth());
+  map.fitBounds(window.innerWidth < 860 && season ? NORTH : REGION);
   map.createPane("roads").style.zIndex = 340; // under the NO2 overlay
   map.getPane("roads").style.pointerEvents = "none";
   map.createPane("overlay").style.zIndex = 350;
@@ -639,6 +643,7 @@
     return `<svg width="${Math.max(12, x)}" height="28" viewBox="0 0 ${Math.max(12, x)} 28" aria-hidden="true">${s}</svg>`;
   }
 
+  const CARDS = 12;
   function renderCards() {
     const at = state.air && state.air[0] && state.air[0].at;
     $("#healthSub").textContent = t("healthSub", { n: nf(CITIES.length) }) + (at ? " " + t("airAsOf", { t: `${fmtDay(at)}, ${fmtTime(at)}` }) : "");
@@ -664,7 +669,11 @@
     $("#tCigs").textContent = nf(cigW / popW, { maximumFractionDigits: 1 });
 
     const dirName = (deg) => DIRS[state.lang][Math.round(deg / 45) % 8];
-    box.innerHTML = rows.map(({ c, a, w, h, up }, i) => {
+    // The first 12 in the chosen order (the worst air, by default); the rest behind a button.
+    const more = $("#cardsMore");
+    more.hidden = rows.length <= CARDS;
+    more.textContent = state.allCards ? t("cardsFewer") : t("cardsAll", { n: nf(rows.length) });
+    box.innerHTML = rows.slice(0, state.allCards ? rows.length : CARDS).map(({ c, a, w, h, up }, i) => {
       const band = aqiBand(a.us_aqi);
       const upTxt = up == null ? (w ? t("windFrom", { dir: dirName(w.wind_direction_10m) }) : "")
         : up > 0 ? `${t("firesNear", { n: nf(up) })} · ${t("windFrom", { dir: dirName(w.wind_direction_10m) })}`
@@ -692,6 +701,7 @@
     sketchAll(box);
   }
   $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; renderCards(); });
+  $("#cardsMore").addEventListener("click", () => { state.allCards = !state.allCards; renderCards(); });
 
   // ---------- Your air ----------
   // City estimated from the visitor's connection (Cloudflare), a city they picked, or their exact position.

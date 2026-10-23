@@ -1,0 +1,26 @@
+# Wind on a 2-degree grid over Pakistan and India from Open-Meteo, stored in Cloudflare KV ("wind") for /api/wind.
+# One KV write an hour; the fire feed's write budget (scripts/build-feed.py) leaves room for it.
+name: Wind
+
+on:
+  schedule:
+    # Open-Meteo's "current" values update every 15 minutes; hourly is plenty for the map's streaks.
+    - cron: "41 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: wind
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and upload wind
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          KV_NAMESPACE_ID: 80f0abe06205411bb5d4feb087c165f6
+        run: python3 -I scripts/build-wind.py --out wind.json --upload

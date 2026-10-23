@@ -210,7 +210,7 @@ def updates():
               "blogPost": [{"@type": "BlogPosting", "headline": e["title"]["en"], "datePublished": e["date"],
                             "url": f"{SITE}/updates/#{e['id']}", "description": plain(e["body"]["en"])[:300],
                             "author": ORG, "publisher": ORG, "image": f"{SITE}/og/map-v2.png"} for e in entries]}
-    out = page("/updates/", "What's new", "Updates to HamariHawa, the live satellite fire and air map of Pakistan and North India: new layers, data and fixes, newest first.",
+    out = page("/updates/", "What's new", "Updates to HamariHawa, the live satellite fire and air map of Pakistan and India: new layers, data and fixes, newest first.",
                arts, jsonld)
     open(os.path.join(PUB, "updates", "index.html"), "w", encoding="utf-8").write(out)
     # Atom feed (English).
@@ -231,7 +231,7 @@ def data_page():
     arts = {l: open(os.path.join(ROOT, "scripts", "pages", f"data-{l}.html"), encoding="utf-8").read().strip() for l in LANGS}
     jsonld = {"@context": "https://schema.org", "@type": "WebPage", "@id": f"{SITE}/data/#page", "name": "Use HamariHawa's data",
               "url": f"{SITE}/data/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG, "isPartOf": {"@id": f"{SITE}/#website"},
-              "about": ["Google Earth KML feed of fires and air pollution in Pakistan and North India", "Open air-quality data APIs"]}
+              "about": ["Google Earth KML feed of fires and air pollution in Pakistan and India", "Open air-quality data APIs"]}
     out = page("/data/", "Use the data", "Open HamariHawa's live fires, city air, NO₂, haze and pollution sites in Google Earth, QGIS or ArcGIS, or use the JSON feeds.",
                arts, jsonld)
     open(os.path.join(PUB, "data", "index.html"), "w", encoding="utf-8").write(out)

@@ -111,6 +111,49 @@ class CountryTest(unittest.TestCase):
         self.assertEqual(got[(33.15, 73.75)][0], "PK")   # Mirpur
         self.assertEqual(got[(34.08, 74.8)][0], "IN")    # Srinagar
 
+    def test_whole_region_and_neighbours(self):
+        csv = "latitude,longitude,acq_date,acq_time,confidence,frp,daynight\n"
+        for lat, lon in ((35.92, 74.31), (19.08, 72.88), (8.09, 77.54), (25.12, 62.33), (27.70, 85.32), (23.81, 90.41), (6.93, 79.86)):
+            csv += f"{lat},{lon},2026-10-20,0800,n,5.0,D\n"
+        got = {(round(p["lat"], 2), round(p["lon"], 2)): p["cc"] for p in bf.build(24, [csv, None, None, None])["_all"]}
+        self.assertEqual(got, {(35.92, 74.31): "PK", (19.08, 72.88): "IN", (8.09, 77.54): "IN", (25.12, 62.33): "PK"})  # Gilgit, Mumbai, Kanyakumari, Gwadar
+
+
+class ComparisonTest(unittest.TestCase):
+    def test_snc_counts_only_the_northern_box(self):
+        csv = "latitude,longitude,acq_date,acq_time,confidence,frp,daynight\n"
+        for lat, lon in ((31.40, 74.20), (31.60, 75.10), (19.08, 72.88)):  # Kasur, Amritsar, Mumbai
+            csv += f"{lat},{lon},2026-10-20,0800,n,5.0,D\n"
+        s = bf.day_files(bf.build(24, [csv, None, None, None])["_all"])["2026-10-20"]["summary"]
+        self.assertEqual(s["sn"], [3, 1, 2, 0, 0, 0])
+        self.assertEqual(s["snc"], [2, 1, 1, 0, 0, 0])
+        self.assertNotIn("states", bf.index_entry(s, False))
+        self.assertIn("snc", bf.index_entry(s, False))
+
+    def test_districts_outside_the_box_have_no_year_comparison(self):
+        days = [f"2026-10-{d:02d}" for d in range(1, 26)]
+        rows = [["Okara", "Punjab", "PK", 30, 30.8, 73.4, 10, 10], ["Angul", "Odisha", "IN", 30, 20.8, 85.1, 0, 10]]
+        d = bf.district_index({x: {"spots": 1} for x in days}, {x: rows for x in days})["d"]
+        self.assertEqual(d["okara"]["s"]["2026"][0], 250)
+        self.assertIsNone(d["angul"]["s"]["2026"][0])
+        self.assertEqual(d["angul"]["s"]["2026"][2], 750)
+
+
+class SlugTest(unittest.TestCase):
+    def _dist(self, rows):
+        days = [f"2025-10-{d:02d}" for d in range(1, 26)]
+        return {d: {"spots": 1} for d in days}, {d: rows for d in days}
+
+    def test_existing_slug_survives_a_new_namesake(self):
+        index, dist = self._dist([["Hyderabad", "Sindh", "PK", 30, 25.4, 68.4, 10]])
+        first = bf.district_index(index, dist)
+        self.assertIn("hyderabad", first["d"])
+        index, dist = self._dist([["Hyderabad", "Sindh", "PK", 30, 25.4, 68.4, 10], ["Hyderabad", "Telangana", "IN", 30, 17.4, 78.5, 10]])
+        self.assertEqual(sorted(bf.district_index(index, dist)["d"]), ["hyderabad-sindh", "hyderabad-telangana"])
+        got = bf.district_index(index, dist, first)["d"]
+        self.assertEqual(got["hyderabad"]["state"], "Sindh")
+        self.assertEqual(got["hyderabad-telangana"]["state"], "Telangana")
+
 
 class BudgetSimulation(unittest.TestCase):
     def test_a_busy_day_stays_under_budget(self):

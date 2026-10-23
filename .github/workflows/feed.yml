@@ -12,6 +12,10 @@ on:
         description: "Upload even if NASA's files are unchanged"
         type: boolean
         default: false
+      all_days:
+        description: "Rewrite every full day in the 7-day window (after a coverage change)"
+        type: boolean
+        default: false
 
 concurrency:
   group: feed
@@ -32,4 +36,4 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           KV_NAMESPACE_ID: 80f0abe06205411bb5d4feb087c165f6
           FIRMS_BASE: https://hamarihawa.hammadtariq.workers.dev/api/firms
-        run: python3 -I scripts/build-feed.py --out feed --upload ${{ inputs.force && '--force' || '' }}
+        run: python3 -I scripts/build-feed.py --out feed --upload ${{ inputs.force && '--force' || '' }} ${{ inputs.all_days && '--all-days' || '' }}

@@ -80,12 +80,13 @@
     // Suomi NPP returned no usable data (NASA's 2-6 Nov 2024 outage, dropped passes) when it saw almost
     // nothing on a day the other satellites saw plenty: missing, not zero.
     if (e.sn && e.sn[0] < 20 && e.spots >= 200 && e.sn[0] * 20 < e.spots) return null;
-    if (e.sn) return e.sn[col()];
+    // snc: the northern box every season covers (days since the region grew); older days only cover it.
+    if (e.sn) return (e.snc || e.sn)[col()];
     return col() === 0 && e.snpp != null ? e.snpp : null;
   }
   function nightShare(entries) {
     let n = 0, night = 0;
-    for (const e of entries) if (e && !e.partial && e.sn) { n += e.sn[col()]; night += e.sn[3 + col()]; }
+    for (const e of entries) if (e && !e.partial && e.sn) { const c = e.snc || e.sn; n += c[col()]; night += c[3 + col()]; }
     return n ? night / n : null;
   }
   function build() {

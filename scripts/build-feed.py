@@ -542,8 +542,10 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
     """Split points into Pakistan-time days: {date: day file} for the dates `keep` accepts.
     summary.snpp counts spots Suomi NPP saw on its own, the one satellite flying every year since
     2012, so past seasons compare fairly with today's four-satellite counts; summary.sn splits it as
-    [all, PK, IN, night all, night PK, night IN]. The day file's "districts" lists the busiest
-    districts as [district, state, cc, spots, lat, lon, Suomi NPP spots] (centre of that day's fires),
+    [all, PK, IN, night all, night PK, night IN], and summary.snc is the same inside geo.COMPARE_BOX, the area
+    every archived year covers, for year-on-year comparisons. The day file's "districts" lists the busiest
+    districts as [district, state, cc, spots, lat, lon, Suomi NPP spots inside geo.COMPARE_BOX, all Suomi NPP
+    spots] (centre of that day's fires; older day files stop at the in-box count, all they covered),
     for the trends map and the district pages; "places" lists the villages with the most spots as
     [place, district, cc, spots], for the daily fire pages."""
     by_day = {}
@@ -555,17 +557,21 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
             continue
         spots = sorted(distinct(pts).values(), key=lambda p: p["t"])
         sn_spots = distinct([p for p in pts if p["si"] == 0]).values()
-        sn, sn_d = [0] * 6, {}
+        sn, snc, sn_d, sn_dc = [0] * 6, [0] * 6, {}, {}
         for p in sn_spots:
             col = 1 if p["cc"] == "PK" else 2 if p["cc"] == "IN" else None
             k = (p["district"] or p["state"] or "?", p["state"] or "", p["cc"] or "")
             sn_d[k] = sn_d.get(k, 0) + 1
-            sn[0] += 1
-            if col: sn[col] += 1
-            if p["night"]:
-                sn[3] += 1
-                if col: sn[3 + col] += 1
-        summary = {**summarise(spots), "snpp": sn[0], "sn": sn}
+            inside = geo.in_box(geo.COMPARE_BOX, p["lat"], p["lon"])
+            if inside:
+                sn_dc[k] = sn_dc.get(k, 0) + 1
+            for a in (sn, snc) if inside else (sn,):
+                a[0] += 1
+                if col: a[col] += 1
+                if p["night"]:
+                    a[3] += 1
+                    if col: a[3 + col] += 1
+        summary = {**summarise(spots), "snpp": sn[0], "sn": sn, "snc": snc}
         by_d, by_p = {}, {}
         for p in spots:
             k = (p["district"] or p["state"] or "?", p["state"] or "", p["cc"] or "")
@@ -584,8 +590,8 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
             a = states.setdefault(f"{p['cc'] or ''}|{p['state'] or ''}", [0, 0, 0, 0])
             a[2] += 1; a[3] += 1 if p["night"] else 0
         summary["states"] = dict(sorted(states.items()))
-        districts = [[d, st, cc, n, round(la / n, 2), round(lo / n, 2), sn_d.get((d, st, cc), 0)]
-                     for (d, st, cc), (n, la, lo) in sorted(by_d.items(), key=lambda kv: -kv[1][0]) if n >= 2][:80]
+        districts = [[d, st, cc, n, round(la / n, 2), round(lo / n, 2), sn_dc.get((d, st, cc), 0), sn_d.get((d, st, cc), 0)]
+                     for (d, st, cc), (n, la, lo) in sorted(by_d.items(), key=lambda kv: -kv[1][0]) if n >= 2][:150]
         places = [[pl, d, cc, n] for (pl, d, cc), n in sorted(by_p.items(), key=lambda kv: -kv[1]) if n >= 2][:12]
         dd = Dict()
         rows = [[round(p["lat"], 4), round(p["lon"], 4), p["t"], round(p["frp"], 1), SAT_INDEX[p["sat"]],
@@ -611,11 +617,13 @@ SEASON = ("10-01", "11-30")  # the October-November rice-stubble season
 PAGE_MIN = (500, 20)  # a district gets a page once the archive holds 500+ spots on 20+ days
 
 
-def district_index(index, dist):
+def district_index(index, dist, prev=None):
     """Compact per-district numbers for the district pages (/district/<slug>/), which the Worker renders.
     Only complete days count. Each season is [Suomi NPP spots, Suomi NPP to this season's date,
     all-satellite spots, all-satellite to date]; the Suomi NPP figures are None when some day lacks them.
-    Totals are a floor: the dist index keeps each day's 80 busiest districts with 2+ spots."""
+    Totals are a floor: the dist index keeps each day's 150 busiest districts with 2+ spots.
+    prev is the last published index ({"d": {slug: {...}}}): a district keeps the slug it was published under,
+    so its address doesn't change when a namesake elsewhere later qualifies for a page."""
     done = sorted(d for d in index if not index[d].get("partial") and d in dist)
     if not done:
         return {}
@@ -631,12 +639,14 @@ def district_index(index, dist):
             name, state, cc, n = r[0], r[1], r[2], r[3]
             if not name or name == "?" or name == state:
                 continue
-            e = by.setdefault((name, state, cc), {"n": 0, "days": 0, "la": 0.0, "lo": 0.0, "s": {}, "daily": {}, "peak": None})
+            e = by.setdefault((name, state, cc), {"n": 0, "days": 0, "la": 0.0, "lo": 0.0, "s": {}, "daily": {}, "peak": None, "box": 0})
             e["n"] += n; e["days"] += 1; e["la"] += r[4] * n; e["lo"] += r[5] * n
             e["daily"][date] = n
             if season is not None:
                 t = e["s"].setdefault(season, [0, 0, 0, 0])
+                # Suomi NPP inside the box every year covers, so a district crossing its edge compares like with like.
                 sn = r[6] if len(r) > 6 else None
+                e["box"] += sn or 0
                 t[2] += n
                 if md <= to: t[3] += n
                 if sn is None or t[0] is None:
@@ -647,14 +657,27 @@ def district_index(index, dist):
                 if season == cur and (e["peak"] is None or n > e["peak"][1]):
                     e["peak"] = [date, n]
     keep = {k: e for k, e in by.items() if e["n"] >= PAGE_MIN[0] and e["days"] >= PAGE_MIN[1]}
+    for e in keep.values():
+        if not e["box"]:  # wholly outside the old box: earlier years weren't covered, so there is nothing to compare
+            for t in e["s"].values():
+                t[0] = t[1] = None
     # Short slugs ("okara"), falling back to name + state, then + country, when two districts share one.
     slugs, out = {}, {}
     for k in keep:
         slugs.setdefault(slug(k[0]), []).append(k)
+    had = {(e["name"], e["state"], e["cc"]): sl for sl, e in ((prev or {}).get("d") or {}).items()}
     named = {}
     for s0, ks in slugs.items():
         for k in ks:
-            named[k] = s0 if len(ks) == 1 else slug(f"{k[0]} {k[1]}") if len({x[1] for x in ks}) == len(ks) else slug(f"{k[0]} {k[1]} {k[2]}")
+            named[k] = had.get(k) or (s0 if len(ks) == 1 else slug(f"{k[0]} {k[1]}") if len({x[1] for x in ks}) == len(ks) else slug(f"{k[0]} {k[1]} {k[2]}"))
+    taken = {}
+    for k, sl in named.items():
+        taken.setdefault(sl, []).append(k)
+    for sl, ks in taken.items():
+        # A new district whose fallback slug is one an older district kept: give it the longest form.
+        for k in ks:
+            if len(ks) > 1 and had.get(k) != sl:
+                named[k] = slug(f"{k[0]} {k[1]} {k[2]}")
     for cc in ("PK", "IN"):
         ranked = sorted((k for k in keep if k[2] == cc), key=lambda k: -(keep[k]["s"].get(cur, [0, 0, 0, 0])[3]))
         for i, k in enumerate(ranked):
@@ -811,6 +834,7 @@ def main():
     ap.add_argument("--out", required=True)
     ap.add_argument("--upload", action="store_true")
     ap.add_argument("--force", action="store_true", help="publish every tier now, even if nothing is due")
+    ap.add_argument("--all-days", action="store_true", help="rewrite every full day in the 7-day window (after a coverage change)")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     now_s = int(time.time())
@@ -861,7 +885,7 @@ def main():
             os.makedirs(os.path.join(a.out, "days"), exist_ok=True)
             for date, day in days.items():
                 # Today and yesterday are still filling in; older days are only written once.
-                if date not in index or date in (pk_today, yesterday):
+                if date not in index or date in (pk_today, yesterday) or a.all_days:
                     dbody = json.dumps(day, separators=(",", ":"), ensure_ascii=False).encode()
                     open(os.path.join(a.out, "days", f"{date}.json"), "wb").write(dbody)
                     if slow:
@@ -871,7 +895,9 @@ def main():
             ibody = json.dumps(index, separators=(",", ":"), sort_keys=True).encode()
             open(days_path, "wb").write(ibody)
             open(dist_path, "wb").write(json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
-            dp_index, shards = split_dpages(district_index(index, dist))
+            prev_dp = json.loads(kv("GET", "dpages-index") or b"{}") if a.upload else (
+                json.load(open(os.path.join(a.out, "dpages-index.json"))) if os.path.exists(os.path.join(a.out, "dpages-index.json")) else {})
+            dp_index, shards = split_dpages(district_index(index, dist, prev_dp))
             open(os.path.join(a.out, "dpages-index.json"), "wb").write(
                 json.dumps(dp_index, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
             if slow:
@@ -886,7 +912,8 @@ def main():
                     pub.put(key, json.dumps(part, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
                 pub.put("dpages-index", json.dumps(dp_index, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
             print(f"archive: {len(days)} days, {len(index)} in index, {len(shards)} district shards")
-        recent = sorted(index)[-TREND_DAYS:]
+        # Only days covering the whole region, so the chart doesn't jump where the coverage grew.
+        recent = [d for d in sorted(index) if d >= geo.REGION_FROM][-TREND_DAYS:]
         cur, prev = compare(history, hours) if hours < 168 else (None, None)
         feed["trend"] = {
             # cur and prev are the same window length cut from the same points; the page compares those two.

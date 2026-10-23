@@ -57,7 +57,7 @@
   "@id": "https://hamarihawa.org/#website"
  },
  "about": [
-  "Google Earth KML feed of fires and air pollution in Pakistan and North India",
+  "Google Earth KML feed of fires and air pollution in Pakistan and India",
   "Open air-quality data APIs"
  ]
 }
@@ -66,7 +66,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
-<link rel="stylesheet" href="/app.css?v=202610231930">
+<link rel="stylesheet" href="/app.css?v=202610232000">
 <style>
   .doc { max-width: 760px; margin: 0 auto; padding: 36px 20px 60px; }
   .doc h1 { font-family: var(--hand); font-size: clamp(32px, 5vw, 44px); }
@@ -156,8 +156,8 @@
     <li><code>/api/fires?hours=24</code> (also 48, 168): stats, grouped events and every fire point.</li>
     <li><code>/api/fires?hours=24&amp;v=2</code>: the same feed in a compact form, less than half the size. Names are stored once in <code>dict</code>, and points and events are rows of numbers described by <code>fields</code> and <code>event_fields</code> (times in minutes after <code>t0</code>). The 7-day feed also lists the distinct fire spots in <code>spots</code>. The map uses this version; the original stays available, but new coverage will appear only in v2.</li>
     <li><code>/api/day?d=YYYY-MM-DD</code>: one day's distinct spots. Files from 24 October 2026 on (<code>"v": 2</code>) store each district once in <code>dict.district</code> and give per-state counts in <code>summary.states</code> as [spots, night, Suomi NPP, Suomi NPP night].</li>
-    <li><code>/api/days</code>: daily fire totals (Pakistan time, distinct spots, Pakistan and India split, night share), for every day since 1 Oct 2026 and for each October–November season back to 2019. <code>snpp</code> counts only what Suomi NPP saw, the one satellite flying in every year, so use it to compare years. Each day's fires are at <code>/api/day?d=2026-10-19</code>.</li>
-    <li><code>/api/wind</code>: wind right now on a 1° grid (speed in km/h, direction it comes from), refreshed every 30 minutes.</li>
+    <li><code>/api/days</code>: daily fire totals (Pakistan time, distinct spots, Pakistan and India split, night share), for every day since 1 Oct 2026 and for each October–November season back to 2019. <code>snpp</code> counts only what Suomi NPP saw, the one satellite flying in every year, so use it to compare years. Days from 17 Oct 2026 cover all of Pakistan and India; earlier days only 25–35.5°N, 66–88.5°E. To compare years, use <code>snc</code> where a day has it (Suomi NPP inside that northern box, as <code>[all, PK, IN, night all, night PK, night IN]</code>) and <code>sn</code> where it doesn't. Each day's fires are at <code>/api/day?d=2026-10-19</code>.</li>
+    <li><code>/api/wind</code>: wind right now on a 2° grid over the whole region (speed in km/h, direction it comes from; <code>step</code> is the spacing in degrees), refreshed hourly.</li>
     <li><code>/api/no2.json</code>: the 2-week NO₂ average's dates, bounds and labelled hotspots. The image is <code>/api/no2.png</code> (Web Mercator) or <code>/api/no2-geo.png</code> (plain latitude and longitude).</li>
     <li><code>/sources/sites.json</code>: persistent pollution sites by category.</li>
     <li><code>/sources/kilns.json</code>, <code>osm-landfill.json</code>, <code>osm-industrial.json</code>, <code>plants.json</code>, <code>hotspots.json</code>, <code>carbonmapper.json</code>, <code>roads.json</code>: the source layers.</li>
@@ -213,8 +213,8 @@
     <li><code>/api/fires?hours=24</code> (48 اور 168 بھی): اعداد و شمار، گروپ کیے گئے واقعات اور ہر آگ کا مقام۔</li>
     <li><code>/api/fires?hours=24&amp;v=2</code>: یہی فیڈ مختصر صورت میں، آدھے سے بھی کم سائز کی۔ نام <code>dict</code> میں ایک بار لکھے جاتے ہیں، اور مقامات اور واقعات اعداد کی قطاریں ہیں جن کی وضاحت <code>fields</code> اور <code>event_fields</code> میں ہے (وقت <code>t0</code> کے بعد منٹوں میں)۔ 7 دن کی فیڈ میں الگ الگ آگ کے مقامات <code>spots</code> میں بھی درج ہیں۔ نقشہ یہی ورژن استعمال کرتا ہے؛ پرانا ورژن دستیاب رہے گا، لیکن نئے علاقے صرف v2 میں آئیں گے۔</li>
     <li><code>/api/day?d=YYYY-MM-DD</code>: ایک دن کے الگ الگ آگ کے مقامات۔ 24 اکتوبر 2026 سے کی فائلوں (<code>"v": 2</code>) میں ہر ضلع <code>dict.district</code> میں ایک بار لکھا جاتا ہے، اور <code>summary.states</code> میں ہر صوبے اور ریاست کی گنتی [مقامات، رات، Suomi NPP، Suomi NPP رات] کی صورت میں ہے۔</li>
-    <li><code>/api/days</code>: ہر دن آگ کی کل تعداد (پاکستانی وقت کے مطابق، الگ الگ مقامات کی صورت میں، پاکستان اور ہندوستان الگ الگ، اور رات کو دکھنے والا حصہ)۔ یہ 1 اکتوبر 2026 سے ہر دن کے لیے، اور 2019 سے ہر سال اکتوبر اور نومبر کے لیے موجود ہے۔ <code>snpp</code> صرف وہ آگ گنتا ہے جو Suomi NPP نے دیکھی، کیونکہ یہی سیٹلائٹ ہر سال کام کرتا رہا ہے، اس لیے سالوں کا موازنہ اسی سے کریں۔ کسی ایک دن کی آگ <code>/api/day?d=2026-10-19</code> پر ملتی ہے۔</li>
-    <li><code>/api/wind</code>: اس وقت کی ہوا، 1° کے جال پر (رفتار کلومیٹر فی گھنٹہ میں، اور وہ سمت جدھر سے ہوا آ رہی ہے)، ہر 30 منٹ بعد تازہ۔</li>
+    <li><code>/api/days</code>: ہر دن آگ کی کل تعداد (پاکستانی وقت کے مطابق، الگ الگ مقامات کی صورت میں، پاکستان اور ہندوستان الگ الگ، اور رات کو دکھنے والا حصہ)۔ یہ 1 اکتوبر 2026 سے ہر دن کے لیے، اور 2019 سے ہر سال اکتوبر اور نومبر کے لیے موجود ہے۔ <code>snpp</code> صرف وہ آگ گنتا ہے جو Suomi NPP نے دیکھی، کیونکہ یہی سیٹلائٹ ہر سال کام کرتا رہا ہے، اس لیے سالوں کا موازنہ اسی سے کریں۔ 17 اکتوبر 2026 سے ہر دن پورے پاکستان اور ہندوستان کا ہے، اس سے پہلے صرف 25 تا 35.5 درجے شمال اور 66 تا 88.5 درجے مشرق کا۔ برسوں کے موازنے کے لیے جس دن <code>snc</code> ہو وہ لیں (اسی شمالی خانے میں Suomi NPP کی گنتی)، ورنہ <code>sn</code>۔ کسی ایک دن کی آگ <code>/api/day?d=2026-10-19</code> پر ملتی ہے۔</li>
+    <li><code>/api/wind</code>: اس وقت کی ہوا، پورے علاقے پر 2° کے جال پر (رفتار کلومیٹر فی گھنٹہ میں، اور وہ سمت جدھر سے ہوا آ رہی ہے؛ <code>step</code> جال کا فاصلہ ہے)، ہر گھنٹے تازہ۔</li>
     <li><code>/api/no2.json</code>: دو ہفتوں کی NO₂ اوسط کی تاریخیں، حدود اور لیبل والے ہاٹ اسپاٹ۔ اس کی تصویر <code>/api/no2.png</code> (ویب مرکیٹر) یا <code>/api/no2-geo.png</code> (سادہ عرض البلد و طول البلد) پر ہے۔</li>
     <li><code>/sources/sites.json</code>: آلودگی کے مستقل مقامات، قسم کے لحاظ سے۔</li>
     <li><code>/sources/kilns.json</code>، <code>osm-landfill.json</code>، <code>osm-industrial.json</code>، <code>plants.json</code>، <code>hotspots.json</code>، <code>carbonmapper.json</code>، <code>roads.json</code>: ذرائع کی تہیں۔</li>
@@ -270,8 +270,8 @@
     <li><code>/api/fires?hours=24</code> (48 और 168 भी): आँकड़े, समूहों में बँटी घटनाएँ और हर आग की जगह।</li>
     <li><code>/api/fires?hours=24&amp;v=2</code>: यही फ़ीड छोटे रूप में, आधे से भी कम आकार की। नाम <code>dict</code> में एक बार लिखे जाते हैं, और जगहें और घटनाएँ अंकों की पंक्तियाँ हैं जिनका ब्योरा <code>fields</code> और <code>event_fields</code> में है (समय <code>t0</code> के बाद मिनटों में)। 7 दिन की फ़ीड में अलग-अलग आग वाली जगहें <code>spots</code> में भी दी गई हैं। नक्शा यही संस्करण इस्तेमाल करता है; पुराना संस्करण मिलता रहेगा, लेकिन नए इलाक़े सिर्फ़ v2 में आएँगे।</li>
     <li><code>/api/day?d=YYYY-MM-DD</code>: एक दिन की अलग-अलग आग वाली जगहें। 24 अक्टूबर 2026 से की फ़ाइलों (<code>"v": 2</code>) में हर ज़िला <code>dict.district</code> में एक बार लिखा जाता है, और <code>summary.states</code> में हर राज्य और प्रांत की गिनती [जगहें, रात, Suomi NPP, Suomi NPP रात] के रूप में है।</li>
-    <li><code>/api/days</code>: हर दिन आग वाली जगहों की कुल गिनती (पाकिस्तानी समय के हिसाब से, पाकिस्तान और भारत अलग-अलग, और रात में दिखी आग का हिस्सा)। यह 1 अक्टूबर 2026 से हर दिन के लिए है, और 2019 से हर साल के अक्टूबर और नवंबर के लिए। <code>snpp</code> सिर्फ़ वह आग गिनता है जो Suomi NPP ने देखी, क्योंकि यही अकेला उपग्रह हर साल काम करता रहा है, इसलिए सालों की तुलना इसी से करें। किसी एक दिन की आग <code>/api/day?d=2026-10-19</code> पर मिलती है।</li>
-    <li><code>/api/wind</code>: अभी की हवा, 1° के जाल पर (रफ़्तार किमी/घंटा में, और वह दिशा जिधर से हवा आ रही है), हर 30 मिनट में ताज़ा।</li>
+    <li><code>/api/days</code>: हर दिन आग वाली जगहों की कुल गिनती (पाकिस्तानी समय के हिसाब से, पाकिस्तान और भारत अलग-अलग, और रात में दिखी आग का हिस्सा)। यह 1 अक्टूबर 2026 से हर दिन के लिए है, और 2019 से हर साल के अक्टूबर और नवंबर के लिए। <code>snpp</code> सिर्फ़ वह आग गिनता है जो Suomi NPP ने देखी, क्योंकि यही अकेला उपग्रह हर साल काम करता रहा है, इसलिए सालों की तुलना इसी से करें। 17 अक्टूबर 2026 से हर दिन पूरे पाकिस्तान और भारत का है, उससे पहले सिर्फ़ 25 से 35.5 डिग्री उत्तर और 66 से 88.5 डिग्री पूर्व का। सालों की तुलना के लिए जिस दिन <code>snc</code> हो वह लें (इसी उत्तरी खाने में Suomi NPP की गिनती), वरना <code>sn</code>। किसी एक दिन की आग <code>/api/day?d=2026-10-19</code> पर मिलती है।</li>
+    <li><code>/api/wind</code>: अभी की हवा, पूरे इलाक़े पर 2° के जाल पर (रफ़्तार किमी/घंटा में, और वह दिशा जिधर से हवा आ रही है; <code>step</code> जाल की दूरी है), हर घंटे ताज़ा।</li>
     <li><code>/api/no2.json</code>: दो हफ़्तों के NO₂ औसत की तारीख़ें, सीमाएँ और लेबल वाले हॉटस्पॉट। इसकी तस्वीर <code>/api/no2.png</code> (वेब मर्केटर) या <code>/api/no2-geo.png</code> (सादे अक्षांश-देशांतर) पर है।</li>
     <li><code>/sources/sites.json</code>: श्रेणी के हिसाब से प्रदूषण के स्थायी ठिकाने।</li>
     <li><code>/sources/kilns.json</code>, <code>osm-landfill.json</code>, <code>osm-industrial.json</code>, <code>plants.json</code>, <code>hotspots.json</code>, <code>carbonmapper.json</code>, <code>roads.json</code>: स्रोतों की परतें।</li>
