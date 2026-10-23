@@ -226,20 +226,20 @@ tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surfa
   <div class="sec-head">
     <div class="eyebrow">01 · The ledger</div>
     <h2>Same country, two different airsheds</h2>
-    <p>Lahore sits in the Indo-Gangetic Plain smog basin; Islamabad sits 500 m higher against the Margalla Hills. Over the same 24 months Lahore averaged roughly twice Islamabad's fine-particle load, and its smog season runs longer and peaks harder.</p>
+    <p>Lahore sits in the Indo-Gangetic Plain smog basin; Islamabad sits about 300 m higher against the Margalla Hills. Over the same 24 months Lahore averaged roughly twice Islamabad's fine-particle load, and its smog season runs longer and peaks harder.</p>
   </div>
   <div class="ledger">
     <div class="city lhr" id="card-lhr"></div>
     <div class="city isb" id="card-isb"></div>
   </div>
   <div class="bands" style="margin-top:14px">
-    <span><i style="background:var(--good)"></i>Good ≤12</span>
-    <span><i style="background:var(--mod)"></i>Moderate 12–35</span>
+    <span><i style="background:var(--good)"></i>Good ≤9</span>
+    <span><i style="background:var(--mod)"></i>Moderate 9–35</span>
     <span><i style="background:var(--usg)"></i>Unhealthy for sensitive 35–55</span>
-    <span><i style="background:var(--unh)"></i>Unhealthy 55–150</span>
-    <span><i style="background:var(--vunh)"></i>Very unhealthy 150–250</span>
-    <span><i style="background:var(--haz)"></i>Hazardous &gt;250</span>
-        <span style="color:var(--ink-3)">Bands are US EPA PM2.5 breakpoints, µg/m³ monthly mean</span>
+    <span><i style="background:var(--unh)"></i>Unhealthy 55–125</span>
+    <span><i style="background:var(--vunh)"></i>Very unhealthy 125–225</span>
+    <span><i style="background:var(--haz)"></i>Hazardous &gt;225</span>
+        <span style="color:var(--ink-3)">Bands are the US EPA PM2.5 breakpoints revised in 2024, µg/m³ monthly mean</span>
   </div>
 </section>
 
@@ -247,7 +247,7 @@ tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surfa
   <div class="sec-head">
     <div class="eyebrow">02 · Monthly PM2.5</div>
     <h2>The winter spike is the whole story</h2>
-    <p>Both cities are moderate-to-poor from March to September, then step up together in October. Lahore's step is two to three times taller: November 2024 averaged 286 µg/m³, a typical-day AQI of 336, the worst month either city recorded. The one month Islamabad came close was December 2025, when it hit 122 µg/m³ against Lahore's 171.</p>
+    <p>Both cities are moderate-to-poor from March to September, then step up together in October. Lahore's step is two to three times taller: November 2024 averaged 286 µg/m³, a typical-day AQI of 422, the worst month either city recorded. The one month Islamabad came close was December 2025, when it hit 122 µg/m³ against Lahore's 171.</p>
   </div>
   <div class="chart-card">
     <div class="chart-top">
@@ -263,7 +263,7 @@ tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surfa
   <div class="sec-head">
     <div class="eyebrow">03 · Month by month</div>
     <h2>The 24-month table</h2>
-    <p>US AQI is computed from the monthly mean PM2.5 using the EPA breakpoints, so it reads as "the AQI of a typical day that month". Daily peaks run far higher: IQAir logged Lahore days above 500 AQI in November 2024.</p>
+    <p>US AQI is computed from the monthly mean PM2.5 using the EPA breakpoints, so it reads as "the AQI of a typical day that month". Daily peaks run far higher: PAQI's sensor network logged a daily mean of 539 µg/m³ in Lahore on 14 November 2024, beyond the top of the AQI scale.</p>
   </div>
   <div class="tbl-wrap"><table id="tbl"></table></div>
 </section>
@@ -329,7 +329,7 @@ tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surfa
         </div>
         <div class="study">
           <div class="t"><h4>What Pak-EPA names, without percentages</h4><span class="who">Pak-EPA statements, Nov 2024 – Oct 2025</span></div>
-          <p>Vehicles and road dust; non-zigzag brick kilns on the outskirts (demolished in sectors H-16 and H-17 after an October 2025 deadline); steel units; round-the-clock construction machinery on Blue Area high-rises; pollution drifting in from Rawalpindi; CDA burning garbage in public bins. PM2.5 makes up about 90% of the pollution load. December 2024 was the worst month on record, with a daily AQI peak of 250.</p>
+          <p>Vehicles and road dust; non-zigzag brick kilns on the outskirts (demolished in sectors H-16 and H-17 after an October 2025 deadline); steel units; round-the-clock construction machinery on Blue Area high-rises; pollution drifting in from Rawalpindi; CDA burning garbage in public bins. December 2024 was the worst month on record, with a daily AQI peak of 250.</p>
           <p class="cite"><a href="https://www.dawn.com/news/1872628">Dawn, 16 Nov 2024</a> · <a href="https://www.dawn.com/news/1881872">Dawn, 30 Dec 2024</a> · <a href="https://www.nation.com.pk/30-Oct-2025/pak-epa-ict-jointly-demolish-polluting-brick-kilns-islamabad">The Nation, 30 Oct 2025</a></p>
         </div>
         <div class="study">
@@ -356,7 +356,7 @@ tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surfa
   </div>
   <div class="proj">
     <div class="row"><div class="h">Lahore Division<b>2030</b>model</div><div class="b"><h4>Business as usual: 87 → 99.8 µg/m³. With the $300M Punjab Clean Air Program: 97.5, and about 6 µg/m³ lower by 2035.</h4><p>The only model-based, city-level projection that exists. The World Bank labels it provisional, to be revised once Punjab's emissions inventory is built. The program funds 600 electric buses, 5,000 super-seeders for rice stubble, kiln conversions and monitoring, and closes in June 2030. The "35% cut in a decade" figure in press coverage is a Pakistan-wide World Bank target, not a Lahore projection.</p><p class="cite"><a href="https://documents1.worldbank.org/curated/en/099031125130541245/pdf/BOSIB-24959940-b035-4866-b64c-524e45f2cc0a.pdf">Program Appraisal Document, Mar 2025</a> · <a href="https://www.worldbank.org/en/news/press-release/2025/03/27/pakistan-world-bank-supports-punjab-s-smog-mitigation-action-plan-with-300-million-concessional-loan">press release</a></p></div></div>
-    <div class="row"><div class="h">Lahore<b>2030</b>policy target</div><div class="b"><h4>30% below the 2022 annual PM2.5 in Lahore, Faisalabad, Gujranwala and Multan.</h4><p>Punjab Clean Air Policy, notified April 2023. Against IQAir's 2022 value of 97.4 µg/m³ that implies about 68 µg/m³ in 2030, still 13 times the WHO guideline. It is a target with no modelling behind it. The same policy promises all brick kilns on zigzag technology by 2030 and a 25% cut in NOx, SOx, ozone and CO from 2021 levels.</p><p class="cite"><a href="https://punjablaws.punjab.gov.pk/uploads/articles/punjab-clean-air-policy-pdf1.pdf">Punjab Clean Air Policy 2023</a></p></div></div>
+    <div class="row"><div class="h">Lahore<b>2030</b>policy target</div><div class="b"><h4>30% below the 2022 annual PM2.5 in Lahore, Faisalabad, Gujranwala and Multan.</h4><p>Punjab Clean Air Policy, notified April 2023. Against IQAir's 2022 value of 97.4 µg/m³ that implies about 68 µg/m³ in 2030, still about 14 times the WHO guideline. It is a target with no modelling behind it. The same policy promises all brick kilns on zigzag technology by 2030 and a 25% cut in NOx, SOx, ozone and CO from 2021 levels.</p><p class="cite"><a href="https://punjablaws.punjab.gov.pk/uploads/articles/punjab-clean-air-policy-pdf1.pdf">Punjab Clean Air Policy 2023</a></p></div></div>
     <div class="row"><div class="h">Punjab<b>2030</b>scenarios</div><div class="b"><h4>Population-weighted PM2.5 of 48.8 µg/m³ if 2018 laws are fully enforced; 41.9 with ad-hoc measures; 28.6 with cost-optimal airshed cooperation; 17.3 at the technical maximum.</h4><p>World Bank and IIASA GAINS modelling for the "Punjab (Pakistan)" region, the closest scenario set for both cities. About 40% of the achievable reduction in the Indo-Gangetic Plain depends on controls outside one's own region, which is the case for treating the two Punjabs, Haryana and Delhi as one airshed. The Bank's later program document puts Punjab on a rising path instead: 52 today to 58 by 2030 without action.</p><p class="cite"><a href="https://pure.iiasa.ac.at/id/eprint/18651/1/P1682370b4ac4a0270ac2702e1cfb704198.pdf">Striving for Clean Air, 2023</a>, Tables A.4.1 and A.4.3 · <a href="https://iopscience.iop.org/article/10.1088/2515-7620/ad9b74">Purohit et al., 2024</a></p></div></div>
     <div class="row"><div class="h">Pakistan<b>2035</b>target</div><div class="b"><h4>"35 by 35": national population-weighted PM2.5 from 55 to 35 µg/m³ by 2035, the WHO interim target 1.</h4><p>Adopted in the World Bank Country Partnership Framework for 2026–35 and echoed in the National Clean Air Policy, which targets PM2.5 emissions 38% below baseline in 2030 and 81% below in 2040. SEI's modelling of that policy's 18 measures finds a 36–39% emissions cut by 2030 if implemented. A September 2026 review estimates full implementation would avert about 129,500 deaths a year by 2040.</p><p class="cite"><a href="https://mocc.gov.pk/SiteImage/Misc/files/NCAP%20(28-02-2023)%20v1.pdf">National Clean Air Policy 2023</a> · <a href="https://www.sei.org/publications/air-pollutant-emissions-pakistan-clean-air-policy/">Slater et al., SEI 2024</a> · <a href="https://www.dawn.com/news/2028277/clean-air-finance-must-target-outcomes">Dawn, 8 Sep 2026</a></p></div></div>
     <div class="row"><div class="h">Pakistan<b>2050</b>model</div><div class="b"><h4>Under current legislation PM2.5 rises about 1.5× by 2050; under stringent controls it halves.</h4><p>IIASA GAINS modelling for Pakistan as a whole. A separate 2025 disease-burden model finds PM2.5 rising 0.2–0.5 µg/m³ a year over four decades and PM2.5-attributable deaths passing 290,000 a year by 2030 on the current path, versus about 29,000 under mitigation.</p><p class="cite"><a href="https://www.sciencedirect.com/science/article/pii/S1462901122000958">Mir et al., Environmental Science &amp; Policy 2022</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/40090455/">Khan et al., Environmental Pollution 2025</a></p></div></div>
@@ -367,7 +367,7 @@ tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surfa
   <div class="chart-card" style="margin-top:20px">
     <div class="chart-top"><h3>Lahore's 2030 on one scale, annual PM2.5 µg/m³</h3><div class="legend"><span><i class="lhr"></i>Projection or target</span><span><i style="background:var(--ink-3)"></i>Reference level</span></div></div>
     <div class="proj-bars" id="projbars"></div>
-    <p class="chart-note">The World Bank rows are for Lahore Division (13 million people), a wider and slightly cleaner area than the IQAir city reading. Even the policy target leaves Lahore where Islamabad was in December 2024 on an annual basis.</p>
+    <p class="chart-note">The World Bank rows are for Lahore Division (13 million people), a wider and slightly cleaner area than the IQAir city reading. Even the policy target, about 68 µg/m³ year-round, is well above Islamabad's 24-month average of 47 and close to Islamabad's January 2025 (76 µg/m³).</p>
   </div>
 </section>
 
@@ -391,8 +391,8 @@ tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surfa
       <ul>
         <li>Hourly PM2.5, PM10, NO₂, SO₂, O₃, CO and dust for 1 Sep 2024 – 13 Sep 2026 from the Open-Meteo Air Quality API (Copernicus CAMS global reanalysis and forecast, ~11 km grid), averaged to months.</li>
         <li>CAMS under-reads the ground network in winter by a wide margin: Oct–Feb IQAir/CAMS ratio averages 1.5 in Lahore and 1.6 in Islamabad, and CAMS over-reads Islamabad in summer (ratio 0.8). That is why the model series is used only for the pollutant mix, never for the headline numbers.</li>
-        <li>US AQI per month is derived from the monthly mean PM2.5 with the 2024 EPA breakpoints (12 / 35.4 / 55.4 / 150.4 / 250.4 µg/m³). IQAir's own monthly AQI figures for Oct 2025 – Sep 2026 matched this derivation within 1–2 points.</li>
-        <li>aqi.in, a second aggregator with its own sensors, reads Lahore's 2025 annual AQI as 142 and 2026 to date as 116, consistent in direction with IQAir (2025 worse than 2026 so far).</li>
+        <li>US AQI per month is derived from the monthly mean PM2.5 with the EPA breakpoints revised in February 2024 (9.0 / 35.4 / 55.4 / 125.4 / 225.4 µg/m³; 325.4 is AQI 500). IQAir's own monthly AQI figures for Oct 2025 – Sep 2026 match this derivation exactly in 22 of 24 months; the two exceptions (Lahore, Dec 2025 and Jun 2026) are months where IQAir's published AQI and PM2.5 disagree with each other. An earlier version of this report used the pre-2024 breakpoints, which understated the AQI of every polluted month.</li>
+        <li>aqi.in, a second aggregator with its own sensors, reads Lahore's 2025 annual PM2.5 as 71 µg/m³ and 2026 to date as 51, consistent in direction with IQAir (2025 worse than 2026 so far).</li>
       </ul>
     </div>
   </div>
@@ -409,9 +409,9 @@ const DATA = {
     cams:{no2:[50.9,32.9],so2:[15.4,9.8],o3:[54.4,95.0],co:[1222,810],dust:[6.4,32.2],pm10:[52.1,50.3]}}
 };
 
-const BP=[[0,12,0,50],[12.1,35.4,51,100],[35.5,55.4,101,150],[55.5,150.4,151,200],[150.5,250.4,201,300],[250.5,350.4,301,400],[350.5,500.4,401,500]];
+const BP=[[0,9,0,50],[9.1,35.4,51,100],[35.5,55.4,101,150],[55.5,125.4,151,200],[125.5,225.4,201,300],[225.5,325.4,301,500]]; // US EPA, revised Feb 2024
 function aqi(c){for(const [lo,hi,a,b] of BP){if(c<=hi)return Math.round((b-a)/(hi-lo)*(Math.max(c,lo)-lo)+a)}return 500}
-function band(c){return c<=12?"good":c<=35.4?"mod":c<=55.4?"usg":c<=150.4?"unh":c<=250.4?"vunh":"haz"}
+function band(c){return c<=9?"good":c<=35.4?"mod":c<=55.4?"usg":c<=125.4?"unh":c<=225.4?"vunh":"haz"}
 const BANDNAME={good:"Good",mod:"Moderate",usg:"Unhealthy for sensitive groups",unh:"Unhealthy",vunh:"Very unhealthy",haz:"Hazardous"};
 const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const fmtM=s=>MON[+s.slice(5,7)-1]+" "+s.slice(0,4);
@@ -434,7 +434,7 @@ for(const k of ["lhr","isb"]){
       <div class="tile"><span class="l">Months "unhealthy" or worse</span><span class="v num">${unh}<small>of 24</small></span></div>
       <div class="tile"><span class="l">IQAir 2025 annual</span><span class="v num">${d.annual2025}<small>µg/m³</small></span></div>
       <div class="tile"><span class="l">IQAir 2024 annual</span><span class="v num">${d.annual2024}<small>µg/m³</small></span></div>
-      <div class="tile"><span class="l">2025 world rank</span><span class="v">${d.rank}<small>of 9,700 cities</small></span></div>
+      <div class="tile"><span class="l">2025 world rank</span><span class="v">${d.rank}<small>in IQAir's 2025 city ranking</small></span></div>
     </div>
     <div class="strip">${strip(2024)}${strip(2025)}${strip(2026)}<div class="months"><span></span>${MON.map(m=>`<span>${m[0]}</span>`).join("")}</div></div>`;
 }
@@ -497,10 +497,10 @@ for(const k of ["lhr","isb"]){
 /* pollutant profile */
 (function(){
   const P=[["no2","Nitrogen dioxide","NO₂ · µg/m³","Traffic and combustion. Higher in winter in both cities as inversions trap exhaust; Lahore and Islamabad are surprisingly close, a sign that Islamabad's growing vehicle fleet is its main gaseous source."],
-           ["so2","Sulphur dioxide","SO₂ · µg/m³","Coal, furnace oil and brick kilns. Lahore's winter level is 1.6× Islamabad's, tracking the kiln belt and industrial estates south and east of the city."],
+           ["so2","Sulphur dioxide","SO₂ · µg/m³","Coal, furnace oil and brick kilns. Lahore's winter level is 1.5× Islamabad's, tracking the kiln belt and industrial estates south and east of the city."],
            ["co","Carbon monoxide","CO · µg/m³","Incomplete combustion: vehicles, biomass and waste burning. Lahore's winter CO is the single clearest fingerprint of open burning plus trapped traffic exhaust."],
            ["o3","Ozone","O₃ · µg/m³","Forms in sunlight from NO₂ and hydrocarbons, so it peaks in summer, opposite to PM2.5. Islamabad's summer ozone is nearly as high as Lahore's."],
-           ["dust","Mineral dust","dust · µg/m³","Natural, from the Thar and Iranian deserts and local soil. Peaks April–June. This, not smog, is what drives Lahore's summer PM10 to 3× its PM2.5."],
+           ["dust","Mineral dust","dust · µg/m³","Natural, from the Thar and Iranian deserts and local soil. Peaks April–June. This, not smog, is what drives Lahore's summer PM10 to about 2.5× its PM2.5."],
            ["pm10","Coarse particles","PM10 · µg/m³","Road dust, construction and desert dust plus everything in PM2.5. Lahore's PM10 stays high year-round; Islamabad's is roughly half."]];
   let h="";
   for(const [k,name,unit,txt] of P){

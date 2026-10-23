@@ -77,6 +77,9 @@
   // Suomi NPP count for the chosen country. Days archived before the split existed only have the total.
   function val(e) {
     if (!e || e.partial) return null;
+    // Suomi NPP returned no usable data (NASA's 2-6 Nov 2024 outage, dropped passes) when it saw almost
+    // nothing on a day the other satellites saw plenty: missing, not zero.
+    if (e.sn && e.sn[0] < 20 && e.spots >= 200 && e.sn[0] * 20 < e.spots) return null;
     if (e.sn) return e.sn[col()];
     return col() === 0 && e.snpp != null ? e.snpp : null;
   }

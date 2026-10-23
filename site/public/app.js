@@ -435,8 +435,9 @@
     const days = (tr?.days || []).map(([date, spots, pk, inn, , partial]) => ({ date, n: pick({ spots, pk, in: inn }), partial }));
     if (!tr || (!tr.prev && days.length < 2)) { box.hidden = true; return; }
     let txt = "";
+    // Compare like with like: both windows come from the same points and end at the newest detection.
     if (tr.prev && pick(tr.prev) > 0) {
-      const pct = Math.round(((total - pick(tr.prev)) / pick(tr.prev)) * 100);
+      const pct = Math.round(((pick(tr.cur || { spots: total, pk: total, in: total }) - pick(tr.prev)) / pick(tr.prev)) * 100);
       txt = Math.abs(pct) < 5 ? t("trendSame", { w }) : t(pct > 0 ? "trendUp" : "trendDown", { p: nf(Math.abs(pct)), w });
       box.classList.toggle("up", pct >= 5);
     } else {

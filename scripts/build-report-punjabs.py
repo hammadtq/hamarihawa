@@ -165,7 +165,7 @@ L10N = {
 TEXT = {
 "en": """  <p class="kicker">Report · {date}</p>
   <h1>Two Punjabs: seven seasons of crop fires</h1>
-  <p class="lede">Between {peak_in} and {last}, the crop fires NASA's satellites saw in Indian Punjab fell by {in_fall}%. Across the border, Pakistani Punjab ended higher than it started: {pk0} fire spots in {y0}, {pk1} in {last}. Since {cross}, the satellite has seen more crop fires in Pakistani Punjab than in Indian Punjab, and in {last} it saw {ratio} times as many.</p>
+  <p class="lede">Between {peak_in} and {last}, the crop fires NASA's Suomi NPP satellite saw in Indian Punjab fell by {in_fall}%. Across the border, Pakistani Punjab ended higher than it started: {pk0} fire spots in {y0}, {pk1} in {last}. Since {cross}, the satellite has seen more crop fires in Pakistani Punjab than in Indian Punjab, and in {last} it saw {ratio} times as many.</p>
   <p class="muted">Parali ki aag: {peak_in} se {last} tak Indian Punjab mein satellite ko dikhne wali aag {in_fall}% kam hui, magar Pakistani Punjab mein nahi. {last} mein Pakistani Punjab mein {ratio} guna zyada aag dikhi.</p>
   <div class="facts">
     <div class="fact sketch"><b dir="ltr">−{in_fall}%</b><span>Indian Punjab, {peak_in} to {last}</span></div>
@@ -190,7 +190,7 @@ TEXT = {
 
   <h2 id="missed">Fewer fires, or fires the satellite missed?</h2>
   <p>Fire counts are a floor, not a total. A polar-orbiting satellite like Suomi NPP passes over around 1:30 pm and 1:30 am, and only sees a fire that is burning at that moment. Over the past two seasons, Indian researchers and NASA scientist Hiren Jethva have shown that many farmers in Indian Punjab now burn in the late afternoon, after the daytime pass. The think tank iFOREST, using a European geostationary satellite that looks every 15 minutes, found that over 90% of large farm fires in Punjab in 2024 and 2025 started after 3 pm, against 3% in 2021. Burnt-area maps tell the same story: iFOREST puts Punjab's burnt area at about 20,000 km² in 2025, down from 31,447 km² in 2022, a fall of about a third rather than the {fall22}% fall in fire counts.</p>
-  <p>Our own data shows a trace of this shift. The night pass catches very few crop fires anywhere, but in Indian Punjab and Haryana the night count held steady or rose while daytime fires collapsed, so the share caught at night went up sharply. In Pakistani Punjab it stayed flat, at around 3–6% every season.</p>
+  <p>Our own data shows a trace of this shift. The night pass catches very few crop fires anywhere, but in Indian Punjab and Haryana the night count rose between 2019 and 2025 while daytime fires collapsed, so the share caught at night went up sharply. In Pakistani Punjab it stayed flat, at around 3–6% every season.</p>
   {chart_night}
   {table_night}
   <p>So two things are true at once. Burning in Indian Punjab has really fallen, but by much less than the fire counts say, because more of it now happens out of the satellite's sight. In Pakistani Punjab we see no sign of the same shift: the counts haven't fallen and the night share hasn't moved. That makes the gap between the two Punjabs in recent seasons partly an artefact of timing, and the true gap is probably smaller than {ratio} times. It does not make it disappear: on the counts that both sides are measured by, Pakistani Punjab went from a quarter of India's number to well over it. Settling the real size of the gap needs geostationary or burnt-area data for the Pakistani side, which nobody has published.</p>
@@ -201,17 +201,18 @@ TEXT = {
   <p>Watch any season move district by district on the <a href="/trends/#districts">fire trends map</a>.</p>
 
   <h2 id="when">When the burning peaks</h2>
-  <p>The busiest week usually starts in the last days of October or the first days of November on both sides. In 2023 and 2024 Pakistani Punjab peaked about two weeks later than Indian Punjab, in mid-November.</p>
+  <p>The busiest week usually starts in the last days of October or the first days of November on both sides. In 2023 Pakistani Punjab peaked about ten days after Indian Punjab; in 2024 both sides peaked in the same week, from 17 November, late for both.</p>
   {table_peak}
 
   <h2 id="method">How this was counted</h2>
   <ul>
     <li><b>Data</b>: NASA FIRMS active fires from the VIIRS instrument on Suomi NPP (375 m pixels), final processing, 1 October–30 November of each year, downloaded through the FIRMS area API.</li>
-    <li><b>One satellite</b>: newer satellites (NOAA-20 from 2018, NOAA-21 from 2023) see more fires. Counting only Suomi NPP keeps every season on the same footing.</li>
+    <li><b>One satellite</b>: the newer satellites (NOAA-20, in NASA's archive from 2020, and NOAA-21 from 2023) add passes of their own, so counts that include them aren't comparable across years. Counting only Suomi NPP keeps every season on the same footing.</li>
     <li><b>Fire spots</b>: low-confidence detections are dropped; the same spot seen more than once in a day counts once. Days run on Pakistan time.</li>
     <li><b>Where</b>: each spot is placed in a district and province using GeoNames place data, the same way the <a href="/">live map</a> names fires.</li>
     <li><b>India's official counts</b>: as published by CAQM and the Punjab Remote Sensing Centre and reported in the press. Some years have more than one published figure (2019 is also given as 55,210 and 2020 as 83,002); we use the more commonly cited one.</li>
     <li><b>Limits</b>: counts miss fires lit and put out between satellite passes, and fires under cloud or thick smoke. They count places that were burning, not area burnt or smoke produced.</li>
+    <li><b>Missing days</b>: Suomi NPP returned no data on 4–6 November 2024 (a NASA outage in the middle of the season) and missed its afternoon pass on 31 October 2019, 2 November 2023, 3 November 2024 and 12 November 2025. Those days count as zero here, so the 2024 totals in particular are low: on 3–6 November 2024 NOAA-20 saw about 1,700 spots in Pakistani Punjab and 1,100 in Indian Punjab, roughly a seventh of each side's season. The gap days are listed in <code>seasons.json</code>. Over the Thar desert the same unconfirmed-burst filter as the live map is applied, using the other satellites as witnesses; it changes nothing in the three regions counted here.</li>
     <li><b>Download</b>: every number on this page is in <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a> (CC BY 4.0). Daily totals for both countries are at <a href="/api/days"><code>/api/days</code></a>.</li>
   </ul>
   <p class="muted">Sources for others' findings: iFOREST's geostationary analysis and Hiren Jethva's observations as reported by {src_tribune} and {src_hpw}; CEEW's {src_ceew}; India's official counts as reported by {src_off1} and {src_off2}.</p>
@@ -219,7 +220,7 @@ TEXT = {
 
 "ur": """  <p class="kicker">رپورٹ · {date}</p>
   <h1>دو پنجاب: فصلوں کی آگ کے سات موسم</h1>
-  <p class="lede">{peak_in} سے {last} کے دوران ہندوستانی پنجاب میں ناسا کے سیٹلائٹس نے فصلوں کی جو آگ دیکھی، وہ {in_fall}% کم ہو گئی۔ سرحد کے اُس پار پاکستانی پنجاب میں یہ تعداد کم نہیں ہوئی بلکہ بڑھی: {y0} میں {pk0} مقامات پر آگ دیکھی گئی تھی اور {last} میں {pk1} مقامات پر۔ {cross} سے سیٹلائٹ کو ہندوستانی پنجاب کے مقابلے میں پاکستانی پنجاب میں زیادہ آگ نظر آ رہی ہے، اور {last} میں یہ تعداد {ratio} گنا تھی۔</p>
+  <p class="lede">{peak_in} سے {last} کے دوران ہندوستانی پنجاب میں ناسا کے سیٹلائٹ Suomi NPP نے فصلوں کی جو آگ دیکھی، وہ {in_fall}% کم ہو گئی۔ سرحد کے اُس پار پاکستانی پنجاب میں یہ تعداد کم نہیں ہوئی بلکہ بڑھی: {y0} میں {pk0} مقامات پر آگ دیکھی گئی تھی اور {last} میں {pk1} مقامات پر۔ {cross} سے سیٹلائٹ کو ہندوستانی پنجاب کے مقابلے میں پاکستانی پنجاب میں زیادہ آگ نظر آ رہی ہے، اور {last} میں یہ تعداد {ratio} گنا تھی۔</p>
   <div class="facts">
     <div class="fact sketch"><b dir="ltr">−{in_fall}%</b><span>ہندوستانی پنجاب، {peak_in} سے {last} تک</span></div>
     <div class="fact sketch"><b dir="ltr">{pk_pct}%</b><span>پاکستانی پنجاب، {y0} سے {last} تک</span></div>
@@ -243,7 +244,7 @@ TEXT = {
 
   <h2 id="missed">کیا آگ واقعی کم ہوئی، یا سیٹلائٹ کی نظر سے بچ گئی؟</h2>
   <p>آگ کی گنتی اصل تعداد نہیں بلکہ کم از کم تعداد بتاتی ہے۔ Suomi NPP جیسا قطبی مدار میں گھومنے والا سیٹلائٹ اس علاقے کے اوپر سے دوپہر اور رات کو تقریباً ڈیڑھ بجے گزرتا ہے، اور صرف وہی آگ دیکھ پاتا ہے جو اُس وقت جل رہی ہو۔ پچھلے دو موسموں میں ہندوستانی محققین اور ناسا کے سائنس دان ہیرن جیٹھوا نے دکھایا ہے کہ ہندوستانی پنجاب میں بہت سے کسان اب سیٹلائٹ کے دوپہر والے چکر کے بعد، سہ پہر یا شام کو پرالی جلاتے ہیں۔ تحقیقی ادارے iFOREST نے ایک یورپی جیوسٹیشنری سیٹلائٹ کی مدد سے، جو ہر 15 منٹ بعد تصویر لیتا ہے، یہ معلوم کیا کہ 2024 اور 2025 میں پنجاب میں فصلوں کی 90 فیصد سے زیادہ بڑی آگ سہ پہر 3 بجے کے بعد لگائی گئی، جبکہ 2021 میں یہ شرح صرف 3 فیصد تھی۔ جلے ہوئے رقبے کے نقشے بھی یہی کہانی سناتے ہیں: iFOREST کے مطابق 2025 میں پنجاب میں تقریباً 20,000 مربع کلومیٹر رقبہ جلا، جو 2022 کے 31,447 مربع کلومیٹر سے تقریباً ایک تہائی کم ہے، جبکہ اسی عرصے میں آگ کی گنتی {fall22} فیصد گری۔</p>
-  <p>ہمارے اپنے ڈیٹا میں بھی اس تبدیلی کی جھلک ملتی ہے۔ رات کے چکر میں کہیں بھی فصلوں کی بہت کم آگ نظر آتی ہے، لیکن ہندوستانی پنجاب اور ہریانہ میں رات کو دکھنے والی آگ یا تو اتنی ہی رہی یا بڑھ گئی، جبکہ دن کی آگ بہت کم ہو گئی۔ اسی لیے وہاں رات کو دکھنے والی آگ کا حصہ تیزی سے بڑھا۔ پاکستانی پنجاب میں یہ حصہ ہر موسم تقریباً 3 سے 6 فیصد کے درمیان ہی رہا۔</p>
+  <p>ہمارے اپنے ڈیٹا میں بھی اس تبدیلی کی جھلک ملتی ہے۔ رات کے چکر میں کہیں بھی فصلوں کی بہت کم آگ نظر آتی ہے، لیکن ہندوستانی پنجاب اور ہریانہ میں 2019 سے 2025 کے درمیان رات کو دکھنے والی آگ بڑھ گئی، جبکہ دن کی آگ بہت کم ہو گئی۔ اسی لیے وہاں رات کو دکھنے والی آگ کا حصہ تیزی سے بڑھا۔ پاکستانی پنجاب میں یہ حصہ ہر موسم تقریباً 3 سے 6 فیصد کے درمیان ہی رہا۔</p>
   {chart_night}
   {table_night}
   <p>یعنی دو باتیں بیک وقت درست ہیں۔ ہندوستانی پنجاب میں پرالی جلانا واقعی کم ہوا ہے، مگر اتنا نہیں جتنا آگ کی گنتی بتاتی ہے، کیونکہ اب اس کا بڑا حصہ سیٹلائٹ کی نظر سے اوجھل رہتا ہے۔ پاکستانی پنجاب میں ہمیں ایسی کسی تبدیلی کا نشان نہیں ملتا: نہ آگ کی گنتی کم ہوئی، نہ رات کا حصہ بدلا۔ لہٰذا حالیہ موسموں میں دونوں پنجابوں کے فرق کی ایک وجہ آگ لگانے کا وقت بھی ہے، اور اصل فرق غالباً {ratio} گنا سے کم ہے۔ لیکن اس سے یہ فرق ختم نہیں ہو جاتا: جس پیمانے سے دونوں کو ناپا جاتا ہے، اُس پر پاکستانی پنجاب ہندوستان کے ایک چوتھائی سے بڑھ کر اُس سے کہیں آگے نکل گیا ہے۔ اصل فرق جاننے کے لیے پاکستانی پنجاب کا جیوسٹیشنری سیٹلائٹ یا جلے ہوئے رقبے کا ڈیٹا درکار ہے، جو اب تک کسی نے شائع نہیں کیا۔</p>
@@ -254,17 +255,18 @@ TEXT = {
   <p>کسی بھی موسم میں آگ کو ضلع بہ ضلع پھیلتے دیکھنے کے لیے <a href="/trends/#districts">آگ کے رجحان کا نقشہ</a> دیکھیں۔</p>
 
   <h2 id="when">آگ عروج پر کب ہوتی ہے</h2>
-  <p>دونوں جانب سب سے زیادہ آگ والا ہفتہ عموماً اکتوبر کے آخری یا نومبر کے ابتدائی دنوں میں شروع ہوتا ہے۔ 2023 اور 2024 میں پاکستانی پنجاب میں یہ عروج ہندوستانی پنجاب سے تقریباً دو ہفتے بعد، وسط نومبر میں آیا۔</p>
+  <p>دونوں جانب سب سے زیادہ آگ والا ہفتہ عموماً اکتوبر کے آخری یا نومبر کے ابتدائی دنوں میں شروع ہوتا ہے۔ 2023 میں پاکستانی پنجاب میں یہ عروج ہندوستانی پنجاب سے تقریباً دس دن بعد آیا؛ 2024 میں دونوں طرف عروج ایک ہی ہفتے میں، 17 نومبر سے، آیا، جو دونوں کے لیے دیر سے تھا۔</p>
   {table_peak}
 
   <h2 id="method">یہ اعداد کیسے گنے گئے</h2>
   <ul>
     <li><b>ڈیٹا</b>: ناسا FIRMS کے فعال آگ کے ریکارڈ، جو Suomi NPP سیٹلائٹ پر نصب VIIRS آلے سے حاصل ہوتے ہیں (375 میٹر پکسل)۔ ہم نے حتمی پروسیسنگ والا ڈیٹا استعمال کیا، ہر سال 1 اکتوبر سے 30 نومبر تک، جو FIRMS area API سے ڈاؤن لوڈ کیا گیا۔</li>
-    <li><b>ایک ہی سیٹلائٹ</b>: نئے سیٹلائٹ (2018 سے NOAA-20 اور 2023 سے NOAA-21) زیادہ آگ دیکھتے ہیں۔ صرف Suomi NPP کو گننے سے ہر موسم کا موازنہ ایک ہی بنیاد پر ہوتا ہے۔</li>
+    <li><b>ایک ہی سیٹلائٹ</b>: نئے سیٹلائٹ (NOAA-20، جو ناسا کے ریکارڈ میں 2020 سے ہے، اور NOAA-21، 2023 سے) اپنے الگ چکر لگاتے ہیں، اس لیے ان کو ملا کر کی گئی گنتی برسوں کے درمیان قابلِ موازنہ نہیں رہتی۔ صرف Suomi NPP کو گننے سے ہر موسم کا موازنہ ایک ہی بنیاد پر ہوتا ہے۔</li>
     <li><b>آگ کے مقامات</b>: کم یقینی والی نشاندہیاں نکال دی گئی ہیں، اور اگر ایک ہی مقام دن میں ایک سے زیادہ بار نظر آئے تو اسے ایک ہی بار گنا گیا ہے۔ دن کا حساب پاکستانی وقت کے مطابق ہے۔</li>
     <li><b>مقام کی نشاندہی</b>: ہر مقام کو GeoNames کے ڈیٹا کی مدد سے کسی ضلع اور صوبے میں رکھا گیا ہے، بالکل اسی طرح جیسے <a href="/">تازہ نقشہ</a> ہر آگ کو اس کے قریبی مقام کا نام دیتا ہے۔</li>
     <li><b>ہندوستان کے سرکاری اعداد</b>: CAQM اور پنجاب ریموٹ سینسنگ سینٹر کے جاری کردہ، جیسا کہ اخبارات میں شائع ہوئے۔ بعض سالوں کے ایک سے زیادہ اعداد سامنے آئے (2019 کے لیے 55,210 اور 2020 کے لیے 83,002 بھی)؛ ہم نے وہ عدد لیا ہے جو زیادہ تر حوالوں میں آتا ہے۔</li>
     <li><b>حدود</b>: یہ گنتی اُس آگ کو شامل نہیں کرتی جو سیٹلائٹ کے دو چکروں کے درمیان لگ کر بجھ جائے، یا جو بادل یا گہرے دھوئیں کے نیچے ہو۔ یہ جلتے ہوئے مقامات گنتی ہے، جلا ہوا رقبہ یا پیدا ہونے والا دھواں نہیں۔</li>
+    <li><b>غائب دن</b>: 4 سے 6 نومبر 2024 کو Suomi NPP کا ڈیٹا دستیاب نہیں تھا (موسم کے عین درمیان ناسا کی خرابی)، اور 31 اکتوبر 2019، 2 نومبر 2023، 3 نومبر 2024 اور 12 نومبر 2025 کو اس کا دوپہر کا چکر نہیں ملا۔ یہاں یہ دن صفر گنے گئے ہیں، اس لیے خاص طور پر 2024 کے مجموعے کم ہیں: 3 سے 6 نومبر 2024 کو NOAA-20 نے پاکستانی پنجاب میں تقریباً 1,700 اور ہندوستانی پنجاب میں 1,100 مقامات پر آگ دیکھی، یعنی ہر طرف کے موسم کا تقریباً ساتواں حصہ۔ غائب دنوں کی فہرست <code>seasons.json</code> میں ہے۔ صحرائے تھر پر وہی فلٹر لگایا گیا ہے جو لائیو نقشے پر غیر تصدیق شدہ آگ کے جھونکے ہٹاتا ہے، اور دوسرے سیٹلائٹ اس کے گواہ ہیں؛ یہاں گنے گئے تینوں علاقوں میں اس سے کچھ نہیں بدلتا۔</li>
     <li><b>ڈاؤن لوڈ</b>: اس صفحے کے تمام اعداد <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a> میں موجود ہیں (CC BY 4.0)۔ دونوں ملکوں کے روزانہ اعداد <a href="/api/days"><code>/api/days</code></a> پر دستیاب ہیں۔</li>
   </ul>
   <p class="muted">دوسروں کی تحقیق کے حوالے: iFOREST کا جیوسٹیشنری تجزیہ اور ہیرن جیٹھوا کے مشاہدات، {src_tribune} اور {src_hpw} کی رپورٹوں کے مطابق؛ سیٹلائٹ سے آگ کی نشاندہی پر CEEW کی {src_ceew}؛ اور ہندوستان کے سرکاری اعداد، {src_off1} اور {src_off2} کے مطابق۔</p>
@@ -272,7 +274,7 @@ TEXT = {
 
 "hi": """  <p class="kicker">रिपोर्ट · {date}</p>
   <h1>दो पंजाब: फ़सल की आग के सात मौसम</h1>
-  <p class="lede">{peak_in} से {last} के बीच भारतीय पंजाब में नासा के उपग्रहों ने फ़सल की जितनी आग देखी, वह {in_fall}% घट गई। सरहद के उस पार पाकिस्तानी पंजाब में यह संख्या घटी नहीं, बल्कि बढ़ी: {y0} में {pk0} जगहों पर आग दिखी थी और {last} में {pk1} जगहों पर। {cross} से उपग्रह को भारतीय पंजाब की तुलना में पाकिस्तानी पंजाब में ज़्यादा आग दिख रही है, और {last} में यह संख्या {ratio} गुना थी।</p>
+  <p class="lede">{peak_in} से {last} के बीच भारतीय पंजाब में नासा के उपग्रह Suomi NPP ने फ़सल की जितनी आग देखी, वह {in_fall}% घट गई। सरहद के उस पार पाकिस्तानी पंजाब में यह संख्या घटी नहीं, बल्कि बढ़ी: {y0} में {pk0} जगहों पर आग दिखी थी और {last} में {pk1} जगहों पर। {cross} से उपग्रह को भारतीय पंजाब की तुलना में पाकिस्तानी पंजाब में ज़्यादा आग दिख रही है, और {last} में यह संख्या {ratio} गुना थी।</p>
   <div class="facts">
     <div class="fact sketch"><b dir="ltr">−{in_fall}%</b><span>भारतीय पंजाब, {peak_in} से {last} तक</span></div>
     <div class="fact sketch"><b dir="ltr">{pk_pct}%</b><span>पाकिस्तानी पंजाब, {y0} से {last} तक</span></div>
@@ -296,7 +298,7 @@ TEXT = {
 
   <h2 id="missed">क्या आग सचमुच घटी, या उपग्रह की नज़र से बच गई?</h2>
   <p>आग की गिनती असल संख्या नहीं, बल्कि कम से कम संख्या बताती है। Suomi NPP जैसा ध्रुवीय कक्षा वाला उपग्रह इस इलाक़े के ऊपर से दोपहर और रात को लगभग डेढ़ बजे गुज़रता है, और सिर्फ़ वही आग देख पाता है जो उस समय जल रही हो। पिछले दो मौसमों में भारतीय शोधकर्ताओं और नासा के वैज्ञानिक हिरेन जेठवा ने दिखाया है कि भारतीय पंजाब में बहुत से किसान अब उपग्रह के दोपहर वाले चक्कर के बाद, शाम को पराली जलाते हैं। शोध संस्था iFOREST ने एक यूरोपीय भूस्थिर उपग्रह की मदद से, जो हर 15 मिनट में तस्वीर लेता है, पाया कि 2024 और 2025 में पंजाब में फ़सल की 90 प्रतिशत से ज़्यादा बड़ी आग दोपहर 3 बजे के बाद लगाई गई, जबकि 2021 में यह दर सिर्फ़ 3 प्रतिशत थी। जले हुए रकबे के नक्शे भी यही बताते हैं: iFOREST के अनुसार 2025 में पंजाब में लगभग 20,000 वर्ग किलोमीटर रकबा जला, जो 2022 के 31,447 वर्ग किलोमीटर से लगभग एक-तिहाई कम है, जबकि इसी दौरान आग की गिनती {fall22} प्रतिशत गिरी।</p>
-  <p>हमारे अपने डेटा में भी इस बदलाव की झलक मिलती है। रात के चक्कर में कहीं भी फ़सल की बहुत कम आग दिखती है, लेकिन भारतीय पंजाब और हरियाणा में रात को दिखने वाली आग या तो उतनी ही रही या बढ़ गई, जबकि दिन की आग बहुत घट गई। इसीलिए वहाँ रात को दिखने वाली आग का हिस्सा तेज़ी से बढ़ा। पाकिस्तानी पंजाब में यह हिस्सा हर मौसम लगभग 3 से 6 प्रतिशत के बीच ही रहा।</p>
+  <p>हमारे अपने डेटा में भी इस बदलाव की झलक मिलती है। रात के चक्कर में कहीं भी फ़सल की बहुत कम आग दिखती है, लेकिन भारतीय पंजाब और हरियाणा में 2019 से 2025 के बीच रात को दिखने वाली आग बढ़ गई, जबकि दिन की आग बहुत घट गई। इसीलिए वहाँ रात को दिखने वाली आग का हिस्सा तेज़ी से बढ़ा। पाकिस्तानी पंजाब में यह हिस्सा हर मौसम लगभग 3 से 6 प्रतिशत के बीच ही रहा।</p>
   {chart_night}
   {table_night}
   <p>यानी दो बातें एक साथ सच हैं। भारतीय पंजाब में पराली जलाना सचमुच घटा है, पर उतना नहीं जितना आग की गिनती बताती है, क्योंकि अब इसका बड़ा हिस्सा उपग्रह की नज़र से ओझल रहता है। पाकिस्तानी पंजाब में हमें ऐसे किसी बदलाव का निशान नहीं मिलता: न आग की गिनती घटी, न रात का हिस्सा बदला। इसलिए हाल के मौसमों में दोनों पंजाबों के फ़र्क़ की एक वजह आग लगाने का समय भी है, और असली फ़र्क़ शायद {ratio} गुना से कम है। लेकिन इससे यह फ़र्क़ मिट नहीं जाता: जिस पैमाने पर दोनों को नापा जाता है, उस पर पाकिस्तानी पंजाब भारत के एक-चौथाई से बढ़कर उससे कहीं आगे निकल गया है। असली फ़र्क़ जानने के लिए पाकिस्तानी पंजाब का भूस्थिर उपग्रह या जले रकबे का डेटा चाहिए, जो अब तक किसी ने प्रकाशित नहीं किया।</p>
@@ -307,17 +309,18 @@ TEXT = {
   <p>किसी भी मौसम में आग को ज़िला-दर-ज़िला फैलते देखने के लिए <a href="/trends/#districts">आग के रुझान का नक्शा</a> देखें।</p>
 
   <h2 id="when">आग का चरम कब आता है</h2>
-  <p>दोनों तरफ़ सबसे ज़्यादा आग वाला हफ़्ता आमतौर पर अक्टूबर के आख़िरी या नवंबर के शुरुआती दिनों में शुरू होता है। 2023 और 2024 में पाकिस्तानी पंजाब में यह चरम भारतीय पंजाब से लगभग दो हफ़्ते बाद, नवंबर के बीच में आया।</p>
+  <p>दोनों तरफ़ सबसे ज़्यादा आग वाला हफ़्ता आमतौर पर अक्टूबर के आख़िरी या नवंबर के शुरुआती दिनों में शुरू होता है। 2023 में पाकिस्तानी पंजाब में यह चरम भारतीय पंजाब से लगभग दस दिन बाद आया; 2024 में दोनों तरफ़ चरम एक ही हफ़्ते में, 17 नवंबर से, आया, जो दोनों के लिए देर से था।</p>
   {table_peak}
 
   <h2 id="method">ये आँकड़े कैसे गिने गए</h2>
   <ul>
     <li><b>डेटा</b>: नासा FIRMS के सक्रिय आग के रिकॉर्ड, जो Suomi NPP उपग्रह पर लगे VIIRS उपकरण से मिलते हैं (375 मीटर पिक्सल)। हमने अंतिम प्रोसेसिंग वाला डेटा इस्तेमाल किया, हर साल 1 अक्टूबर से 30 नवंबर तक का, जो FIRMS area API से डाउनलोड किया गया।</li>
-    <li><b>एक ही उपग्रह</b>: नए उपग्रह (2018 से NOAA-20 और 2023 से NOAA-21) ज़्यादा आग देखते हैं। सिर्फ़ Suomi NPP को गिनने से हर मौसम की तुलना एक ही आधार पर होती है।</li>
+    <li><b>एक ही उपग्रह</b>: नए उपग्रह (NOAA-20, जो नासा के रिकॉर्ड में 2020 से है, और NOAA-21, 2023 से) अपने अलग चक्कर लगाते हैं, इसलिए उन्हें मिलाकर की गई गिनती सालों के बीच तुलना के लायक नहीं रहती। सिर्फ़ Suomi NPP को गिनने से हर मौसम की तुलना एक ही आधार पर होती है।</li>
     <li><b>आग की जगहें</b>: कम भरोसे वाली पहचानें हटा दी गई हैं, और अगर एक ही जगह दिन में एक से ज़्यादा बार दिखे तो उसे एक ही बार गिना गया है। दिन का हिसाब पाकिस्तानी समय से है।</li>
     <li><b>जगह की पहचान</b>: हर जगह को GeoNames के डेटा की मदद से किसी ज़िले और प्रांत में रखा गया है, ठीक उसी तरह जैसे <a href="/">लाइव नक्शा</a> हर आग को उसकी नज़दीकी जगह का नाम देता है।</li>
     <li><b>भारत के सरकारी आँकड़े</b>: CAQM और पंजाब रिमोट सेंसिंग सेंटर के जारी किए हुए, जैसा अख़बारों में छपा। कुछ सालों के एक से ज़्यादा आँकड़े सामने आए (2019 के लिए 55,210 और 2020 के लिए 83,002 भी); हमने वह आँकड़ा लिया है जो ज़्यादातर जगह मिलता है।</li>
     <li><b>सीमाएँ</b>: यह गिनती उस आग को शामिल नहीं करती जो उपग्रह के दो चक्करों के बीच लगकर बुझ जाए, या जो बादल या घने धुएँ के नीचे हो। यह जलती हुई जगहें गिनती है, जला हुआ रकबा या पैदा हुआ धुआँ नहीं।</li>
+    <li><b>ग़ायब दिन</b>: 4 से 6 नवंबर 2024 को Suomi NPP का डेटा उपलब्ध नहीं था (मौसम के ठीक बीच में नासा की ख़राबी), और 31 अक्टूबर 2019, 2 नवंबर 2023, 3 नवंबर 2024 और 12 नवंबर 2025 को उसका दोपहर का चक्कर नहीं मिला। यहाँ ये दिन शून्य गिने गए हैं, इसलिए ख़ास तौर पर 2024 के कुल कम हैं: 3 से 6 नवंबर 2024 को NOAA-20 ने पाकिस्तानी पंजाब में लगभग 1,700 और भारतीय पंजाब में 1,100 जगहों पर आग देखी, यानी हर तरफ़ के मौसम का लगभग सातवाँ हिस्सा। ग़ायब दिनों की सूची <code>seasons.json</code> में है। थार रेगिस्तान पर वही फ़िल्टर लगाया गया है जो लाइव नक्शे पर अपुष्ट आग के झोंके हटाता है, और दूसरे उपग्रह उसके गवाह हैं; यहाँ गिने गए तीनों इलाक़ों में इससे कुछ नहीं बदलता।</li>
     <li><b>डाउनलोड</b>: इस पेज के सभी आँकड़े <a href="/report/two-punjabs/seasons.json"><code>seasons.json</code></a> में मौजूद हैं (CC BY 4.0)। दोनों देशों के रोज़ के आँकड़े <a href="/api/days"><code>/api/days</code></a> पर उपलब्ध हैं।</li>
   </ul>
   <p class="muted">दूसरों के शोध के स्रोत: iFOREST का भूस्थिर उपग्रह विश्लेषण और हिरेन जेठवा के अवलोकन, {src_tribune} और {src_hpw} की रिपोर्टों के अनुसार; उपग्रह से आग की पहचान पर CEEW की {src_ceew}; और भारत के सरकारी आँकड़े, {src_off1} और {src_off2} के अनुसार।</p>
@@ -330,7 +333,7 @@ SRC = {
     "ceew": ("https://www.ceew.in/blogs/how-does-satellite-technology-detect-punjab-stubble-burning-fires",
              {"en": "explainer on satellite detection", "ur": "وضاحت", "hi": "व्याख्या"}),
     "off1": ("https://www.tribuneindia.com/news/punjab/farm-fires-down-by-27-in-punjab-37-in-haryana-compared-to-last-year-environment-ministry-567656", "The Tribune"),
-    "off2": ("https://www.tribuneindia.com/news/india/punjab-haryana-record-90-per-cent-fewer-farm-fire-incidents-in-2025-govt-in-lok-sabha/amp", "The Tribune (2025)"),
+    "off2": ("https://www.tribuneindia.com/news/punjab/farm-fires-down-to-50-as-season-nears-end", "The Tribune (25 Nov 2025)"),
 }
 
 
@@ -339,12 +342,20 @@ def table(head, rows):
             + "\n    ".join(rows) + "\n  </table></div>")
 
 
-def peak_week(k, y, L):
-    from datetime import date
+def peak_week_start(k, y):
+    """Date the busiest 7 calendar days start (days with no spots count as zero, so a window that
+    straddles a missing day isn't stretched to eight or ten days)."""
+    from datetime import date, timedelta
     daily = S[str(y)][k]["daily"]
-    days = sorted(daily)
-    best = max(range(len(days)), key=lambda i: sum(daily[d] for d in days[i:i + 7]))
-    d0 = date.fromisoformat(days[best])
+    first, last = date(y, 10, 1), date(y, 11, 30)
+    n = (last - first).days + 1
+    v = [daily.get((first + timedelta(days=i)).isoformat(), 0) for i in range(n)]
+    best = max(range(n - 6), key=lambda i: sum(v[i:i + 7]))
+    return first + timedelta(days=best)
+
+
+def peak_week(k, y, L):
+    d0 = peak_week_start(k, y)
     return f"{d0.day} {d0:%b}" if L == "en" else f"{d0.day} {bp.MONTHS[L][d0.month - 1]}"
 
 

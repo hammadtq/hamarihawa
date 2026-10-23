@@ -149,7 +149,8 @@ def parse(sat_i, sat, text):
             except ValueError: continue
             if c < 30: continue
             conf = "high" if c >= 80 else "nominal"
-            label = "Aqua" if r.get("satellite") == "A" else "Terra"
+            # The active_fire CSVs say "A"/"T"; the area API (backfill-days.py) spells the names out.
+            label = "Aqua" if r.get("satellite") in ("A", "Aqua") else "Terra"
         else:
             if conf in ("low", "l"): continue
             conf = "high" if conf in ("high", "h") else "nominal"
@@ -491,11 +492,20 @@ def archive(points, now):
     return day_files(points, keep=lambda date: date > first)
 
 
-def previous(points, now, hours):
-    """Spots in the window just before the last `hours`, for the "up on yesterday" tag."""
-    lo, hi = now - 2 * hours * 3600 * 1000, now - hours * 3600 * 1000
-    s = summarise(list(distinct([p for p in points if lo <= p["t"] < hi]).values()))
-    return {k: s[k] for k in ("spots", "pk", "in")}
+def compare(points, hours):
+    """Spots in the last `hours` and in the `hours` before that, for the "up on yesterday" tag.
+    Both windows are cut from the same 7-day points and end at the newest detection, so they line up
+    exactly (NASA's own 24 h file ends whenever NASA last processed, and the pass that straddles its
+    start would otherwise be counted in both windows or neither) and the lag before new passes are
+    published doesn't shorten the current window alone."""
+    if not points:
+        return None, None
+    hi = max(p["t"] for p in points)
+    mid, lo = hi - hours * 3600 * 1000, hi - 2 * hours * 3600 * 1000
+    cur = summarise(list(distinct([p for p in points if mid < p["t"] <= hi]).values()))
+    prev = summarise(list(distinct([p for p in points if lo < p["t"] <= mid]).values()))
+    pick = lambda s: {k: s[k] for k in ("spots", "pk", "in")}
+    return pick(cur), pick(prev)
 
 
 def kv(method, key, body=None):
@@ -570,8 +580,10 @@ def main():
                     kv("PUT", "dpages", pbody)
             print(f"archive: {len(days)} days, {len(index)} in index")
         recent = sorted(index)[-TREND_DAYS:]
+        cur, prev = compare(history, hours) if hours < 168 else (None, None)
         feed["trend"] = {
-            "prev": previous(history, now, hours) if hours < 168 else None,
+            # cur and prev are the same window length cut from the same points; the page compares those two.
+            "cur": cur, "prev": prev,
             "fields": ["date", "spots", "pk", "in", "night", "partial"],
             "days": [[d, index[d]["spots"], index[d]["pk"], index[d]["in"], index[d]["night"],
                       1 if index[d].get("partial") else 0] for d in recent],

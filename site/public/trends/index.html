@@ -39,7 +39,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="alternate" type="application/atom+xml" title="HamariHawa updates" href="/updates/feed.xml">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="/trends/trends.css?v=1792508849">
+<link rel="stylesheet" href="/trends/trends.css?v=1792745076">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -169,6 +169,7 @@
   <ul>
     <li><b>Fire spots</b>: places hot enough for the satellite to notice, in 375 m squares. The same spot seen by several satellites counts once.</li>
     <li><b>Cloud and smoke</b> hide fires, so single days swing. The season lines use a 7-day average.</li>
+    <li><b>Missing days</b>: Suomi NPP returned no data on 4–6 November 2024 (a NASA outage) and missed its afternoon pass on 31 October 2019, 2 November 2023, 3 November 2024 and 12 November 2025. Those days are left out of the lines and count as zero in the totals, so 2024 in particular is low.</li>
     <li><b>Days</b> run on Pakistan time, so the 1:30 am pass belongs to the date it happened on.</li>
     <li><b>Sources</b>: NASA FIRMS. Past seasons are from NASA's final processing; this season is from its near-real-time feed, which can differ by a few percent.</li>
     <li><b>The data</b>: daily totals at <a href="/api/days"><code>/api/days</code></a> and districts at <a href="/api/districts"><code>/api/districts</code></a>. See <a href="/data/#json">Use the data</a>.</li>
@@ -201,6 +202,7 @@
   <ul>
     <li><b>آگ کے مقامات</b>: 375 میٹر کے وہ چوکور جو سیٹلائٹ کو آگ جتنے گرم نظر آئیں۔ اگر ایک ہی مقام کو کئی سیٹلائٹ دیکھیں تو اسے ایک ہی بار گنا جاتا ہے۔</li>
     <li><b>بادل اور دھواں</b> آگ کو چھپا لیتے ہیں، اس لیے ایک دن کی گنتی بہت اوپر نیچے ہو سکتی ہے۔ اسی لیے موسم کی لکیریں 7 دن کی اوسط پر بنی ہیں۔</li>
+    <li><b>غائب دن</b>: 4 سے 6 نومبر 2024 کو Suomi NPP کا ڈیٹا دستیاب نہیں تھا (ناسا کی خرابی)، اور 31 اکتوبر 2019، 2 نومبر 2023، 3 نومبر 2024 اور 12 نومبر 2025 کو اس کا دوپہر کا چکر نہیں ملا۔ یہ دن لکیروں سے باہر ہیں اور مجموعوں میں صفر گنے گئے ہیں، اس لیے خاص طور پر 2024 کے اعداد کم ہیں۔</li>
     <li><b>دن</b> کا حساب پاکستانی وقت کے مطابق ہے، تاکہ رات ڈیڑھ بجے کا چکر اسی تاریخ میں گنا جائے جس دن وہ ہوا۔</li>
     <li><b>ذرائع</b>: ناسا FIRMS۔ پچھلے موسموں کا ڈیٹا ناسا کی حتمی پروسیسنگ سے لیا گیا ہے اور اس موسم کا فوری فیڈ سے، جس میں چند فیصد کا فرق ہو سکتا ہے۔</li>
     <li><b>ڈیٹا</b>: روزانہ اعداد <a href="/api/days"><code>/api/days</code></a> پر اور اضلاع کے اعداد <a href="/api/districts"><code>/api/districts</code></a> پر دستیاب ہیں۔ تفصیل کے لیے <a href="/data/#json">ڈیٹا استعمال کریں</a> دیکھیں۔</li>
@@ -233,6 +235,7 @@
   <ul>
     <li><b>आग की जगहें</b>: 375 मीटर के वे चौकोर जो उपग्रह को आग जितने गर्म दिखें। अगर एक ही जगह को कई उपग्रह देखें तो उसे एक ही बार गिना जाता है।</li>
     <li><b>बादल और धुआँ</b> आग को छिपा लेते हैं, इसलिए एक दिन की गिनती बहुत ऊपर-नीचे हो सकती है। इसीलिए मौसम की रेखाएँ 7 दिन के औसत पर बनी हैं।</li>
+    <li><b>ग़ायब दिन</b>: 4 से 6 नवंबर 2024 को Suomi NPP का डेटा उपलब्ध नहीं था (नासा की ख़राबी), और 31 अक्टूबर 2019, 2 नवंबर 2023, 3 नवंबर 2024 और 12 नवंबर 2025 को उसका दोपहर का चक्कर नहीं मिला। ये दिन रेखाओं से बाहर हैं और कुल में शून्य गिने गए हैं, इसलिए ख़ास तौर पर 2024 के आँकड़े कम हैं।</li>
     <li><b>दिन</b> का हिसाब पाकिस्तानी समय से है, ताकि रात डेढ़ बजे का चक्कर उसी तारीख़ में गिना जाए जिस दिन वह हुआ।</li>
     <li><b>स्रोत</b>: नासा FIRMS। पिछले मौसमों का डेटा नासा की अंतिम प्रोसेसिंग से लिया गया है और इस मौसम का तुरंत वाली फ़ीड से, जिसमें कुछ प्रतिशत का फ़र्क़ हो सकता है।</li>
     <li><b>डेटा</b>: रोज़ के आँकड़े <a href="/api/days"><code>/api/days</code></a> पर और ज़िलों के आँकड़े <a href="/api/districts"><code>/api/districts</code></a> पर उपलब्ध हैं। विस्तार के लिए <a href="/data/#json">डेटा इस्तेमाल करें</a> देखें।</li>
@@ -280,6 +283,6 @@
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="/trends/trends.js?v=1792508849"></script>
+<script src="/trends/trends.js?v=1792745076"></script>
 </body>
 </html>

@@ -41,6 +41,8 @@ const T = {
     night: (n, p) => `${n} spots (${p}%) were seen on night passes.`,
     crop: (n, p) => `${n} (${p}%) look like crop-residue burning; the rest were near brick kilns, factories or towns. Fire types are our estimate.`,
     yoy: (a, b, c, e) => `Year on year: Suomi NPP, the one satellite that has flown every season since 2019, saw ${a} spots in Pakistan and ${b} in India on this day, against ${c} and ${e} on the same date last year.`,
+    yoyGap: (a, b) => `Year on year: Suomi NPP, the one satellite that has flown every season since 2019, saw ${a} spots in Pakistan and ${b} in India on this day. It returned no usable data on the same date last year, so there is nothing to compare with.`,
+    gapCell: "no data",
     hDistricts: "Busiest districts", thDistrict: "District", thState: "Province or state", thCountry: "Country", thSpots: "Spots",
     hPlaces: "Villages with the most fires", place: (p, d, c, n) => `${p} (${d}, ${c}): ${n}`,
     hTwoWeeks: "The last two weeks",
@@ -71,7 +73,7 @@ const T = {
     dPeak: (D, n) => `Its busiest day this season was ${D}, with ${n} spots.`,
     hSeasons: "Every season since 2019", thSeason: "Season", thSnTo: (to) => `Suomi NPP, 1 Oct to ${to}`, thSnFull: "Suomi NPP, whole season", thAllFull: "All satellites, whole season",
     hLast30: "The last 30 days", onMap: (href) => `<a href="${href}">See ${"this district"} on the live map</a> · <a href="/trends/">Fire trends</a> · <a href="/district/">All districts</a>`,
-    dCaveat: (n) => `Counts are a floor: clouds and smoke hide fires, and fires lit and put out between satellite passes are never seen. A season here is 1 October to 30 November, when rice stubble is burnt. This page counts the days when ${n} was among the 80 busiest districts with at least 2 spots, which leaves out a few quiet days. NOAA-20 and NOAA-21 joined in 2018 and 2023, so all-satellite totals rise partly because more satellites are looking; compare years with the Suomi NPP columns.`,
+    dCaveat: (n) => `Counts are a floor: clouds and smoke hide fires, and fires lit and put out between satellite passes are never seen. A season here is 1 October to 30 November, when rice stubble is burnt. Suomi NPP returned no data on 4–6 November 2024 (a NASA outage), so the 2024 Suomi NPP figures are low. This page counts the days when ${n} was among the 80 busiest districts with at least 2 spots, which leaves out a few quiet days. NOAA-20 and NOAA-21 joined in 2018 and 2023, so all-satellite totals rise partly because more satellites are looking; compare years with the Suomi NPP columns.`,
     notFound: "Page not found", notFoundBody: `We don't have a page here. Try the <a href="/fires/">daily fires</a> or the <a href="/district/">district list</a>.`,
   },
   ur: {
@@ -84,6 +86,8 @@ const T = {
     night: (n, p) => `${n} مقامات (${p}%) پر آگ رات کے چکر میں نظر آئی۔`,
     crop: (n, p) => `ہمارے اندازے کے مطابق ${n} مقامات (${p}%) پر فصلوں کی باقیات جلائی جا رہی تھیں، جبکہ باقی آگ اینٹوں کے بھٹوں، کارخانوں یا شہروں کے قریب تھی۔`,
     yoy: (a, b, c, e) => `پچھلے سال سے موازنہ: Suomi NPP، جو 2019 سے ہر موسم میں کام کرتا رہا ہے، اس دن پاکستان میں ${a} اور ہندوستان میں ${b} مقامات پر آگ دیکھ پایا۔ پچھلے سال اسی تاریخ کو یہ تعداد ${c} اور ${e} تھی۔`,
+    yoyGap: (a, b) => `پچھلے سال سے موازنہ: Suomi NPP، جو 2019 سے ہر موسم میں کام کرتا رہا ہے، اس دن پاکستان میں ${a} اور ہندوستان میں ${b} مقامات پر آگ دیکھ پایا۔ پچھلے سال اسی تاریخ کو اس سیٹلائٹ کا ڈیٹا دستیاب نہیں تھا، اس لیے موازنہ ممکن نہیں۔`,
+    gapCell: "ڈیٹا نہیں",
     hDistricts: "سب سے زیادہ آگ والے اضلاع", thDistrict: "ضلع", thState: "صوبہ یا ریاست", thCountry: "ملک", thSpots: "مقامات",
     hPlaces: "سب سے زیادہ آگ والے دیہات", place: (p, d, c, n) => `${p} (${d}، ${c}): ${n}`,
     hTwoWeeks: "پچھلے دو ہفتے",
@@ -109,7 +113,7 @@ const T = {
     dPeak: (D, n) => `اس موسم میں یہاں سب سے زیادہ آگ ${D} کو دیکھی گئی، جب ${n} مقامات پر آگ لگی تھی۔`,
     hSeasons: "2019 سے اب تک ہر موسم", thSeason: "موسم", thSnTo: (to) => `Suomi NPP، 1 اکتوبر سے ${to} تک`, thSnFull: "Suomi NPP، پورا موسم", thAllFull: "تمام سیٹلائٹ، پورا موسم",
     hLast30: "پچھلے 30 دن", onMap: (href) => `<a href="${href}">یہ ضلع تازہ نقشے پر دیکھیں</a> · <a href="/trends/">آگ کا رجحان</a> · <a href="/district/">تمام اضلاع</a>`,
-    dCaveat: (n) => `یہ گنتی کم از کم تعداد ہے: بادل اور دھواں آگ کو چھپا لیتے ہیں، اور جو آگ سیٹلائٹ کے دو چکروں کے درمیان لگ کر بجھ جائے وہ کبھی نظر نہیں آتی۔ یہاں موسم سے مراد 1 اکتوبر سے 30 نومبر تک کا عرصہ ہے، جب دھان کی پرالی جلائی جاتی ہے۔ یہ صفحہ صرف وہ دن گنتا ہے جب ${n} ان 80 اضلاع میں شامل تھا جہاں سب سے زیادہ آگ لگی اور کم از کم 2 مقامات پر آگ دیکھی گئی، اس لیے چند خاموش دن رہ جاتے ہیں۔ NOAA-20 اور NOAA-21 بالترتیب 2018 اور 2023 میں شامل ہوئے، اس لیے تمام سیٹلائٹس کی کل تعداد کچھ اس وجہ سے بھی بڑھی ہے کہ اب زیادہ سیٹلائٹ دیکھ رہے ہیں۔ برسوں کا موازنہ Suomi NPP والے کالموں سے کریں۔`,
+    dCaveat: (n) => `یہ گنتی کم از کم تعداد ہے: بادل اور دھواں آگ کو چھپا لیتے ہیں، اور جو آگ سیٹلائٹ کے دو چکروں کے درمیان لگ کر بجھ جائے وہ کبھی نظر نہیں آتی۔ یہاں موسم سے مراد 1 اکتوبر سے 30 نومبر تک کا عرصہ ہے، جب دھان کی پرالی جلائی جاتی ہے۔ 4 سے 6 نومبر 2024 کو Suomi NPP کا ڈیٹا دستیاب نہیں تھا (ناسا کی خرابی)، اس لیے 2024 کے Suomi NPP اعداد کم ہیں۔ یہ صفحہ صرف وہ دن گنتا ہے جب ${n} ان 80 اضلاع میں شامل تھا جہاں سب سے زیادہ آگ لگی اور کم از کم 2 مقامات پر آگ دیکھی گئی، اس لیے چند خاموش دن رہ جاتے ہیں۔ NOAA-20 اور NOAA-21 بالترتیب 2018 اور 2023 میں شامل ہوئے، اس لیے تمام سیٹلائٹس کی کل تعداد کچھ اس وجہ سے بھی بڑھی ہے کہ اب زیادہ سیٹلائٹ دیکھ رہے ہیں۔ برسوں کا موازنہ Suomi NPP والے کالموں سے کریں۔`,
     notFound: "صفحہ نہیں ملا", notFoundBody: `یہاں کوئی صفحہ نہیں ہے۔ <a href="/fires/">روزانہ آگ</a> یا <a href="/district/">اضلاع کی فہرست</a> دیکھیں۔`,
   },
   hi: {
@@ -122,6 +126,8 @@ const T = {
     night: (n, p) => `${n} जगहों (${p}%) पर आग रात वाले चक्कर में दिखी।`,
     crop: (n, p) => `हमारे अनुमान से ${n} जगहों (${p}%) पर फ़सल के अवशेष जलाए जा रहे थे, जबकि बाक़ी आग ईंट भट्ठों, कारख़ानों या शहरों के पास थी।`,
     yoy: (a, b, c, e) => `पिछले साल से तुलना: Suomi NPP, जो 2019 से हर मौसम में काम करता रहा है, ने इस दिन पाकिस्तान में ${a} और भारत में ${b} जगहों पर आग देखी। पिछले साल इसी तारीख़ को ये आँकड़े ${c} और ${e} थे।`,
+    yoyGap: (a, b) => `पिछले साल से तुलना: Suomi NPP, जो 2019 से हर मौसम में काम करता रहा है, ने इस दिन पाकिस्तान में ${a} और भारत में ${b} जगहों पर आग देखी। पिछले साल इसी तारीख़ को इस उपग्रह का डेटा उपलब्ध नहीं था, इसलिए तुलना संभव नहीं।`,
+    gapCell: "डेटा नहीं",
     hDistricts: "सबसे ज़्यादा आग वाले ज़िले", thDistrict: "ज़िला", thState: "प्रांत या राज्य", thCountry: "देश", thSpots: "जगहें",
     hPlaces: "सबसे ज़्यादा आग वाले गाँव", place: (p, d, c, n) => `${p} (${d}, ${c}): ${n}`,
     hTwoWeeks: "पिछले दो हफ़्ते",
@@ -147,7 +153,7 @@ const T = {
     dPeak: (D, n) => `इस मौसम में यहाँ सबसे ज़्यादा आग ${D} को दिखी, जब ${n} जगहों पर आग लगी थी।`,
     hSeasons: "2019 से अब तक हर मौसम", thSeason: "मौसम", thSnTo: (to) => `Suomi NPP, 1 अक्टूबर से ${to} तक`, thSnFull: "Suomi NPP, पूरा मौसम", thAllFull: "सभी उपग्रह, पूरा मौसम",
     hLast30: "पिछले 30 दिन", onMap: (href) => `<a href="${href}">यह ज़िला लाइव नक्शे पर देखें</a> · <a href="/trends/">आग का रुझान</a> · <a href="/district/">सभी ज़िले</a>`,
-    dCaveat: (n) => `यह गिनती कम से कम संख्या है: बादल और धुआँ आग को छिपा लेते हैं, और जो आग उपग्रह के दो चक्करों के बीच लगकर बुझ जाए वह कभी नहीं दिखती। यहाँ मौसम का मतलब 1 अक्टूबर से 30 नवंबर तक का समय है, जब धान की पराली जलाई जाती है। यह पन्ना सिर्फ़ वे दिन गिनता है जब ${n} उन 80 ज़िलों में शामिल था जहाँ सबसे ज़्यादा आग लगी और कम से कम 2 जगहों पर आग दिखी, इसलिए कुछ शांत दिन छूट जाते हैं। NOAA-20 और NOAA-21 क्रमशः 2018 और 2023 में जुड़े, इसलिए सभी उपग्रहों की कुल संख्या कुछ इस वजह से भी बढ़ी है कि अब ज़्यादा उपग्रह देख रहे हैं। सालों की तुलना Suomi NPP वाले कॉलमों से करें।`,
+    dCaveat: (n) => `यह गिनती कम से कम संख्या है: बादल और धुआँ आग को छिपा लेते हैं, और जो आग उपग्रह के दो चक्करों के बीच लगकर बुझ जाए वह कभी नहीं दिखती। यहाँ मौसम का मतलब 1 अक्टूबर से 30 नवंबर तक का समय है, जब धान की पराली जलाई जाती है। 4 से 6 नवंबर 2024 को Suomi NPP का डेटा उपलब्ध नहीं था (नासा की ख़राबी), इसलिए 2024 के Suomi NPP आँकड़े कम हैं। यह पन्ना सिर्फ़ वे दिन गिनता है जब ${n} उन 80 ज़िलों में शामिल था जहाँ सबसे ज़्यादा आग लगी और कम से कम 2 जगहों पर आग दिखी, इसलिए कुछ शांत दिन छूट जाते हैं। NOAA-20 और NOAA-21 क्रमशः 2018 और 2023 में जुड़े, इसलिए सभी उपग्रहों की कुल संख्या कुछ इस वजह से भी बढ़ी है कि अब ज़्यादा उपग्रह देख रहे हैं। सालों की तुलना Suomi NPP वाले कॉलमों से करें।`,
     notFound: "पन्ना नहीं मिला", notFoundBody: `यहाँ कोई पन्ना नहीं है। <a href="/fires/">रोज़ की आग</a> या <a href="/district/">ज़िलों की सूची</a> देखें।`,
   },
 };
@@ -211,6 +217,9 @@ function slugOf(dp) {
   return (name, state, cc) => m.get(`${name}|${state}|${cc}`);
 }
 const complete = (days) => Object.keys(days).filter((d) => !days[d].partial).sort();
+// Suomi NPP returned no usable data (NASA's 2-6 Nov 2024 outage, dropped passes) when it saw almost nothing
+// on a day the other satellites saw plenty. Its count is then missing, not zero.
+const snGap = (e) => !!e && !!e.sn && e.sn[0] < 20 && e.spots >= 200 && e.sn[0] * 20 < e.spots;
 
 // ---------- /fires/YYYY-MM-DD/ ----------
 async function dayPage(env, d) {
@@ -243,7 +252,7 @@ async function dayPage(env, d) {
       lede += Math.abs(p) < 5 ? t.same(n(prev.spots)) : p > 0 ? t.up(p, n(prev.spots)) : t.down(-p, n(prev.spots));
     }
     const facts = [t.night(n(s.night), pct(s.night, s.spots)), t.crop(n(s.crop), pct(s.crop, s.spots))];
-    if (ly?.sn && s.sn) facts.push(t.yoy(n(s.sn[1]), n(s.sn[2]), n(ly.sn[1]), n(ly.sn[2])));
+    if (ly?.sn && s.sn) facts.push(snGap(ly) ? t.yoyGap(n(s.sn[1]), n(s.sn[2])) : t.yoy(n(s.sn[1]), n(s.sn[2]), n(ly.sn[1]), n(ly.sn[2])));
     const link = (r) => { const sl = slug(r[0], r[1], r[2]); const nm = esc(dname(r[0])); return sl ? `<a href="/district/${sl}/">${nm}</a>` : nm; };
     const api = `<a href="/api/day?d=${d}"><code>/api/day?d=${d}</code></a>`;
     body[l] = `  <h1>${t.dayH1(D)}</h1>
@@ -256,7 +265,7 @@ ${districts.map((r) => `   <tr><td>${link(r)}</td><td>${esc(r[1])}</td><td>${COU
   <ul>${places.map((p) => `<li>${esc(t.place(p[0], dname(p[1]), COUNTRY[l][p[2]] || "", n(p[3])))}</li>`).join("")}</ul>\n` : ""}${two.length > 1 ? `  <h2>${t.hTwoWeeks}</h2>\n  ${bars(two, l)}\n` : ""}${years.length ? `  <h2>${t.hYears}</h2>
   <p>${t.yearsNote}</p>
   <div class="table-wrap"><table><thead><tr><th>${t.thYear}</th><th class="n">${t.pk}</th><th class="n">${t.in}</th></tr></thead><tbody>
-${years.map(([y, k, sn]) => `   <tr><td><a href="/fires/${k}/">${y}</a></td><td class="n">${n(sn[1])}</td><td class="n">${n(sn[2])}</td></tr>`).join("\n")}
+${years.map(([y, k, sn]) => `   <tr><td><a href="/fires/${k}/">${y}</a></td>${snGap(days[k]) ? `<td class="n" colspan="2">${t.gapCell}</td>` : `<td class="n">${n(sn[1])}</td><td class="n">${n(sn[2])}</td>`}</tr>`).join("\n")}
    <tr><td><b>${d.slice(0, 4)}</b></td><td class="n"><b>${n(s.sn?.[1] ?? 0)}</b></td><td class="n"><b>${n(s.sn?.[2] ?? 0)}</b></td></tr>
   </tbody></table></div>\n` : ""}  <h2>${t.hMap}</h2>
   <p class="muted">${t.mapNote}</p>
