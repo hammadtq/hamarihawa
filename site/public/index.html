@@ -165,7 +165,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="app.css?v=202610211000">
+<link rel="stylesheet" href="app.css?v=202610231200">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -238,7 +238,7 @@
           <div class="big num" id="hFires">–</div>
           <div class="hl-text"><span id="hFiresLbl"></span><br><span class="muted" id="hSplit"></span></div>
         </div>
-        <div class="trend" id="hTrend" hidden><svg class="spark" id="hSpark" aria-hidden="true"></svg><span id="hTrendTxt"></span></div>
+        <a class="trend" id="hTrend" href="/fires/" hidden><svg class="spark" id="hSpark" aria-hidden="true"></svg><span id="hTrendTxt"></span></a>
         <button class="card-cta" data-share-card><span aria-hidden="true">📣</span> <span data-i="cardBtn">Share today&#x27;s fire card</span></button>
         <div class="chips" id="winChips">
           <button data-w="24" class="on" data-i="window24">24 h</button><button data-w="48" data-i="window48">48 h</button><button data-w="168" data-i="window7d">7 days</button>
@@ -350,15 +350,15 @@
     </ul>
     <p><a href="/hamarihawa.kml" data-i="kmlLink">Open the live map in Google Earth (fires, city air, NO₂, haze, pollution sites)</a></p>
     <p><a href="/about/" data-i="aboutLink">About, method and disclaimer</a> · <a href="/report/" data-i="reportLink">Read our 24-month Lahore and Islamabad air report</a></p>
-    <p><a href="/data/" data-i="dataLink">Use the data: Google Earth, GIS and JSON feeds</a> · <a href="/updates/" data-i="updatesLink">What's new</a> · <a href="https://github.com/hammadtq/hamarihawa" data-i="githubLink">Source code on GitHub</a></p>
+    <p><a href="/fires/" data-i="dailyLink">Daily fire reports</a> · <a href="/data/" data-i="dataLink">Use the data: Google Earth, GIS and JSON feeds</a> · <a href="/updates/" data-i="updatesLink">What's new</a> · <a href="https://github.com/hammadtq/hamarihawa" data-i="githubLink">Source code on GitHub</a></p>
   </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
-<script src="i18n.js?v=202610211000"></script>
+<script src="i18n.js?v=202610231200"></script>
 <script src="cities.js?v=202610190030"></script>
-<script src="app.js?v=202610211000"></script>
+<script src="app.js?v=202610231200"></script>
 <script src="share.js?v=202610190030"></script>
 <script src="sources.js?v=202610190030"></script>
 <script src="insights.js?v=202610210030"></script>

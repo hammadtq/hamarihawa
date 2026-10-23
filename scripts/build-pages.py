@@ -27,9 +27,9 @@ NAV = [("/", "map", "Live map", "تازہ نقشہ", "लाइव नक्श�
        ("/trends/", "trends", "Fire trends", "آگ کا رجحان", "आग का रुझान"), ("/reports/", "reports", "Reports", "رپورٹس", "रिपोर्ट"),
        ("/about/", "about", "About", "تعارف", "परिचय")]
 FOOT = {
-    "en": '<a href="/">← Back to the live map</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
-    "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
-    "hi": '<a href="/">← लाइव नक्शे पर वापस</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
+    "en": '<a href="/">← Back to the live map</a> · <a href="/fires/">Daily fires</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
+    "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/fires/">روزانہ آگ</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
+    "hi": '<a href="/">← लाइव नक्शे पर वापस</a> · <a href="/fires/">रोज़ की आग</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
 }
 
 
@@ -39,10 +39,11 @@ def fmt_date(iso, lang):
 
 
 def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=False,
-         og_image="/og/map-v2.png", og_alt="HamariHawa: live fire and air map of Pakistan and North India"):
+         og_image="/og/map-v2.png", og_alt="HamariHawa: live fire and air map of Pakistan and North India", current=None):
     url = f"{SITE}{path}"
     t, dsc = html.escape(title), html.escape(desc)
-    nav = "\n".join(f'    <a href="{h}" data-nav="{k}"{' aria-current="page"' if h == path or (k == "reports" and path.startswith("/report")) else ""} data-en="{en}" data-ur="{ur}" data-hi="{hi}">{en}</a>'
+    on = lambda h, k: k == current if current else h == path or (k == "reports" and path.startswith("/report"))
+    nav = "\n".join(f'    <a href="{h}" data-nav="{k}"{' aria-current="page"' if on(h, k) else ""} data-en="{en}" data-ur="{ur}" data-hi="{hi}">{en}</a>'
                      for h, k, en, ur, hi in NAV)
     arts = "\n".join(f'<article data-lang="{l}"{"" if l == "en" else " hidden"}>\n{articles[l]}\n  <p class="foot-links">{FOOT[l]}</p>\n</article>'
                      for l in LANGS)
@@ -87,7 +88,7 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="alternate" type="application/atom+xml" title="HamariHawa updates" href="/updates/feed.xml">
 {extra_head}<script type="application/ld+json">
-{json.dumps(jsonld, ensure_ascii=False, indent=1)}
+{jsonld if isinstance(jsonld, str) else json.dumps(jsonld, ensure_ascii=False, indent=1)}
 </script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c2 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 3 4 0-4 0-7 2-10z' fill='none' stroke='%23d62d20' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -291,6 +292,15 @@ def reports_page():
     print("reports page written")
 
 
+def worker_shell():
+    """The page shell for pages the Worker renders from KV (daily fires, districts), with @@MARKERS@@
+    for it to fill. Written to site/src/shell.html, which the Worker imports as text."""
+    out = page("@@PATH@@", "@@TITLE@@", "@@DESC@@", {l: f"@@BODY_{l}@@" for l in LANGS}, "@@JSONLD@@",
+               extra_head="@@HEAD@@", scripts="@@SCRIPTS@@", wide=True, current="trends")
+    open(os.path.join(ROOT, "site", "src", "shell.html"), "w", encoding="utf-8").write(out)
+    print("worker shell written")
+
+
 # Sitemap: one entry per page, with the date its source last changed in git. The trilingual
 # pages carry all three languages in one URL (the toggle is client-side), so there are no
 # hreflang alternates: ?lang= URLs would only canonicalise back to the bare URL.
@@ -338,4 +348,5 @@ if __name__ == "__main__":
     trends_page()
     reports_page()
     updates()
+    worker_shell()
     sitemap()

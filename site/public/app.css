@@ -358,7 +358,8 @@ html[lang="ur"] .panel .chk small.asof { line-height: 1.8; }
 html[lang="ur"] .my-t .my-wind { line-height: 2; }
 
 /* Fire trend under the headline: one line, a bar per day and a short comparison. */
-.trend { display: flex; align-items: center; gap: 7px; margin: -2px 0 8px; font-size: 12px; color: var(--ink-2); cursor: help; }
+.trend { display: flex; align-items: center; gap: 7px; margin: -2px 0 8px; font-size: 12px; color: var(--ink-2); text-decoration: none; }
+a.trend:hover #hTrendTxt { text-decoration: underline; }
 .trend[hidden] { display: none; }
 .trend .spark { height: 18px; flex: none; }
 .trend .spark rect { fill: var(--ink-2); opacity: .55; }

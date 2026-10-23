@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-23-daily-fires",
+    "date": "2026-10-23",
+    "title": {
+      "en": "A page for every day of fires, and for every district",
+      "ur": "آگ کے ہر دن اور ہر ضلع کا الگ صفحہ",
+      "hi": "आग के हर दिन और हर ज़िले का अलग पन्ना"
+    },
+    "body": {
+      "en": "<p><a href=\"/fires/\">Daily fires</a> now has a page for each day: how many fire spots the satellites saw in Pakistan and India, the change on the day before, the busiest districts and villages, the same date in every year since 2019, and a map. <a href=\"/district/\">Fires by district</a> gives each district with frequent fires its own page, comparing this season with the same dates in past years.</p><p>We also now drop a kind of false alarm: over the Thar desert, a single afternoon pass sometimes flags hundreds of \"fires\" on hot sand that the other satellites, crossing within the hour, don't see. On 22 October this put Bikaner at the top of the list. Such bursts are now left out of the map and the archive. Past totals for Rajasthan fall, and both Punjabs are unchanged.</p>",
+      "ur": "<p><a href=\"/fires/\">روزانہ آگ</a> میں اب ہر دن کا الگ صفحہ ہے: سیٹلائٹس نے پاکستان اور ہندوستان میں کتنے مقامات پر آگ دیکھی، پچھلے دن کے مقابلے میں کتنا فرق آیا، سب سے زیادہ آگ والے اضلاع اور دیہات، 2019 سے ہر سال اسی تاریخ کے اعداد، اور ایک نقشہ۔ <a href=\"/district/\">اضلاع کے لحاظ سے آگ</a> میں ہر اس ضلع کا الگ صفحہ ہے جہاں اکثر آگ لگتی ہے، اور وہاں اس موسم کا موازنہ پچھلے برسوں کی انہی تاریخوں سے کیا گیا ہے۔</p><p>ہم نے ایک قسم کی غلط نشاندہی بھی ہٹا دی ہے: صحرائے تھر کے اوپر کبھی کبھی دوپہر کا ایک چکر گرم ریت پر سینکڑوں \"آگ\" دکھا دیتا ہے، جبکہ ایک گھنٹے کے اندر وہاں سے گزرنے والے باقی سیٹلائٹس کو کچھ نظر نہیں آتا۔ 22 اکتوبر کو اسی وجہ سے بیکانیر فہرست میں سب سے اوپر آ گیا تھا۔ اب ایسی گنتی نقشے اور ریکارڈ دونوں سے نکال دی جاتی ہے۔ اس سے راجستھان کے پچھلے اعداد کم ہوئے ہیں، جبکہ دونوں پنجابوں کے اعداد میں کوئی فرق نہیں پڑا۔</p>",
+      "hi": "<p><a href=\"/fires/\">रोज़ की आग</a> में अब हर दिन का अलग पन्ना है: उपग्रहों ने पाकिस्तान और भारत में कितनी जगहों पर आग देखी, पिछले दिन के मुक़ाबले कितना फ़र्क़ आया, सबसे ज़्यादा आग वाले ज़िले और गाँव, 2019 से हर साल इसी तारीख़ के आँकड़े, और एक नक्शा। <a href=\"/district/\">ज़िलेवार आग</a> में हर उस ज़िले का अलग पन्ना है जहाँ अक्सर आग लगती है, और वहाँ इस मौसम की तुलना पिछले सालों की इन्हीं तारीख़ों से की गई है।</p><p>हमने एक तरह की ग़लत चेतावनी भी हटा दी है: थार रेगिस्तान के ऊपर कभी-कभी दोपहर का एक चक्कर गर्म रेत पर सैकड़ों \"आग\" दिखा देता है, जबकि घंटे भर के अंदर वहाँ से गुज़रने वाले बाक़ी उपग्रहों को कुछ नहीं दिखता। 22 अक्टूबर को इसी वजह से बीकानेर सूची में सबसे ऊपर आ गया था। अब ऐसी गिनती नक्शे और रिकॉर्ड दोनों से हटा दी जाती है। इससे राजस्थान के पिछले आँकड़े घटे हैं, जबकि दोनों पंजाबों के आँकड़ों में कोई फ़र्क़ नहीं पड़ा।</p>"
+    }
+  },
+  {
     "id": "2026-10-20-two-punjabs",
     "date": "2026-10-20",
     "title": {

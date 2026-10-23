@@ -12,7 +12,7 @@ Usage:
 Upload needs CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID and KV_NAMESPACE_ID in the environment.
 Uploads are skipped when NASA's files haven't changed since the last run (KV key "meta").
 """
-import argparse, csv, io, json, math, os, sys, time, urllib.request, urllib.error
+import argparse, csv, io, json, math, os, re, sys, time, urllib.request, urllib.error
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -178,11 +178,54 @@ def distinct(points):
     return spots
 
 
+def drop_bursts(points):
+    """Drop daytime bursts that one VIIRS satellite reports and the others don't confirm.
+    Over the Thar desert (Bikaner, Jaisalmer, Barmer) a single afternoon pass sometimes flags hundreds of
+    "fires" across hot, bright sand, while the other VIIRS satellites, crossing within the hour, see next to
+    nothing there. A pass is a burst when it has 50+ daytime detections in one 1-degree cell and every other
+    VIIRS satellite that flew over that longitude in daylight within 2.5 hours saw under a tenth as many in
+    the cell. A satellite that hadn't flown there yet (or whose data isn't out) isn't counted, so with no
+    witness nothing is dropped. Only the desert (25-29N, 70-74E) is checked: on farmland a satellite can
+    miss a real pass behind cloud or at the edge of its swath, and in 2019-2025 the test wrongly caught a
+    few Punjab and Haryana passes that way, while every desert burst it caught was in this box."""
+    win, cell = 150 * 60 * 1000, lambda p: (int(p["lat"] // 1), int(p["lon"] // 1))
+    in_thar = lambda c: 25 <= c[0] <= 28 and 70 <= c[1] <= 73
+    day = [p for p in points if p["si"] < 3 and not p["night"]]
+    passes = {}
+    for p in day:
+        passes.setdefault((p["si"], p["t"] // 1800000, cell(p)), []).append(p["t"])
+    def unconfirmed(si, b, c):
+        ts = passes[(si, b, c)]
+        t0 = sorted(ts)[len(ts) // 2]
+        others = []
+        for o in (0, 1, 2):
+            if o == si or not any(q["si"] == o and abs(q["t"] - t0) <= win and abs(q["lon"] - c[1] - 0.5) <= 3 for q in day):
+                continue
+            others.append(sum(1 for q in day if q["si"] == o and abs(q["t"] - t0) <= win and cell(q) == c))
+        return bool(others) and max(others) < 0.1 * len(ts)
+
+    bad = {k for k, ts in passes.items() if len(ts) >= 50 and in_thar(k[2]) and unconfirmed(*k)}
+    # A burst spills into the next cells; drop the same pass there too when those cells are just as unconfirmed.
+    for si, b, c in list(bad):
+        for i in (-1, 0, 1):
+            for j in (-1, 0, 1):
+                k = (si, b, (c[0] + i, c[1] + j))
+                if k not in bad and in_thar(k[2]) and len(passes.get(k, ())) >= 10 and unconfirmed(*k):
+                    bad.add(k)
+    if not bad:
+        return points
+    keep = [p for p in points if p["si"] >= 3 or p["night"] or (p["si"], p["t"] // 1800000, cell(p)) not in bad]
+    print(f"  dropped {len(points) - len(keep)} detections in {len(bad)} unconfirmed daytime bursts: "
+          + ", ".join(f"{SOURCES[si][1]} {c[0]}N {c[1]}E" for si, _, c in sorted(bad)), file=sys.stderr)
+    return keep
+
+
 def build(hours, csvs):
     points = []
     for (si, sat, _), text in zip(SOURCES, csvs):
         if text:
             points += parse(si, sat, text)
+    points = drop_bursts(points)
 
     for p in points:
         best, best_d, best_r = None, float("inf"), None
@@ -336,7 +379,9 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
     summary.snpp counts spots Suomi NPP saw on its own, the one satellite flying every year since
     2012, so past seasons compare fairly with today's four-satellite counts; summary.sn splits it as
     [all, PK, IN, night all, night PK, night IN]. The day file's "districts" lists the busiest
-    districts as [district, state, cc, spots, lat, lon] (centre of that day's fires), for the trends map."""
+    districts as [district, state, cc, spots, lat, lon, Suomi NPP spots] (centre of that day's fires),
+    for the trends map and the district pages; "places" lists the villages with the most spots as
+    [place, district, cc, spots], for the daily fire pages."""
     by_day = {}
     for p in points:
         by_day.setdefault(local_date(p["t"]), []).append(p)
@@ -346,28 +391,98 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
             continue
         spots = sorted(distinct(pts).values(), key=lambda p: p["t"])
         sn_spots = distinct([p for p in pts if p["si"] == 0]).values()
-        sn = [0] * 6
+        sn, sn_d = [0] * 6, {}
         for p in sn_spots:
             col = 1 if p["cc"] == "PK" else 2 if p["cc"] == "IN" else None
+            k = (p["district"] or p["state"] or "?", p["state"] or "", p["cc"] or "")
+            sn_d[k] = sn_d.get(k, 0) + 1
             sn[0] += 1
             if col: sn[col] += 1
             if p["night"]:
                 sn[3] += 1
                 if col: sn[3 + col] += 1
         summary = {**summarise(spots), "snpp": sn[0], "sn": sn}
-        by_d = {}
+        by_d, by_p = {}, {}
         for p in spots:
             k = (p["district"] or p["state"] or "?", p["state"] or "", p["cc"] or "")
             a = by_d.setdefault(k, [0, 0.0, 0.0])
             a[0] += 1; a[1] += p["lat"]; a[2] += p["lon"]
-        districts = [[d, st, cc, n, round(la / n, 2), round(lo / n, 2)]
+            if p.get("place"):
+                pk = (p["place"], p["district"] or "", p["cc"] or "")
+                by_p[pk] = by_p.get(pk, 0) + 1
+        districts = [[d, st, cc, n, round(la / n, 2), round(lo / n, 2), sn_d.get((d, st, cc), 0)]
                      for (d, st, cc), (n, la, lo) in sorted(by_d.items(), key=lambda kv: -kv[1][0]) if n >= 2][:80]
-        out[date] = {"date": date, "source": source, "summary": summary, "districts": districts,
+        places = [[pl, d, cc, n] for (pl, d, cc), n in sorted(by_p.items(), key=lambda kv: -kv[1]) if n >= 2][:12]
+        out[date] = {"date": date, "source": source, "summary": summary, "districts": districts, "places": places,
                      "fields": ["lat", "lon", "t", "frp", "sat", "district", "state", "cc", "kind", "night"],
                      "spots": [[p["lat"], p["lon"], p["t"], round(p["frp"], 1),
                                 {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}[p["sat"]],
                                 p["district"], p["state"], p["cc"], p["kind"], 1 if p["night"] else 0] for p in spots]}
     return out
+
+
+def slug(name):
+    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+
+SEASON = ("10-01", "11-30")  # the October-November rice-stubble season
+PAGE_MIN = (500, 20)  # a district gets a page once the archive holds 500+ spots on 20+ days
+
+
+def district_index(index, dist):
+    """Compact per-district numbers for the district pages (/district/<slug>/), which the Worker renders.
+    Only complete days count. Each season is [Suomi NPP spots, Suomi NPP to this season's date,
+    all-satellite spots, all-satellite to date]; the Suomi NPP figures are None when some day lacks them.
+    Totals are a floor: the dist index keeps each day's 80 busiest districts with 2+ spots."""
+    done = sorted(d for d in index if not index[d].get("partial") and d in dist)
+    if not done:
+        return {}
+    last = done[-1]
+    cur = int(last[:4]) if last[5:] >= SEASON[0] else int(last[:4]) - 1
+    to = min(last[5:], SEASON[1]) if cur == int(last[:4]) else SEASON[1]
+    recent = done[-30:]
+    by = {}
+    for date in done:
+        y, md = int(date[:4]), date[5:]
+        season = y if SEASON[0] <= md <= SEASON[1] else None
+        for r in dist[date]:
+            name, state, cc, n = r[0], r[1], r[2], r[3]
+            if not name or name == "?" or name == state:
+                continue
+            e = by.setdefault((name, state, cc), {"n": 0, "days": 0, "la": 0.0, "lo": 0.0, "s": {}, "daily": {}, "peak": None})
+            e["n"] += n; e["days"] += 1; e["la"] += r[4] * n; e["lo"] += r[5] * n
+            e["daily"][date] = n
+            if season is not None:
+                t = e["s"].setdefault(season, [0, 0, 0, 0])
+                sn = r[6] if len(r) > 6 else None
+                t[2] += n
+                if md <= to: t[3] += n
+                if sn is None or t[0] is None:
+                    t[0] = t[1] = None
+                else:
+                    t[0] += sn
+                    if md <= to: t[1] += sn
+                if season == cur and (e["peak"] is None or n > e["peak"][1]):
+                    e["peak"] = [date, n]
+    keep = {k: e for k, e in by.items() if e["n"] >= PAGE_MIN[0] and e["days"] >= PAGE_MIN[1]}
+    # Short slugs ("okara"), falling back to name + state, then + country, when two districts share one.
+    slugs, out = {}, {}
+    for k in keep:
+        slugs.setdefault(slug(k[0]), []).append(k)
+    named = {}
+    for s0, ks in slugs.items():
+        for k in ks:
+            named[k] = s0 if len(ks) == 1 else slug(f"{k[0]} {k[1]}") if len({x[1] for x in ks}) == len(ks) else slug(f"{k[0]} {k[1]} {k[2]}")
+    for cc in ("PK", "IN"):
+        ranked = sorted((k for k in keep if k[2] == cc), key=lambda k: -(keep[k]["s"].get(cur, [0, 0, 0, 0])[3]))
+        for i, k in enumerate(ranked):
+            e = keep[k]
+            out[named[k]] = {"name": k[0], "state": k[1], "cc": cc,
+                             "lat": round(e["la"] / e["n"], 2), "lon": round(e["lo"] / e["n"], 2),
+                             "s": {str(y): v for y, v in sorted(e["s"].items())},
+                             "r": [e["daily"].get(d, 0) for d in recent], "peak": e["peak"],
+                             "rank": i + 1, "of": len(ranked)}
+    return {"last": last, "season": cur, "to": to, "recent": recent, "d": out}
 
 
 def archive(points, now):
@@ -445,9 +560,14 @@ def main():
             dbody = json.dumps(dist, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode()
             open(days_path, "wb").write(ibody)
             open(dist_path, "wb").write(dbody)
+            pbody = json.dumps(district_index(index, dist), separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode()
+            open(os.path.join(a.out, "dpages.json"), "wb").write(pbody)
             if a.upload:
                 kv("PUT", "days", ibody)
                 kv("PUT", "dist", dbody)
+                # The district pages change about once a day, so skip the write when nothing moved.
+                if kv("GET", "dpages") != pbody:
+                    kv("PUT", "dpages", pbody)
             print(f"archive: {len(days)} days, {len(index)} in index")
         recent = sorted(index)[-TREND_DAYS:]
         feed["trend"] = {

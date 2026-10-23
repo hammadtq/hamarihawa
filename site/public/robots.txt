@@ -4,3 +4,4 @@ Allow: /
 Disallow: /api/firms/
 
 Sitemap: https://hamarihawa.org/sitemap.xml
+Sitemap: https://hamarihawa.org/sitemap-daily.xml

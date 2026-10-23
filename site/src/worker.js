@@ -1,4 +1,5 @@
 import { airKml, trafficKml, satelliteKml, kmlResponse } from "./kml.js";
+import { pages } from "./pages.js";
 // Hamari Hawa: serves the static site and the fire feed.
 // The feed itself is built every 15 minutes by scripts/build-feed.py (GitHub Actions)
 // and stored in KV, because naming every fire after its village is too much work
@@ -129,7 +130,8 @@ async function handle(request, env, url, ctx) {
     }
     if (url.pathname === "/kml/satellite.kml") return kmlResponse(satelliteKml(), 3600);
     if (url.pathname !== "/api/fires") {
-      const res = await env.ASSETS.fetch(request);
+      // Daily fire and district pages, rendered from the archive in KV.
+      const res = (await pages(url, env, ctx, edgeCached)) || (await env.ASSETS.fetch(request));
       // hamarihawa.org is the canonical site; keep the workers.dev copy out of search results.
       if (url.hostname.endsWith(".workers.dev")) {
         const r = new Response(res.body, res);
