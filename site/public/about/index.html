@@ -42,7 +42,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap">
-<link rel="stylesheet" href="/app.css?v=202610231200">
+<link rel="stylesheet" href="/app.css?v=202610231930">
 <style>
   .doc { max-width: 760px; margin: 0 auto; padding: 36px 20px 60px; }
   .doc h1 { font-family: var(--hand); font-size: clamp(32px, 5vw, 44px); }
@@ -141,7 +141,7 @@
     <li>A dot is a patch of ground (375 m for VIIRS, 1 km for MODIS) that a NASA satellite measured as unusually hot during its pass. It can be a burning field, but also a brick kiln, factory flare, rubbish fire, or a hot industrial roof.</li>
     <li>Satellites pass only a few times a day. Small, short or cloud-covered fires are often missed, and positions can be off by a few hundred metres.</li>
     <li>The place name is simply the nearest village or town in the GeoNames database. It is not the owner, the person who lit the fire, or even necessarily the village the field belongs to.</li>
-    <li>"Likely crop burning" is our guess from location and season. It is not a finding.</li>
+    <li>Fire types are our guess from where a fire is, not findings. Near a known brick kiln, landfill, factory or always-hot site, it is tagged as that; near a big town, "near a town". Otherwise the ground decides, from ESA WorldCover 2021 satellite land cover: mostly cropland is "likely crop burning", mostly forest is "likely forest fire" (in the North-East, "forest or shifting cultivation"), and scrub, grass or bare ground is "open land". Fires outside Pakistan and India are left out, using the country outlines from geoBoundaries.</li>
     <li><b>Hamari Hawa does not identify who lit any fire.</b> Please don't use this site to accuse, shame or harass anyone. If you see a fire, report it to the authorities: EPA Punjab helpline 1373 or the Green Punjab app in Pakistan, or the CPCB SAMEER app in India.</li>
   </ul>
 
@@ -205,7 +205,7 @@
     <li>ہر نقطہ زمین کا 375 میٹر کا ایک ٹکڑا ہے جسے ناسا کے VIIRS سیٹلائٹ نے گزرتے وقت غیر معمولی طور پر گرم پایا۔ یہ کوئی جلتا کھیت بھی ہو سکتا ہے، اینٹوں کا بھٹہ، کارخانے کا شعلہ، کچرے کی آگ یا کسی صنعتی عمارت کی گرم چھت بھی۔</li>
     <li>سیٹلائٹ دن میں صرف چند بار گزرتے ہیں۔ چھوٹی، تھوڑی دیر کی یا بادلوں میں چھپی آگ اکثر گنتی میں نہیں آتی، اور اس کا مقام چند سو میٹر اِدھر اُدھر ہو سکتا ہے۔</li>
     <li>جگہ کا نام صرف GeoNames کے مطابق قریب ترین گاؤں یا قصبہ ہے۔ اس سے نہ زمین کے مالک کا پتا چلتا ہے نہ آگ لگانے والے کا، اور ضروری نہیں کہ کھیت اسی گاؤں کا ہو۔</li>
-    <li>"غالباً فصل کی باقیات" ہمارا اندازہ ہے جو جگہ اور موسم کی بنیاد پر لگایا گیا ہے، کوئی حتمی فیصلہ نہیں۔</li>
+    <li>آگ کی قسم ہمارا اندازہ ہے جو آگ کی جگہ سے لگایا گیا ہے، کوئی حتمی فیصلہ نہیں۔ اگر آگ کسی معلوم اینٹوں کے بھٹے، کچرا کنڈی، کارخانے یا ہمیشہ گرم رہنے والی جگہ کے قریب ہو تو اسے وہی کہا جاتا ہے؛ کسی بڑے شہر کے قریب ہو تو "شہر کے قریب"۔ ورنہ زمین فیصلہ کرتی ہے، ESA WorldCover 2021 کے سیٹلائٹ نقشے سے: زیادہ تر کھیت ہوں تو "غالباً فصل کی باقیات"، زیادہ تر جنگل ہو تو "غالباً جنگل میں آگ" (شمال مشرقی ہندوستان میں "جنگل یا جھوم کاشت")، اور جھاڑیاں، گھاس یا خالی زمین ہو تو "کھلی زمین"۔ پاکستان اور ہندوستان سے باہر کی آگ geoBoundaries کی ملکی سرحدوں کی مدد سے شامل نہیں کی جاتی۔</li>
     <li><b>ہماری ہوا یہ نہیں بتاتی کہ آگ کس نے لگائی۔</b> براہِ کرم اس سائٹ کو کسی پر الزام لگانے، اسے شرمندہ کرنے یا ہراساں کرنے کے لیے استعمال نہ کریں۔ اگر آپ آگ دیکھیں تو حکام کو اطلاع دیں: پاکستان میں ای پی اے پنجاب کی ہیلپ لائن 1373 یا گرین پنجاب ایپ، اور ہندوستان میں CPCB کی SAMEER ایپ۔</li>
   </ul>
 
@@ -269,7 +269,7 @@
     <li>हर बिंदु ज़मीन का 375 मीटर का एक टुकड़ा है, जिसे नासा के VIIRS उपग्रह ने ऊपर से गुज़रते समय आम से कहीं ज़्यादा गर्म पाया। यह कोई जलता खेत हो सकता है, लेकिन ईंट भट्ठा, कारखाने की लपट, कचरे की आग या किसी कारखाने की तपती छत भी हो सकती है।</li>
     <li>उपग्रह दिन में कुछ ही बार गुज़रते हैं। छोटी, थोड़ी देर की या बादलों में छिपी आग अक्सर छूट जाती है, और बताई गई जगह कुछ सौ मीटर इधर-उधर हो सकती है।</li>
     <li>जगह का नाम बस GeoNames में दर्ज सबसे नज़दीकी गाँव या क़स्बा है। इससे न ज़मीन के मालिक का पता चलता है, न आग लगाने वाले का, और ज़रूरी नहीं कि खेत उसी गाँव का हो।</li>
-    <li>"शायद पराली" जगह और मौसम देखकर लगाया गया हमारा अंदाज़ा है, कोई पक्का नतीजा नहीं।</li>
+    <li>आग की क़िस्म हमारा अंदाज़ा है, जो आग की जगह देखकर लगाया गया है, कोई पक्का नतीजा नहीं। अगर आग किसी जाने-माने ईंट भट्ठे, कूड़े के ढेर, कारख़ाने या हमेशा गर्म रहने वाली जगह के पास हो तो उसे वही कहा जाता है; किसी बड़े शहर के पास हो तो "शहर के पास"। वरना ज़मीन तय करती है, ESA WorldCover 2021 के उपग्रह नक़्शे से: ज़्यादातर खेत हों तो "शायद पराली", ज़्यादातर जंगल हो तो "शायद जंगल की आग" (पूर्वोत्तर में "जंगल या झूम खेती"), और झाड़ियाँ, घास या ख़ाली ज़मीन हो तो "खुली ज़मीन"। पाकिस्तान और भारत से बाहर की आग geoBoundaries की देश की सीमाओं की मदद से शामिल नहीं की जाती।</li>
     <li><b>हमारी हवा यह नहीं बताती कि आग किसने लगाई।</b> कृपया इस साइट का इस्तेमाल किसी पर आरोप लगाने, उसे शर्मिंदा करने या परेशान करने के लिए न करें। आग दिखे तो अधिकारियों को बताएँ: भारत में CPCB का SAMEER ऐप, पाकिस्तान में EPA पंजाब हेल्पलाइन 1373 या Green Punjab ऐप।</li>
   </ul>
 

@@ -31,7 +31,9 @@ The heavy work (naming every fire after its village, merging duplicate detection
 - `scripts/backfill-days.py`: one-off fill of past days in the same archive from the FIRMS area API (needs a free MAP_KEY in `~/.config/hamarihawa/firms_key`). Seasons 1 Oct–30 Nov 2019–2025 are filled.
 - `scripts/season-stats.py` + `scripts/build-report-punjabs.py`: Suomi NPP season statistics for the two Punjabs (from the backfill cache) and the Two Punjabs report built from them (`site/public/report/two-punjabs/`).
 - `scripts/build-no2.py`: 14-day Sentinel-5P NO₂ average and labelled traffic/industry hotspots, uploaded to KV daily by `.github/workflows/no2.yml`.
-- `scripts/build-places.py`: rebuilds the village index in `site/public/places/` from GeoNames dumps.
+- `scripts/build-places.py`: rebuilds the village index in `data/places/` from GeoNames dumps, plus the Pakistan and India outlines (geoBoundaries) that decide which country a fire is in. `scripts/geo.py` holds the region and the point-in-polygon test.
+- `scripts/build-landcover.py`: one-time cropland and tree-cover grid (`data/landcover.bin.gz`) from ESA WorldCover 2021, which decides a fire's type. Needs rasterio and numpy.
+- `scripts/test_feed.py`: tests for the write budget, the desert-burst filter and country assignment (`python3 -I scripts/test_feed.py`).
 - `scripts/build-sites.py`, `scripts/build-sources.py`: the Pollution sites directory and source layers in `site/public/sources/`.
 - `scripts/osm-industrial.py`: industrial estates, named fossil power plants and major roads (`--roads`) from Geofabrik OpenStreetMap extracts.
 - `scripts/build-og-report.py`: the Two Punjabs link-preview card (`site/public/og/two-punjabs.png`), in the same style as `scripts/build-og.py`.

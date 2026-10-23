@@ -1,0 +1,13 @@
+{
+ "source": "ESA WorldCover 2021 v200 (CC BY 4.0), sampled 5x5 per cell from the 1/16 overview",
+ "s": 5.5,
+ "w": 60.5,
+ "step": 0.01,
+ "rows": 3200,
+ "cols": 3700,
+ "planes": [
+  "cropland_pct",
+  "tree_pct"
+ ],
+ "order": "row-major, row 0 at the south edge"
+}

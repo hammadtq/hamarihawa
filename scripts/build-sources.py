@@ -14,7 +14,11 @@ import argparse, json, math, os, sys, time, urllib.parse, urllib.request
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 OUT = os.path.join(ROOT, "site", "public", "sources")
-BBOX = (25.0, 66.0, 35.5, 88.5)  # s, w, n, e
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location("geo", os.path.join(os.path.dirname(os.path.abspath(__file__)), "geo.py"))
+geo = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(geo)
+BBOX = (geo.REGION["s"], geo.REGION["w"], geo.REGION["n"], geo.REGION["e"])  # s, w, n, e: all of Pakistan and India
 MIRRORS = [
     "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",

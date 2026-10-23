@@ -15,7 +15,7 @@ import json, math, os, time
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 SRC = os.path.join(ROOT, "site", "public", "sources")
-PLACES = os.path.join(ROOT, "site", "public", "places")
+PLACES = os.path.join(ROOT, "data", "places")
 
 
 def load(name):

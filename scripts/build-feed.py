@@ -17,9 +17,62 @@ hourly, and the day's total stops at Publisher.LIMIT. The run's bookkeeping live
 import argparse, csv, hashlib, io, json, math, os, re, sys, time, urllib.request, urllib.error
 from datetime import datetime, timedelta, timezone
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-PLACES = os.path.join(ROOT, "site", "public", "places")
+import importlib.util as _ilu
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.join(HERE, "..")
+_spec = _ilu.spec_from_file_location("geo", os.path.join(HERE, "geo.py"))
+geo = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(geo)
+PLACES = os.path.join(ROOT, "data", "places")
 TOWNS = json.load(open(os.path.join(ROOT, "site", "src", "towns.json"), encoding="utf-8"))
+# Towns by 1-degree square, so the nearest town is found without scanning them all.
+TOWN_GRID = {}
+for _t in TOWNS:
+    TOWN_GRID.setdefault((math.floor(_t[0]), math.floor(_t[1])), []).append(_t)
+COUNTRY_CELLS = json.load(open(os.path.join(PLACES, "countries.json"))) if os.path.exists(os.path.join(PLACES, "countries.json")) else {}
+_borders = None
+
+
+def borders():
+    global _borders
+    if _borders is None:
+        _borders = geo.Borders.load(os.path.join(PLACES, "borders.json"))
+    return _borders
+
+
+def country_of(lat, lon):
+    """"PK", "IN", "PK+IN" (Kashmir, where both outlines claim the ground: the caller takes the nearest
+    village's country) or None when the point is in neither country. Points just off the simplified
+    outlines (coasts, rivers) get the country within ~2 km."""
+    c = COUNTRY_CELLS.get(geo.cell_key(lat, lon))
+    if c in ("PK", "IN") or c is None:
+        return c
+    for dla, dlo in ((0, 0), (0.018, 0), (-0.018, 0), (0, 0.02), (0, -0.02), (0.013, 0.014), (0.013, -0.014), (-0.013, 0.014), (-0.013, -0.014)):
+        hit = borders().which(lat + dla, lon + dlo)
+        if hit:
+            return "+".join(hit) if len(hit) > 1 else hit[0]
+    return None
+
+
+def nearest_town(lat, lon, cc=None):
+    """(town, squared distance in degrees) of the nearest town over 100k people, in country cc if given."""
+    best, best_d = None, float("inf")
+    a0, b0 = math.floor(lat), math.floor(lon)
+    for r in range(0, 8):
+        for a in range(a0 - r, a0 + r + 1):
+            for b in range(b0 - r, b0 + r + 1):
+                if max(abs(a - a0), abs(b - b0)) != r:
+                    continue
+                for tw in TOWN_GRID.get((a, b), ()):
+                    if cc and tw[5] != cc:
+                        continue
+                    d = dist2(lat, lon, tw[0], tw[1])
+                    if d < best_d:
+                        best, best_d = tw, d
+        # Anything in a ring further out is at least r degrees away.
+        if best is not None and math.sqrt(best_d) < r:
+            break
+    return best, best_d
 
 # FIRMS_BASE lets CI go through the site's proxy (/api/firms), because GitHub's runners can't reach NASA directly.
 FIRMS = os.environ.get("FIRMS_BASE", "https://firms.modaps.eosdis.nasa.gov/data/active_fire").rstrip("/")
@@ -30,7 +83,7 @@ SOURCES = [  # (satellite index used by the page, label, path prefix)
     (3, "MODIS", "modis-c6.1/csv/MODIS_C6_1_South_Asia"),
 ]
 WINDOWS = {24: "24h", 48: "48h", 168: "7d"}
-BBOX = (25.0, 35.5, 66.0, 88.5)
+BBOX = (geo.FEED_BOX["s"], geo.FEED_BOX["n"], geo.FEED_BOX["w"], geo.FEED_BOX["e"])  # s, n, w, e
 UA = {"User-Agent": "hamarihawa.org feed builder (+https://hamarihawa.org/about/)"}
 
 
@@ -127,13 +180,50 @@ def match_source(lat, lon):
     return None, None
 
 
+_landcover = None
+NORTH_EAST = {"Arunachal Pradesh", "Assam", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Tripura", "Sikkim"}
+
+
+def landcover(lat, lon):
+    """(cropland %, tree cover %) of the ~1 km square a point is in, from ESA WorldCover 2021
+    (data/landcover.bin.gz, built by scripts/build-landcover.py), or None outside the grid."""
+    global _landcover
+    if _landcover is None:
+        import gzip
+        path = os.path.join(ROOT, "data", "landcover.bin.gz")
+        meta = os.path.join(ROOT, "data", "landcover.json")
+        _landcover = (json.load(open(meta)), gzip.open(path).read()) if os.path.exists(path) else False
+    if not _landcover:
+        return None
+    m, b = _landcover
+    r, c = math.floor((lat - m["s"]) / m["step"]), math.floor((lon - m["w"]) / m["step"])
+    if not (0 <= r < m["rows"] and 0 <= c < m["cols"]):
+        return None
+    i = r * m["cols"] + c
+    return b[i], b[m["rows"] * m["cols"] + i]
+
+
 def classify(p, town, town_d2):
-    # Heuristic only: fires close to big towns are often industrial or waste burning;
-    # fires in open country during harvest months are most likely crop-residue burning.
+    """Our best guess at what is burning, from where the fire is; never a finding.
+    Fires close to big towns are often waste or industry. Otherwise the ground decides: mostly cropland means
+    "crop" (residue burning in Oct-Nov and Apr-May, sugarcane trash in winter), forest means "forest", or
+    "shifting" in the North-East states where forest burning is often shifting cultivation (jhum); scrub,
+    grass and bare land are "open", and anything in between is "mixed". Without the land-cover grid it
+    falls back to the month: harvest months mean crop."""
     if town and km(town_d2) < 4 + min(8, town[6] / 1e6):
         return "urban"
-    m = datetime.fromtimestamp(p["t"] / 1000, timezone.utc).month
-    return "crop" if m in (10, 11, 4, 5) else "open"
+    lc = landcover(p["lat"], p["lon"])
+    if lc is None:
+        m = datetime.fromtimestamp(p["t"] / 1000, timezone.utc).month
+        return "crop" if m in (10, 11, 4, 5) else "open"
+    crop, tree = lc
+    # A 1 km square of the plains is rarely all field: villages, tree lines and canals take a share, so
+    # cropland wins from 40% when it outweighs trees (checked against Punjab in October 2026).
+    if crop >= 40 and crop >= tree:
+        return "crop"
+    if tree >= 50 and tree > crop:
+        return "shifting" if p.get("state") in NORTH_EAST else "forest"
+    return "open" if crop + tree < 30 else "mixed"
 
 
 def parse(sat_i, sat, text):
@@ -186,7 +276,7 @@ def drop_bursts(points):
     Over the Thar desert (Bikaner, Jaisalmer, Barmer) a single afternoon pass sometimes flags hundreds of
     "fires" across hot, bright sand, while the other VIIRS satellites, crossing within the hour, see next to
     nothing there. A pass is a burst when it has 50+ daytime detections in one 1-degree cell and every other
-    VIIRS satellite that flew over that longitude in daylight within 2.5 hours saw under a tenth as many in
+    VIIRS satellite that flew over that cell (within 3 degrees of longitude and 5 of latitude) in daylight within 2.5 hours saw under a tenth as many in
     the cell. A satellite that hadn't flown there yet (or whose data isn't out) isn't counted, so with no
     witness nothing is dropped. Only the desert (25-29N, 70-74E) is checked: on farmland a satellite can
     miss a real pass behind cloud or at the edge of its swath, and in 2019-2025 the test wrongly caught a
@@ -202,7 +292,10 @@ def drop_bursts(points):
         t0 = sorted(ts)[len(ts) // 2]
         others = []
         for o in (0, 1, 2):
-            if o == si or not any(q["si"] == o and abs(q["t"] - t0) <= win and abs(q["lon"] - c[1] - 0.5) <= 3 for q in day):
+            # A witness must have flown over the cell itself: a daytime detection near it in both longitude and
+            # latitude. Longitude alone would let a pass over southern India vouch for the Thar.
+            if o == si or not any(q["si"] == o and abs(q["t"] - t0) <= win and abs(q["lon"] - c[1] - 0.5) <= 3
+                                  and abs(q["lat"] - c[0] - 0.5) <= 5 for q in day):
                 continue
             others.append(sum(1 for q in day if q["si"] == o and abs(q["t"] - t0) <= win and cell(q) == c))
         return bool(others) and max(others) < 0.1 * len(ts)
@@ -230,20 +323,31 @@ def build(hours, csvs):
             points += parse(si, sat, text)
     points = drop_bursts(points)
 
+    # Fires outside Pakistan and India (Nepal, Bangladesh, Afghanistan, Iran, China, the sea) are left out.
+    inside = []
     for p in points:
+        p["_cc"] = country_of(p["lat"], p["lon"])
+        if p["_cc"]:
+            inside.append(p)
+    if len(inside) < len(points):
+        print(f"  left out {len(points) - len(inside)} detections outside Pakistan and India", file=sys.stderr)
+    points = inside
+
+    for p in points:
+        # The nearest village in the fire's own country (in Kashmir, the nearest village decides the country).
+        want = p.pop("_cc")
+        want = None if "+" in want else want
         best, best_d, best_r = None, float("inf"), None
         for k in cell_keys(p["lat"], p["lon"]):
             c = cell(k)
             if not c: continue
             for q in c["p"]:
+                if want and not c["r"][q[3]].endswith("|" + want):
+                    continue
                 d = dist2(p["lat"], p["lon"], q[0], q[1])
                 if d < best_d:
                     best, best_d, best_r = q, d, c["r"]
-        town, town_d = None, float("inf")
-        for tw in TOWNS:
-            d = dist2(p["lat"], p["lon"], tw[0], tw[1])
-            if d < town_d:
-                town, town_d = tw, d
+        town, town_d = nearest_town(p["lat"], p["lon"], want)
         if best:
             district, state, cc = best_r[best[3]].split("|")
             p.update(place=best[2], district=district, state=state, cc=cc, placeKm=round(km(best_d), 1))
@@ -371,6 +475,7 @@ KML_MAX = 25_000  # placemarks; about 600 bytes each, which keeps a KML well und
 
 
 KIND_TEXT = {"crop": "likely crop burning", "urban": "near a town: waste or industry?", "open": "open land",
+             "forest": "likely forest fire", "shifting": "forest or shifting cultivation", "mixed": "mixed land: farms, scrub or trees",
              "kiln": "at a brick kiln", "landfill": "at a landfill", "industrial": "in an industrial area",
              "hotspot": "at an always-hot spot"}
 

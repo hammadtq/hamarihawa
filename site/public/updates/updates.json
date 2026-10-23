@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-23-fire-types",
+    "date": "2026-10-23",
+    "title": {
+      "en": "Fire types now come from the ground, and fires outside Pakistan and India are left out",
+      "ur": "آگ کی قسم اب زمین سے طے ہوتی ہے، اور پاکستان اور ہندوستان سے باہر کی آگ شامل نہیں",
+      "hi": "आग की क़िस्म अब ज़मीन से तय होती है, और पाकिस्तान और भारत से बाहर की आग शामिल नहीं"
+    },
+    "body": {
+      "en": "<p>Until now a fire in open country was called \"likely crop burning\" just because it was October, November, April or May. Now the ground under it decides, from ESA WorldCover's 2021 satellite land map: fires on mostly cropland are still \"likely crop burning\", but fires in forest are \"likely forest fire\", and fires on scrub, grass or bare ground are \"open land\". Across Pakistani and Indian Punjab this changes little (about 91% of this week's fires are on farmland), but it matters in the hills and forests.</p><p>We also found that fires just across the border in Nepal and Bangladesh were being named after the nearest Indian village and counted as India, and a few fires on the Indian side near Firozpur were named after villages in Kasur. Each fire's country now comes from the country outlines, its village is looked up only in that country, and fires outside Pakistan and India are left out (about 1% of this week's). In Kashmir, where both countries' outlines claim the ground, the nearest village decides.</p>",
+      "ur": "<p>اب تک کھلے علاقے کی کسی بھی آگ کو صرف اس لیے \"غالباً فصل کی باقیات\" کہا جاتا تھا کہ مہینہ اکتوبر، نومبر، اپریل یا مئی تھا۔ اب اس کے نیچے کی زمین فیصلہ کرتی ہے، ESA WorldCover کے 2021 کے سیٹلائٹ نقشے سے: زیادہ تر کھیتوں پر لگی آگ اب بھی \"غالباً فصل کی باقیات\" ہے، لیکن جنگل کی آگ \"غالباً جنگل میں آگ\" اور جھاڑیوں، گھاس یا خالی زمین کی آگ \"کھلی زمین\" کہلاتی ہے۔ دونوں پنجابوں میں اس سے کم فرق پڑتا ہے (اس ہفتے کی تقریباً 91% آگ کھیتوں میں تھی)، لیکن پہاڑوں اور جنگلوں میں فرق پڑتا ہے۔</p><p>ہمیں یہ بھی پتا چلا کہ نیپال اور بنگلہ دیش میں سرحد کے بالکل پار لگی آگ کو قریب ترین ہندوستانی گاؤں کا نام دے کر ہندوستان میں گنا جا رہا تھا، اور فیروزپور کے قریب ہندوستانی جانب کی کچھ آگ کو قصور کے گاؤں کے نام دیے جا رہے تھے۔ اب ہر آگ کا ملک ملکی سرحدوں سے طے ہوتا ہے، گاؤں صرف اسی ملک میں ڈھونڈا جاتا ہے، اور پاکستان اور ہندوستان سے باہر کی آگ شامل نہیں کی جاتی (اس ہفتے کی تقریباً 1%)۔ کشمیر میں، جہاں دونوں ملکوں کی سرحدیں ایک ہی زمین پر دعویٰ کرتی ہیں، قریب ترین گاؤں فیصلہ کرتا ہے۔</p>",
+      "hi": "<p>अब तक खुले इलाक़े की किसी भी आग को सिर्फ़ इसलिए \"शायद पराली\" कहा जाता था कि महीना अक्टूबर, नवंबर, अप्रैल या मई था। अब उसके नीचे की ज़मीन तय करती है, ESA WorldCover के 2021 के उपग्रह नक़्शे से: ज़्यादातर खेतों पर लगी आग अब भी \"शायद पराली\" है, लेकिन जंगल की आग \"शायद जंगल की आग\" और झाड़ियों, घास या ख़ाली ज़मीन की आग \"खुली ज़मीन\" कहलाती है। दोनों पंजाबों में इससे कम फ़र्क़ पड़ता है (इस हफ़्ते की लगभग 91% आग खेतों में थी), लेकिन पहाड़ों और जंगलों में फ़र्क़ पड़ता है।</p><p>हमें यह भी पता चला कि नेपाल और बांग्लादेश में सरहद के ठीक पार लगी आग को सबसे पास के भारतीय गाँव का नाम देकर भारत में गिना जा रहा था, और फ़िरोज़पुर के पास भारतीय तरफ़ की कुछ आग को क़सूर के गाँवों के नाम दिए जा रहे थे। अब हर आग का देश देशों की सीमाओं से तय होता है, गाँव सिर्फ़ उसी देश में ढूँढा जाता है, और पाकिस्तान और भारत से बाहर की आग शामिल नहीं की जाती (इस हफ़्ते की लगभग 1%)। कश्मीर में, जहाँ दोनों देशों की सीमाएँ एक ही ज़मीन पर दावा करती हैं, सबसे पास का गाँव तय करता है।</p>"
+    }
+  },
+  {
     "id": "2026-10-23-corrections",
     "date": "2026-10-23",
     "title": {
