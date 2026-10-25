@@ -259,15 +259,15 @@
       const worst = cs.worst[0];
       const me = HH.state.local;
       const myCity = localCity(me);
-      // Personal first: the reader's own city when we know it, otherwise the worst of our 17 cities.
+      // Personal first: the reader's own city when we know it, otherwise the worst of our cities.
       const stats = me && me.aqi != null && me.city ? [
         { n: HH.nf(Math.round(me.aqi)), color: AQI[HH.aqiBand(me.aqi)], l: t("cardMine", { city: myCity }) },
         { n: HH.nf(me.pm24 / 22, { maximumFractionDigits: 1 }), color: INK, l: t("cardMyCigs", { city: myCity }) },
-        { n: "≈ " + HH.nf(Math.round(cs.deaths)), color: FIRE, l: t("cardDeaths") },
+        { n: "≈ " + HH.nf(Math.round(cs.deaths)), color: FIRE, l: t("cardDeaths", { n: HH.nf(HH.CITIES.length) }) },
       ] : [
-        { n: HH.nf(Math.round(worst.a.us_aqi)), color: AQI[HH.aqiBand(worst.a.us_aqi)], l: t("cardWorst", { city: worst.c.name[lang()] }) },
+        { n: HH.nf(Math.round(worst.a.us_aqi)), color: AQI[HH.aqiBand(worst.a.us_aqi)], l: t("cardWorst", { city: worst.c.name[lang()], n: HH.nf(HH.CITIES.length) }) },
         { n: HH.nf(worst.h.cigs, { maximumFractionDigits: 1 }), color: INK, l: t("cardCigs", { city: worst.c.name[lang()] }) },
-        { n: "≈ " + HH.nf(Math.round(cs.deaths)), color: FIRE, l: t("cardDeaths") },
+        { n: "≈ " + HH.nf(Math.round(cs.deaths)), color: FIRE, l: t("cardDeaths", { n: HH.nf(HH.CITIES.length) }) },
       ];
       let sy, sx, sw, sh, gap = 24;
       if (wide) { sx = M; sy = y + 50; sw = colW; sh = 78; }
@@ -317,7 +317,7 @@
     $("#shareCaption").value = caption(d, cs);
   }
 
-  // Use our translated city name when the visitor is in one of the 17 cities.
+  // Use our translated city name when the visitor is in one of our cities.
   function localCity(me) {
     if (!me || !me.city) return "";
     const c = HH.CITIES.find((x) => x.name.en.toLowerCase() === me.city.toLowerCase());

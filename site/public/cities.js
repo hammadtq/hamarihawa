@@ -1,5 +1,5 @@
 // Cities shown in the health section.
-// pop: approximate urban population (Pakistan 2023 census city/district figures; India 2026 urban-agglomeration estimates).
+// pop: approximate urban population (Pakistan 2023 census city/district figures, Abbottabad estimated; India 2026 urban-agglomeration estimates).
 // cdr: crude death rate per 1,000 per year (Pakistan ~6.5, World Bank 2023; India 6.8, SRS 2022).
 window.HH_CITIES = [
   { id: "lahore", cc: "PK", lat: 31.5497, lon: 74.3436, pop: 13004000, cdr: 6.5, name: { en: "Lahore", ur: "لاہور", hi: "लाहौर" } },
@@ -21,6 +21,12 @@ window.HH_CITIES = [
   { id: "patna", cc: "IN", lat: 25.5941, lon: 85.1376, pop: 2500000, cdr: 6.8, name: { en: "Patna", ur: "پٹنہ", hi: "पटना" } },
   { id: "quetta", cc: "PK", lat: 30.1798, lon: 66.975, pop: 1565000, cdr: 6.5, name: { en: "Quetta", ur: "کوئٹہ", hi: "क्वेटा" } },
   { id: "hyderabad-sindh", cc: "PK", lat: 25.396, lon: 68.3578, pop: 1921000, cdr: 6.5, name: { en: "Hyderabad (Sindh)", ur: "حیدرآباد (سندھ)", hi: "हैदराबाद (सिंध)" } },
+  { id: "sialkot", cc: "PK", lat: 32.4945, lon: 74.5229, pop: 912000, cdr: 6.5, name: { en: "Sialkot", ur: "سیالکوٹ", hi: "सियालकोट" } },
+  { id: "bahawalpur", cc: "PK", lat: 29.3956, lon: 71.6836, pop: 904000, cdr: 6.5, name: { en: "Bahawalpur", ur: "بہاولپور", hi: "बहावलपुर" } },
+  { id: "sargodha", cc: "PK", lat: 32.0836, lon: 72.6711, pop: 976000, cdr: 6.5, name: { en: "Sargodha", ur: "سرگودھا", hi: "सरगोधा" } },
+  { id: "sukkur", cc: "PK", lat: 27.7052, lon: 68.8574, pop: 564000, cdr: 6.5, name: { en: "Sukkur", ur: "سکھر", hi: "सक्खर" } },
+  { id: "larkana", cc: "PK", lat: 27.557, lon: 68.2264, pop: 552000, cdr: 6.5, name: { en: "Larkana", ur: "لاڑکانہ", hi: "लरकाना" } },
+  { id: "abbottabad", cc: "PK", lat: 34.1688, lon: 73.2215, pop: 250000, cdr: 6.5, name: { en: "Abbottabad", ur: "ایبٹ آباد", hi: "एबटाबाद" } },
   { id: "mumbai", cc: "IN", lat: 19.076, lon: 72.8777, pop: 22100000, cdr: 6.8, name: { en: "Mumbai", ur: "ممبئی", hi: "मुंबई" } },
   { id: "kolkata", cc: "IN", lat: 22.5726, lon: 88.3639, pop: 15800000, cdr: 6.8, name: { en: "Kolkata", ur: "کولکاتہ", hi: "कोलकाता" } },
   { id: "bengaluru", cc: "IN", lat: 12.9716, lon: 77.5946, pop: 14000000, cdr: 6.8, name: { en: "Bengaluru", ur: "بنگلور", hi: "बेंगलुरु" } },
@@ -39,4 +45,19 @@ window.HH_CITIES = [
   { id: "ranchi", cc: "IN", lat: 23.3441, lon: 85.3096, pop: 1700000, cdr: 6.8, name: { en: "Ranchi", ur: "رانچی", hi: "रांची" } },
   { id: "guwahati", cc: "IN", lat: 26.1445, lon: 91.7362, pop: 1300000, cdr: 6.8, name: { en: "Guwahati", ur: "گوہاٹی", hi: "गुवाहाटी" } },
   { id: "bhubaneswar", cc: "IN", lat: 20.2961, lon: 85.8245, pop: 1300000, cdr: 6.8, name: { en: "Bhubaneswar", ur: "بھونیشور", hi: "भुवनेश्वर" } },
+  { id: "noida", cc: "IN", lat: 28.5355, lon: 77.391, pop: 1200000, cdr: 6.8, name: { en: "Noida", ur: "نوئیڈا", hi: "नोएडा" } },
+  { id: "ghaziabad", cc: "IN", lat: 28.6692, lon: 77.4538, pop: 2700000, cdr: 6.8, name: { en: "Ghaziabad", ur: "غازی آباد", hi: "ग़ाज़ियाबाद" } },
+  { id: "agra", cc: "IN", lat: 27.1767, lon: 78.0081, pop: 2300000, cdr: 6.8, name: { en: "Agra", ur: "آگرہ", hi: "आगरा" } },
+  { id: "meerut", cc: "IN", lat: 28.9845, lon: 77.7064, pop: 2000000, cdr: 6.8, name: { en: "Meerut", ur: "میرٹھ", hi: "मेरठ" } },
+  { id: "prayagraj", cc: "IN", lat: 25.4358, lon: 81.8463, pop: 1700000, cdr: 6.8, name: { en: "Prayagraj", ur: "پریاگ راج", hi: "प्रयागराज" } },
+  { id: "dehradun", cc: "IN", lat: 30.3165, lon: 78.0322, pop: 900000, cdr: 6.8, name: { en: "Dehradun", ur: "دہرادون", hi: "देहरादून" } },
+  { id: "jodhpur", cc: "IN", lat: 26.2389, lon: 73.0243, pop: 1500000, cdr: 6.8, name: { en: "Jodhpur", ur: "جودھپور", hi: "जोधपुर" } },
+  { id: "vadodara", cc: "IN", lat: 22.3072, lon: 73.1812, pop: 2400000, cdr: 6.8, name: { en: "Vadodara", ur: "وڈودرا", hi: "वडोदरा" } },
+  { id: "srinagar", cc: "IN", lat: 34.0837, lon: 74.7973, pop: 1700000, cdr: 6.8, name: { en: "Srinagar", ur: "سری نگر", hi: "श्रीनगर" } },
+  { id: "jammu", cc: "IN", lat: 32.7266, lon: 74.857, pop: 800000, cdr: 6.8, name: { en: "Jammu", ur: "جموں", hi: "जम्मू" } },
+  { id: "coimbatore", cc: "IN", lat: 11.0168, lon: 76.9558, pop: 3100000, cdr: 6.8, name: { en: "Coimbatore", ur: "کوئمبٹور", hi: "कोयंबटूर" } },
+  { id: "madurai", cc: "IN", lat: 9.9252, lon: 78.1198, pop: 1700000, cdr: 6.8, name: { en: "Madurai", ur: "مدورائی", hi: "मदुरै" } },
+  { id: "thiruvananthapuram", cc: "IN", lat: 8.5241, lon: 76.9366, pop: 1100000, cdr: 6.8, name: { en: "Thiruvananthapuram", ur: "ترواننتاپورم", hi: "तिरुवनंतपुरम" } },
+  { id: "vijayawada", cc: "IN", lat: 16.5062, lon: 80.648, pop: 2000000, cdr: 6.8, name: { en: "Vijayawada", ur: "وجے واڑہ", hi: "विजयवाड़ा" } },
+  { id: "nashik", cc: "IN", lat: 19.9975, lon: 73.7898, pop: 2200000, cdr: 6.8, name: { en: "Nashik", ur: "ناسک", hi: "नासिक" } },
 ];

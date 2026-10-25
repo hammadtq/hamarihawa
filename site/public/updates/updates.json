@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-25-58-cities",
+    "date": "2026-10-25",
+    "title": {
+      "en": "City air now covers 58 cities, and the smoke layer has a new satellite",
+      "ur": "شہروں کی ہوا اب 58 شہروں کی، اور دھوئیں کی تہہ کے لیے نیا سیٹلائٹ",
+      "hi": "शहरों की हवा अब 58 शहरों की, और धुएँ की परत के लिए नया उपग्रह"
+    },
+    "body": {
+      "en": "<p>The city air cards now include 21 more cities: Sialkot, Bahawalpur, Sargodha, Sukkur, Larkana and Abbottabad in Pakistan, and Noida, Ghaziabad, Agra, Meerut, Prayagraj, Dehradun, Jodhpur, Vadodara, Srinagar, Jammu, Coimbatore, Madurai, Thiruvananthapuram, Vijayawada and Nashik in India. The Google Earth air layer has them too.</p><p>The \"Smoke and dust plumes\" layer now comes from OMPS on the Suomi NPP satellite. NASA's images from the older OMI instrument on Aura arrived broken from 23 October, which showed as grey squares on the map. Both measure the same aerosol index on the same colour scale.</p>",
+      "ur": "<p>شہروں کی ہوا کے کارڈز میں 21 اور شہر شامل ہو گئے ہیں: پاکستان میں سیالکوٹ، بہاولپور، سرگودھا، سکھر، لاڑکانہ اور ایبٹ آباد، اور ہندوستان میں نوئیڈا، غازی آباد، آگرہ، میرٹھ، پریاگ راج، دہرادون، جودھپور، وڈودرا، سری نگر، جموں، کوئمبٹور، مدورائی، ترواننتاپورم، وجے واڑہ اور ناسک۔ گوگل ارتھ کی ہوا والی تہہ میں بھی یہ شہر ہیں۔</p><p>\"دھوئیں اور گرد کے بادل\" کی تہہ اب Suomi NPP سیٹلائٹ کے OMPS آلے سے آتی ہے۔ Aura سیٹلائٹ کے پرانے OMI آلے کی ناسا کی تصویریں 23 اکتوبر سے خراب آ رہی تھیں، جو نقشے پر سرمئی چوکور خانوں کی صورت میں دکھتی تھیں۔ دونوں ایک ہی ایروسول انڈیکس ایک ہی رنگوں کے پیمانے پر ناپتے ہیں۔</p>",
+      "hi": "<p>शहरों की हवा के कार्ड में 21 और शहर जुड़ गए हैं: पाकिस्तान में सियालकोट, बहावलपुर, सरगोधा, सक्खर, लरकाना और एबटाबाद, और भारत में नोएडा, ग़ाज़ियाबाद, आगरा, मेरठ, प्रयागराज, देहरादून, जोधपुर, वडोदरा, श्रीनगर, जम्मू, कोयंबटूर, मदुरै, तिरुवनंतपुरम, विजयवाड़ा और नासिक। गूगल अर्थ की हवा वाली परत में भी ये शहर हैं।</p><p>\"धुएँ और धूल के बादल\" की परत अब Suomi NPP उपग्रह के OMPS उपकरण से आती है। Aura उपग्रह के पुराने OMI उपकरण की नासा की तस्वीरें 23 अक्टूबर से ख़राब आ रही थीं, जो नक़्शे पर स्लेटी चौकोर ख़ानों की तरह दिखती थीं। दोनों एक ही एरोसोल इंडेक्स एक ही रंगों के पैमाने पर नापते हैं।</p>"
+    }
+  },
+  {
     "id": "2026-10-25-v1-feed-retired",
     "date": "2026-10-25",
     "title": {
