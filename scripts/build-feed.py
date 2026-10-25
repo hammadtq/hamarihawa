@@ -856,6 +856,84 @@ def compare(points, hours):
     return pick(cur), pick(prev)
 
 
+# City pages (/air/<city>/): the fires around each city-card city, for the Worker to weigh against the wind.
+# The direction is binned to 5 degrees so the Worker can count what lies within 45 degrees of where the wind
+# comes from, as the city cards do with the raw feed (within 250 km, upwind = within 45 degrees).
+CITIES = json.load(open(os.path.join(ROOT, "data", "cities.json"), encoding="utf-8"))
+CITY_KM, CITY_BIN, CITY_ROWS_7D = 250, 5, 15
+
+
+def bearing(lat1, lon1, lat2, lon2):
+    """Initial bearing in degrees from point 1 to point 2, as app.js computes it."""
+    f1, f2, dl = math.radians(lat1), math.radians(lat2), math.radians(lon2 - lon1)
+    y = math.sin(dl) * math.cos(f2)
+    x = math.cos(f1) * math.sin(f2) - math.sin(f1) * math.cos(f2) * math.cos(dl)
+    return (math.degrees(math.atan2(y, x)) + 360) % 360
+
+
+def great_km(lat1, lon1, lat2, lon2):
+    f1, f2 = math.radians(lat1), math.radians(lat2)
+    h = math.sin((f2 - f1) / 2) ** 2 + math.cos(f1) * math.cos(f2) * math.sin(math.radians(lon2 - lon1) / 2) ** 2
+    return 2 * 6371 * math.asin(math.sqrt(h))
+
+
+def district_at(lat, lon, cc):
+    """(district, state, cc) of the nearest village to a point in country cc, as fires are named."""
+    best, best_d, best_r = None, float("inf"), None
+    for k in cell_keys(lat, lon):
+        c = cell(k)
+        if not c: continue
+        for q in c["p"]:
+            if not c["r"][q[3]].endswith("|" + cc):
+                continue
+            d = dist2(lat, lon, q[0], q[1])
+            if d < best_d:
+                best, best_d, best_r = q, d, c["r"]
+    return tuple(best_r[best[3]].split("|")) if best else None
+
+
+def city_smoke(points24, points7d, dp_index, generated):
+    """For each city: fires in the last 24 h within CITY_KM, by district and direction ("a": [district, bin, n,
+    crop, mean km]), the 7-day totals by district ("w": [district, n, crop, mean km], the busiest CITY_ROWS_7D)
+    and the 7-day total over every district ("n7").
+    points24 and points7d are every detection in those windows, as the city cards count them."""
+    slugs = {(e["name"], e["state"], e["cc"]): sl for sl, e in (dp_index.get("d") or {}).items()}
+    names = Dict()
+    rows = []
+    def near(c, points):
+        lat, lon = c["lat"], c["lon"]
+        box_lat, box_lon = CITY_KM / 111 + 0.1, CITY_KM / (111 * math.cos(math.radians(lat))) + 0.1
+        for p in points:
+            if abs(p["lat"] - lat) > box_lat or abs(p["lon"] - lon) > box_lon:
+                continue
+            d = great_km(lat, lon, p["lat"], p["lon"])
+            if 1 <= d <= CITY_KM:
+                yield p, d
+    def key(p):
+        return (p["district"] or p["state"] or "?", p["state"] or "", p["cc"] or "")
+    out = {}
+    for c in CITIES:
+        a, w = {}, {}
+        for p, d in near(c, points24):
+            k = (key(p), int(bearing(c["lat"], c["lon"], p["lat"], p["lon"]) // CITY_BIN))
+            r = a.setdefault(k, [0, 0, 0.0])
+            r[0] += 1; r[1] += p["kind"] == "crop"; r[2] += d
+        for p, d in near(c, points7d):
+            r = w.setdefault(key(p), [0, 0, 0.0])
+            r[0] += 1; r[1] += p["kind"] == "crop"; r[2] += d
+        di = lambda k: names(tuple(k) + (slugs.get(k, ""),))
+        home = district_at(c["lat"], c["lon"], c["cc"])
+        out[c["id"]] = {
+            "home": di(home) if home else -1,
+            "a": [[di(k), b, n, crop, round(s / n)] for (k, b), (n, crop, s) in sorted(a.items(), key=lambda kv: (-kv[1][0], kv[0][1]))],
+            "w": [[di(k), n, crop, round(s / n)] for k, (n, crop, s) in sorted(w.items(), key=lambda kv: -kv[1][0])[:CITY_ROWS_7D]],
+            "n7": sum(r[0] for r in w.values()),  # every district, not just the busiest listed in "w"
+        }
+    return {"generated": generated, "latest": max((p["t"] for p in points24), default=None), "km": CITY_KM, "bin": CITY_BIN,
+            "fields": {"district": ["name", "state", "cc", "slug"], "a": ["district", "bin", "n", "crop", "km"], "w": ["district", "n", "crop", "km"]},
+            "districts": [list(x) for x in names.items], "cities": out}
+
+
 def kv(method, key, body=None):
     acct, ns, tok = os.environ["CLOUDFLARE_ACCOUNT_ID"], os.environ["KV_NAMESPACE_ID"], os.environ["CLOUDFLARE_API_TOKEN"]
     url = f"https://api.cloudflare.com/client/v4/accounts/{acct}/storage/kv/namespaces/{ns}/values/{key}"
@@ -979,6 +1057,7 @@ def main():
                       1 if index[d].get("partial") else 0] for d in recent],
         }
         kbody = kml(feed)
+        points24 = feed["_all"] if hours == 24 else None
         v2body, v2same = feed_body(feed_v2(feed))
         del feed["_spots"], feed["_all"], feed["_spot_idx"]
         body, same = feed_body(feed)
@@ -987,9 +1066,16 @@ def main():
         print(f"{win}: {feed['stats']['spots']} spots, {len(feed['events'])} events, {len(body) // 1024} KB (v2 {len(v2body) // 1024} KB)")
         open(os.path.join(a.out, f"fires-{hours}.kml"), "wb").write(kbody)
         # The KML colours fires by age at build time, so it goes out with its feed, never on its own.
+        if hours == 24:
+            smoke = city_smoke(points24, history, dp_index, feed["generated"])
+            cbody = json.dumps(smoke, separators=(",", ":"), ensure_ascii=False).encode()
+            open(os.path.join(a.out, "cities.json"), "wb").write(cbody)
         if tier_ok:
             if pub.put(f"fires-{hours}-v2", v2body, v2same):
                 pub.put(f"kml-{hours}", kbody)
+            if hours == 24:
+                # Goes out with the 24 h feed (the same 20-minute tier), only when the fires around a city changed.
+                pub.put("cities", cbody, json.dumps({k: v for k, v in smoke.items() if k != "generated"}, separators=(",", ":"), ensure_ascii=False).encode())
     for name, ran in (("fast", fast), ("slow", slow)):
         if ran:
             tiers[name] = {"src": rev, "at": now_s, "pkday": pk_today}

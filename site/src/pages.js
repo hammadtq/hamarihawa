@@ -5,6 +5,7 @@
 // The page shell (header, nav, language switch) is site/src/shell.html, written by scripts/build-pages.py.
 // Every page is cached at the edge, so a visit rarely costs a KV read.
 import SHELL from "./shell.html";
+import CITIES from "./cities.json";
 
 const SITE = "https://hamarihawa.org";
 const LANGS = ["en", "ur", "hi"];
@@ -449,6 +450,9 @@ async function sitemap(env) {
   const urls = [[`${SITE}/fires/`, done.at(-1)], [`${SITE}/district/`, dp.last]];
   for (const d of done) if (d >= FIRST_DAILY && days[d].spots >= QUIET) urls.push([`${SITE}/fires/${d}/`, shift(d, 1)]);
   for (const sl of Object.keys(dp.d || {}).sort()) urls.push([`${SITE}/district/${sl}/`, dp.last]);
+  // The city pages (src/air.js) change with every feed run.
+  const today = new Date(Date.now() + 5 * 3600000).toISOString().slice(0, 10);
+  urls.push([`${SITE}/air/`, today], ...CITIES.map((c) => [`${SITE}/air/${c.id}/`, today]));
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.filter((u) => u[1]).map(([u, m]) => `  <url><loc>${u}</loc><lastmod>${m}</lastmod></url>`).join("\n") + "\n</urlset>\n";
 }
@@ -458,6 +462,9 @@ function notFound() {
   for (const l of LANGS) body[l] = `  <h1>${T[l].notFound}</h1>\n  <p>${T[l].notFoundBody}</p>`;
   return page(render({ path: "/fires/", title: T.en.notFound, desc: T.en.notFound, body, jsonld: {}, noindex: true }), 404, 300);
 }
+
+// Shared with the city pages (src/air.js).
+export { SITE, LANGS, MONTHS, COUNTRY, ORG, STYLE, esc, nf, pct, dname, render, page, kvJson, notFound };
 
 // Returns a Response for /fires/…, /district/… and /sitemap-daily.xml, or null for any other path.
 export async function pages(url, env, ctx, edgeCached) {

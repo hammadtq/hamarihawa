@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-26-city-air-pages",
+    "date": "2026-10-26",
+    "title": {
+      "en": "City pages: where each city's smoke is coming from",
+      "ur": "شہروں کے صفحات: ہر شہر کا دھواں کہاں سے آ رہا ہے",
+      "hi": "शहरों के पन्ने: हर शहर का धुआँ कहाँ से आ रहा है"
+    },
+    "body": {
+      "en": "<p>Each of the 58 cities with an air card now has its own page, listed under <a href=\"/air/\">City air</a>. A city's page says which way the wind is blowing right now and lists the districts upwind where satellites saw fires in the last 24 hours, with their direction and distance. It also shows the week's fires within 250 km, the brick kilns, power plants, industrial areas and landfills within 50 km, and the city's air right now. The pages update every 15 minutes, and every city card on the live map links to its page.</p>",
+      "ur": "<p>ہوا کے کارڈ والے 58 شہروں میں سے ہر ایک کا اب اپنا صفحہ ہے، جو <a href=\"/air/\">شہروں کی ہوا</a> میں درج ہیں۔ کسی شہر کا صفحہ بتاتا ہے کہ اس وقت ہوا کس طرف سے چل رہی ہے، اور ہوا کے رخ پر ان اضلاع کی فہرست دیتا ہے جہاں پچھلے 24 گھنٹوں میں سیٹلائٹس نے آگ دیکھی، ان کی سمت اور فاصلے کے ساتھ۔ اس میں ہفتے بھر میں 250 کلومیٹر کے اندر کی آگ، 50 کلومیٹر کے اندر اینٹوں کے بھٹے، بجلی گھر، صنعتی علاقے اور کچرا کنڈیاں، اور شہر کی اس وقت کی ہوا بھی ہے۔ یہ صفحات ہر 15 منٹ بعد تازہ ہوتے ہیں، اور تازہ نقشے پر ہر شہر کا کارڈ اس کے صفحے سے جڑا ہے۔</p>",
+      "hi": "<p>हवा के कार्ड वाले 58 शहरों में से हर एक का अब अपना पन्ना है, जो <a href=\"/air/\">शहरों की हवा</a> में दर्ज हैं। किसी शहर का पन्ना बताता है कि इस समय हवा किस तरफ़ से चल रही है, और हवा के रुख़ पर उन ज़िलों की सूची देता है जहाँ पिछले 24 घंटों में उपग्रहों ने आग देखी, उनकी दिशा और दूरी के साथ। इसमें हफ़्ते भर में 250 किमी के भीतर की आग, 50 किमी के भीतर ईंट भट्ठे, बिजलीघर, औद्योगिक क्षेत्र और कचरा डंप, और शहर की इस समय की हवा भी है। ये पन्ने हर 15 मिनट में ताज़ा होते हैं, और लाइव नक्शे पर हर शहर का कार्ड उसके पन्ने से जुड़ा है।</p>"
+    }
+  },
+  {
     "id": "2026-10-25-58-cities",
     "date": "2026-10-25",
     "title": {

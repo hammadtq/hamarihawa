@@ -202,10 +202,34 @@ class RebuildTest(unittest.TestCase):
         self.assertIsNone(d["angul"]["s"]["2025"][0])
 
 
+class CitySmokeTest(unittest.TestCase):
+    def test_bins_distance_and_slugs(self):
+        lahore = next(c for c in bf.CITIES if c["id"] == "lahore")
+        lat, lon = lahore["lat"], lahore["lon"]
+        fire = lambda dlat, dlon, kind="crop", d="Sheikhupura": {"lat": lat + dlat, "lon": lon + dlon, "t": 1000,
+                                                                 "district": d, "state": "Punjab", "cc": "PK", "kind": kind}
+        north = [fire(0.9, 0), fire(0.9, 0, "town")]       # ~100 km due north: bin 0
+        east = [fire(0, 1.0, d="Kasur")]                   # ~95 km east (initial bearing just under 90): bin 17
+        far, close = fire(3.0, 0), fire(0.001, 0)          # ~330 km and ~0.1 km: both left out, as the cards do
+        dp = {"d": {"sheikhupura": {"name": "Sheikhupura", "state": "Punjab", "cc": "PK"}}}
+        out = bf.city_smoke(north + east + [far, close], north, dp, 1)
+        c = out["cities"]["lahore"]
+        rows = {(out["districts"][r[0]][0], r[1]): r[2:] for r in c["a"]}
+        self.assertEqual(rows[("Sheikhupura", 0)][:2], [2, 1])
+        self.assertEqual(rows[("Kasur", 17)][:2], [1, 1])
+        self.assertEqual(len(c["a"]), 2)
+        self.assertAlmostEqual(rows[("Sheikhupura", 0)][2], 100, delta=3)
+        self.assertEqual(out["districts"][c["w"][0][0]], ["Sheikhupura", "Punjab", "PK", "sheikhupura"])
+        self.assertEqual(c["w"][0][1:3], [2, 1])
+        self.assertEqual(c["n7"], 2)
+        self.assertEqual(out["latest"], 1000)
+
+
 class BudgetSimulation(unittest.TestCase):
     def test_a_busy_day_stays_under_budget(self):
         """192 runs a day (GitHub's schedule plus the Worker's dispatch), NASA's files changing on 57 of them
-        (as measured on 23 Oct 2026). Slow tier: 8 keys plus about 14 district shards once a day."""
+        (as measured on 23 Oct 2026). Fast tier: fires-24-v2, kml-24 and cities. Slow tier: 8 keys plus about
+        14 district shards once a day."""
         st, writes, day = {}, 0, "d"
         changes = set(range(0, 192, 192 // 57 + 1)) | {5, 6, 7}
         rev = 0
@@ -214,7 +238,7 @@ class BudgetSimulation(unittest.TestCase):
             if run in changes:
                 rev += 1
             fast, slow = bf.tiers_due(st, f"r{rev}", now, day)
-            n = (2 if fast else 0) + (8 if slow else 0)
+            n = (3 if fast else 0) + (8 if slow else 0)
             if run == 40 and slow:
                 n += 15
             if n:

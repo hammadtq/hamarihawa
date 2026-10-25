@@ -706,6 +706,7 @@
           <span>CO <b>${nf(Math.round(a.carbon_monoxide))}</b></span><span>${esc(t("dust"))} <b>${nf(Math.round(a.dust))}</b></span><span class="muted">µg/m³</span>
         </div>
         ${upTxt ? `<div class="upwind ${up > 0 ? "hot" : ""}">${esc(upTxt)}</div>` : ""}
+        <a class="c-more" href="/air/${c.id}/">${esc(t("cityMore", { city: c.name[state.lang] }))}</a>
       </article>`;
     }).join("");
     sketchAll(box);

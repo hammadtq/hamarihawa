@@ -194,6 +194,7 @@ html[dir="rtl"] .card .polls { justify-content: flex-end; }
 .card .polls b { font-weight: 600; color: var(--ink); }
 .card .upwind { font-size: 12.5px; color: var(--ink-2); }
 .card .upwind.hot { color: var(--fire); }
+.card .c-more { display: block; margin-top: 8px; font-size: 12.5px; }
 .card.skel { min-height: 280px; color: var(--ink-3); justify-content: center; align-items: center; }
 
 .model-note { color: var(--ink-3); font-size: 13px; margin-top: 18px; max-width: 80ch; }
