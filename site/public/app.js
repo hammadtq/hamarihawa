@@ -134,7 +134,8 @@
       grad: ["#fffcc7", "#ffde6a", "#ffb339", "#ff7c20", "#fe3612", "#ed1c0d", "#7f000e"], ticks: ["0", "1", "2 ×10¹⁶ molec/cm²"] },
     aod: { id: "MODIS_Combined_Value_Added_AOD", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2,
       grad: ["#fffdcd", "#ffdf6c", "#ffaf36", "#ff701e", "#f52810", "#c7030d", "#7d000e"], ticks: ["0", "0.3", "0.6", "1+"] },
-    smoke: { id: "OMI_Aerosol_Index", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2,
+    // OMPS on Suomi NPP: OMI on the ageing Aura satellite began serving corrupt tiles in Oct 2026. Same colour scale.
+    smoke: { id: "OMPS_Aerosol_Index", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2,
       grad: ["#ffffff", "#dada7f", "#fcfc07", "#cfcb00", "#fa2300", "#cc0100", "#730019"], ticks: ["0", "2.5", "5"] },
     truecolor: { id: "VIIRS_SNPP_CorrectedReflectance_TrueColor", lvl: 9, ext: "jpg", op: 1, lag: 1, fill: 2, grad: null, ticks: null },
     // Our own 14-day NO2 average and its labelled hotspots (scripts/build-no2.py), not a GIBS layer.
