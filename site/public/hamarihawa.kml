@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>HamariHawa: live air map of Pakistan and North India</name>
+    <name>HamariHawa: live air map of Pakistan and India</name>
     <description>Fires, city air, traffic NO₂, haze and pollution sites from satellite data, each refreshing on its own schedule. Live map: https://hamarihawa.org</description>
     <open>1</open>
     <LookAt><longitude>75.5</longitude><latitude>29.8</latitude><range>1900000</range></LookAt>

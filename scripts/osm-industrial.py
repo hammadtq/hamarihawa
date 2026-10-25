@@ -7,16 +7,19 @@ reads the country extracts directly. Needs pyosmium (`pip install osmium`).
 Usage: python3 -I scripts/osm-industrial.py <out.json> <extract.osm.pbf> [more.osm.pbf ...]
        python3 -I scripts/osm-industrial.py --power <plants.json> <extract.osm.pbf> [...]   (named fossil power plants)
        python3 -I scripts/osm-industrial.py --roads <roads.json> <extract.osm.pbf> [...]    (major roads, under the NO2 layer)
-Get extracts from https://download.geofabrik.de/asia/ (pakistan, india/northern-zone,
-india/central-zone, india/eastern-zone).
+       python3 -I scripts/osm-industrial.py --landfill <osm-landfill.json> <extract.osm.pbf> [...]  (landuse=landfill)
+Get extracts from https://download.geofabrik.de/asia/ (pakistan, india).
 
 Output matches build-sources.py: {"items": [[lat, lon, name, radius_m, osm_ref], ...]}.
 Keeps named estates, and unnamed ones larger than ~5 ha (radius >= 130 m).
 """
-import json, math, sys, time
+import json, math, os, sys, time
 import osmium
 
-BBOX = (25.0, 66.0, 35.5, 88.5)  # s, w, n, e
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import geo
+
+BBOX = (geo.REGION["s"], geo.REGION["w"], geo.REGION["n"], geo.REGION["e"])  # s, w, n, e: all of Pakistan and India
 
 
 FOSSIL = {"coal", "gas", "oil", "diesel", "lignite", "furnace_oil"}
@@ -128,6 +131,58 @@ class Roads(osmium.SimpleHandler):
         self.items.append([c, flat])
 
 
+class Landfills(osmium.SimpleHandler):
+    """Mapped landfill sites (landuse=landfill), in the same format build-sources.py wrote from Overpass."""
+
+    def __init__(self, seen):
+        super().__init__()
+        self.items, self.seen = [], seen
+
+    def node(self, n):
+        if n.tags.get("landuse") == "landfill" and ("n", n.id) not in self.seen:
+            la, lo = n.location.lat, n.location.lon
+            if BBOX[0] <= la <= BBOX[2] and BBOX[1] <= lo <= BBOX[3]:
+                self.seen.add(("n", n.id))
+                self.items.append([round(la, 5), round(lo, 5), n.tags.get("name:en") or n.tags.get("name") or "", 150, f"n{n.id}"])
+
+    def way(self, w):
+        if w.tags.get("landuse") != "landfill" or ("w", w.id) in self.seen:
+            return
+        try:
+            lats = [n.lat for n in w.nodes]; lons = [n.lon for n in w.nodes]
+        except osmium.InvalidLocationError:
+            return
+        if not lats:
+            return
+        la, lo = (min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2
+        if not (BBOX[0] <= la <= BBOX[2] and BBOX[1] <= lo <= BBOX[3]):
+            return
+        dy = (max(lats) - min(lats)) * 111_000
+        dx = (max(lons) - min(lons)) * 111_000 * math.cos(math.radians(la))
+        self.seen.add(("w", w.id))
+        self.items.append([round(la, 5), round(lo, 5), w.tags.get("name:en") or w.tags.get("name") or "",
+                           max(100, round(math.hypot(dx, dy) / 2)), f"w{w.id}"])
+
+    def area(self, a):
+        """Landfills mapped as multipolygon relations (closed ways come through way() above)."""
+        if a.from_way() or a.tags.get("landuse") != "landfill" or ("r", a.orig_id()) in self.seen:
+            return
+        lats, lons = [], []
+        for ring in a.outer_rings():
+            for n in ring:
+                lats.append(n.lat); lons.append(n.lon)
+        if not lats:
+            return
+        la, lo = (min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2
+        if not (BBOX[0] <= la <= BBOX[2] and BBOX[1] <= lo <= BBOX[3]):
+            return
+        dy = (max(lats) - min(lats)) * 111_000
+        dx = (max(lons) - min(lons)) * 111_000 * math.cos(math.radians(la))
+        self.seen.add(("r", a.orig_id()))
+        self.items.append([round(la, 5), round(lo, 5), a.tags.get("name:en") or a.tags.get("name") or "",
+                           max(100, round(math.hypot(dx, dy) / 2)), f"r{a.orig_id()}"])
+
+
 class Industrial(osmium.SimpleHandler):
     def __init__(self, seen):
         super().__init__()
@@ -170,6 +225,18 @@ def main():
                   open(out, "w"), separators=(",", ":"), ensure_ascii=False)
         print(f"wrote {len(items)} -> {out}")
         return
+    if sys.argv[1] == "--landfill":
+        out, files = sys.argv[2], sys.argv[3:]
+        seen, items = set(), []
+        for f in files:
+            h = Landfills(seen)
+            h.apply_file(f, locations=True, idx="flex_mem")
+            items += h.items
+            print(f"{f}: {len(h.items)} landfills")
+        json.dump({"source": "© OpenStreetMap contributors (ODbL)", "built": time.strftime("%Y-%m-%d"), "items": items},
+                  open(out, "w"), separators=(",", ":"), ensure_ascii=False)
+        print(f"wrote {len(items)} -> {out}")
+        return
     if sys.argv[1] == "--roads":
         out, files = sys.argv[2], sys.argv[3:]
         seen, items = set(), []
@@ -179,11 +246,16 @@ def main():
             items += h.items
             print(f"{f}: {len(h.items)} road segments")
         items = chain(items)
-        json.dump({"source": "© OpenStreetMap contributors (ODbL); highway=motorway/trunk/primary, simplified",
-                   "fields": ["class (0 motorway, 1 trunk, 2 primary)", "flat [lon, lat, ...]"],
-                   "built": time.strftime("%Y-%m-%d"), "items": items},
-                  open(out, "w"), separators=(",", ":"))
-        print(f"wrote {len(items)} -> {out}")
+        # Motorways and trunk roads in <out>; primary roads, drawn only once zoomed in, in <out>-primary.json,
+        # so the regional view doesn't download them.
+        primary = os.path.splitext(out)[0] + "-primary.json"
+        for path, keep, what in ((out, (0, 1), "motorway/trunk"), (primary, (2,), "primary")):
+            part = [it for it in items if it[0] in keep]
+            json.dump({"source": f"© OpenStreetMap contributors (ODbL); highway={what}, simplified",
+                       "fields": ["class (0 motorway, 1 trunk, 2 primary)", "flat [lon, lat, ...]"],
+                       "built": time.strftime("%Y-%m-%d"), "items": part},
+                      open(path, "w"), separators=(",", ":"))
+            print(f"wrote {len(part)} -> {path}")
         return
     out, files = sys.argv[1], sys.argv[2:]
     seen, items = set(), []

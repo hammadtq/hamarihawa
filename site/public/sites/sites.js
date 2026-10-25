@@ -1,4 +1,4 @@
-// Pollution sites directory: persistent sources in Pakistan and North India, by category.
+// Pollution sites directory: persistent sources in Pakistan and India, by category.
 // Static categories come from /sources/sites.json (scripts/build-sites.py); traffic hotspots
 // come live from /api/no2.json so they follow the latest two weeks.
 (() => {
@@ -7,7 +7,7 @@
     en: {
       dir: "ltr",
       gen: { "Power plant": "Power plant", "Industrial plant": "Industrial plant", "Brick kiln": "Brick kiln", "Industrial area": "Industrial area" },
-      tagline: "What satellites see in the air over Pakistan and North India, today",
+      tagline: "What satellites see in the air over Pakistan and India, today",
       title: "Pollution sites satellites keep catching",
       lede: "These are places that show up again and again in satellite data: in NO₂ maps, methane and CO₂ plumes, or as heat that never goes away. Each one is listed with what was seen and when, and links to the live map.",
       all: "All", pk: "Pakistan", in: "India", loading: "Loading sites…",
@@ -25,7 +25,7 @@
       hot: "Always-hot industrial sites", hotWhy: "Places NASA's fire satellites saw hot on many days through the year: gas flares, furnaces, cement and steel works, refineries. Not crop fires, which move with the seasons.",
       hotHow: "NASA FIRMS VIIRS 2025 archive: spots hot on 20+ days, or flagged by NASA as static land sources.",
       hotEv: "days hot, across {m} months of 2025",
-      kilns: "Brick-kiln belts", kilnsWhy: "Districts with the most brick kilns. Old fixed-chimney kilns burn coal, rubber and waste and are among the dirtiest sources near cities; zigzag kilns cut smoke sharply.",
+      kilns: "Brick-kiln belts", kilnsWhy: "Districts with the most brick kilns. Old fixed-chimney kilns burn coal, rubber and waste and are among the dirtiest sources near cities; zigzag kilns cut smoke sharply. The kiln survey covers the Indo-Gangetic plain, from Pakistani Punjab to Bangladesh, so kilns elsewhere in Pakistan and India aren't counted.",
       kilnsHow: "Kiln locations: SentinelKilnDB (IIT Gandhinagar) and the Pakistan IGP kiln dataset, from Sentinel-2 images. PM2.5 estimates: Pakistan dataset, firing season.",
       kilnEv: "kilns", zigEv: "{p}% zigzag (cleaner design)", pmEv: "≈ {t} tonnes of PM2.5 a day in firing season (estimate)",
       foot: "Being on this list means satellites detected pollution or heat at this place. It does not mean any company broke the law, and it doesn't measure each site's share of the air you breathe. Positions can be off by a few hundred metres.",
@@ -34,7 +34,7 @@
     ur: {
       dir: "rtl",
       gen: { "Power plant": "بجلی گھر", "Industrial plant": "صنعتی پلانٹ", "Brick kiln": "اینٹوں کا بھٹہ", "Industrial area": "صنعتی علاقہ" },
-      tagline: "پاکستان اور شمالی ہندوستان کی فضا: آج سیٹلائٹ کو کیا نظر آ رہا ہے",
+      tagline: "پاکستان اور ہندوستان کی فضا: آج سیٹلائٹ کو کیا نظر آ رہا ہے",
       title: "وہ مقامات جو سیٹلائٹ بار بار پکڑتے ہیں",
       lede: "یہ وہ جگہیں ہیں جو سیٹلائٹ ڈیٹا میں بار بار نظر آتی ہیں: NO₂ کے نقشوں میں، میتھین اور CO₂ کے اخراج میں، یا ایسی گرمی کے طور پر جو کبھی ختم نہیں ہوتی۔ ہر مقام کے ساتھ لکھا ہے کہ وہاں کیا اور کب دیکھا گیا، اور تازہ نقشے کا لنک بھی دیا گیا ہے۔",
       all: "سب", pk: "پاکستان", in: "ہندوستان", loading: "مقامات آ رہے ہیں…",
@@ -52,7 +52,7 @@
       hot: "ہمیشہ گرم صنعتی مقامات", hotWhy: "وہ جگہیں جنہیں ناسا کے سیٹلائٹ نے سال بھر میں بہت سے دن گرم پایا: گیس کے شعلے، بھٹیاں، سیمنٹ اور اسٹیل کے کارخانے اور ریفائنریاں۔ یہ فصل کی آگ نہیں، جو موسم کے ساتھ آتی جاتی ہے۔",
       hotHow: "NASA FIRMS VIIRS 2025: وہ جگہیں جو 20 یا اس سے زیادہ دن گرم رہیں، یا جنہیں ناسا نے مستقل ذریعہ قرار دیا۔",
       hotEv: "دن گرم رہی، 2025 کے {m} مہینوں میں",
-      kilns: "اینٹوں کے بھٹوں کی پٹیاں", kilnsWhy: "سب سے زیادہ بھٹوں والے اضلاع۔ پرانے فکسڈ چمنی بھٹے کوئلہ، ربڑ اور کچرا جلاتے ہیں اور شہروں کے قریب آلودگی کے سب سے گندے ذرائع میں سے ہیں؛ زگ زیگ بھٹوں سے کہیں کم دھواں نکلتا ہے۔",
+      kilns: "اینٹوں کے بھٹوں کی پٹیاں", kilnsWhy: "سب سے زیادہ بھٹوں والے اضلاع۔ پرانے فکسڈ چمنی بھٹے کوئلہ، ربڑ اور کچرا جلاتے ہیں اور شہروں کے قریب آلودگی کے سب سے گندے ذرائع میں سے ہیں؛ زگ زیگ بھٹوں سے کہیں کم دھواں نکلتا ہے۔ بھٹوں کا سروے صرف سندھ و گنگا کے میدان کا ہے، پاکستانی پنجاب سے بنگلہ دیش تک، اس لیے پاکستان اور ہندوستان کے باقی حصوں کے بھٹے اس میں شامل نہیں۔",
       kilnsHow: "بھٹوں کے مقامات: SentinelKilnDB اور پاکستان IGP بھٹہ ڈیٹا، جو Sentinel-2 کی تصاویر سے بنے ہیں۔ PM2.5 کے اندازے: پاکستان کا ڈیٹا، بھٹوں کے موسم کے لیے۔",
       kilnEv: "بھٹے", zigEv: "{p}% زگ زیگ (صاف ڈیزائن)", pmEv: "بھٹے کے موسم میں تقریباً {t} ٹن PM2.5 روزانہ (اندازہ)",
       foot: "کسی مقام کے اس فہرست میں ہونے کا مطلب صرف یہ ہے کہ سیٹلائٹ نے وہاں آلودگی یا گرمی پکڑی۔ اس کا مطلب یہ نہیں کہ کسی کمپنی نے قانون توڑا، اور یہ فہرست یہ بھی نہیں ناپتی کہ آپ کی ہوا میں ہر مقام کا کتنا حصہ ہے۔ مقام چند سو میٹر اِدھر اُدھر ہو سکتا ہے۔",
@@ -61,7 +61,7 @@
     hi: {
       dir: "ltr",
       gen: { "Power plant": "बिजलीघर", "Industrial plant": "औद्योगिक संयंत्र", "Brick kiln": "ईंट भट्ठा", "Industrial area": "औद्योगिक इलाक़ा" },
-      tagline: "पाकिस्तान और उत्तर भारत की हवा: आज उपग्रह क्या देख रहे हैं",
+      tagline: "पाकिस्तान और भारत की हवा: आज उपग्रह क्या देख रहे हैं",
       title: "वे ठिकाने जिन्हें उपग्रह बार-बार पकड़ते हैं",
       lede: "ये वे जगहें हैं जो उपग्रह डेटा में बार-बार दिखती हैं: NO₂ के नक्शों में, मीथेन और CO₂ के गुबारों में, या ऐसी गर्मी के रूप में जो कभी ख़त्म नहीं होती। हर जगह के साथ लिखा है कि वहाँ क्या और कब देखा गया, और लाइव नक्शे का लिंक भी दिया है।",
       all: "सब", pk: "पाकिस्तान", in: "भारत", loading: "ठिकाने आ रहे हैं…",
@@ -79,7 +79,7 @@
       hot: "हमेशा गर्म औद्योगिक ठिकाने", hotWhy: "वे जगहें जिन्हें नासा के उपग्रहों ने साल भर में कई दिन गर्म पाया: गैस की लपटें, भट्टियाँ, सीमेंट और स्टील के कारख़ाने, रिफ़ाइनरियाँ। यह पराली नहीं है, जो मौसम के साथ आती-जाती है।",
       hotHow: "NASA FIRMS VIIRS 2025: वे जगहें जो 20 या ज़्यादा दिन गर्म रहीं, या जिन्हें नासा ने स्थायी स्रोत के रूप में चिह्नित किया।",
       hotEv: "दिन गर्म रहा, 2025 के {m} महीनों में",
-      kilns: "ईंट भट्ठों की पट्टियाँ", kilnsWhy: "सबसे ज़्यादा भट्ठों वाले ज़िले। पुराने फ़िक्स्ड चिमनी भट्ठे कोयला, रबर और कचरा जलाते हैं, और शहरों के आसपास के सबसे गंदे स्रोतों में गिने जाते हैं; ज़िगज़ैग भट्ठे धुआँ काफ़ी कम कर देते हैं।",
+      kilns: "ईंट भट्ठों की पट्टियाँ", kilnsWhy: "सबसे ज़्यादा भट्ठों वाले ज़िले। पुराने फ़िक्स्ड चिमनी भट्ठे कोयला, रबर और कचरा जलाते हैं, और शहरों के आसपास के सबसे गंदे स्रोतों में गिने जाते हैं; ज़िगज़ैग भट्ठे धुआँ काफ़ी कम कर देते हैं। भट्ठों का सर्वे सिर्फ़ सिंधु-गंगा के मैदान का है, पाकिस्तानी पंजाब से बांग्लादेश तक, इसलिए पाकिस्तान और भारत के बाक़ी हिस्सों के भट्ठे इसमें नहीं गिने गए।",
       kilnsHow: "भट्ठों की जगहें: SentinelKilnDB (IIT गांधीनगर) और पाकिस्तान IGP भट्ठा डेटा, Sentinel-2 की तस्वीरों से। PM2.5 का अनुमान: पाकिस्तान का डेटा, भट्ठे के मौसम के लिए।",
       kilnEv: "भट्ठे", zigEv: "{p}% ज़िगज़ैग (साफ़ डिज़ाइन)", pmEv: "भट्ठे के मौसम में लगभग {t} टन PM2.5 रोज़ (अनुमान)",
       foot: "किसी जगह का इस सूची में होना सिर्फ़ यह बताता है कि उपग्रह ने वहाँ प्रदूषण या गर्मी पकड़ी। इसका मतलब यह नहीं कि किसी कंपनी ने क़ानून तोड़ा, और यह सूची यह भी नहीं नापती कि आपकी हवा में किस ठिकाने का कितना हिस्सा है। बताई गई जगह कुछ सौ मीटर इधर-उधर हो सकती है।",

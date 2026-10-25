@@ -496,7 +496,7 @@ def kml(feed):
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>',
            f"<name>HamariHawa fires, last {feed['hours']} h</name>",
-           "<description>Fires seen by NASA satellites (VIIRS, MODIS) over Pakistan and North India. "
+           "<description>Fires seen by NASA satellites (VIIRS, MODIS) over Pakistan and India. "
            "Live map: https://hamarihawa.org. Data: NASA FIRMS; place names: GeoNames.</description>"]
     for k, c in styles.items():
         for sz, sc in (("s", 0.5), ("m", 0.75), ("l", 1.0)):

@@ -39,7 +39,7 @@ def fmt_date(iso, lang):
 
 
 def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=False,
-         og_image="/og/map-v2.png", og_alt="HamariHawa: live fire and air map of Pakistan and North India", current=None):
+         og_image="/og/map-v3.png", og_alt="HamariHawa: live fire and air map of Pakistan and India", current=None):
     url = f"{SITE}{path}"
     t, dsc = html.escape(title), html.escape(desc)
     on = lambda h, k: k == current if current else h == path or (k == "reports" and path.startswith("/report"))
@@ -209,7 +209,7 @@ def updates():
               "url": f"{SITE}/updates/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG,
               "blogPost": [{"@type": "BlogPosting", "headline": e["title"]["en"], "datePublished": e["date"],
                             "url": f"{SITE}/updates/#{e['id']}", "description": plain(e["body"]["en"])[:300],
-                            "author": ORG, "publisher": ORG, "image": f"{SITE}/og/map-v2.png"} for e in entries]}
+                            "author": ORG, "publisher": ORG, "image": f"{SITE}/og/map-v3.png"} for e in entries]}
     out = page("/updates/", "What's new", "Updates to HamariHawa, the live satellite fire and air map of Pakistan and India: new layers, data and fixes, newest first.",
                arts, jsonld)
     open(os.path.join(PUB, "updates", "index.html"), "w", encoding="utf-8").write(out)
@@ -242,11 +242,11 @@ def trends_page():
     arts = {l: open(os.path.join(ROOT, "scripts", "pages", f"trends-{l}.html"), encoding="utf-8").read().strip() for l in LANGS}
     js_v = int(os.path.getmtime(os.path.join(PUB, "trends", "trends.js")))
     jsonld = {"@context": "https://schema.org", "@type": "WebPage", "@id": f"{SITE}/trends/#page",
-              "name": "Crop fire trends in Pakistan and North India since 2019", "url": f"{SITE}/trends/",
+              "name": "Crop fire trends in Pakistan and India since 2019", "url": f"{SITE}/trends/",
               "inLanguage": ["en", "ur", "hi"], "publisher": ORG, "isPartOf": {"@id": f"{SITE}/#website"},
               "about": ["Crop residue burning in Punjab and Haryana", "Satellite fire counts by season, district, day and night"],
               "mainEntity": {"@type": "Dataset", "name": "HamariHawa daily fire archive",
-                             "description": "Daily counts of satellite fire spots over Pakistan and North India (25-35.5 N, 66-88.5 E) from NASA FIRMS, "
+                             "description": "Daily counts of satellite fire spots over Pakistan and India (and the northern plains, 25-35.5 N, 66-88.5 E, on their own) from NASA FIRMS, "
                                             "October-November 2019 onwards and every day since 1 October 2026, split by country, day/night pass and district.",
                              "url": f"{SITE}/trends/", "license": "https://creativecommons.org/licenses/by/4.0/",
                              "creator": ORG, "temporalCoverage": "2019-10-01/..",
@@ -256,7 +256,7 @@ def trends_page():
             f'<link rel="stylesheet" href="/trends/trends.css?v={js_v}">\n')
     scripts = ('<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n'
                f'<script src="/trends/trends.js?v={js_v}"></script>\n')
-    out = page("/trends/", "Fire trends", "Crop burning in Pakistan and North India since 2019: every October–November season compared, this year against last, "
+    out = page("/trends/", "Fire trends", "Crop burning in Pakistan and India since 2019: every October–November season compared, this year against last, "
                "district by district, from NASA satellite data.",
                arts, jsonld, extra_head=head, scripts=scripts, wide=True)
     open(os.path.join(PUB, "trends", "index.html"), "w", encoding="utf-8").write(out)
@@ -285,7 +285,7 @@ def reports_page():
     jsonld = {"@context": "https://schema.org", "@type": "CollectionPage", "@id": f"{SITE}/reports/#page", "name": "HamariHawa reports",
               "url": f"{SITE}/reports/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG,
               "hasPart": [{"@type": "Report", "name": t, "url": f"{SITE}{p}", "datePublished": d} for p, d, t, _ in REPORTS]}
-    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and North India: Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
+    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
                arts, jsonld)
     os.makedirs(os.path.join(PUB, "reports"), exist_ok=True)
     open(os.path.join(PUB, "reports", "index.html"), "w", encoding="utf-8").write(out)

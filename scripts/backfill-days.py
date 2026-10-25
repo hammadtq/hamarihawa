@@ -190,7 +190,7 @@ def main():
                             source=source)
         for d, day in days.items():
             index[d] = bf.index_entry(day["summary"], False)
-            dist[d] = day.pop("districts")
+            dist[d] = day["districts"]  # the day file keeps its busiest-districts list too; the day pages show it
             if a.summaries:
                 continue
             body = json.dumps(day, separators=(",", ":"), ensure_ascii=False).encode()

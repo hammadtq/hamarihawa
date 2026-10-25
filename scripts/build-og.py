@@ -2,7 +2,8 @@
 """Draw the link-preview images (og:image, 1200x630) in the site's pencil-sketch style.
 
 Usage: python3 -I scripts/build-og.py <fire-feed.json> <Kalam-Bold.ttf> <Inter.ttf>
-Writes site/public/og/map.png and site/public/og/sites.png, plus apple-touch-icon.png.
+Writes site/public/og/map-v3.png and site/public/og/sites-v3.png (a new name whenever the picture changes,
+since link previews are cached by URL), plus apple-touch-icon.png.
 Fonts: Kalam and Inter from Google Fonts (OFL). Needs Pillow.
 """
 import json, math, os, random, sys
@@ -12,7 +13,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 OUT = os.path.join(ROOT, "site", "public", "og")
 W, H = 1200, 630
 INK, INK2, FIRE, PAPER = (29, 29, 31), (90, 90, 95), (214, 45, 32), (250, 248, 243)
-BOX = (24.0, 35.8, 66.0, 88.5)
+BOX = (5.5, 37.5, 60.5, 97.5)  # s, n, w, e: all of Pakistan and India
 
 
 def font(path, size, weight=None):
@@ -54,7 +55,7 @@ def flame(d, x, y, s):
 
 
 def project(lat, lon, x, y, w, h):
-    k = math.cos(math.radians(30))
+    k = math.cos(math.radians((BOX[0] + BOX[1]) / 2))
     sc = min(w / ((BOX[3] - BOX[2]) * k), h / (BOX[1] - BOX[0]))
     ox = x + (w - (BOX[3] - BOX[2]) * k * sc) / 2
     oy = y + (h - (BOX[1] - BOX[0]) * sc) / 2
@@ -68,12 +69,20 @@ def card(title, sub, points, pt_colour, kiln=False, name="map.png", fonts=None):
     # map panel on the right
     mx, my, mw, mh = 600, 60, 560, 470
     d.rectangle((mx, my, mx + mw, my + mh), fill=PAPER)
+    # Both countries' outlines (data/places/borders.json), filled a shade darker than the paper.
+    borders = json.load(open(os.path.join(ROOT, "data", "places", "borders.json"), encoding="utf-8"))
+    for polys in borders.values():
+        for poly in polys:
+            ring = [project(la, lo, mx, my, mw, mh) for lo, la in poly[0]]
+            if len(ring) > 2:
+                d.polygon(ring, fill=(238, 233, 222), outline=(176, 170, 160))
     for p in points:
         cx, cy = project(p[0], p[1], mx, my, mw, mh)
         if mx < cx < mx + mw and my < cy < my + mh:
             r = 2 if kiln else max(2.5, min(7, 2 + math.sqrt(p[3]) * 0.5))
             d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=pt_colour)
-    for nm, la, lo in [("Lahore", 31.55, 74.34), ("Delhi", 28.61, 77.21), ("Karachi", 24.86, 67.0), ("Islamabad", 33.69, 73.06), ("Lucknow", 26.85, 80.95)]:
+    for nm, la, lo in [("Lahore", 31.55, 74.34), ("Delhi", 28.61, 77.21), ("Karachi", 24.86, 67.0), ("Kolkata", 22.57, 88.36),
+                       ("Mumbai", 19.08, 72.88), ("Bengaluru", 12.97, 77.59)]:
         cx, cy = project(la, lo, mx, my, mw, mh)
         d.ellipse((cx - 4, cy - 4, cx + 4, cy + 4), fill=INK)
         d.text((cx + 8, cy - 12), nm, font=font(inter, 19, 600), fill=INK, stroke_width=3, stroke_fill="white")
@@ -100,13 +109,14 @@ def card(title, sub, points, pt_colour, kiln=False, name="map.png", fonts=None):
 def main():
     feed, kalam, inter = sys.argv[1], sys.argv[2], sys.argv[3]
     pts = json.load(open(feed))["points"]
-    card(["Live fire & air map", "of Pakistan and", "North India"],
-         ["Every fire NASA's satellites saw in the", "last day, the smoke and NO₂ over the", "plains, and what it means for your health."],
-         pts, (232, 120, 40), name="map.png", fonts=(kalam, inter))
+    card(["Live fire & air map", "of Pakistan", "and India"],
+         ["Every fire NASA's satellites saw in the", "last day, the smoke and NO₂ in the air,", "and what it means for your health."],
+         pts, (232, 120, 40), name="map-v3.png", fonts=(kalam, inter))
     kilns = json.load(open(os.path.join(ROOT, "site", "public", "sources", "kilns.json")))["items"]
+    hot = json.load(open(os.path.join(ROOT, "site", "public", "sources", "hotspots.json")))["items"]
     card(["Pollution sites", "satellites keep", "catching"],
-         ["Traffic hotspots, methane-leaking landfills,", "coal plants, flares and 50,000 brick kilns", "across Pakistan and North India."],
-         [[k[0], k[1], 0, 0] for k in kilns[::2]], (122, 74, 42), kiln=True, name="sites.png", fonts=(kalam, inter))
+         ["Traffic hotspots, methane-leaking landfills,", "coal plants, flares and 50,000 brick kilns", "across Pakistan and India."],
+         [[k[0], k[1], 0, 0] for k in kilns[::2] + hot], (122, 74, 42), kiln=True, name="sites-v3.png", fonts=(kalam, inter))
     # 180x180 touch icon: the flame on white
     icon = Image.new("RGB", (180, 180), "white")
     flame(ImageDraw.Draw(icon), 18, 14, 144)

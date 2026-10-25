@@ -2,6 +2,7 @@
 .doc .lede[data-chart="headline"] { font-size: 19px; min-height: 3.2em; }
 .tfilter { margin: 14px 0 4px; }
 .tfilter button { font-size: 14px; padding: 2px 14px; }
+.tfilter .tsep { display: inline-block; width: 14px; }
 
 .tchart { position: relative; margin: 14px 0 6px; }
 .tchart svg { display: block; width: 100%; height: auto; overflow: visible; touch-action: pan-y; }
