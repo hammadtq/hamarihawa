@@ -157,6 +157,16 @@ class SlugTest(unittest.TestCase):
         self.assertEqual(got["hyderabad-telangana"]["state"], "Telangana")
 
 
+class WindowTest(unittest.TestCase):
+    def test_24h_feed_is_cut_to_24_hours(self):
+        """NASA's "24 h" file can hold 36 hours; the feed keeps only the 24 up to the newest detection."""
+        head = "latitude,longitude,bright_ti4,scan,track,acq_date,acq_time,satellite,instrument,confidence,version,bright_ti5,frp,daynight\n"
+        rows = [f"30.{i:02d}1,73.{i:02d}1,330,0.4,0.4,{d},{t},N,VIIRS,n,2.0NRT,290,5,D\n"
+                for i, (d, t) in enumerate([("2026-10-23", "0800"), ("2026-10-24", "0800"), ("2026-10-24", "2000")])]
+        f = bf.build(24, [head + "".join(rows), None, None, None])
+        self.assertEqual(len(f["_all"]), 2)
+
+
 class RebuildTest(unittest.TestCase):
     days = [f"2025-10-{d:02d}" for d in range(1, 26)]
 

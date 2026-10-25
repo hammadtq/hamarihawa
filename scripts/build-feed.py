@@ -322,6 +322,13 @@ def build(hours, csvs):
         if text:
             points += parse(si, sat, text)
     points = drop_bursts(points)
+    # NASA's 24 h and 48 h files run longer than their names whenever its processing lags (on 24 Oct 2026 the
+    # "24 h" file held about 36 hours, two afternoon passes), so the headline jumped while the comparison, cut
+    # exactly, didn't move. Cut the shorter windows exactly too: the `hours` up to the newest detection,
+    # like compare(). The 7-day file is kept whole, since it feeds the daily archive.
+    if hours < 168 and points:
+        hi = max(p["t"] for p in points)
+        points = [p for p in points if p["t"] > hi - hours * 3600 * 1000]
 
     # Fires outside Pakistan and India (Nepal, Bangladesh, Afghanistan, Iran, China, the sea) are left out.
     inside = []
