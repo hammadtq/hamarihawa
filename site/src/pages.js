@@ -19,8 +19,14 @@ const QUIET = 150; // days with fewer spots stay out of search results and the s
 const FIRST_DAILY = "2026-10-01"; // every day is archived from here on; before it, only Oct-Nov seasons
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-const NF = {}; // one formatter per language: building an Intl.NumberFormat costs far more than using it
-const nf = (n, l) => (NF[l] ||= new Intl.NumberFormat(LOC[l])).format(n);
+// Numbers as Intl.NumberFormat prints them for these locales (Latin digits, Indian grouping in Hindi,
+// a left-to-right mark before an Urdu minus), without Intl: loading its locale data costs a fresh
+// isolate about 6 ms of CPU, more than the rest of a page. Non-integers keep up to 3 decimals, as Intl does.
+const nf = (n, l) => {
+  const r = Math.round(Math.abs(n) * 1000) / 1000, [i, f] = String(r).split(".");
+  const g = i.length <= 3 ? i : l === "hi" ? `${i.slice(0, -3).replace(/\B(?=(\d{2})+$)/g, ",")},${i.slice(-3)}` : i.replace(/\B(?=(\d{3})+$)/g, ",");
+  return (n < 0 && r ? (l === "ur" ? "\u200e-" : "-") : "") + g + (f ? `.${f}` : "");
+};
 const pct = (a, b) => (b ? Math.round((a / b) * 100) : 0);
 const fdate = (iso, l, short) => {
   const [y, m, d] = iso.split("-").map(Number);
