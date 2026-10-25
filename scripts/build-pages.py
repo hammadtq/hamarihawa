@@ -187,7 +187,8 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
 """
 
 
-ORG = {"@id": f"{SITE}/#org"}
+# Written out in full: Google's Dataset check rejects a bare {"@id"} reference as the creator.
+ORG = {"@type": "Organization", "@id": f"{SITE}/#org", "name": "HamariHawa", "url": f"{SITE}/"}
 
 
 def updates():

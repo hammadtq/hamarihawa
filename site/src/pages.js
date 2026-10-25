@@ -181,7 +181,8 @@ function render({ path, title, desc, body, jsonld, head = "", scripts = "", noin
   for (const l of LANGS) fill[`@@BODY_${l}@@`] = body[l];
   return SHELL.replace(/@@[A-Za-z_]+@@/g, (m) => fill[m] ?? m);
 }
-const ORG = { "@id": `${SITE}/#org` };
+// Written out in full: Google's Dataset check rejects a bare {"@id"} reference as the creator.
+const ORG = { "@type": "Organization", "@id": `${SITE}/#org`, name: "HamariHawa", url: `${SITE}/` };
 const page = (html, status = 200, maxAge = 300) => new Response(html, { status, headers: { "content-type": "text/html; charset=utf-8", "cache-control": `public, max-age=${maxAge}` } });
 const STYLE = `<style>
   .ff-bars { width: 100%; height: auto; display: block; margin: 8px 0 4px; }
