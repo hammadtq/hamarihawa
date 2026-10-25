@@ -144,10 +144,14 @@ async function handle(request, env, url, ctx) {
     }
 
     const hours = WINDOWS.has(url.searchParams.get("hours")) ? url.searchParams.get("hours") : "24";
-    // ?v=2 is the compact feed (names stored once); until its first upload the v1 feed is served instead.
-    const v2 = url.searchParams.get("v") === "2";
-    return edgeCached(ctx, `/api/fires?hours=${hours}${v2 ? "&v=2" : ""}`, 120, async () => {
-      const body = (v2 && (await env.FEED.get(`fires-${hours}-v2`, { cacheTtl: 120 }))) || (await env.FEED.get(`fires-${hours}`, { cacheTtl: 120 }));
+    // Only the compact v2 feed (names stored once) is published. The v1 feed was retired on 25 October 2026;
+    // its rows had the same key names laid out differently, so old requests get a clear error, not v2 data.
+    if (url.searchParams.get("v") !== "2") {
+      return json(JSON.stringify({ error: "The v1 fire feed was retired on 25 October 2026. Add &v=2 to this URL for the current feed: names are stored once in dict, and points and events are rows described by fields and event_fields.",
+        url: `${url.origin}/api/fires?hours=${hours}&v=2`, docs: `${url.origin}/data/#json` }), 410, 3600);
+    }
+    return edgeCached(ctx, `/api/fires?hours=${hours}&v=2`, 120, async () => {
+      const body = await env.FEED.get(`fires-${hours}-v2`, { cacheTtl: 120 });
       if (!body) {
         return json(JSON.stringify({ error: "The fire feed hasn't been built yet. Try again in a few minutes." }), 503, 30);
       }

@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-25-v1-feed-retired",
+    "date": "2026-10-25",
+    "title": {
+      "en": "The old v1 fire feed is retired",
+      "ur": "پرانی v1 آگ کی فیڈ بند کر دی گئی",
+      "hi": "पुरानी v1 आग फ़ीड बंद कर दी गई"
+    },
+    "body": {
+      "en": "<p>For anyone using our data: <code>/api/fires</code> now serves only the compact v2 feed, at <code>/api/fires?hours=24&amp;v=2</code> (also 48 and 168). Requests without <code>&amp;v=2</code> get HTTP 410 with a link to the new address. The v2 feed has the same fires, stats and events, with names stored once; it is described on <a href=\"/data/#json\">Use the data</a>. The map and the Google Earth file already used it, so nothing changes for visitors.</p>",
+      "ur": "<p>ہمارا ڈیٹا استعمال کرنے والوں کے لیے: <code>/api/fires</code> اب صرف مختصر v2 فیڈ دیتی ہے، <code>/api/fires?hours=24&amp;v=2</code> پر (48 اور 168 بھی)۔ <code>&amp;v=2</code> کے بغیر درخواستوں کو HTTP 410 کے ساتھ نئے پتے کا لنک ملتا ہے۔ v2 فیڈ میں وہی آگ، اعداد و شمار اور واقعات ہیں، اور نام ایک بار لکھے جاتے ہیں؛ اس کی تفصیل <a href=\"/data/#json\">ڈیٹا استعمال کریں</a> پر ہے۔ نقشہ اور گوگل ارتھ والی فائل پہلے ہی یہی استعمال کرتے تھے، اس لیے دیکھنے والوں کے لیے کچھ نہیں بدلا۔</p>",
+      "hi": "<p>हमारा डेटा इस्तेमाल करने वालों के लिए: <code>/api/fires</code> अब सिर्फ़ छोटी v2 फ़ीड देती है, <code>/api/fires?hours=24&amp;v=2</code> पर (48 और 168 भी)। <code>&amp;v=2</code> के बिना अनुरोधों को HTTP 410 के साथ नए पते का लिंक मिलता है। v2 फ़ीड में वही आग, आँकड़े और घटनाएँ हैं, और नाम एक बार लिखे जाते हैं; इसका ब्योरा <a href=\"/data/#json\">डेटा इस्तेमाल करें</a> पर है। नक़्शा और गूगल अर्थ वाली फ़ाइल पहले से यही इस्तेमाल करते थे, इसलिए देखने वालों के लिए कुछ नहीं बदला।</p>"
+    }
+  },
+  {
     "id": "2026-10-25-layers-all-india",
     "date": "2026-10-25",
     "title": {

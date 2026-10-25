@@ -73,7 +73,7 @@ Then open http://127.0.0.1:8791. `DEV:1` turns off the HTTPS redirect for local 
 Nothing on the site needs to be taken on trust: the inputs are public and every step is in this repository. If you use a coding assistant (Claude Code, Cursor, GitHub Copilot and the like), point it at this repo and ask it to verify a claim. Some starting points:
 
 - "Using `scripts/backfill-days.py` and `scripts/season-stats.py` with my NASA FIRMS key, rebuild `site/public/report/two-punjabs/seasons.json` from scratch and tell me whether every number in the Two Punjabs report matches."
-- "Read `scripts/build-feed.py` and explain how a fire gets its village name and its 'likely type'. Find ways a fire could be tagged as a brick kiln or crop burning wrongly, and test a few against the live feed at https://hamarihawa.org/api/fires."
+- "Read `scripts/build-feed.py` and explain how a fire gets its village name and its 'likely type'. Find ways a fire could be tagged as a brick kiln or crop burning wrongly, and test a few against the live feed at https://hamarihawa.org/api/fires?hours=24&v=2."
 - "Compare the Indian Punjab season counts in `seasons.json` with India's official CAQM figures and explain the year where they disagree."
 - "Check the health numbers in `site/public/app.js` (cigarettes, multiple of the WHO limit, years of life, extra deaths) against the sources cited on the About page."
 

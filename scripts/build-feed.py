@@ -983,13 +983,12 @@ def main():
         del feed["_spots"], feed["_all"], feed["_spot_idx"]
         body, same = feed_body(feed)
         open(os.path.join(a.out, f"fires-{hours}-v2.json"), "wb").write(v2body)
-        open(os.path.join(a.out, f"fires-{hours}.json"), "wb").write(body)
+        open(os.path.join(a.out, f"fires-{hours}.json"), "wb").write(body)  # local only (build-og.py reads it); v1 retired from KV 25 Oct 2026
         print(f"{win}: {feed['stats']['spots']} spots, {len(feed['events'])} events, {len(body) // 1024} KB (v2 {len(v2body) // 1024} KB)")
         open(os.path.join(a.out, f"fires-{hours}.kml"), "wb").write(kbody)
         # The KML colours fires by age at build time, so it goes out with its feed, never on its own.
         if tier_ok:
-            pub.put(f"fires-{hours}-v2", v2body, v2same)
-            if pub.put(f"fires-{hours}", body, same):
+            if pub.put(f"fires-{hours}-v2", v2body, v2same):
                 pub.put(f"kml-{hours}", kbody)
     for name, ran in (("fast", fast), ("slow", slow)):
         if ran:
