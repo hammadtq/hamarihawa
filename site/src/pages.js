@@ -218,26 +218,36 @@ function bars(rows, l, { link = true } = {}) {
 // ---------- Data ----------
 // "dpages-index" lists every district with the two seasons the listings show; each district's full history
 // is in its state's shard (e.shard). The old single "dpages" key is read until the first split upload.
+// Parsing the indexes is most of a page's CPU (each grows by a day's entry every day), so an isolate keeps
+// what it parsed for as long as KV's own cache would (5 minutes) and the next page it renders skips the parse.
+// Pages only read these objects, never change them.
+const MEMO = new Map();
+async function kvJson(env, key) {
+  const m = MEMO.get(key), now = Date.now();
+  if (m && now - m.at < 300000) return m.v;
+  const v = await env.FEED.get(key, { type: "json", cacheTtl: 300 });
+  if (v) MEMO.set(key, { v, at: now });
+  return v;
+}
 async function load(env, withDays = true) {
-  const [days, idx] = await Promise.all([
-    withDays ? env.FEED.get("days", { type: "json", cacheTtl: 300 }) : null,
-    env.FEED.get("dpages-index", { type: "json", cacheTtl: 300 }),
-  ]);
-  const dp = idx || (await env.FEED.get("dpages", { type: "json", cacheTtl: 300 }));
+  const [days, idx] = await Promise.all([withDays ? kvJson(env, "days") : null, kvJson(env, "dpages-index")]);
+  const dp = idx || (await kvJson(env, "dpages"));
   return { days: days || {}, dp: dp || { d: {}, recent: [] } };
 }
 async function district(env, dp, sl) {
   const e = dp.d?.[sl];
   if (!e || !e.shard) return e || null;
-  const part = await env.FEED.get(e.shard, { type: "json", cacheTtl: 300 });
+  const part = await kvJson(env, e.shard);
   return part?.[sl] ? { ...e, ...part[sl] } : null;
 }
-function slugOf(dp) {
+// Built once per parsed index, not once per page.
+const once = (f) => { const w = new WeakMap(); return (o) => { if (!w.has(o)) w.set(o, f(o)); return w.get(o); }; };
+const slugOf = once((dp) => {
   const m = new Map();
   for (const [s, e] of Object.entries(dp.d || {})) m.set(`${e.name}|${e.state}|${e.cc}`, s);
   return (name, state, cc) => m.get(`${name}|${state}|${cc}`);
-}
-const complete = (days) => Object.keys(days).filter((d) => !days[d].partial).sort();
+});
+const complete = once((days) => Object.keys(days).filter((d) => !days[d].partial).sort());
 // Suomi NPP returned no usable data (NASA's 2-6 Nov 2024 outage, dropped passes) when it saw almost nothing
 // on a day the other satellites saw plenty. Its count is then missing, not zero.
 const snGap = (e) => !!e && !!e.sn && e.sn[0] < 20 && e.spots >= 200 && e.sn[0] * 20 < e.spots;
