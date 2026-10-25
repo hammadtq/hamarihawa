@@ -29,7 +29,7 @@ const T = {
     calm: (N, at) => `The air over ${N} is almost still right now (under 3 km/h, ${at}), so smoke from the city's own sources and from nearby fires builds up instead of blowing away.`,
     noWind: (N) => `We don't have a wind reading for ${N} right now.`,
     up: (N, n, all) => ` In the last 24 hours NASA's satellites saw <b>${n}</b> fires within 250 km upwind of ${N}, in the direction the wind is coming from, out of ${all} within 250 km in every direction.`,
-    upTop: (list) => ` Most were in ${list}.`, upMost: (list) => ` The most were in ${list}.`,
+    upTop: (list) => ` Most were in ${list}.`, upMost: (list) => ` The largest numbers were in ${list}.`,
     crop: (p) => ` About ${p}% were on farmland, the pattern of crop-residue burning.`,
     noneUp: (all) => ` None of the ${all} fires seen within 250 km in the last 24 hours lie upwind, so the wind is not carrying their smoke here right now.`,
     noneAll: (N) => ` Satellites saw no fires within 250 km of ${N} in the last 24 hours, so today's haze is most likely the city's own: traffic, industry, brick kilns, burning rubbish and dust.`,
