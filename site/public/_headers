@@ -2,6 +2,18 @@
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains
 
+# Data files the pages load, kept out of search results on their own.
+/sources/*
+  X-Robots-Tag: noindex
+/kml/*
+  X-Robots-Tag: noindex
+/hamarihawa.kml
+  X-Robots-Tag: noindex
+/report/two-punjabs/seasons.json
+  X-Robots-Tag: noindex
+/updates/feed.xml
+  X-Robots-Tag: noindex
+
 # The workers.dev copy stays out of search results; hamarihawa.org is the canonical site.
 https://hamarihawa.hammadtariq.workers.dev/*
   X-Robots-Tag: noindex

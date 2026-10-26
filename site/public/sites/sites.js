@@ -133,7 +133,6 @@
     document.getElementById("lede").textContent = t("lede");
     document.getElementById("foot").textContent = t("foot");
     document.getElementById("credits").textContent = t("credits");
-    document.getElementById("loading").textContent = t("loading");
     if (!data) return;
 
     const pick = (list) => list.filter((x) => !cc || x.cc === cc);

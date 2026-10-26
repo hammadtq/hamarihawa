@@ -40,9 +40,12 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
     const res = await handle(request, env, url, ctx);
-    if (url.hostname !== "hamarihawa.org") return res;
+    // The data the pages fetch (JSON, KML, PNG) isn't meant to appear in search results on its own.
+    const data = url.pathname.startsWith("/api/") || url.pathname.endsWith(".kml");
+    if (url.hostname !== "hamarihawa.org" && !data) return res;
     const r = new Response(res.body, res);
-    r.headers.set("strict-transport-security", "max-age=31536000; includeSubDomains");
+    if (data) r.headers.set("x-robots-tag", "noindex");
+    if (url.hostname === "hamarihawa.org") r.headers.set("strict-transport-security", "max-age=31536000; includeSubDomains");
     return r;
   },
 };

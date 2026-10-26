@@ -379,6 +379,88 @@ def last_changed(files):
     return max(dates) if dates else date.today().isoformat()
 
 
+# The pollution sites directory draws its cards in the browser from sources/sites.json. Without
+# them in the HTML, search engines see an almost empty page, so the top cards of each section are
+# written in here in English; sites.js replaces them once the data has loaded.
+SITES_SECTIONS = [
+    ("landfills", "Landfills leaking methane or burning",
+     "Rotting rubbish releases methane, a strong greenhouse gas, and dumps often smoulder, adding smoke and toxic fumes for the people living around them.",
+     "Methane plumes: Carbon Mapper (satellite and aircraft, 2022–2026). Fires: NASA FIRMS 2025. Names: OpenStreetMap."),
+    ("plants", "Power and industrial plants",
+     "Coal and gas plants and heavy industry, ranked by the carbon dioxide plume satellites measured. The same chimneys release NO₂ and sulphur dioxide.",
+     "CO₂ plumes: Carbon Mapper. Names: OpenStreetMap power plants and industrial estates."),
+    ("hot", "Always-hot industrial sites",
+     "Places NASA's fire satellites saw hot on many days through the year: gas flares, furnaces, cement and steel works, refineries. Not crop fires, which move with the seasons.",
+     "NASA FIRMS VIIRS 2025 archive: spots hot on 20+ days, or flagged by NASA as static land sources."),
+    ("kilns", "Brick-kiln belts",
+     "Districts with the most brick kilns. Old fixed-chimney kilns burn coal, rubber and waste and are among the dirtiest sources near cities; zigzag kilns cut smoke sharply. The kiln survey covers the Indo-Gangetic plain, from Pakistani Punjab to Bangladesh, so kilns elsewhere in Pakistan and India aren't counted.",
+     "Kiln locations: SentinelKilnDB (IIT Gandhinagar) and the Pakistan IGP kiln dataset, from Sentinel-2 images. PM2.5 estimates: Pakistan dataset, firing season."),
+]
+SITES_SHOW = 12
+FUEL = {"coal": "Coal power plant", "gas": "Gas power plant", "oil": "Oil-fired power plant", "power": "Power plant", "industry": "Industrial plant"}
+
+
+def sites_page():
+    from html import escape as esc
+    data = json.load(open(os.path.join(PUB, "sources", "sites.json"), encoding="utf-8"))
+    nf = lambda n: f"{n:,}" if isinstance(n, int) else f"{n:,.3f}".rstrip("0").rstrip(".")
+    country = {"PK": "Pakistan", "IN": "India"}
+
+    def loc(x):
+        out = []
+        for v in (x.get("district"), x.get("state"), country.get(x["cc"], "")):
+            if v and v not in out:
+                out.append(v)
+        return ", ".join(out)
+
+    def link(x, layer, src, z):
+        return f"/#at={x['lat']},{x['lon']},{z}" + (f"&amp;layer={layer}" if layer else "") + (f"&amp;src={src}" if src else "")
+
+    def seen(x):
+        return (f"seen in {nf(x['plumes'])} plumes, {nf(x['persistence'])}% of passes "
+                f"({x['first'][:4]}–{x['last'][:4]})")
+
+    def card(i, title, where, ev, href, cc):
+        return (f'<article class="site sketch" data-cc="{cc}"><span class="rank">#{i + 1}</span><h3>{esc(title)}</h3>\n'
+                f'      <span class="loc">{esc(where)}</span><div class="ev">{ev}</div><a class="btn go" href="{href}">See on map →</a></article>')
+
+    cards = {"landfills": [], "plants": [], "hot": [], "kilns": []}
+    for i, x in enumerate(data["landfills"][:SITES_SHOW]):
+        ev = ""
+        if x["rate"]:
+            ev += f"<b>{nf(x['rate'])}</b> kg/h CH₄<small>≈ {nf(x['rate'])} kg of methane an hour · {esc(seen(x))}</small>"
+        if x["heatDays"]:
+            ev += f"<small>🔥 burning on {nf(x['heatDays'])} days in 2025</small>"
+        title = f"Landfill near {x['near']}" if x["unnamed"] else x["name"]
+        cards["landfills"].append(card(i, title, loc(x), ev, link(x, "", "plumes", 14), x["cc"]))
+    for i, x in enumerate(data["plants"][:SITES_SHOW]):
+        title = f"Plant near {x['near']}" if x["unnamed"] else x["name"]
+        ev = f"<b>{nf(x['co2_t_h'])}</b> t/h CO₂<small>≈ {nf(x['co2_t_h'])} tonnes of CO₂ an hour · {esc(seen(x))}</small>"
+        cards["plants"].append(card(i, title, f"{FUEL.get(x['kind'], 'Power plant')} · {loc(x)}", ev, link(x, "traffic", "plants", 13), x["cc"]))
+    for i, x in enumerate(data["hot"][:SITES_SHOW]):
+        title = f"Industrial site near {x['near']}" if x["unnamed"] else x["name"]
+        ev = f"<b>{nf(x['days'])}</b> days hot, across {nf(x['months'])} months of 2025"
+        cards["hot"].append(card(i, title, loc(x), ev, link(x, "", "hotspots", 14), x["cc"]))
+    for i, x in enumerate(data["kilnbelts"][:SITES_SHOW]):
+        where = ", ".join(v for v in (x.get("state"), country.get(x["cc"], "")) if v)
+        pm = f" · ≈ {nf(x['pm25_t_day'])} tonnes of PM2.5 a day in firing season (estimate)" if x.get("pm25_t_day") else ""
+        ev = f"<b>{nf(x['kilns'])}</b> kilns<small>{nf(x['zigzagPct'])}% zigzag (cleaner design){pm}</small>"
+        cards["kilns"].append(card(i, x["name"], where, ev, link(x, "", "kilns", 10), x["cc"]))
+
+    total = {"landfills": len(data["landfills"]), "plants": len(data["plants"]), "hot": len(data["hot"]), "kilns": len(data["kilnbelts"])}
+    html = []
+    for sid, title, why, how in SITES_SECTIONS:
+        more = f'\n      <a class="btn more" href="/sources/sites.json">All {nf(total[sid])} in the data file</a>' if total[sid] > SITES_SHOW else ""
+        html.append(f'<section class="cat" id="{sid}"><h2>{esc(title)}</h2>\n      <p class="why">{esc(why)}</p><p class="src-note">{esc(how)}</p>\n'
+                    f'      <div class="grid">{"".join(cards[sid])}</div>{more}</section>')
+    path = os.path.join(PUB, "sites", "index.html")
+    page_html = open(path, encoding="utf-8").read()
+    a, b = "<!-- sites:start (scripts/build-pages.py) -->", "<!-- sites:end -->"
+    i, j = page_html.index(a) + len(a), page_html.index(b)
+    open(path, "w", encoding="utf-8").write(page_html[:i] + "\n" + "\n".join(html) + "\n" + page_html[j:])
+    print("sites: prerendered", sum(len(v) for v in cards.values()), "cards")
+
+
 def sitemap():
     rows = ['<?xml version="1.0" encoding="UTF-8"?>',
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
@@ -397,4 +479,5 @@ if __name__ == "__main__":
     updates()
     cities()
     worker_shell()
+    sites_page()
     sitemap()
