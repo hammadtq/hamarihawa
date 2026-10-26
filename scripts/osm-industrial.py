@@ -22,6 +22,12 @@ import geo
 BBOX = (geo.REGION["s"], geo.REGION["w"], geo.REGION["n"], geo.REGION["e"])  # s, w, n, e: all of Pakistan and India
 
 
+def clip(items):
+    """Drop sources outside Pakistan and India (the extracts and the box take in their neighbours too)."""
+    borders = geo.Borders.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "places", "borders.json"))
+    return [it for it in items if geo.near_countries(borders, it[0], it[1])]
+
+
 FOSSIL = {"coal", "gas", "oil", "diesel", "lignite", "furnace_oil"}
 
 
@@ -220,6 +226,7 @@ def main():
             h.apply_file(f, locations=True, idx="flex_mem")
             items += h.items
             print(f"{f}: {len(h.items)} fossil power plants")
+        items = clip(items)
         json.dump({"source": "© OpenStreetMap contributors (ODbL); power=plant with coal/gas/oil source",
                    "fields": ["lat", "lon", "fuel", "name", "output"], "built": time.strftime("%Y-%m-%d"), "items": items},
                   open(out, "w"), separators=(",", ":"), ensure_ascii=False)
@@ -233,6 +240,7 @@ def main():
             h.apply_file(f, locations=True, idx="flex_mem")
             items += h.items
             print(f"{f}: {len(h.items)} landfills")
+        items = clip(items)
         json.dump({"source": "© OpenStreetMap contributors (ODbL)", "built": time.strftime("%Y-%m-%d"), "items": items},
                   open(out, "w"), separators=(",", ":"), ensure_ascii=False)
         print(f"wrote {len(items)} -> {out}")
@@ -264,6 +272,7 @@ def main():
         h.apply_file(f, locations=True, idx="flex_mem")
         items += h.items
         print(f"{f}: {len(h.items)} industrial areas")
+    items = clip(items)
     json.dump({"source": "© OpenStreetMap contributors (ODbL), via Geofabrik extracts", "built": time.strftime("%Y-%m-%d"),
                "items": items}, open(out, "w"), separators=(",", ":"), ensure_ascii=False)
     print(f"wrote {len(items)} -> {out}")

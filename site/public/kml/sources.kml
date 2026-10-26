@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2"><Document>
 <name>Pollution sites</name>
-<description>Places that show up again and again in satellite data. Built 2026-10-25. Full list: https://hamarihawa.org/sites/</description>
+<description>Places that show up again and again in satellite data. Built 2026-10-26. Full list: https://hamarihawa.org/sites/</description>
 <Style id="landfills"><IconStyle><color>ff3c6e60</color><scale>0.9</scale><Icon><href>https://maps.google.com/mapfiles/kml/shapes/triangle.png</href></Icon></IconStyle><LabelStyle><scale>0.7</scale></LabelStyle></Style>
 <Style id="plants"><IconStyle><color>ff2b2b2b</color><scale>0.9</scale><Icon><href>https://maps.google.com/mapfiles/kml/shapes/square.png</href></Icon></IconStyle><LabelStyle><scale>0.7</scale></LabelStyle></Style>
 <Style id="osmplants"><IconStyle><color>ff555555</color><scale>0.9</scale><Icon><href>https://maps.google.com/mapfiles/kml/shapes/square.png</href></Icon></IconStyle><LabelStyle><scale>0.7</scale></LabelStyle></Style>

@@ -34,6 +34,13 @@ QUERIES = {
 }
 
 
+def clip(items):
+    """Keep only sources in (or within 5 km of) Pakistan and India. The download boxes also take in Nepal,
+    Bangladesh, Sri Lanka, Myanmar, Afghanistan and western China, which the map doesn't cover."""
+    borders = geo.Borders.load(os.path.join(ROOT, "data", "places", "borders.json"))
+    return [it for it in items if geo.near_countries(borders, it[0], it[1])]
+
+
 def overpass(q):
     body = urllib.parse.urlencode({"data": f"[out:json][timeout:240];{q}out center tags bb;"}).encode()
     last = None
@@ -119,6 +126,7 @@ def build_kilns(skdb_labels, pk_csv):
             c, cx, cy = lab.split()[:3]
             dy, dx = (0.5 - float(cy)) * 1280, (float(cx) - 0.5) * 1280
             add(la0 + dy / 111_000, lo0 + dx / (111_000 * math.cos(math.radians(la0))), int(c), None)
+    items = clip(items)
     path = os.path.join(OUT, "kilns.json")
     json.dump({"source": "SentinelKilnDB (CC BY-NC 4.0); Brick Kiln Dataset for Pakistan's IGP Region (CC BY 4.0)",
                "types": KILN_TYPES, "built": time.strftime("%Y-%m-%d"), "items": items},
@@ -143,6 +151,7 @@ def build_carbonmapper():
         items.append([round(lat, 5), round(lon, 5), p["gas"], CM_SECTORS.get(p["sector"], "other"),
                       round(p.get("emission_auto") or 0), p.get("plume_count") or 0,
                       round((p.get("persistence") or 0) * 100), p.get("timestamp_min"), p.get("timestamp_max")])
+    items = clip(items)
     path = os.path.join(OUT, "carbonmapper.json")
     json.dump({"source": "Carbon Mapper (carbonmapper.org), satellite and airborne plume detections",
                "fields": ["lat", "lon", "gas", "sector", "emission_kg_per_h", "plumes", "persistence_pct", "first", "last"],
@@ -210,7 +219,7 @@ def build_hotspots(csvs):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--only", choices=list(QUERIES) + ["kilns", "carbonmapper", "hotspots"])
+    ap.add_argument("--only", choices=list(QUERIES) + ["kilns", "carbonmapper", "hotspots", "clip"])
     ap.add_argument("--firms-csv", nargs="*", help="FIRMS yearly country CSVs (for --only hotspots)")
     ap.add_argument("--skdb-labels", help="SentinelKilnDB labels JSON (for --only kilns)")
     ap.add_argument("--pk-kilns", help="Pakistan kiln emission CSV (for --only kilns)")
@@ -221,6 +230,15 @@ def main():
         return
     if a.only == "carbonmapper":
         build_carbonmapper()
+        return
+    if a.only == "clip":  # apply the country filter to the files already built, without downloading again
+        for f in ["carbonmapper", "osm-landfill", "osm-industrial", "kilns", "plants", "hotspots"]:
+            path = os.path.join(OUT, f + ".json")
+            d = json.load(open(path, encoding="utf-8"))
+            n = len(d["items"])
+            d["items"] = clip(d["items"])
+            json.dump(d, open(path, "w", encoding="utf-8"), separators=(",", ":"), ensure_ascii=False)
+            print(f"{f}: kept {len(d['items'])} of {n}")
         return
     if a.only == "hotspots":
         build_hotspots(a.firms_csv)
@@ -245,6 +263,7 @@ def main():
             time.sleep(2)
         if kind == "industrial":
             items = [i for i in items if i[3] >= 120]  # drop single workshops; keep estates and plants
+        items = clip(items)
         path = os.path.join(OUT, f"osm-{kind}.json")
         json.dump({"source": "© OpenStreetMap contributors (ODbL)", "built": time.strftime("%Y-%m-%d"), "items": items},
                   open(path, "w"), separators=(",", ":"), ensure_ascii=False)

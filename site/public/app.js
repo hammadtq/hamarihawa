@@ -282,8 +282,10 @@
   if (window.innerWidth < 860) $("#panel").classList.add("collapsed");
 
   // Clouds at the last satellite pass, redrawn as pencil hatching.
-  // GIBS serves MODIS cloud fraction in a rainbow palette; we look each pixel up in NASA's
-  // colour table (0-100 percent) and paint only real cloud, so the white map stays readable.
+  // Daytime passes use MODIS cloud optical thickness, which is only retrieved where there is real
+  // cloud. The daytime cloud fraction product counts the thick autumn haze and sun glint on the sea
+  // as cloud, and hatched most of the region on clear days. Night passes keep the infrared cloud
+  // fraction (GIBS serves it in a rainbow palette; we look each pixel up in NASA's colour table).
   const CF_PAL = "660077660177660277660377660477660577b70f8db7108db7118db7128db7138db7148d0000640001640002640003640004640005640006640000aa0001aa0002aa0003aa0004aa0005aa0000ff0001ff0002ff0003ff0004ff0005ff0088ee0188ee0288ee0388ee0488ee0588ee0688ee00500001500002500003500004500005500000880001880002880003880004880005880000dc0001dc0002dc0003dc0004dc0005dc0006dc00ffff00ffff01ffff02ffff03ffff04ffff05f0be40f0be41f0be42f0be43f0be44f0be45bb8800bb8801bb8802bb8803bb8804bb8805bb88067a5a037a5a047a5a057a5a067a5a077a5a086e00006e00016e00026e00036e00046e0005aa0000aa0001aa0002aa0003aa0004aa0005aa0006ff0000ff0001ff0002ff0003ff0004ff0005";
   const cfValue = new Map();
   for (let i = 0; i < CF_PAL.length / 6; i++) cfValue.set(parseInt(CF_PAL.slice(i * 6, i * 6 + 6), 16), i);
@@ -308,10 +310,26 @@
         const g = tile.getContext("2d");
         g.drawImage(img, 0, 0);
         const d = g.getImageData(0, 0, 256, 256), px = d.data;
-        for (let i = 0; i < px.length; i += 4) {
-          const f = px[i + 3] ? cfValue.get((px[i] << 16) | (px[i + 1] << 8) | px[i + 2]) : undefined;
-          // Under ~50 percent cloud the satellite still sees most of the ground: leave it clear.
-          px[i + 3] = f == null || f < 50 ? 0 : Math.round(Math.min(1, (f - 50) / 40) * 255);
+        if (this.options.thickness) {
+          // Any retrieved pixel is cloud. Hatch where at least 40 percent of the 5 x 5 pixels around
+          // it are cloud, so scattered single pixels don't speckle the map.
+          const on = new Uint8Array(256 * 256);
+          for (let i = 0; i < on.length; i++) on[i] = px[i * 4 + 3] > 0 ? 1 : 0;
+          for (let y = 0; y < 256; y++) for (let x = 0; x < 256; x++) {
+            let n = 0, m = 0;
+            for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
+              const yy = y + dy, xx = x + dx;
+              if (yy < 0 || yy > 255 || xx < 0 || xx > 255) continue;
+              m++; n += on[yy * 256 + xx];
+            }
+            px[(y * 256 + x) * 4 + 3] = n / m >= 0.4 ? 255 : 0;
+          }
+        } else {
+          for (let i = 0; i < px.length; i += 4) {
+            const f = px[i + 3] ? cfValue.get((px[i] << 16) | (px[i + 1] << 8) | px[i + 2]) : undefined;
+            // Under ~50 percent cloud the satellite still sees most of the ground: leave it clear.
+            px[i + 3] = f == null || f < 50 ? 0 : Math.round(Math.min(1, (f - 50) / 40) * 255);
+          }
         }
         g.putImageData(d, 0, 0);
         g.globalCompositeOperation = "source-in";
@@ -338,10 +356,10 @@
     if (cloudLayer) { map.removeLayer(cloudLayer); cloudLayer = null; }
     if (!$("#cloudsOn").checked) { $("#cloudNote").textContent = ""; return; }
     const p = cloudPass();
-    const id = p.night ? "MODIS_Aqua_Cloud_Fraction_Night" : "MODIS_Aqua_Cloud_Fraction_Day";
+    const [id, level] = p.night ? ["MODIS_Aqua_Cloud_Fraction_Night", 6] : ["MODIS_Aqua_Cloud_Optical_Thickness", 7];
     cloudLayer = new CloudLayer(
-      `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${id}/default/${p.date}/GoogleMapsCompatible_Level6/{z}/{y}/{x}.png`,
-      { pane: "clouds", maxNativeZoom: 6, maxZoom: 13, opacity: 0.6 }
+      `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${id}/default/${p.date}/GoogleMapsCompatible_Level${level}/{z}/{y}/{x}.png`,
+      { pane: "clouds", maxNativeZoom: level, maxZoom: 13, opacity: 0.6, thickness: !p.night }
     ).addTo(map);
     $("#cloudNote").textContent = t("clouds_note", { day: fmtDay(Date.parse(p.date + "T12:00:00Z")), when: p.night ? t("nightPass") : t("daytime") });
   }

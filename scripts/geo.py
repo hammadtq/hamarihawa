@@ -68,3 +68,13 @@ def geojson_polys(features):
         for poly in (g["coordinates"] if g["type"] == "MultiPolygon" else [g["coordinates"]]):
             out.append([[[round(x, 4), round(y, 4)] for x, y in ring] for ring in poly])
     return out
+
+
+def near_countries(borders, lat, lon, km=5):
+    """Inside Pakistan or India, or within about `km` of them. The outlines are simplified, so a strict
+    test would drop ports, coastal plants and landfills on the shore."""
+    if borders.which(lat, lon):
+        return True
+    dlat, dlon = km / 111.0, km / (111.0 * math.cos(math.radians(lat)))
+    return any(borders.which(lat + a * dlat, lon + b * dlon)
+               for a, b in ((1, 0), (-1, 0), (0, 1), (0, -1), (0.7, 0.7), (0.7, -0.7), (-0.7, 0.7), (-0.7, -0.7)))
