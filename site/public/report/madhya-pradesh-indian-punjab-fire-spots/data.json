@@ -1,0 +1,2917 @@
+{
+ "title": "Madhya Pradesh overtakes Indian Punjab: satellite fire spots in October, 2019–2026",
+ "license": "https://creativecommons.org/licenses/by/4.0/",
+ "note": "Fire counts are satellite fire spots (heat detections), not confirmed fires.",
+ "evidence": [
+  {
+   "id": "ev_03a83c6e9eb74d1d",
+   "claim": "IN, 10-01 to 10-24: 2026 has 12,600 Suomi NPP fire spots, rank 4 of 8 years with the same coverage since 2019; the mean of earlier years with the same coverage is 12,564.4 (+0.3%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     4,
+     8
+    ],
+    "latest_snpp": 12600,
+    "latest_vs_mean_prior_pct": 0.3,
+    "latest_year": 2026,
+    "mean_prior_snpp": 12564.4,
+    "region": "IN",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 26505,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -3.4,
+      "snpp": 13048,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 40455,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -37.8,
+      "snpp": 20267,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 27952,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -8.4,
+      "snpp": 13748,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 22864,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 7.2,
+      "snpp": 11755,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 33071,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 5.6,
+      "snpp": 11929,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 23279,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 46.3,
+      "snpp": 8615,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 22914,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 46.7,
+      "snpp": 8589,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 32718,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 12600,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_f379e7eea30749bf",
+   "claim": "From 2026-10-01 to 2026-10-24 (24 archived days, Pakistan time), HamariHawa counted 42,420 distinct satellite fire spots: 9,702 in Pakistan and 32,718 in India, 21,955 of them labelled crop fires. The busiest day was 2026-10-23 with 3,231.",
+   "data": {
+    "days": [
+     {
+      "crop": 330,
+      "date": "2026-10-01",
+      "india": 847,
+      "night": 642,
+      "partial": false,
+      "pk": 193,
+      "snpp": 413,
+      "snpp_in": 348,
+      "snpp_pk": 65,
+      "spots": 1040
+     },
+     {
+      "crop": 442,
+      "date": "2026-10-02",
+      "india": 929,
+      "night": 643,
+      "partial": false,
+      "pk": 270,
+      "snpp": 521,
+      "snpp_in": 387,
+      "snpp_pk": 134,
+      "spots": 1199
+     },
+     {
+      "crop": 456,
+      "date": "2026-10-03",
+      "india": 1088,
+      "night": 742,
+      "partial": false,
+      "pk": 243,
+      "snpp": 492,
+      "snpp_in": 410,
+      "snpp_pk": 82,
+      "spots": 1331
+     },
+     {
+      "crop": 442,
+      "date": "2026-10-04",
+      "india": 933,
+      "night": 694,
+      "partial": false,
+      "pk": 287,
+      "snpp": 528,
+      "snpp_in": 419,
+      "snpp_pk": 109,
+      "spots": 1220
+     },
+     {
+      "crop": 432,
+      "date": "2026-10-05",
+      "india": 967,
+      "night": 743,
+      "partial": false,
+      "pk": 297,
+      "snpp": 549,
+      "snpp_in": 451,
+      "snpp_pk": 98,
+      "spots": 1264
+     },
+     {
+      "crop": 572,
+      "date": "2026-10-06",
+      "india": 966,
+      "night": 664,
+      "partial": false,
+      "pk": 366,
+      "snpp": 463,
+      "snpp_in": 337,
+      "snpp_pk": 126,
+      "spots": 1332
+     },
+     {
+      "crop": 594,
+      "date": "2026-10-07",
+      "india": 1008,
+      "night": 569,
+      "partial": false,
+      "pk": 296,
+      "snpp": 610,
+      "snpp_in": 472,
+      "snpp_pk": 138,
+      "spots": 1304
+     },
+     {
+      "crop": 551,
+      "date": "2026-10-08",
+      "india": 1059,
+      "night": 654,
+      "partial": false,
+      "pk": 308,
+      "snpp": 502,
+      "snpp_in": 400,
+      "snpp_pk": 102,
+      "spots": 1367
+     },
+     {
+      "crop": 589,
+      "date": "2026-10-09",
+      "india": 1157,
+      "night": 799,
+      "partial": false,
+      "pk": 368,
+      "snpp": 578,
+      "snpp_in": 463,
+      "snpp_pk": 115,
+      "spots": 1525
+     },
+     {
+      "crop": 653,
+      "date": "2026-10-10",
+      "india": 1035,
+      "night": 647,
+      "partial": false,
+      "pk": 390,
+      "snpp": 537,
+      "snpp_in": 430,
+      "snpp_pk": 107,
+      "spots": 1425
+     },
+     {
+      "crop": 473,
+      "date": "2026-10-11",
+      "india": 1240,
+      "night": 718,
+      "partial": false,
+      "pk": 81,
+      "snpp": 479,
+      "snpp_in": 443,
+      "snpp_pk": 36,
+      "spots": 1321
+     },
+     {
+      "crop": 606,
+      "date": "2026-10-12",
+      "india": 1344,
+      "night": 747,
+      "partial": false,
+      "pk": 182,
+      "snpp": 663,
+      "snpp_in": 566,
+      "snpp_pk": 97,
+      "spots": 1526
+     },
+     {
+      "crop": 399,
+      "date": "2026-10-13",
+      "india": 408,
+      "night": 10,
+      "partial": false,
+      "pk": 122,
+      "snpp": 4,
+      "snpp_in": 4,
+      "snpp_pk": 0,
+      "spots": 530
+     },
+     {
+      "crop": 857,
+      "date": "2026-10-14",
+      "india": 1653,
+      "night": 870,
+      "partial": false,
+      "pk": 232,
+      "snpp": 731,
+      "snpp_in": 680,
+      "snpp_pk": 51,
+      "spots": 1885
+     },
+     {
+      "crop": 579,
+      "date": "2026-10-15",
+      "india": 1324,
+      "night": 736,
+      "partial": false,
+      "pk": 139,
+      "snpp": 613,
+      "snpp_in": 575,
+      "snpp_pk": 38,
+      "spots": 1463
+     },
+     {
+      "crop": 689,
+      "date": "2026-10-16",
+      "india": 1295,
+      "night": 714,
+      "partial": false,
+      "pk": 282,
+      "snpp": 513,
+      "snpp_in": 445,
+      "snpp_pk": 68,
+      "spots": 1577
+     },
+     {
+      "crop": 1128,
+      "date": "2026-10-17",
+      "india": 1572,
+      "night": 702,
+      "partial": false,
+      "pk": 472,
+      "snpp": 726,
+      "snpp_in": 530,
+      "snpp_pk": 196,
+      "spots": 2044
+     },
+     {
+      "crop": 1855,
+      "date": "2026-10-18",
+      "india": 1845,
+      "night": 605,
+      "partial": false,
+      "pk": 759,
+      "snpp": 1098,
+      "snpp_in": 789,
+      "snpp_pk": 309,
+      "spots": 2604
+     },
+     {
+      "crop": 1433,
+      "date": "2026-10-19",
+      "india": 1790,
+      "night": 829,
+      "partial": false,
+      "pk": 655,
+      "snpp": 851,
+      "snpp_in": 653,
+      "snpp_pk": 198,
+      "spots": 2445
+     },
+     {
+      "crop": 1133,
+      "date": "2026-10-20",
+      "india": 1622,
+      "night": 827,
+      "partial": false,
+      "pk": 433,
+      "snpp": 493,
+      "snpp_in": 432,
+      "snpp_pk": 61,
+      "spots": 2055
+     },
+     {
+      "crop": 1512,
+      "date": "2026-10-21",
+      "india": 1911,
+      "night": 849,
+      "partial": false,
+      "pk": 706,
+      "snpp": 868,
+      "snpp_in": 692,
+      "snpp_pk": 176,
+      "spots": 2617
+     },
+     {
+      "crop": 1878,
+      "date": "2026-10-22",
+      "india": 2112,
+      "night": 787,
+      "partial": false,
+      "pk": 793,
+      "snpp": 983,
+      "snpp_in": 681,
+      "snpp_pk": 302,
+      "spots": 2905
+     },
+     {
+      "crop": 2299,
+      "date": "2026-10-23",
+      "india": 2113,
+      "night": 723,
+      "partial": false,
+      "pk": 1118,
+      "snpp": 1487,
+      "snpp_in": 946,
+      "snpp_pk": 541,
+      "spots": 3231
+     },
+     {
+      "crop": 2053,
+      "date": "2026-10-24",
+      "india": 2500,
+      "night": 845,
+      "partial": false,
+      "pk": 710,
+      "snpp": 1215,
+      "snpp_in": 1047,
+      "snpp_pk": 168,
+      "spots": 3210
+     }
+    ],
+    "end": "2026-10-24",
+    "missing_days": 0,
+    "partial_days": [],
+    "peak": {
+     "crop": 2299,
+     "date": "2026-10-23",
+     "india": 2113,
+     "night": 723,
+     "partial": false,
+     "pk": 1118,
+     "snpp": 1487,
+     "snpp_in": 946,
+     "snpp_pk": 541,
+     "spots": 3231
+    },
+    "start": "2026-10-01",
+    "total": {
+     "crop": 21955,
+     "india": 32718,
+     "pk": 9702,
+     "snpp": 15917,
+     "snpp_in": 12600,
+     "snpp_pk": 3317,
+     "spots": 42420
+    }
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_daily_totals@2"
+  },
+  {
+   "id": "ev_b408a29254264ba8",
+   "claim": "IN|Punjab, 10-01 to 10-24: 2026 has 453 Suomi NPP fire spots, rank 8 of 8 years with the same coverage since 2019; the mean of earlier years with the same coverage is 4,185.3 (-89.2%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     8,
+     8
+    ],
+    "latest_snpp": 453,
+    "latest_vs_mean_prior_pct": -89.2,
+    "latest_year": 2026,
+    "mean_prior_snpp": 4185.3,
+    "region": "IN|Punjab",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 10718,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -90.9,
+      "snpp": 4983,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 22208,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -95.8,
+      "snpp": 10842,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 11750,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -91.7,
+      "snpp": 5460,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 9522,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -90.4,
+      "snpp": 4705,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 5873,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -75.3,
+      "snpp": 1833,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 2987,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -54.4,
+      "snpp": 993,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 1626,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -5.8,
+      "snpp": 481,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 1609,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 453,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_33a016d38ba8416b",
+   "claim": "IN|Haryana, 10-01 to 10-24: 2026 has 62 Suomi NPP fire spots, rank 8 of 8 years with the same coverage since 2019; the mean of earlier years with the same coverage is 1,398.9 (-95.6%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     8,
+     8
+    ],
+    "latest_snpp": 62,
+    "latest_vs_mean_prior_pct": -95.6,
+    "latest_year": 2026,
+    "mean_prior_snpp": 1398.9,
+    "region": "IN|Haryana",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 5554,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -97.6,
+      "snpp": 2615,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 3932,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -96.7,
+      "snpp": 1882,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 4647,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -97.2,
+      "snpp": 2222,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 3044,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -95.7,
+      "snpp": 1433,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 2882,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -93.0,
+      "snpp": 885,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 1791,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -89.4,
+      "snpp": 586,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 473,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -63.3,
+      "snpp": 169,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 222,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 62,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_cb9c8222aa2c4150",
+   "claim": "IN|Madhya Pradesh, 10-01 to 10-24: 2026 has 1,831 Suomi NPP fire spots, rank 1 of 8 years with the same coverage since 2019; the mean of earlier years with the same coverage is 669.0 (+173.7%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     1,
+     8
+    ],
+    "latest_snpp": 1831,
+    "latest_vs_mean_prior_pct": 173.7,
+    "latest_year": 2026,
+    "mean_prior_snpp": 669.0,
+    "region": "IN|Madhya Pradesh",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 230,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 1297.7,
+      "snpp": 131,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 1927,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 84.2,
+      "snpp": 994,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 779,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 424.6,
+      "snpp": 349,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 695,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 400.3,
+      "snpp": 366,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 3740,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 40.4,
+      "snpp": 1304,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 2742,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 83.5,
+      "snpp": 998,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 1739,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 238.4,
+      "snpp": 541,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 5505,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 1831,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_98019ad3b18b4266",
+   "claim": "2026-10-01 to 2026-10-24 (IN): Dhanbad, Jharkhand led with 1,641 fire spots (5.6% of 29,067). The previous 24 days are only partly archived (0 days), so no week-on-week comparison.",
+   "data": {
+    "days_covered": 24,
+    "filter": "IN",
+    "new_in_top": [],
+    "previous_days_covered": 0,
+    "previous_window": [
+     "2026-09-07",
+     "2026-09-30"
+    ],
+    "previous_window_comparable": false,
+    "region_total_spots": 29067,
+    "top": [
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Dhanbad",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 1,
+      "share_pct": 5.6,
+      "snpp": 838,
+      "spots": 1641,
+      "state": "Jharkhand"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Angul",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 2,
+      "share_pct": 4.9,
+      "snpp": 810,
+      "spots": 1438,
+      "state": "Odisha"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Guna",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 3,
+      "share_pct": 3.9,
+      "snpp": 346,
+      "spots": 1133,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Paschim Bardhaman",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 4,
+      "share_pct": 2.8,
+      "snpp": 392,
+      "spots": 818,
+      "state": "West Bengal"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Ashoknagar",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 5,
+      "share_pct": 2.5,
+      "snpp": 242,
+      "spots": 724,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Bokaro",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 6,
+      "share_pct": 2.4,
+      "snpp": 343,
+      "spots": 708,
+      "state": "Jharkhand"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Tarn Taran",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 7,
+      "share_pct": 2.4,
+      "snpp": 227,
+      "spots": 699,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Raigarh",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 8,
+      "share_pct": 2.1,
+      "snpp": 278,
+      "spots": 598,
+      "state": "Chhattisgarh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Jharsuguda",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 9,
+      "share_pct": 2.0,
+      "snpp": 272,
+      "spots": 581,
+      "state": "Odisha"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Baran",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 10,
+      "share_pct": 1.8,
+      "snpp": 177,
+      "spots": 537,
+      "state": "Rajasthan"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Jajpur",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 11,
+      "share_pct": 1.8,
+      "snpp": 288,
+      "spots": 530,
+      "state": "Odisha"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Sundargarh",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 12,
+      "share_pct": 1.8,
+      "snpp": 202,
+      "spots": 509,
+      "state": "Odisha"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Ballari",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 13,
+      "share_pct": 1.7,
+      "snpp": 218,
+      "spots": 482,
+      "state": "Karnataka"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Amritsar",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 14,
+      "share_pct": 1.5,
+      "snpp": 113,
+      "spots": 438,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Raipur",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 15,
+      "share_pct": 1.5,
+      "snpp": 165,
+      "spots": 424,
+      "state": "Chhattisgarh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Korba",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 16,
+      "share_pct": 1.4,
+      "snpp": 177,
+      "spots": 408,
+      "state": "Chhattisgarh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Sehore",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 17,
+      "share_pct": 1.4,
+      "snpp": 163,
+      "spots": 403,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Shivpuri",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 18,
+      "share_pct": 1.3,
+      "snpp": 103,
+      "spots": 387,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Ramgarh",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 19,
+      "share_pct": 1.3,
+      "snpp": 161,
+      "spots": 385,
+      "state": "Jharkhand"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Nizamabad",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 20,
+      "share_pct": 1.3,
+      "snpp": 106,
+      "spots": 370,
+      "state": "Telangana"
+     }
+    ],
+    "window": [
+     "2026-10-01",
+     "2026-10-24"
+    ]
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_district_rankings@1"
+  },
+  {
+   "id": "ev_ecc9d0bbfed2464a",
+   "claim": "2026-10-18 to 2026-10-24 (IN): Guna, Madhya Pradesh led with 657 fire spots (5.5% of 12,030). New in the top 12 versus the previous 7 days: Shivpuri, Bundi, Amritsar, Narmadapuram district, Udham Singh Nagar.",
+   "data": {
+    "days_covered": 7,
+    "filter": "IN",
+    "new_in_top": [
+     "Shivpuri",
+     "Bundi",
+     "Amritsar",
+     "Narmadapuram district",
+     "Udham Singh Nagar"
+    ],
+    "previous_days_covered": 7,
+    "previous_window": [
+     "2026-10-11",
+     "2026-10-17"
+    ],
+    "previous_window_comparable": true,
+    "region_total_spots": 12030,
+    "top": [
+     {
+      "cc": "IN",
+      "change_pct": 59.5,
+      "district": "Guna",
+      "prev_rank": 2,
+      "prev_spots": 412,
+      "rank": 1,
+      "share_pct": 5.5,
+      "snpp": 213,
+      "spots": 657,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 13.4,
+      "district": "Dhanbad",
+      "prev_rank": 1,
+      "prev_spots": 462,
+      "rank": 2,
+      "share_pct": 4.4,
+      "snpp": 278,
+      "spots": 524,
+      "state": "Jharkhand"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 106.6,
+      "district": "Ashoknagar",
+      "prev_rank": 5,
+      "prev_spots": 226,
+      "rank": 3,
+      "share_pct": 3.9,
+      "snpp": 166,
+      "spots": 467,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 19.5,
+      "district": "Angul",
+      "prev_rank": 3,
+      "prev_spots": 385,
+      "rank": 4,
+      "share_pct": 3.8,
+      "snpp": 266,
+      "spots": 460,
+      "state": "Odisha"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 171.4,
+      "district": "Tarn Taran",
+      "prev_rank": 9,
+      "prev_spots": 168,
+      "rank": 5,
+      "share_pct": 3.8,
+      "snpp": 155,
+      "spots": 456,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 11.2,
+      "district": "Paschim Bardhaman",
+      "prev_rank": 4,
+      "prev_spots": 259,
+      "rank": 6,
+      "share_pct": 2.4,
+      "snpp": 157,
+      "spots": 288,
+      "state": "West Bengal"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 65.9,
+      "district": "Baran",
+      "prev_rank": 8,
+      "prev_spots": 173,
+      "rank": 7,
+      "share_pct": 2.4,
+      "snpp": 115,
+      "spots": 287,
+      "state": "Rajasthan"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 136.0,
+      "district": "Shivpuri",
+      "prev_rank": 16,
+      "prev_spots": 111,
+      "rank": 8,
+      "share_pct": 2.2,
+      "snpp": 75,
+      "spots": 262,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 672.7,
+      "district": "Bundi",
+      "prev_rank": 58,
+      "prev_spots": 33,
+      "rank": 9,
+      "share_pct": 2.1,
+      "snpp": 99,
+      "spots": 255,
+      "state": "Rajasthan"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 210.1,
+      "district": "Amritsar",
+      "prev_rank": 28,
+      "prev_spots": 79,
+      "rank": 10,
+      "share_pct": 2.0,
+      "snpp": 58,
+      "spots": 245,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 209.9,
+      "district": "Narmadapuram district",
+      "prev_rank": 33,
+      "prev_spots": 71,
+      "rank": 11,
+      "share_pct": 1.8,
+      "snpp": 69,
+      "spots": 220,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 342.9,
+      "district": "Udham Singh Nagar",
+      "prev_rank": 44,
+      "prev_spots": 49,
+      "rank": 12,
+      "share_pct": 1.8,
+      "snpp": 70,
+      "spots": 217,
+      "state": "Uttarakhand"
+     }
+    ],
+    "window": [
+     "2026-10-18",
+     "2026-10-24"
+    ]
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_district_rankings@1"
+  },
+  {
+   "id": "ev_a72cb650cfa4435b",
+   "claim": "2025-10-01 to 2025-10-24 (IN/Madhya Pradesh): Singrauli, Madhya Pradesh led with 217 fire spots (12.5% of 1,739). The previous 24 days are only partly archived (0 days), so no week-on-week comparison.",
+   "data": {
+    "days_covered": 24,
+    "filter": "IN/Madhya Pradesh",
+    "new_in_top": [],
+    "previous_days_covered": 0,
+    "previous_window": [
+     "2025-09-07",
+     "2025-09-30"
+    ],
+    "previous_window_comparable": false,
+    "region_total_spots": 1739,
+    "top": [
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Singrauli",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 1,
+      "share_pct": 12.5,
+      "snpp": 102,
+      "spots": 217,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Guna",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 2,
+      "share_pct": 11.3,
+      "snpp": 69,
+      "spots": 197,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Sagar",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 3,
+      "share_pct": 9.1,
+      "snpp": 40,
+      "spots": 158,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Sehore",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 4,
+      "share_pct": 7.2,
+      "snpp": 42,
+      "spots": 125,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Damoh",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 5,
+      "share_pct": 4.7,
+      "snpp": 19,
+      "spots": 82,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Agar Malwa",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 6,
+      "share_pct": 4.2,
+      "snpp": 39,
+      "spots": 73,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Ashoknagar",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 7,
+      "share_pct": 4.2,
+      "snpp": 16,
+      "spots": 73,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Khandwa district",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 8,
+      "share_pct": 4.1,
+      "snpp": 23,
+      "spots": 72,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Seoni",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 9,
+      "share_pct": 4.1,
+      "snpp": 19,
+      "spots": 72,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Dhar",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 10,
+      "share_pct": 4.0,
+      "snpp": 24,
+      "spots": 70,
+      "state": "Madhya Pradesh"
+     }
+    ],
+    "window": [
+     "2025-10-01",
+     "2025-10-24"
+    ]
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_district_rankings@1"
+  },
+  {
+   "id": "ev_df9dd08cdb524d01",
+   "claim": "2023-10-01 to 2023-10-24 (IN/Madhya Pradesh): Guna, Madhya Pradesh led with 768 fire spots (20.5% of 3,740). The previous 24 days are only partly archived (0 days), so no week-on-week comparison.",
+   "data": {
+    "days_covered": 24,
+    "filter": "IN/Madhya Pradesh",
+    "new_in_top": [],
+    "previous_days_covered": 0,
+    "previous_window": [
+     "2023-09-07",
+     "2023-09-30"
+    ],
+    "previous_window_comparable": false,
+    "region_total_spots": 3740,
+    "top": [
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Guna",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 1,
+      "share_pct": 20.5,
+      "snpp": 255,
+      "spots": 768,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Datia",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 2,
+      "share_pct": 9.0,
+      "snpp": 119,
+      "spots": 337,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Sheopur",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 3,
+      "share_pct": 8.7,
+      "snpp": 133,
+      "spots": 324,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Narmadapuram district",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 4,
+      "share_pct": 6.3,
+      "snpp": 92,
+      "spots": 234,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Ashoknagar",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 5,
+      "share_pct": 4.2,
+      "snpp": 76,
+      "spots": 157,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Shivpuri",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 6,
+      "share_pct": 4.1,
+      "snpp": 53,
+      "spots": 154,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Singrauli",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 7,
+      "share_pct": 4.1,
+      "snpp": 54,
+      "spots": 153,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Seoni",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 8,
+      "share_pct": 3.9,
+      "snpp": 52,
+      "spots": 144,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Vidisha",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 9,
+      "share_pct": 3.5,
+      "snpp": 41,
+      "spots": 131,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": null,
+      "district": "Sagar",
+      "prev_rank": null,
+      "prev_spots": 0,
+      "rank": 10,
+      "share_pct": 2.9,
+      "snpp": 24,
+      "spots": 109,
+      "state": "Madhya Pradesh"
+     }
+    ],
+    "window": [
+     "2023-10-01",
+     "2023-10-24"
+    ]
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_district_rankings@1"
+  },
+  {
+   "id": "ev_c4343f4239c74cec",
+   "claim": "Guna, Madhya Pradesh (IN), 2026-10-01 to 2026-10-24: 1,133 fire spots over 21 listed days, peaking at 115 on 2026-10-22.",
+   "data": {
+    "absent_days": [
+     "2026-10-01",
+     "2026-10-02",
+     "2026-10-04"
+    ],
+    "cc": "IN",
+    "days": [
+     {
+      "date": "2026-10-03",
+      "lat": 24.8,
+      "lon": 76.99,
+      "snpp": 0,
+      "spots": 3
+     },
+     {
+      "date": "2026-10-05",
+      "lat": 24.88,
+      "lon": 77.04,
+      "snpp": 2,
+      "spots": 5
+     },
+     {
+      "date": "2026-10-06",
+      "lat": 24.78,
+      "lon": 77.02,
+      "snpp": 1,
+      "spots": 5
+     },
+     {
+      "date": "2026-10-07",
+      "lat": 24.7,
+      "lon": 77.08,
+      "snpp": 3,
+      "spots": 7
+     },
+     {
+      "date": "2026-10-08",
+      "lat": 24.81,
+      "lon": 77.1,
+      "snpp": 7,
+      "spots": 15
+     },
+     {
+      "date": "2026-10-09",
+      "lat": 24.76,
+      "lon": 77.1,
+      "snpp": 1,
+      "spots": 11
+     },
+     {
+      "date": "2026-10-10",
+      "lat": 24.87,
+      "lon": 77.07,
+      "snpp": 4,
+      "spots": 18
+     },
+     {
+      "date": "2026-10-11",
+      "lat": 24.88,
+      "lon": 77.11,
+      "snpp": 14,
+      "spots": 32
+     },
+     {
+      "date": "2026-10-12",
+      "lat": 24.87,
+      "lon": 77.1,
+      "snpp": 16,
+      "spots": 45
+     },
+     {
+      "date": "2026-10-13",
+      "lat": 24.83,
+      "lon": 77.17,
+      "snpp": 0,
+      "spots": 31
+     },
+     {
+      "date": "2026-10-14",
+      "lat": 24.85,
+      "lon": 77.12,
+      "snpp": 18,
+      "spots": 64
+     },
+     {
+      "date": "2026-10-15",
+      "lat": 24.87,
+      "lon": 77.15,
+      "snpp": 38,
+      "spots": 92
+     },
+     {
+      "date": "2026-10-16",
+      "lat": 24.83,
+      "lon": 77.09,
+      "snpp": 20,
+      "spots": 85
+     },
+     {
+      "date": "2026-10-17",
+      "lat": 24.8,
+      "lon": 77.19,
+      "snpp": 9,
+      "spots": 63
+     },
+     {
+      "date": "2026-10-18",
+      "lat": 24.77,
+      "lon": 77.1,
+      "snpp": 49,
+      "spots": 111
+     },
+     {
+      "date": "2026-10-19",
+      "lat": 24.79,
+      "lon": 77.13,
+      "snpp": 19,
+      "spots": 63
+     },
+     {
+      "date": "2026-10-20",
+      "lat": 24.84,
+      "lon": 77.15,
+      "snpp": 3,
+      "spots": 54
+     },
+     {
+      "date": "2026-10-21",
+      "lat": 24.78,
+      "lon": 77.19,
+      "snpp": 24,
+      "spots": 112
+     },
+     {
+      "date": "2026-10-22",
+      "lat": 24.7,
+      "lon": 77.24,
+      "snpp": 30,
+      "spots": 115
+     },
+     {
+      "date": "2026-10-23",
+      "lat": 24.67,
+      "lon": 77.29,
+      "snpp": 46,
+      "spots": 95
+     },
+     {
+      "date": "2026-10-24",
+      "lat": 24.66,
+      "lon": 77.24,
+      "snpp": 42,
+      "spots": 107
+     }
+    ],
+    "district": "Guna",
+    "peak": {
+     "date": "2026-10-22",
+     "lat": 24.7,
+     "lon": 77.24,
+     "snpp": 30,
+     "spots": 115
+    },
+    "state": "Madhya Pradesh",
+    "total_snpp": 346,
+    "total_spots": 1133,
+    "window": [
+     "2026-10-01",
+     "2026-10-24"
+    ]
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_district_history@1"
+  },
+  {
+   "id": "ev_d108445dcf4d4291",
+   "claim": "IN|Rajasthan, 10-01 to 10-24: 2026 has 622 Suomi NPP fire spots, rank 2 of 8 years with the same coverage since 2019; the mean of earlier years with the same coverage is 387.1 (+60.7%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     2,
+     8
+    ],
+    "latest_snpp": 622,
+    "latest_vs_mean_prior_pct": 60.7,
+    "latest_year": 2026,
+    "mean_prior_snpp": 387.1,
+    "region": "IN|Rajasthan",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 313,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 323.1,
+      "snpp": 147,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 823,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 50.6,
+      "snpp": 413,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 399,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 227.4,
+      "snpp": 190,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 615,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 98.7,
+      "snpp": 313,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 2149,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -7.3,
+      "snpp": 671,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 1520,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 27.7,
+      "snpp": 487,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 1610,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 27.2,
+      "snpp": 489,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 1727,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 622,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_b2ce0fe7dee84f28",
+   "claim": "IN|Madhya Pradesh, 10-25 to 11-30: 2025 has 13,876 Suomi NPP fire spots, rank 1 of 7 years with the same coverage since 2019; the mean of earlier years with the same coverage is 9,455.0 (+46.8%).",
+   "data": {
+    "end_mmdd": "11-30",
+    "latest_rank_of": [
+     1,
+     7
+    ],
+    "latest_snpp": 13876,
+    "latest_vs_mean_prior_pct": 46.8,
+    "latest_year": 2025,
+    "mean_prior_snpp": 9455.0,
+    "region": "IN|Madhya Pradesh",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-25",
+    "years": [
+     {
+      "all_satellite_spots": 10005,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": 180.0,
+      "snpp": 4956,
+      "window": "2019-10-25 to 2019-11-30",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 20041,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": 38.8,
+      "snpp": 9997,
+      "window": "2020-10-25 to 2020-11-30",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 15023,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": 91.5,
+      "snpp": 7247,
+      "window": "2021-10-25 to 2021-11-30",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 22235,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": 26.6,
+      "snpp": 10963,
+      "window": "2022-10-25 to 2022-11-30",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 30470,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": 34.2,
+      "snpp": 10338,
+      "window": "2023-10-25 to 2023-11-30",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 39990,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": 4.9,
+      "snpp": 13229,
+      "window": "2024-10-25 to 2024-11-30",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 40457,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "snpp": 13876,
+      "window": "2025-10-25 to 2025-11-30",
+      "year": 2025
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_197133f9415349db",
+   "claim": "IN|Punjab, 10-25 to 11-30: 2025 has 2,954 Suomi NPP fire spots, rank 7 of 7 years with the same coverage since 2019; the mean of earlier years with the same coverage is 38,036.8 (-92.2%).",
+   "data": {
+    "end_mmdd": "11-30",
+    "latest_rank_of": [
+     7,
+     7
+    ],
+    "latest_snpp": 2954,
+    "latest_vs_mean_prior_pct": -92.2,
+    "latest_year": 2025,
+    "mean_prior_snpp": 38036.8,
+    "region": "IN|Punjab",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-25",
+    "years": [
+     {
+      "all_satellite_spots": 72221,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": -91.9,
+      "snpp": 36362,
+      "window": "2019-10-25 to 2019-11-30",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 112024,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": -94.7,
+      "snpp": 55396,
+      "window": "2020-10-25 to 2020-11-30",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 127750,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": -95.4,
+      "snpp": 64893,
+      "window": "2021-10-25 to 2021-11-30",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 79608,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": -92.2,
+      "snpp": 37929,
+      "window": "2022-10-25 to 2022-11-30",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 80949,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": -88.9,
+      "snpp": 26729,
+      "window": "2023-10-25 to 2023-11-30",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 23044,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "latest_vs_this_year_pct": -57.3,
+      "snpp": 6912,
+      "window": "2024-10-25 to 2024-11-30",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 10658,
+      "days_covered": 37,
+      "days_in_window": 37,
+      "snpp": 2954,
+      "window": "2025-10-25 to 2025-11-30",
+      "year": 2025
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_2a9083d355e248cd",
+   "claim": "IN, 10-01 to 10-24: 2026 has 12,600 Suomi NPP fire spots, rank 4 of 8 years since 2019; the mean of earlier years with the same coverage is 12,564.4 (+0.3%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     4,
+     8
+    ],
+    "latest_snpp": 12600,
+    "latest_vs_mean_prior_pct": 0.3,
+    "latest_year": 2026,
+    "mean_prior_snpp": 12564.4,
+    "region": "IN",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 26505,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -3.4,
+      "snpp": 13048,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 40455,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -37.8,
+      "snpp": 20267,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 27952,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -8.4,
+      "snpp": 13748,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 22864,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 7.2,
+      "snpp": 11755,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 33071,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 5.6,
+      "snpp": 11929,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 23279,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 46.3,
+      "snpp": 8615,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 22914,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 46.7,
+      "snpp": 8589,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 32718,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 12600,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_049845a69a434f7e",
+   "claim": "In the 24 hours to the newest satellite pass (2026-10-25T09:49+00:00), HamariHawa's live feed shows 3,080 distinct fire spots (772 Pakistan, 2,308 India), 2,000 of them labelled crop fires.",
+   "data": {
+    "detections": 3787,
+    "generated_ms": 1792926934939,
+    "hours": 24,
+    "india": 2308,
+    "kinds": {
+     "crop": 2000,
+     "forest": 40,
+     "hotspot": 739,
+     "industrial": 35,
+     "kiln": 40,
+     "landfill": 36,
+     "mixed": 52,
+     "open": 85,
+     "shifting": 35,
+     "urban": 18
+    },
+    "latest_ms": 1792921740000,
+    "pk": 772,
+    "source": "NASA FIRMS: VIIRS 375 m (Suomi NPP, NOAA-20, NOAA-21) and MODIS 1 km (Aqua, Terra), near real time",
+    "spots": 3080,
+    "top_districts": [
+     {
+      "cc": "IN",
+      "district": "Guna",
+      "n": 105,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "district": "Dhanbad",
+      "n": 95,
+      "state": "Jharkhand"
+     },
+     {
+      "cc": "PK",
+      "district": "Okara",
+      "n": 84,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "district": "Angul",
+      "n": 84,
+      "state": "Odisha"
+     },
+     {
+      "cc": "PK",
+      "district": "Nankana Sahib",
+      "n": 77,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "district": "Ashoknagar",
+      "n": 72,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "PK",
+      "district": "Jhang",
+      "n": 61,
+      "state": "Punjab"
+     },
+     {
+      "cc": "PK",
+      "district": "Khanewal",
+      "n": 59,
+      "state": "Punjab"
+     }
+    ]
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_live_snapshot@1"
+  },
+  {
+   "id": "ev_d5a3feeea2044302",
+   "claim": "IN|Madhya Pradesh, 10-01 to 10-24: 2026 has 1,831 Suomi NPP fire spots, rank 1 of 8 years since 2019; the mean of earlier years with the same coverage is 669.0 (+173.7%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     1,
+     8
+    ],
+    "latest_snpp": 1831,
+    "latest_vs_mean_prior_pct": 173.7,
+    "latest_year": 2026,
+    "mean_prior_snpp": 669.0,
+    "region": "IN|Madhya Pradesh",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 230,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 1297.7,
+      "snpp": 131,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 1927,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 84.2,
+      "snpp": 994,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 779,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 424.6,
+      "snpp": 349,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 695,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 400.3,
+      "snpp": 366,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 3740,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 40.4,
+      "snpp": 1304,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 2742,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 83.5,
+      "snpp": 998,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 1739,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": 238.4,
+      "snpp": 541,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 5505,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 1831,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_c9ee947bcb72454a",
+   "claim": "2026-10-18 to 2026-10-24 (IN): Guna, Madhya Pradesh led with 657 fire spots (5.5% of 12,030). New in the top 12 versus the previous 7 days: Shivpuri, Bundi, Amritsar, Narmadapuram district, Udham Singh Nagar.",
+   "data": {
+    "days_covered": 7,
+    "filter": "IN",
+    "new_in_top": [
+     "Shivpuri",
+     "Bundi",
+     "Amritsar",
+     "Narmadapuram district",
+     "Udham Singh Nagar"
+    ],
+    "previous_days_covered": 7,
+    "previous_window": [
+     "2026-10-11",
+     "2026-10-17"
+    ],
+    "region_total_spots": 12030,
+    "top": [
+     {
+      "cc": "IN",
+      "change_pct": 59.5,
+      "district": "Guna",
+      "prev_rank": 2,
+      "prev_spots": 412,
+      "rank": 1,
+      "share_pct": 5.5,
+      "snpp": 213,
+      "spots": 657,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 13.4,
+      "district": "Dhanbad",
+      "prev_rank": 1,
+      "prev_spots": 462,
+      "rank": 2,
+      "share_pct": 4.4,
+      "snpp": 278,
+      "spots": 524,
+      "state": "Jharkhand"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 106.6,
+      "district": "Ashoknagar",
+      "prev_rank": 5,
+      "prev_spots": 226,
+      "rank": 3,
+      "share_pct": 3.9,
+      "snpp": 166,
+      "spots": 467,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 19.5,
+      "district": "Angul",
+      "prev_rank": 3,
+      "prev_spots": 385,
+      "rank": 4,
+      "share_pct": 3.8,
+      "snpp": 266,
+      "spots": 460,
+      "state": "Odisha"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 171.4,
+      "district": "Tarn Taran",
+      "prev_rank": 9,
+      "prev_spots": 168,
+      "rank": 5,
+      "share_pct": 3.8,
+      "snpp": 155,
+      "spots": 456,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 11.2,
+      "district": "Paschim Bardhaman",
+      "prev_rank": 4,
+      "prev_spots": 259,
+      "rank": 6,
+      "share_pct": 2.4,
+      "snpp": 157,
+      "spots": 288,
+      "state": "West Bengal"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 65.9,
+      "district": "Baran",
+      "prev_rank": 8,
+      "prev_spots": 173,
+      "rank": 7,
+      "share_pct": 2.4,
+      "snpp": 115,
+      "spots": 287,
+      "state": "Rajasthan"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 136.0,
+      "district": "Shivpuri",
+      "prev_rank": 16,
+      "prev_spots": 111,
+      "rank": 8,
+      "share_pct": 2.2,
+      "snpp": 75,
+      "spots": 262,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 672.7,
+      "district": "Bundi",
+      "prev_rank": 58,
+      "prev_spots": 33,
+      "rank": 9,
+      "share_pct": 2.1,
+      "snpp": 99,
+      "spots": 255,
+      "state": "Rajasthan"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 210.1,
+      "district": "Amritsar",
+      "prev_rank": 28,
+      "prev_spots": 79,
+      "rank": 10,
+      "share_pct": 2.0,
+      "snpp": 58,
+      "spots": 245,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 209.9,
+      "district": "Narmadapuram district",
+      "prev_rank": 33,
+      "prev_spots": 71,
+      "rank": 11,
+      "share_pct": 1.8,
+      "snpp": 69,
+      "spots": 220,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "change_pct": 342.9,
+      "district": "Udham Singh Nagar",
+      "prev_rank": 44,
+      "prev_spots": 49,
+      "rank": 12,
+      "share_pct": 1.8,
+      "snpp": 70,
+      "spots": 217,
+      "state": "Uttarakhand"
+     }
+    ],
+    "window": [
+     "2026-10-18",
+     "2026-10-24"
+    ]
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_district_rankings@1"
+  },
+  {
+   "id": "ev_1f1897120f6f4c85",
+   "claim": "IN|Haryana, 10-01 to 10-24: 2026 has 62 Suomi NPP fire spots, rank 8 of 8 years since 2019; the mean of earlier years with the same coverage is 1,398.9 (-95.6%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     8,
+     8
+    ],
+    "latest_snpp": 62,
+    "latest_vs_mean_prior_pct": -95.6,
+    "latest_year": 2026,
+    "mean_prior_snpp": 1398.9,
+    "region": "IN|Haryana",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 5554,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -97.6,
+      "snpp": 2615,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 3932,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -96.7,
+      "snpp": 1882,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 4647,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -97.2,
+      "snpp": 2222,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 3044,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -95.7,
+      "snpp": 1433,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 2882,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -93.0,
+      "snpp": 885,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 1791,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -89.4,
+      "snpp": 586,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 473,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -63.3,
+      "snpp": 169,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 222,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 62,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_398ad07ebafd4fea",
+   "claim": "IN|Punjab, 10-01 to 10-24: 2026 has 453 Suomi NPP fire spots, rank 8 of 8 years since 2019; the mean of earlier years with the same coverage is 4,185.3 (-89.2%).",
+   "data": {
+    "end_mmdd": "10-24",
+    "latest_rank_of": [
+     8,
+     8
+    ],
+    "latest_snpp": 453,
+    "latest_vs_mean_prior_pct": -89.2,
+    "latest_year": 2026,
+    "mean_prior_snpp": 4185.3,
+    "region": "IN|Punjab",
+    "series": "Suomi NPP spots",
+    "start_mmdd": "10-01",
+    "years": [
+     {
+      "all_satellite_spots": 10718,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -90.9,
+      "snpp": 4983,
+      "window": "2019-10-01 to 2019-10-24",
+      "year": 2019
+     },
+     {
+      "all_satellite_spots": 22208,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -95.8,
+      "snpp": 10842,
+      "window": "2020-10-01 to 2020-10-24",
+      "year": 2020
+     },
+     {
+      "all_satellite_spots": 11750,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -91.7,
+      "snpp": 5460,
+      "window": "2021-10-01 to 2021-10-24",
+      "year": 2021
+     },
+     {
+      "all_satellite_spots": 9522,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -90.4,
+      "snpp": 4705,
+      "window": "2022-10-01 to 2022-10-24",
+      "year": 2022
+     },
+     {
+      "all_satellite_spots": 5873,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -75.3,
+      "snpp": 1833,
+      "window": "2023-10-01 to 2023-10-24",
+      "year": 2023
+     },
+     {
+      "all_satellite_spots": 2987,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -54.4,
+      "snpp": 993,
+      "window": "2024-10-01 to 2024-10-24",
+      "year": 2024
+     },
+     {
+      "all_satellite_spots": 1626,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "latest_vs_this_year_pct": -5.8,
+      "snpp": 481,
+      "window": "2025-10-01 to 2025-10-24",
+      "year": 2025
+     },
+     {
+      "all_satellite_spots": 1609,
+      "days_covered": 24,
+      "days_in_window": 24,
+      "snpp": 453,
+      "window": "2026-10-01 to 2026-10-24",
+      "year": 2026
+     }
+    ],
+    "years_with_fewer_days": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_season_compare@1"
+  },
+  {
+   "id": "ev_df01a4b15674422f",
+   "claim": "Within 30 km of 24.67, 77.29: 0 known pollution sources.",
+   "data": {
+    "by_group": {},
+    "count": 0,
+    "kiln_licence": "CC BY-NC 4.0 (non-commercial)",
+    "point": [
+     24.67,
+     77.29
+    ],
+    "radius_km": 30.0,
+    "sources": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_sources_near@1"
+  },
+  {
+   "id": "ev_282c8b0308554f3c",
+   "claim": "Within 30 km of 24.66, 77.24: 0 known pollution sources.",
+   "data": {
+    "by_group": {},
+    "count": 0,
+    "kiln_licence": "CC BY-NC 4.0 (non-commercial)",
+    "point": [
+     24.66,
+     77.24
+    ],
+    "radius_km": 30.0,
+    "sources": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_sources_near@1"
+  },
+  {
+   "id": "ev_42bc00e1f07e4fbf",
+   "claim": "On 2026-10-24 (Pakistan time) HamariHawa counted 3,210 distinct fire spots (710 in Pakistan, 2,500 in India, 2,053 labelled crop fires). The busiest district was Guna, Madhya Pradesh (IN) with 107.",
+   "data": {
+    "date": "2026-10-24",
+    "districts": [
+     {
+      "cc": "IN",
+      "district": "Guna",
+      "lat": 24.66,
+      "lon": 77.24,
+      "snpp": 42,
+      "spots": 107,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "IN",
+      "district": "Dhanbad",
+      "lat": 23.76,
+      "lon": 86.37,
+      "snpp": 38,
+      "spots": 81,
+      "state": "Jharkhand"
+     },
+     {
+      "cc": "IN",
+      "district": "Banas Kantha",
+      "lat": 24.38,
+      "lon": 71.31,
+      "snpp": 0,
+      "spots": 75,
+      "state": "Gujarat"
+     },
+     {
+      "cc": "IN",
+      "district": "Ashoknagar",
+      "lat": 24.62,
+      "lon": 77.73,
+      "snpp": 33,
+      "spots": 74,
+      "state": "Madhya Pradesh"
+     },
+     {
+      "cc": "PK",
+      "district": "Jhang",
+      "lat": 31.28,
+      "lon": 72.21,
+      "snpp": 18,
+      "spots": 73,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "district": "Angul",
+      "lat": 20.94,
+      "lon": 85.11,
+      "snpp": 50,
+      "spots": 72,
+      "state": "Odisha"
+     },
+     {
+      "cc": "IN",
+      "district": "Surendranagar",
+      "lat": 22.74,
+      "lon": 71.66,
+      "snpp": 2,
+      "spots": 72,
+      "state": "Gujarat"
+     },
+     {
+      "cc": "PK",
+      "district": "Khanewal",
+      "lat": 30.48,
+      "lon": 71.97,
+      "snpp": 15,
+      "spots": 69,
+      "state": "Punjab"
+     },
+     {
+      "cc": "PK",
+      "district": "Dera Ghazi Khan",
+      "lat": 30.43,
+      "lon": 70.66,
+      "snpp": 14,
+      "spots": 65,
+      "state": "Punjab"
+     },
+     {
+      "cc": "IN",
+      "district": "Baran",
+      "lat": 25.04,
+      "lon": 76.91,
+      "snpp": 26,
+      "spots": 62,
+      "state": "Rajasthan"
+     }
+    ],
+    "places": [
+     {
+      "cc": "IN",
+      "district": "Banas Kantha",
+      "place": "Kudalia",
+      "spots": 37
+     },
+     {
+      "cc": "IN",
+      "district": "Banas Kantha",
+      "place": "Bharduva",
+      "spots": 29
+     },
+     {
+      "cc": "IN",
+      "district": "Angul",
+      "place": "Dera Colliery Township",
+      "spots": 27
+     },
+     {
+      "cc": "IN",
+      "district": "Surendranagar",
+      "place": "Talsana",
+      "spots": 26
+     },
+     {
+      "cc": "IN",
+      "district": "Dhanbad",
+      "place": "Kusunda",
+      "spots": 23
+     },
+     {
+      "cc": "IN",
+      "district": "Bundi",
+      "place": "Kapren",
+      "spots": 17
+     },
+     {
+      "cc": "IN",
+      "district": "Korba",
+      "place": "Bhelai",
+      "spots": 16
+     },
+     {
+      "cc": "IN",
+      "district": "Purba Singhbhum",
+      "place": "Jamshedpur",
+      "spots": 14
+     },
+     {
+      "cc": "IN",
+      "district": "Paschim Bardhaman",
+      "place": "Jamuria",
+      "spots": 13
+     },
+     {
+      "cc": "IN",
+      "district": "Ballari",
+      "place": "Torangallu",
+      "spots": 13
+     }
+    ],
+    "source": "NASA FIRMS near real time",
+    "summary": {
+     "crop": 2053,
+     "frp": 14549,
+     "india": 2500,
+     "night": 845,
+     "pk": 710,
+     "snpp": 1215,
+     "spots": 3210
+    }
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_day_detail@2"
+  },
+  {
+   "id": "ev_facd76082d9c497b",
+   "claim": "Within 30 km of 24.62, 77.73: 0 known pollution sources.",
+   "data": {
+    "by_group": {},
+    "count": 0,
+    "kiln_licence": "CC BY-NC 4.0 (non-commercial)",
+    "point": [
+     24.62,
+     77.73
+    ],
+    "radius_km": 30.0,
+    "sources": []
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_sources_near@1"
+  },
+  {
+   "id": "ev_bf1c4355c3a14f9d",
+   "claim": "Within 25 km of 23.76, 86.37: 123 known pollution sources (120 hotspot, 3 plant).",
+   "data": {
+    "by_group": {
+     "hotspot": 120,
+     "plant": 3
+    },
+    "count": 123,
+    "kiln_licence": "CC BY-NC 4.0 (non-commercial)",
+    "point": [
+     23.76,
+     86.37
+    ],
+    "radius_km": 25.0,
+    "sources": [
+     {
+      "cc": "IN",
+      "days": 26,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 0.7,
+      "lat": 23.7653,
+      "lon": 86.3727,
+      "months": 6,
+      "name": "Kusunda",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 97,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 0.9,
+      "lat": 23.7677,
+      "lon": 86.3724,
+      "months": 11,
+      "name": "Kusunda",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 26,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 0.9,
+      "lat": 23.7652,
+      "lon": 86.3762,
+      "months": 5,
+      "name": "Kusunda",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 55,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 1.0,
+      "lat": 23.7676,
+      "lon": 86.3753,
+      "months": 11,
+      "name": "Kusunda",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 121,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 1.5,
+      "lat": 23.7728,
+      "lon": 86.3642,
+      "months": 12,
+      "name": "Pondarkanali",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 29,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 1.5,
+      "lat": 23.7728,
+      "lon": 86.3668,
+      "months": 8,
+      "name": "Pondarkanali",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 64,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 1.7,
+      "lat": 23.7754,
+      "lon": 86.3669,
+      "months": 11,
+      "name": "Pondarkanali",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 34,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 1.7,
+      "lat": 23.7732,
+      "lon": 86.3612,
+      "months": 10,
+      "name": "Pondarkanali",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 201,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 1.8,
+      "lat": 23.7756,
+      "lon": 86.364,
+      "months": 12,
+      "name": "Pondarkanali",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 59,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 1.9,
+      "lat": 23.7754,
+      "lon": 86.3613,
+      "months": 11,
+      "name": "Pondarkanali",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 34,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 2.1,
+      "lat": 23.7733,
+      "lon": 86.3847,
+      "months": 9,
+      "name": "Kusunda",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 135,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 2.3,
+      "lat": 23.7803,
+      "lon": 86.3723,
+      "months": 12,
+      "name": "Basaria",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 119,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 2.3,
+      "lat": 23.7643,
+      "lon": 86.3923,
+      "months": 11,
+      "name": "Kusunda",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 70,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 2.3,
+      "lat": 23.7758,
+      "lon": 86.3849,
+      "months": 12,
+      "name": "Kusunda",
+      "state": "Jharkhand",
+      "unnamed": true
+     },
+     {
+      "cc": "IN",
+      "days": 51,
+      "district": "Dhanbad",
+      "group": "hotspot",
+      "km": 2.3,
+      "lat": 23.7805,
+      "lon": 86.3748,
+      "months": 10,
+      "name": "Basaria",
+      "state": "Jharkhand",
+      "unnamed": true
+     }
+    ]
+   },
+   "derived_by": "agentville.domains.hamarihawa.tools:_sources_near@1"
+  }
+ ]
+}

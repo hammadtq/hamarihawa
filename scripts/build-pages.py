@@ -311,6 +311,10 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
+    ("/report/madhya-pradesh-indian-punjab-fire-spots/", "2026-10-28", "Madhya Pradesh overtakes Indian Punjab: satellite fire spots in October, 2019–2026", {
+        "en": "From 1 to 24 October 2026 Madhya Pradesh had its most satellite fire spots in eight years, and Indian Punjab and Haryana their fewest.",
+        "ur": "1 سے 24 اکتوبر 2026 کے دوران مدھیہ پردیش میں سیٹلائٹ سے دیکھے گئے آگ کے مقامات آٹھ برسوں میں سب سے زیادہ رہے، جبکہ ہندوستانی پنجاب اور ہریانہ میں سب سے کم۔",
+        "hi": "1 से 24 अक्टूबर 2026 के बीच मध्य प्रदेश में आठ साल में सबसे ज़्यादा आग की जगहें उपग्रह से दिखीं, जबकि भारतीय पंजाब और हरियाणा में सबसे कम।"}),
     ("/report/two-punjabs/", "2026-10-20", "Two Punjabs: seven seasons of crop fires", {
         "en": "Satellite-seen crop fires fell 95% in Indian Punjab since 2021 but not in Pakistani Punjab, which has had more since 2024. Checked against India's official counts, with district tables and why fire counts undercount.",
         "ur": "2021 کے بعد ہندوستانی پنجاب میں سیٹلائٹ کو نظر آنے والی آگ 95% کم ہو گئی، مگر پاکستانی پنجاب میں کم نہیں ہوئی، جہاں 2024 سے ہندوستانی پنجاب سے زیادہ آگ دیکھی جا رہی ہے۔ رپورٹ میں ہندوستان کے سرکاری اعداد سے جانچ، اضلاع کی فہرست، اور یہ وضاحت بھی ہے کہ آگ کی گنتی اصل سے کم کیوں ہوتی ہے۔",
@@ -332,7 +336,7 @@ def reports_page():
     jsonld = {"@context": "https://schema.org", "@type": "CollectionPage", "@id": f"{SITE}/reports/#page", "name": "HamariHawa reports",
               "url": f"{SITE}/reports/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG,
               "hasPart": [{"@type": "Report", "name": t, "url": f"{SITE}{p}", "datePublished": d} for p, d, t, _ in REPORTS]}
-    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
+    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: Madhya Pradesh overtakes Indian Punjab (October fire spots 2019-2026), Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
                arts, jsonld)
     os.makedirs(os.path.join(PUB, "reports"), exist_ok=True)
     open(os.path.join(PUB, "reports", "index.html"), "w", encoding="utf-8").write(out)
@@ -401,6 +405,7 @@ SITEMAP = [  # (path, source files whose last commit dates the page, changefreq,
     ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
     ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
     ("/trends/", ["scripts/pages/trends-en.html", "site/public/trends/trends.js"], "daily", "0.8", True),
+    ("/report/madhya-pradesh-indian-punjab-fire-spots/", ["scripts/reports/madhya-pradesh-indian-punjab-fire-spots/article.en.html", "site/public/report/madhya-pradesh-indian-punjab-fire-spots/data.json"], "monthly", "0.8", True),
     ("/report/two-punjabs/", ["scripts/build-report-punjabs.py", "site/public/report/two-punjabs/seasons.json"], "monthly", "0.8", True),
     ("/data/", ["scripts/pages/data-en.html"], "monthly", "0.7", True),
     ("/updates/", ["site/public/updates/updates.json"], "weekly", "0.7", True),

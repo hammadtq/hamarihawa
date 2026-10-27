@@ -15,7 +15,7 @@
     "run_worker_first": [
       "/api/*", "/air", "/air/*", "/fires", "/fires/", "/fires/2*", "/district", "/district/*", "/sitemap-daily.xml",
       "/fires.kml", "/kml/air.kml", "/kml/traffic.kml", "/kml/satellite.kml",
-      "/", "/index.html", "/about/", "/data/", "/sites/", "/trends/", "/reports/", "/report/", "/report/two-punjabs/", "/updates/"
+      "/", "/index.html", "/about/", "/data/", "/sites/", "/trends/", "/reports/", "/report/", "/report/two-punjabs/", "/report/madhya-pradesh-indian-punjab-fire-spots/", "/updates/"
     ]
   },
   "routes": [
