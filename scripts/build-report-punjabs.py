@@ -29,6 +29,9 @@ night = lambda k, y: S[str(y)][k]["night"] / max(1, tot(k, y))
 f = lambda n: f"{n:,.0f}"
 
 
+AUTHOR = {"@type": "Person", "@id": "https://hammadtariq.com/#me", "name": "Hammad Tariq", "url": "https://hammadtariq.com/"}
+
+
 def pct(a, b):
     return round((a - b) / b * 100)
 
@@ -165,6 +168,7 @@ L10N = {
 TEXT = {
 "en": """  <p class="kicker">Report · {date}</p>
   <h1>Two Punjabs: seven seasons of crop fires</h1>
+  <p class="byline">By <a href="https://hammadtariq.com/" rel="author">Hammad Tariq</a></p>
   <p class="lede">Between {peak_in} and {last}, the crop fires NASA's Suomi NPP satellite saw in Indian Punjab fell by {in_fall}%. Across the border, Pakistani Punjab ended higher than it started: {pk0} fire spots in {y0}, {pk1} in {last}. Since {cross}, the satellite has seen more crop fires in Pakistani Punjab than in Indian Punjab, and in {last} it saw {ratio} times as many.</p>
   <p class="muted">Parali ki aag: {peak_in} se {last} tak Indian Punjab mein satellite ko dikhne wali aag {in_fall}% kam hui, magar Pakistani Punjab mein nahi. {last} mein Pakistani Punjab mein {ratio} guna zyada aag dikhi.</p>
   <div class="facts">
@@ -221,6 +225,7 @@ TEXT = {
 
 "ur": """  <p class="kicker">رپورٹ · {date}</p>
   <h1>دو پنجاب: فصلوں کی آگ کے سات موسم</h1>
+  <p class="byline">تحریر: <a href="https://hammadtariq.com/" rel="author">حماد طارق</a></p>
   <p class="lede">{peak_in} سے {last} کے دوران ہندوستانی پنجاب میں ناسا کے سیٹلائٹ Suomi NPP نے فصلوں کی جو آگ دیکھی، وہ {in_fall}% کم ہو گئی۔ سرحد کے اُس پار پاکستانی پنجاب میں یہ تعداد کم نہیں ہوئی بلکہ بڑھی: {y0} میں {pk0} مقامات پر آگ دیکھی گئی تھی اور {last} میں {pk1} مقامات پر۔ {cross} سے سیٹلائٹ کو ہندوستانی پنجاب کے مقابلے میں پاکستانی پنجاب میں زیادہ آگ نظر آ رہی ہے، اور {last} میں یہ تعداد {ratio} گنا تھی۔</p>
   <div class="facts">
     <div class="fact sketch"><b dir="ltr">−{in_fall}%</b><span>ہندوستانی پنجاب، {peak_in} سے {last} تک</span></div>
@@ -276,6 +281,7 @@ TEXT = {
 
 "hi": """  <p class="kicker">रिपोर्ट · {date}</p>
   <h1>दो पंजाब: फ़सल की आग के सात मौसम</h1>
+  <p class="byline">लेखक: <a href="https://hammadtariq.com/" rel="author">हम्माद तारिक़</a></p>
   <p class="lede">{peak_in} से {last} के बीच भारतीय पंजाब में नासा के उपग्रह Suomi NPP ने फ़सल की जितनी आग देखी, वह {in_fall}% घट गई। सरहद के उस पार पाकिस्तानी पंजाब में यह संख्या घटी नहीं, बल्कि बढ़ी: {y0} में {pk0} जगहों पर आग दिखी थी और {last} में {pk1} जगहों पर। {cross} से उपग्रह को भारतीय पंजाब की तुलना में पाकिस्तानी पंजाब में ज़्यादा आग दिख रही है, और {last} में यह संख्या {ratio} गुना थी।</p>
   <div class="facts">
     <div class="fact sketch"><b dir="ltr">−{in_fall}%</b><span>भारतीय पंजाब, {peak_in} से {last} तक</span></div>
@@ -418,7 +424,7 @@ def main():
     jsonld = {"@context": "https://schema.org", "@type": "Report", "@id": f"{bp.SITE}/report/two-punjabs/#report",
               "name": "Two Punjabs: seven seasons of crop fires", "headline": "Two Punjabs: seven seasons of crop fires",
               "url": f"{bp.SITE}/report/two-punjabs/", "datePublished": "2026-10-20", "dateModified": "2026-10-23", "inLanguage": ["en", "ur", "hi"],
-              "author": bp.ORG, "publisher": bp.ORG, "isPartOf": {"@id": f"{bp.SITE}/#website"},
+              "author": AUTHOR, "publisher": bp.ORG, "isPartOf": {"@id": f"{bp.SITE}/#website"},
               "about": ["Crop residue burning in Pakistani Punjab", "Crop residue burning in Indian Punjab and Haryana", "Satellite fire detection"],
               "abstract": f"Satellite-detected crop fires in Indian Punjab fell {in_fall}% between {peak_in} and {last}; in Pakistani Punjab they did not fall. "
                           f"Since {cross} NASA's Suomi NPP has seen more crop fires in Pakistani Punjab, {ratio_last:.1f} times as many in {last}. "
