@@ -26,11 +26,55 @@ MONTHS = {
 NAV = [("/", "map", "Live map", "تازہ نقشہ", "लाइव नक्शा"), ("/air/", "air", "City air", "شہروں کی ہوا", "शहरों की हवा"), ("/sites/", "sites", "Pollution sites", "آلودگی کے مقامات", "प्रदूषण के ठिकाने"),
        ("/trends/", "trends", "Fire trends", "آگ کا رجحان", "आग का रुझान"), ("/reports/", "reports", "Reports", "رپورٹس", "रिपोर्ट"),
        ("/about/", "about", "About", "تعارف", "परिचय")]
-FOOT = {
-    "en": '<a href="/">← Back to the live map</a> · <a href="/fires/">Daily fires</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a> · <a href="https://x.com/hamarihawa" rel="me">X</a> · <a href="https://www.youtube.com/@hamarihawa" rel="me">YouTube</a> · <a href="https://www.facebook.com/hamarihawa" rel="me">Facebook</a> · <a href="https://www.linkedin.com/company/hamarihawa/" rel="me">LinkedIn</a>',
-    "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/fires/">روزانہ آگ</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a> · <a href="https://x.com/hamarihawa" rel="me">X</a> · <a href="https://www.youtube.com/@hamarihawa" rel="me">YouTube</a> · <a href="https://www.facebook.com/hamarihawa" rel="me">Facebook</a> · <a href="https://www.linkedin.com/company/hamarihawa/" rel="me">LinkedIn</a>',
-    "hi": '<a href="/">← लाइव नक्शे पर वापस</a> · <a href="/fires/">रोज़ की आग</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a> · <a href="https://x.com/hamarihawa" rel="me">X</a> · <a href="https://www.youtube.com/@hamarihawa" rel="me">YouTube</a> · <a href="https://www.facebook.com/hamarihawa" rel="me">Facebook</a> · <a href="https://www.linkedin.com/company/hamarihawa/" rel="me">LinkedIn</a>',
-}
+# The site footer, one for every page. Generated pages get it from page() (and the Worker's pages from
+# shell.html); hand-written pages (map, about, pollution sites) carry it between FOOT_START and FOOT_END,
+# which stamp_footers() rewrites. Text swaps language through data-en/ur/hi, like the nav.
+FOOT_START, FOOT_END = "<!-- site-footer:start -->", "<!-- site-footer:end -->"
+SOCIAL = [("https://x.com/hamarihawa", "X"), ("https://www.youtube.com/@hamarihawa", "YouTube"),
+          ("https://www.facebook.com/hamarihawa", "Facebook"), ("https://www.linkedin.com/company/hamarihawa/", "LinkedIn")]
+FOOT_COLS = [
+    (("Explore", "دیکھیں", "देखें"), [(h, en, ur, hi) for h, _, en, ur, hi in NAV if h != "/about/"]
+     + [("/fires/", "Daily fires", "روزانہ آگ", "रोज़ की आग")]),
+    (("Data and method", "ڈیٹا اور طریقۂ کار", "डेटा और तरीका"), [
+        ("/data/", "Use the data", "ڈیٹا استعمال کریں", "डेटा इस्तेमाल करें"),
+        ("/updates/", "What's new", "نیا کیا ہے", "नया क्या है"),
+        ("/about/", "About and method", "تعارف اور طریقۂ کار", "परिचय और तरीका"),
+        ("https://github.com/hammadtq/hamarihawa", "Source code on GitHub", "سورس کوڈ GitHub پر", "सोर्स कोड GitHub पर")]),
+    (("Follow", "ہمیں فالو کریں", "हमें फ़ॉलो करें"), [(h, n, n, n) for h, n in SOCIAL]),
+]
+TAGLINE = ("Live fire and air map of Pakistan and North India, from NASA satellite data.",
+           "پاکستان اور شمالی ہندوستان میں آگ اور ہوا کا تازہ نقشہ، ناسا کے سیٹلائٹ ڈیٹا سے۔",
+           "पाकिस्तान और उत्तर भारत में आग और हवा का लाइव नक्शा, नासा के उपग्रह डेटा से।")
+MAKER = ("Made by Hammad Tariq", "بنانے والے: حماد طارق", "बनाने वाले: हम्माद तारिक़")
+
+
+def _i18n(en, ur, hi):
+    e = html.escape
+    return f'data-en="{e(en)}" data-ur="{e(ur)}" data-hi="{e(hi)}">{e(en)}'
+
+
+def site_footer():
+    cols = []
+    for (h_en, h_ur, h_hi), links in FOOT_COLS:
+        items = "".join(
+            f'<li><a href="{h}"{" rel=\"me\"" if (h, en) in SOCIAL else ""} {_i18n(en, ur, hi)}</a></li>'
+            for h, en, ur, hi in links)
+        cols.append(f'    <nav class="sf-col" aria-label="{html.escape(h_en)}"><p class="sf-h" {_i18n(h_en, h_ur, h_hi)}</p>'
+                    f"<ul>{items}</ul></nav>")
+    return (f'{FOOT_START}\n<footer class="site-foot" id="site-footer">\n  <div class="sf-wrap">\n'
+            f'    <div class="sf-brand"><p class="sf-name">HamariHawa</p><p {_i18n(*TAGLINE)}</p>'
+            f'<p><a href="https://hammadtariq.com/" rel="author" {_i18n(*MAKER)}</a></p></div>\n'
+            + "\n".join(cols) + f"\n  </div>\n</footer>\n{FOOT_END}")
+
+
+def stamp_footers():
+    """Put the current footer into the hand-written pages, between the markers."""
+    for rel in ("index.html", "about/index.html", "sites/index.html"):
+        path = os.path.join(PUB, rel)
+        text = open(path, encoding="utf-8").read()
+        i, j = text.index(FOOT_START), text.index(FOOT_END) + len(FOOT_END)
+        open(path, "w", encoding="utf-8").write(text[:i] + site_footer() + text[j:])
+    print("footers stamped")
 
 
 def fmt_date(iso, lang):
@@ -45,7 +89,7 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
     on = lambda h, k: k == current if current else h == path or (k == "reports" and path.startswith("/report"))
     nav = "\n".join(f'    <a href="{h}" data-nav="{k}"{' aria-current="page"' if on(h, k) else ""} data-en="{en}" data-ur="{ur}" data-hi="{hi}">{en}</a>'
                      for h, k, en, ur, hi in NAV)
-    arts = "\n".join(f'<article data-lang="{l}"{"" if l == "en" else " hidden"}>\n{articles[l]}\n  <p class="foot-links">{FOOT[l]}</p>\n</article>'
+    arts = "\n".join(f'<article data-lang="{l}"{"" if l == "en" else " hidden"}>\n{articles[l]}\n</article>'
                      for l in LANGS)
     return f"""<!doctype html>
 <html lang="en" dir="ltr">
@@ -115,7 +159,6 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
   .doc .entry time {{ font-family: var(--hand); color: var(--ink-3); font-size: 15px; }}
   .doc .entry h2 {{ margin: 2px 0 6px; font-size: 21px; }}
   .doc .entry h2 a {{ color: inherit; text-decoration: none; }}
-  .doc .foot-links {{ margin-top: 40px; font-size: 14px; }}
   .doc table {{ border-collapse: collapse; width: 100%; font-size: 14.5px; margin: 10px 0; }}
   .doc th, .doc td {{ text-align: start; padding: 6px 8px; border-bottom: 1px solid var(--hair); vertical-align: top; color: var(--ink-2); }}
   .doc .table-wrap {{ overflow-x: auto; }}
@@ -145,6 +188,7 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
 <main class="doc{" wide" if wide else ""}">
 {arts}
 </main>
+{site_footer()}
 
 <script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
 <script>
@@ -482,4 +526,5 @@ if __name__ == "__main__":
     cities()
     worker_shell()
     sites_page()
+    stamp_footers()
     sitemap()
