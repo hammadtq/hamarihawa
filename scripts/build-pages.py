@@ -27,9 +27,9 @@ NAV = [("/", "map", "Live map", "تازہ نقشہ", "लाइव नक्श�
        ("/trends/", "trends", "Fire trends", "آگ کا رجحان", "आग का रुझान"), ("/reports/", "reports", "Reports", "رپورٹس", "रिपोर्ट"),
        ("/about/", "about", "About", "تعارف", "परिचय")]
 FOOT = {
-    "en": '<a href="/">← Back to the live map</a> · <a href="/fires/">Daily fires</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
-    "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/fires/">روزانہ آگ</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
-    "hi": '<a href="/">← लाइव नक्शे पर वापस</a> · <a href="/fires/">रोज़ की आग</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a>',
+    "en": '<a href="/">← Back to the live map</a> · <a href="/fires/">Daily fires</a> · <a href="/data/">Use the data</a> · <a href="/updates/">Updates</a> · <a href="/about/">About</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a> · <a href="https://x.com/hamarihawa" rel="me">X</a> · <a href="https://www.youtube.com/@hamarihawa" rel="me">YouTube</a> · <a href="https://www.facebook.com/hamarihawa" rel="me">Facebook</a> · <a href="https://www.linkedin.com/company/hamarihawa/" rel="me">LinkedIn</a>',
+    "ur": '<a href="/">تازہ نقشے پر واپس →</a> · <a href="/fires/">روزانہ آگ</a> · <a href="/data/">ڈیٹا استعمال کریں</a> · <a href="/updates/">نیا کیا ہے</a> · <a href="/about/">تعارف</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a> · <a href="https://x.com/hamarihawa" rel="me">X</a> · <a href="https://www.youtube.com/@hamarihawa" rel="me">YouTube</a> · <a href="https://www.facebook.com/hamarihawa" rel="me">Facebook</a> · <a href="https://www.linkedin.com/company/hamarihawa/" rel="me">LinkedIn</a>',
+    "hi": '<a href="/">← लाइव नक्शे पर वापस</a> · <a href="/fires/">रोज़ की आग</a> · <a href="/data/">डेटा इस्तेमाल करें</a> · <a href="/updates/">नया क्या है</a> · <a href="/about/">परिचय</a> · <a href="https://github.com/hammadtq/hamarihawa">GitHub</a> · <a href="https://x.com/hamarihawa" rel="me">X</a> · <a href="https://www.youtube.com/@hamarihawa" rel="me">YouTube</a> · <a href="https://www.facebook.com/hamarihawa" rel="me">Facebook</a> · <a href="https://www.linkedin.com/company/hamarihawa/" rel="me">LinkedIn</a>',
 }
 
 
@@ -80,7 +80,8 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
 <meta property="og:locale:alternate" content="ur_PK">
 <meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@hammadtariq">
+<meta name="twitter:site" content="@hamarihawa">
+<meta name="twitter:creator" content="@hammadtariq">
 <meta name="twitter:title" content="{t} · HamariHawa">
 <meta name="twitter:description" content="{dsc}">
 <meta name="twitter:image" content="{SITE}{og_image}">
