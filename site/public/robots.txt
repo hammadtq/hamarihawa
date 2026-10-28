@@ -1,5 +1,7 @@
 # HamariHawa: public-interest air-quality site. Crawlers and AI assistants are welcome.
+# Content signals (https://contentsignals.org): search, quoting in AI answers and AI training are all allowed.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 Disallow: /api/firms/
 
