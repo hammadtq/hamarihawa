@@ -376,8 +376,20 @@ function nearMePage(data, wind) {
     scripts: '<script src="/cities.js?v=202610260000"></script>\n' + LEAFLET_JS + NEAR_JS });
 }
 
-function rankingsPage(data, wind, extra) {
+// Every city's summary and the live ranks, worked out once per version of the "cities" and "wind" keys and
+// shared by /air/<city>/, /rankings/ and /api/city in this isolate.
+const ALL = new WeakMap();
+function allCities(data, wind) {
+  const m = ALL.get(data);
+  if (m && m.wind === wind) return m;
   const rows = CITIES.map((c) => ({ c, s: smoke(data, wind, c) }));
+  const v = { wind, rows, ranks: liveRanks(rows) };
+  ALL.set(data, v);
+  return v;
+}
+
+function rankingsPage(data, wind, extra) {
+  const { rows } = allCities(data, wind);
   const { body: tables, lists } = rankingsBody(rows, { n2: extra.n2, latest: data?.latest, at: (ms, l) => at(ms, "PK", l) });
   const body = {};
   for (const l of LANGS) {
@@ -405,9 +417,9 @@ export async function cityApi(url, env, ctx, edgeCached) {
   return edgeCached(ctx, `/api/city?id=${id}`, 900, async () => {
     const [data, wind, cf, n2] = await Promise.all([kvJson(env, "cities"), kvJson(env, "wind"), kvJson(env, "city-fires"), kvJson(env, "no2-cities")]);
     if (!data) return new Response("not built yet", { status: 503 });
-    const rows = CITIES.map((x) => ({ c: x, s: smoke(data, wind, x) }));
+    const { rows, ranks } = allCities(data, wind);
     const s = rows.find((r) => r.c.id === id).s;
-    const body = cityJson(c, { s, cf, n2, ranks: liveRanks(rows), districtName: (di) => districtName(data, di) });
+    const body = cityJson(c, { s, cf, n2, ranks, districtName: (di) => districtName(data, di) });
     body.generated = data.latest ? new Date(data.latest).toISOString() : null;
     return new Response(JSON.stringify(body), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=900", "access-control-allow-origin": "*" } });
   });
@@ -442,7 +454,7 @@ export async function airPages(url, env, ctx, edgeCached) {
   return edgeCached(ctx, p, 900, async () => {
     const [data, wind, cf, n2] = await Promise.all([kvJson(env, "cities"), kvJson(env, "wind"), c ? kvJson(env, "city-fires") : null, c ? kvJson(env, "no2-cities") : null]);
     if (!data) return new Response("City pages aren't built yet. Try again in a few minutes.", { status: 503 });
-    const ranks = c ? liveRanks(CITIES.map((x) => ({ c: x, s: smoke(data, wind, x) }))) : null;
+    const ranks = c ? allCities(data, wind).ranks : null;
     return page(navAir(c ? cityPage(c, data, wind, { cf, n2, ranks }) : indexPage(data, wind)), 200, 600);
   });
 }
