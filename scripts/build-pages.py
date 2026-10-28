@@ -10,7 +10,7 @@ Usage: python3 -I scripts/build-pages.py
 Writes site/public/data/index.html, site/public/trends/index.html, site/public/updates/index.html,
 site/public/updates/feed.xml.
 """
-import html, json, os, re
+import html, json, math, os, re
 from datetime import date
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -23,7 +23,8 @@ MONTHS = {
     "ur": "جنوری فروری مارچ اپریل مئی جون جولائی اگست ستمبر اکتوبر نومبر دسمبر".split(),
     "hi": "जनवरी फ़रवरी मार्च अप्रैल मई जून जुलाई अगस्त सितंबर अक्टूबर नवंबर दिसंबर".split(),
 }
-NAV = [("/", "map", "Live map", "تازہ نقشہ", "लाइव नक्शा"), ("/air/", "air", "City air", "شہروں کی ہوا", "शहरों की हवा"), ("/sites/", "sites", "Pollution sites", "آلودگی کے مقامات", "प्रदूषण के ठिकाने"),
+NAV = [("/", "map", "Live map", "تازہ نقشہ", "लाइव नक्शा"), ("/air/", "air", "City air", "شہروں کی ہوا", "शहरों की हवा"),
+       ("/rankings/", "rankings", "Rankings", "درجہ بندی", "रैंकिंग"), ("/sites/", "sites", "Pollution sites", "آلودگی کے مقامات", "प्रदूषण के ठिकाने"),
        ("/trends/", "trends", "Fire trends", "آگ کا رجحان", "आग का रुझान"), ("/reports/", "reports", "Reports", "رپورٹس", "रिपोर्ट"),
        ("/about/", "about", "About", "تعارف", "परिचय")]
 # The site footer, one for every page. Generated pages get it from page() (and the Worker's pages from
@@ -356,6 +357,98 @@ def _km(a, b):
     return 2 * 6371 * math.asin(math.sqrt(h))
 
 
+_CELLS, _BORDERS = {}, []
+
+
+def country_at(lat, lon):
+    """PK or IN for a point: the 0.25-degree country cell, or the country outlines where a border runs through it."""
+    if not _CELLS:
+        _CELLS.update(json.load(open(os.path.join(ROOT, "data", "places", "countries.json"))))
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import geo
+        _BORDERS.append(geo.Borders.load(os.path.join(ROOT, "data", "places", "borders.json")))
+    c = _CELLS.get(f"{math.floor(lat * 4)}_{math.floor(lon * 4)}")
+    if c in ("PK", "IN"):
+        return c
+    inside = _BORDERS[0].which(lat, lon)
+    return inside[0] if len(inside) == 1 else None  # both outlines claim Kashmir: left unassigned
+
+
+SURVEY_KM = 150  # a city with surveyed kilns this close is inside the kiln survey's area (the Indus-Gangetic plain)
+SITES_JSON = os.path.join(PUB, "sources", "sites.json")
+
+
+def city_sources(here, kinds):
+    """What the city pages list about the ground within NEAR_KM, on either side of the border, from the
+    canonical site lists (sources/sites.json: Carbon Mapper methane and CO2 sources joined to OSM names, and
+    the always-hot sites not already counted as one of those) plus the OSM layers and the kiln surveys.
+    Lists hold measured or mapped evidence; nothing here is a share of a city's pollution."""
+    sites = json.load(open(SITES_JSON, encoding="utf-8"))
+    near = lambda items, km=NEAR_KM: [(it, _km(here, (it["lat"], it["lon"]) if isinstance(it, dict) else it)) for it in items
+                                      if abs((it["lat"] if isinstance(it, dict) else it[0]) - here[0]) < km / 100 + 0.1
+                                      and abs((it["lon"] if isinstance(it, dict) else it[1]) - here[1]) < km / 85 + 0.1]
+    within = lambda items, km=NEAR_KM: [(it, d) for it, d in near(items, km) if d <= km]
+    split = lambda hits: {"pk": sum(1 for it, _ in hits if (it.get("cc") if isinstance(it, dict) else None) == "PK"),
+                          "in": sum(1 for it, _ in hits if (it.get("cc") if isinstance(it, dict) else None) == "IN")}
+    ch4 = sorted(((it, d) for it, d in within(sites["landfills"]) if it.get("gas") == "CH4" and (it.get("rate") or 0) > 0), key=lambda x: -x[0]["rate"])
+    # Carbon Mapper can list one facility as several sources (Dadri, Attock Cement): one row per name, summed.
+    co2, byname = [], {}
+    for it, d in within(sites["plants"]):
+        if (it.get("co2_t_h") or 0) <= 0:
+            continue
+        k = it["name"] if not it.get("unnamed") else (it["lat"], it["lon"])
+        if k in byname:
+            byname[k][0]["co2_t_h"] += it["co2_t_h"]
+            byname[k][0]["plumes"] += it["plumes"]
+        else:
+            byname[k] = [dict(it), d]
+            co2.append(byname[k])
+    co2 = sorted(((it, d) for it, d in co2), key=lambda x: -x[0]["co2_t_h"])
+    hot = sorted(within(sites["hot"]), key=lambda x: -x[0]["days"])
+    mw = lambda it: float(re.sub(r"[^0-9.]", "", it[4] or "0") or 0)
+    fossil = sorted(within(kinds["plants"]), key=lambda x: -mw(x[0]))
+    kilns = within(kinds["kilns"])
+    est = [it for it, _ in kilns if it[3] is not None]
+    survey = bool(kilns) or any(True for _ in within(kinds["kilns"], SURVEY_KM))
+    kcc = lambda it: country_at(it[0], it[1])
+    return {
+        "ch4": {"n": len(ch4), "kg_h": sum(it["rate"] for it, _ in ch4), **split(ch4),
+                "top": [[it["name"], it["rate"], it["plumes"], it["persistence"], it["last"], it["cc"], round(d), it.get("district", "")] for it, d in ch4[:5]]},
+        "co2": {"n": len(co2), "t_h": round(sum(it["co2_t_h"] for it, _ in co2)), **split(co2),
+                "top": [[it["name"], it["kind"], it["co2_t_h"], it["cc"], round(d)] for it, d in co2[:5]]},
+        "fossil": {"n": len(fossil), **{f: sum(1 for it, _ in fossil if it[2] == f) for f in ("coal", "gas", "oil")},
+                   "top": [[it[3], it[2], mw(it) or None, round(d)] for it, d in fossil[:4] if it[3]]},
+        "industry": {"n": len(within(kinds["industry"]))},
+        "hot": {"n": len(hot), **split(hot), "top": [[it["name"], it["days"], it["cc"], round(d)] for it, d in hot[:3]]},
+        "kilns": {"n": len(kilns), "survey": survey, "pk": sum(1 for it, _ in kilns if kcc(it) == "PK"), "in": sum(1 for it, _ in kilns if kcc(it) == "IN"),
+                  "zigzag": round(100 * sum(1 for it, _ in kilns if it[2] == 2) / len(kilns)) if kilns else None,
+                  "est": len(est), "pm25_t_day": round(sum(it[3] for it in est) / 1000, 1) if est else None},
+    }
+
+
+def city_ranks(worker):
+    """Rank each city among the 58 on each measure, largest first (1 = most). Ties share a rank; a city with
+    none gets no rank, and kilns are ranked only inside the kiln survey's area. Each methane record also gets
+    its place among every Carbon Mapper landfill record with a rate in Pakistan and India."""
+    measures = {"ch4": lambda s: s["ch4"]["kg_h"], "co2": lambda s: s["co2"]["t_h"], "hot": lambda s: s["hot"]["n"],
+                "industry": lambda s: s["industry"]["n"], "kilns": lambda s: s["kilns"]["n"] if s["kilns"]["survey"] else 0,
+                "fossil": lambda s: s["fossil"]["n"]}
+    for k, f in measures.items():
+        vals = sorted({f(w["src"]) for w in worker if f(w["src"]) > 0}, reverse=True)
+        for w in worker:
+            v = f(w["src"])
+            w["src"].setdefault("rank", {})[k] = (1 + sum(1 for x in worker if f(x["src"]) > v)) if v > 0 else None
+        for w in worker:
+            w["src"].setdefault("ranked", {})[k] = sum(1 for x in worker if f(x["src"]) > 0)
+    rates = sorted((it["rate"] for it in json.load(open(SITES_JSON, encoding="utf-8"))["landfills"]
+                    if it.get("gas") == "CH4" and (it.get("rate") or 0) > 0), reverse=True)
+    for w in worker:
+        w["src"]["ch4"]["of"] = len(rates)
+        for rec in w["src"]["ch4"]["top"]:
+            rec.append(1 + sum(1 for r in rates if r > rec[1]))
+
+
 def cities():
     cs = json.load(open(os.path.join(ROOT, "data", "cities.json"), encoding="utf-8"))
     src = lambda f: json.load(open(os.path.join(PUB, "sources", f), encoding="utf-8"))["items"]
@@ -372,7 +465,9 @@ def cities():
                 near["plantNames"] = [it[3] for it in sorted(hits, key=lambda it: -float(re.sub(r"[^0-9.]", "", it[4] or "0") or 0)) if it[3]][:3]
         others = sorted((x for x in cs if x["id"] != c["id"]), key=lambda x: _km(here, (x["lat"], x["lon"])))[:4]
         worker.append({**{k: c[k] for k in ("id", "cc", "lat", "lon", "pop", "name")}, "near": near,
-                       "nearby": [[x["id"], round(_km(here, (x["lat"], x["lon"])))] for x in others]})
+                       "nearby": [[x["id"], round(_km(here, (x["lat"], x["lon"])))] for x in others],
+                       "src": city_sources(here, kinds)})
+    city_ranks(worker)
     open(os.path.join(ROOT, "site", "src", "cities.json"), "w", encoding="utf-8").write(
         "[\n" + ",\n".join(json.dumps(w, ensure_ascii=False, separators=(",", ":")) for w in worker) + "\n]\n")
     js = ["// Cities shown in the health section. Generated by scripts/build-pages.py from data/cities.json; edit that file.",

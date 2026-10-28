@@ -5,6 +5,7 @@
 // browser (/city-air.js), as the city cards do, so the Worker never calls Open-Meteo.
 import CITIES from "./cities.json";
 import { ogUrl } from "./og.js";
+import { citySections, cityDataset, cityJson, rankingsBody, liveRanks, RANK_T } from "./city.js";
 import { SITE, LANGS, MONTHS, COUNTRY, ORG, STYLE, esc, nf, pct, dname, render, page, kvJson, notFound } from "./pages.js";
 
 const BY_ID = new Map(CITIES.map((c) => [c.id, c]));
@@ -33,7 +34,7 @@ const T = {
     upTop: (list) => ` Most were in ${list}.`, upMost: (list) => ` The largest numbers were in ${list}.`,
     crop: (p) => ` About ${p}% were on farmland, the pattern of crop-residue burning.`,
     noneUp: (all) => ` None of the ${all} fires seen within 250 km in the last 24 hours lie upwind, so the wind is not carrying their smoke here right now.`,
-    noneAll: (N) => ` Satellites saw no fires within 250 km of ${N} in the last 24 hours, so today's haze is most likely the city's own: traffic, industry, brick kilns, burning rubbish and dust.`,
+    noneAll: (N) => ` Satellites saw no fires within 250 km of ${N} in the last 24 hours. That doesn't measure what is in today's air: haze also comes from the city's traffic, industry, brick kilns, burning rubbish and dust.`,
     around: (all) => ` ${all} fires were seen within 250 km in the last 24 hours.`,
     and: " and ",
     hAir: "The air right now",
@@ -52,7 +53,7 @@ const T = {
     localNote: 'From OpenStreetMap and the brick-kiln surveys. Every site is in the <a href="/sites/">pollution sites directory</a>.',
     hMore: (N) => `More about ${N}`, mapLink: (N) => `${N} on the live map`, distLink: (d) => `Fires in ${d} district, every season since 2019`,
     daily: "Daily fire pages", trends: "Fire trends", nearby: "Nearby cities:", allCities: "All cities",
-    caveat: "Upwind is a guide, not proof: smoke can travel further than 250 km, the wind turns during the day, and satellites can't see fires under cloud. A fire here is one satellite detection, about 375 m across. Fires: NASA FIRMS (VIIRS and MODIS). Wind: Open-Meteo's weather model. Air: Copernicus CAMS model estimates, which read low in winter.",
+    caveat: "Upwind is a guide, not proof: smoke can travel further than 250 km, the wind turns during the day, and satellites can't see fires under cloud. A fire spot is one fire, about 375 m across, however many satellites saw it. Fires: NASA FIRMS (VIIRS and MODIS). Wind: Open-Meteo's weather model. Air: Copernicus CAMS model estimates, which read low in winter.",
     updated: (at) => `Fires up to ${at}. This page updates every 15 minutes.`,
     km: (n) => `${n} km`,
     desc: (N, txt) => `${N} air quality today, and where the smoke is coming from: ${txt} Live from NASA fire satellites and the wind.`,
@@ -74,7 +75,7 @@ const T = {
     upTop: (list) => ` ان میں سے زیادہ تر ${list} میں تھیں۔`, upMost: (list) => ` سب سے زیادہ ${list} میں تھیں۔`,
     crop: (p) => ` تقریباً ${p}% کھیتوں میں تھیں، جو فصلوں کی باقیات جلانے کا انداز ہے۔`,
     noneUp: (all) => ` پچھلے 24 گھنٹوں میں 250 کلومیٹر کے اندر دیکھی گئی ${all} آگ میں سے کوئی بھی ہوا کے رخ پر نہیں، اس لیے ہوا اس وقت ان کا دھواں یہاں نہیں لا رہی۔`,
-    noneAll: (N) => ` پچھلے 24 گھنٹوں میں سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی، اس لیے آج کی دھند غالباً شہر کی اپنی ہے: ٹریفک، صنعت، اینٹوں کے بھٹے، کچرا جلانا اور گرد۔`,
+    noneAll: (N) => ` پچھلے 24 گھنٹوں میں سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی۔ اس سے آج کی ہوا میں موجود چیزیں نہیں ناپی جاتیں: دھند شہر کی ٹریفک، صنعت، اینٹوں کے بھٹوں، کچرا جلانے اور گرد سے بھی آتی ہے۔`,
     around: (all) => ` پچھلے 24 گھنٹوں میں 250 کلومیٹر کے اندر ${all} جگہ آگ دیکھی گئی۔`,
     and: " اور ",
     hAir: "اس وقت کی ہوا",
@@ -93,7 +94,7 @@ const T = {
     localNote: 'OpenStreetMap اور اینٹوں کے بھٹوں کے سروے سے۔ ہر جگہ <a href="/sites/">آلودگی کے مقامات</a> کی فہرست میں ہے۔',
     hMore: (N) => `${N} کے بارے میں مزید`, mapLink: (N) => `${N} تازہ نقشے پر`, distLink: (d) => `ضلع ${d} میں آگ، 2019 سے ہر موسم`,
     daily: "روزانہ آگ کے صفحات", trends: "آگ کا رجحان", nearby: "قریبی شہر:", allCities: "تمام شہر",
-    caveat: "ہوا کا رخ رہنمائی ہے، ثبوت نہیں: دھواں 250 کلومیٹر سے زیادہ دور تک جا سکتا ہے، دن میں ہوا کا رخ بدلتا رہتا ہے، اور بادلوں کے نیچے کی آگ سیٹلائٹ کو نظر نہیں آتی۔ یہاں ایک آگ سے مراد سیٹلائٹ کی ایک نشاندہی ہے، تقریباً 375 میٹر کا رقبہ۔ آگ: ناسا FIRMS (VIIRS اور MODIS)۔ ہوا: Open-Meteo کا موسمی ماڈل۔ ہوا کا معیار: Copernicus CAMS کے ماڈل اندازے، جو سردیوں میں کم بتاتے ہیں۔",
+    caveat: "ہوا کا رخ رہنمائی ہے، ثبوت نہیں: دھواں 250 کلومیٹر سے زیادہ دور تک جا سکتا ہے، دن میں ہوا کا رخ بدلتا رہتا ہے، اور بادلوں کے نیچے کی آگ سیٹلائٹ کو نظر نہیں آتی۔ یہاں ایک آگ ایک جگہ کی آگ ہے، تقریباً 375 میٹر کا رقبہ، چاہے اسے کتنے ہی سیٹلائٹس نے دیکھا ہو۔ آگ: ناسا FIRMS (VIIRS اور MODIS)۔ ہوا: Open-Meteo کا موسمی ماڈل۔ ہوا کا معیار: Copernicus CAMS کے ماڈل اندازے، جو سردیوں میں کم بتاتے ہیں۔",
     updated: (at) => `آگ ${at} تک۔ یہ صفحہ ہر 15 منٹ بعد تازہ ہوتا ہے۔`,
     km: (n) => `${n} کلومیٹر`,
     idxH1: "شہروں کی ہوا: دھواں کہاں سے آ رہا ہے",
@@ -110,7 +111,7 @@ const T = {
     upTop: (list) => ` इनमें से ज़्यादातर ${list} में थीं।`, upMost: (list) => ` सबसे ज़्यादा ${list} में थीं।`,
     crop: (p) => ` लगभग ${p}% खेतों में थीं, जो पराली जलाने का पैटर्न है।`,
     noneUp: (all) => ` पिछले 24 घंटों में 250 किमी के भीतर दिखी ${all} आग में से कोई भी हवा के रुख़ पर नहीं है, इसलिए हवा इस समय उनका धुआँ यहाँ नहीं ला रही।`,
-    noneAll: (N) => ` पिछले 24 घंटों में उपग्रहों ने ${N} से 250 किमी के भीतर कोई आग नहीं देखी, इसलिए आज की धुंध शायद शहर की अपनी है: ट्रैफ़िक, उद्योग, ईंट भट्ठे, कूड़ा जलाना और धूल।`,
+    noneAll: (N) => ` पिछले 24 घंटों में उपग्रहों ने ${N} से 250 किमी के भीतर कोई आग नहीं देखी। इससे आज की हवा में मौजूद चीज़ें नहीं मापी जातीं: धुंध शहर के ट्रैफ़िक, उद्योग, ईंट भट्ठों, कूड़ा जलाने और धूल से भी आती है।`,
     around: (all) => ` पिछले 24 घंटों में 250 किमी के भीतर ${all} जगह आग दिखी।`,
     and: " और ",
     hAir: "इस समय की हवा",
@@ -129,7 +130,7 @@ const T = {
     localNote: 'OpenStreetMap और ईंट भट्ठों के सर्वे से। हर ठिकाना <a href="/sites/">प्रदूषण के ठिकानों</a> की सूची में है।',
     hMore: (N) => `${N} के बारे में और`, mapLink: (N) => `${N} लाइव नक्शे पर`, distLink: (d) => `${d} ज़िले में आग, 2019 से हर मौसम`,
     daily: "रोज़ की आग के पन्ने", trends: "आग का रुझान", nearby: "पास के शहर:", allCities: "सभी शहर",
-    caveat: "हवा का रुख़ संकेत है, सबूत नहीं: धुआँ 250 किमी से ज़्यादा दूर तक जा सकता है, दिन में हवा का रुख़ बदलता रहता है, और बादलों के नीचे की आग उपग्रह को नहीं दिखती। यहाँ एक आग का मतलब उपग्रह की एक पहचान है, लगभग 375 मीटर का इलाक़ा। आग: नासा FIRMS (VIIRS और MODIS)। हवा: Open-Meteo का मौसम मॉडल। हवा की गुणवत्ता: Copernicus CAMS के मॉडल अनुमान, जो सर्दियों में कम आँकते हैं।",
+    caveat: "हवा का रुख़ संकेत है, सबूत नहीं: धुआँ 250 किमी से ज़्यादा दूर तक जा सकता है, दिन में हवा का रुख़ बदलता रहता है, और बादलों के नीचे की आग उपग्रह को नहीं दिखती। यहाँ एक आग एक जगह की आग है, चाहे उसे कितने भी उपग्रहों ने देखा हो, लगभग 375 मीटर का इलाक़ा। आग: नासा FIRMS (VIIRS और MODIS)। हवा: Open-Meteo का मौसम मॉडल। हवा की गुणवत्ता: Copernicus CAMS के मॉडल अनुमान, जो सर्दियों में कम आँकते हैं।",
     updated: (at) => `आग ${at} तक। यह पन्ना हर 15 मिनट में ताज़ा होता है।`,
     km: (n) => `${n} किमी`,
     idxH1: "शहरों की हवा: धुआँ कहाँ से आ रहा है",
@@ -151,7 +152,7 @@ const AIR_STYLE = `<style>
 
 const LEAFLET_CSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n';
 const LEAFLET_JS = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n';
-const NEAR_JS = '<script src="/near-map.js?v=5"></script>\n';
+const NEAR_JS = '<script src="/near-map.js?v=6"></script>\n';
 const SHARE_JS = '<script src="/share-map.js?v=6"></script>\n';
 
 // Local time of a UTC instant (ms) for a city's country: "25 October, 18:40 PKT".
@@ -225,7 +226,7 @@ function lede(t, l, N, c, s, data, windTime) {
   return out;
 }
 
-function cityPage(c, data, wind) {
+function cityPage(c, data, wind, extra = {}) {
   const s = smoke(data, wind, c);
   const latest = data?.latest, windMs = wind?.time ? Date.parse(wind.time + "Z") : null;
   const mapUrl = `/#at=${c.lat},${c.lon},9`;
@@ -235,7 +236,8 @@ function cityPage(c, data, wind) {
     const t = T[l], N = esc(c.name[l]), n = (v) => nf(v, l);
     const windTime = windMs ? at(windMs, c.cc, l) : "";
     const th = (cells) => `<thead><tr>${cells.map(([x, num]) => `<th${num ? ' class="n"' : ""}>${x}</th>`).join("")}</tr></thead>`;
-    let h = `  <h1>${t.h1(N)}</h1>\n  <p class="lede">${lede(t, l, N, c, s, data, windTime)}</p>\n`;
+    const ledeHtml = lede(t, l, N, c, s, data, windTime);
+    let h = `  <h1>${t.h1(N)}</h1>\n  <p class="lede">${ledeHtml}</p>\n`;
     h += `  <h2>${t.hAir}</h2>\n  <p class="air-now" data-air data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-line="${esc(t.airLine)}" data-bands="${esc(BANDS[l].join("|"))}">${t.airWait(mapUrl)}</p>\n`;
     h += `  <h2>${t.hMap}</h2>\n  <p class="muted">${t.mapNote}</p>\n  <div class="ff-map" data-near data-lat="${c.lat}" data-lon="${c.lon}" data-km="250" data-wind="${s.w && !s.calm ? Math.round(s.w[1]) : ""}" data-speed="${s.w ? Math.round(s.w[0]) : ""}" data-lang="${l}" data-label="${N}"></div>\n`;
     if (s.upRows.length) {
@@ -255,12 +257,7 @@ function cityPage(c, data, wind) {
       s.week.slice(0, 10).map(([di, wn, crop, km]) => { const d = districtName(data, di);
         return `   <tr><td>${districtLink(d)}</td><td>${esc(d.state)}</td><td>${COUNTRY[l][d.cc] || ""}</td><td class="n">${t.km(n(km))}</td><td class="n">${n(wn)}</td><td class="n">${pct(crop, wn)}%</td></tr>`; }).join("\n") +
       "\n  </tbody></table></div>\n" : `  <p>${t.weekNone}</p>\n`;
-    const near = c.near || {};
-    const local = [near.kilns ? t.kilns(n(near.kilns)) : t.kilnsNone];
-    if (near.plants) local.push(t.plants(n(near.plants)) + (near.plantNames?.length ? t.incl(near.plantNames.map(esc).join(l === "en" ? ", " : "، ")) : ""));
-    if (near.industry) local.push(t.industry(n(near.industry)));
-    if (near.landfills) local.push(t.landfills(n(near.landfills)));
-    h += `  <h2>${t.hLocal}</h2>\n  <ul>${local.map((x) => `<li>${x}</li>`).join("")}</ul>\n  <p class="muted">${t.localNote}</p>\n`;
+    h += citySections(c, l, { N, s, cf: extra.cf, n2: extra.n2, ranks: extra.ranks, ledeText: ledeHtml.replace(/<[^>]+>/g, "").trim() });
     const links = [`<a href="${mapUrl}">${t.mapLink(N)}</a>`];
     if (home?.slug) links.push(`<a href="/district/${home.slug}/">${t.distLink(esc(home.name))}</a>`);
     links.push(`<a href="/fires/">${t.daily}</a>`, `<a href="/trends/">${t.trends}</a>`, `<a href="/air/">${t.allCities}</a>`);
@@ -273,9 +270,11 @@ function cityPage(c, data, wind) {
   const N = c.name.en;
   const country = COUNTRY.en[c.cc];
   const descTxt = !s.w ? "" : s.calm ? T.en.descCalm(nf(s.all, "en")) : T.en.descUp(nf(s.upN, "en"), compass(s.w[1], "en"));
-  const jsonld = { "@context": "https://schema.org", "@type": "WebPage", "@id": `${SITE}/air/${c.id}/#page`, name: T.en.title(N), url: `${SITE}/air/${c.id}/`,
-    inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` },
-    about: { "@type": "City", name: N, geo: { "@type": "GeoCoordinates", latitude: c.lat, longitude: c.lon }, containedInPlace: { "@type": "Country", name: country } } };
+  const jsonld = { "@context": "https://schema.org", "@graph": [
+    { "@type": "WebPage", "@id": `${SITE}/air/${c.id}/#page`, name: T.en.title(N), url: `${SITE}/air/${c.id}/`,
+      inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` }, mainEntity: { "@id": `${SITE}/air/${c.id}/#data` },
+      about: { "@type": "City", name: N, geo: { "@type": "GeoCoordinates", latitude: c.lat, longitude: c.lon }, containedInPlace: { "@type": "Country", name: country } } },
+    cityDataset(c, extra.cf, extra.n2)] };
   // Its link preview is this city's own map (scripts/build-og-live.py, served by worker.js).
   return render({ path: `/air/${c.id}/`, title: T.en.title(N), desc: T.en.desc(N, descTxt), body, jsonld,
     ogImage: ogUrl(c.id), ogAlt: `${N}: the last 24 hours of fires within 250 km and the wind`,
@@ -368,8 +367,46 @@ function nearMePage(data, wind) {
     scripts: '<script src="/cities.js?v=202610260000"></script>\n' + LEAFLET_JS + NEAR_JS });
 }
 
+function rankingsPage(data, wind, extra) {
+  const rows = CITIES.map((c) => ({ c, s: smoke(data, wind, c) }));
+  const { body: tables, lists } = rankingsBody(rows, { n2: extra.n2, latest: data?.latest, at: (ms, l) => at(ms, "PK", l) });
+  const body = {};
+  for (const l of LANGS) {
+    const t = RANK_T[l];
+    body[l] = `  <h1>${t.rkH1}</h1>\n  <p class="lede">${t.rkLede(nf(CITIES.length, l))}</p>\n` + tables[l] +
+      `  <h2 id="air">${t.rkAir}</h2>\n  <p class="muted">${t.rkAirNote}</p>\n` +
+      `  <div data-rk-air data-lang="${l}" data-fail="${esc(t.rkAirFail)}" data-th="${esc([t.thCity, t.thCountry, t.rkAqi, t.rkPm].join("|"))}"><p><button type="button" class="btn" data-rk-load>${t.rkAirBtn}</button></p></div>\n` +
+      `  <p class="muted" style="margin-top:18px">${T[l].caveat}</p>`;
+  }
+  const jsonld = { "@context": "https://schema.org", "@graph": [
+    { "@type": "CollectionPage", "@id": `${SITE}/rankings/#page`, name: RANK_T.en.rkTitle, url: `${SITE}/rankings/`, description: RANK_T.en.rkDesc,
+      inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` }, hasPart: lists.map((x, i) => ({ "@id": `${SITE}/rankings/#list-${i}` })) },
+    ...lists.map((x, i) => ({ ...x, "@id": `${SITE}/rankings/#list-${i}` }))] };
+  const cities = JSON.stringify(CITIES.map((c) => [c.id, c.lat, c.lon, c.name, c.cc])).replace(/</g, "\\u003c");
+  return render({ path: "/rankings/", title: RANK_T.en.rkTitle, desc: RANK_T.en.rkDesc, body, jsonld, head: STYLE + AIR_STYLE,
+    scripts: `<script>window.HH_RK=${cities};</script>\n<script src="/rankings.js?v=1" defer></script>\n` });
+}
+
+// /api/city?id=<id>: every number the city page computes, as JSON (live air quality excluded).
+export async function cityApi(url, env, ctx, edgeCached) {
+  const id = url.searchParams.get("id") || "";
+  const c = BY_ID.get(id);
+  if (!c) return new Response(JSON.stringify({ error: "Use ?id=<city>, one of the ids on https://hamarihawa.org/air/", ids: CITIES.map((x) => x.id) }),
+    { status: 400, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=3600", "access-control-allow-origin": "*" } });
+  return edgeCached(ctx, `/api/city?id=${id}`, 900, async () => {
+    const [data, wind, cf, n2] = await Promise.all([kvJson(env, "cities"), kvJson(env, "wind"), kvJson(env, "city-fires"), kvJson(env, "no2-cities")]);
+    if (!data) return new Response("not built yet", { status: 503 });
+    const rows = CITIES.map((x) => ({ c: x, s: smoke(data, wind, x) }));
+    const s = rows.find((r) => r.c.id === id).s;
+    const body = cityJson(c, { s, cf, n2, ranks: liveRanks(rows), districtName: (di) => districtName(data, di) });
+    body.generated = data.latest ? new Date(data.latest).toISOString() : null;
+    return new Response(JSON.stringify(body), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=900", "access-control-allow-origin": "*" } });
+  });
+}
+
 // The shared shell marks the daily pages' section ("Fire trends") as current; these pages are "City air".
-const navAir = (html) => html.replace(/ aria-current="page"/g, "").replace('data-nav="air"', 'data-nav="air" aria-current="page"');
+const navTo = (key) => (html) => html.replace(/ aria-current="page"/g, "").replace(`data-nav="${key}"`, `data-nav="${key}" aria-current="page"`);
+const navAir = navTo("air");
 
 // Returns a Response for /air/ and /air/<city>/, or null for any other path.
 export async function airPages(url, env, ctx, edgeCached) {
@@ -380,6 +417,12 @@ export async function airPages(url, env, ctx, edgeCached) {
     if (!data) return new Response("This page isn't built yet. Try again in a few minutes.", { status: 503 });
     return page(nearMePage(data, wind).replace(/ aria-current="page"/g, ""), 200, 600);
   });
+  if (p === "/rankings") return Response.redirect(`${url.origin}/rankings/${url.search}`, 301);
+  if (p === "/rankings/") return edgeCached(ctx, p, 600, async () => {
+    const [data, wind, n2] = await Promise.all([kvJson(env, "cities"), kvJson(env, "wind"), kvJson(env, "no2-cities")]);
+    if (!data) return new Response("This page isn't built yet. Try again in a few minutes.", { status: 503 });
+    return page(navTo("rankings")(rankingsPage(data, wind, { n2 })), 200, 600);
+  });
   if (p === "/air") return Response.redirect(`${url.origin}/air/${url.search}`, 301);
   const m = p.match(/^\/air\/([a-z0-9-]+)\/?$/);
   if (p !== "/air/" && !m) return p.startsWith("/air/") ? notFound() : null;
@@ -388,9 +431,10 @@ export async function airPages(url, env, ctx, edgeCached) {
   if (m && !c) return notFound();
   // The fires change every 20 minutes at most and the wind hourly.
   return edgeCached(ctx, p, 900, async () => {
-    const [data, wind] = await Promise.all([kvJson(env, "cities"), kvJson(env, "wind")]);
+    const [data, wind, cf, n2] = await Promise.all([kvJson(env, "cities"), kvJson(env, "wind"), c ? kvJson(env, "city-fires") : null, c ? kvJson(env, "no2-cities") : null]);
     if (!data) return new Response("City pages aren't built yet. Try again in a few minutes.", { status: 503 });
-    return page(navAir(c ? cityPage(c, data, wind) : indexPage(data, wind)), 200, 600);
+    const ranks = c ? liveRanks(CITIES.map((x) => ({ c: x, s: smoke(data, wind, x) }))) : null;
+    return page(navAir(c ? cityPage(c, data, wind, { cf, n2, ranks }) : indexPage(data, wind)), 200, 600);
   });
 }
 

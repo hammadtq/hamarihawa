@@ -56,11 +56,31 @@
   // A point `km` from (lat, lon) towards `deg`, flat-earth: fine for drawing 250 km.
   const toward = (lat, lon, deg, km) => [lat + (km / 111.2) * Math.cos(deg * rad), lon + (km / (111.2 * Math.cos(lat * rad))) * Math.sin(deg * rad)];
 
+  // Distinct fire spots, as the city page counts them (scripts/build-feed.py distinct()): one per ~400 m spot
+  // seen by any VIIRS satellite (rows are newest first, so the newest detection is kept), plus MODIS
+  // detections no VIIRS satellite caught within about a kilometre. sat 0-2 is VIIRS, 3-4 MODIS.
+  function distinct(rows) {
+    const spots = new Map(), grid = new Set(), k = (a, b) => a + "," + b;
+    for (const r of rows) if (r[4] < 3) {
+      const key = k(Math.round(r[0] / 0.004), Math.round(r[1] / 0.004));
+      if (!spots.has(key)) spots.set(key, r);
+      grid.add(k(Math.round(r[0] / 0.01), Math.round(r[1] / 0.01)));
+    }
+    for (const r of rows) if (r[4] >= 3) {
+      const gy = Math.round(r[0] / 0.01), gx = Math.round(r[1] / 0.01);
+      let seen = false;
+      for (let i = -1; i <= 1 && !seen; i++) for (let j = -1; j <= 1; j++) if (grid.has(k(gy + i, gx + j))) { seen = true; break; }
+      const key = "m" + k(gy, gx);
+      if (!seen && !spots.has(key)) spots.set(key, r);
+    }
+    return [...spots.values()];
+  }
+
   // The 24-hour feed, expanded to {lat, lon, t, place, district, state, kind}. One fetch per page.
   let feed;
   const fires = () => (feed ||= fetch("/api/fires?hours=24&v=2").then((r) => (r.ok ? r.json() : Promise.reject(r.status))).then((d) => {
     const P = d.dict.place, D = d.dict.district, K = d.dict.kind;
-    return d.points.map((r) => ({ lat: r[0], lon: r[1], t: d.t0 + r[2] * 60000, place: P[r[5]], district: D[r[6]][0], state: D[r[6]][1], kind: K[r[7]] }));
+    return distinct(d.points).map((r) => ({ lat: r[0], lon: r[1], t: d.t0 + r[2] * 60000, place: P[r[5]], district: D[r[6]][0], state: D[r[6]][1], kind: K[r[7]] }));
   }));
   const around = (all, lat, lon, km) => all.map((f) => ({ ...f, km: dist(lat, lon, f.lat, f.lon) })).filter((f) => f.km <= km).sort((a, b) => a.km - b.km);
 

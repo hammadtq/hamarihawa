@@ -10,13 +10,21 @@ Reads NASA GIBS tiles (TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column, zoom 6) 
 India, inverts the published colour table back to molecules/cm2, averages per pixel, and writes:
   no2.png   Web Mercator image covering the tile block, our own colours, transparent where low
   no2.json  {"bounds": [[s, w], [n, e]], "days": [...], "median": v, "hotspots": [...]}
-Uploads both to KV (keys no2-png, no2-json) with --upload. Needs Pillow and numpy.
+  no2-cities.json  per city-page city: the 14-day level within 15 km, its ratio to the surroundings, the
+            share of pixels with data, the strongest peak within 35 km and a rank; plus a daily history
+Uploads them to KV (keys no2-png, no2-geo-png, no2-json, no2-cities) with --upload. Needs Pillow and numpy.
+
+The values are approximate: GIBS publishes TROPOMI as coloured tiles, and each colour is read back as the
+middle of its band, so a level here is good to about one band. Peaks are named after what is nearby (a
+plant, an industrial estate, kilns, a city), which suggests a source; it doesn't measure one.
 
 Colours and hotspot ratios are against the usual level around each place: the median over land in each
 5-degree block, smoothed between blocks, so a city in the south stands out against the south's cleaner air
 rather than against the northern plains' smog. "median" in no2.json is still the northern plains' level.
 
-Usage: python3 -I scripts/build-no2.py --out <dir> [--days 14] [--upload] [--cache <dir>]
+Usage: python3 -I scripts/build-no2.py --out <dir> [--days 14] [--end YYYY-MM-DD] [--hist no2-cities.json] [--upload] [--cache <dir>]
+  --end   the window's last day (default yesterday); scripts/backfill-no2-cities.sh uses it for past windows
+  --hist  an earlier no2-cities.json whose history to extend (with --upload, the one in KV is used)
 """
 import argparse, io, json, math, os, re, sys, time, urllib.request
 from datetime import datetime, timedelta, timezone
@@ -86,6 +94,8 @@ def main():
     ap.add_argument("--days", type=int, default=14)
     ap.add_argument("--upload", action="store_true")
     ap.add_argument("--cache", help="keep downloaded tiles here and reuse them (for local reruns)")
+    ap.add_argument("--end", help="last day of the window, YYYY-MM-DD (default yesterday)")
+    ap.add_argument("--hist", help="no2-cities.json whose history to extend")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     table = colour_table()
@@ -97,7 +107,7 @@ def main():
     total = np.zeros((H, W))
     count = np.zeros((H, W), dtype=np.int32)
     days_used = []
-    today = datetime.now(timezone.utc).date()
+    today = (datetime.fromisoformat(a.end).date() + timedelta(days=1)) if a.end else datetime.now(timezone.utc).date()
     for back in range(1, a.days + 1):  # start yesterday: today's tiles are usually still processing
         d = (today - timedelta(days=back)).isoformat()
         got = 0
@@ -259,8 +269,8 @@ def main():
     def km(a1, o1, a2, o2):
         return math.hypot(a1 - a2, (o1 - o2) * math.cos(math.radians(a1))) * 111.2
 
-    hotspots = []
-    for la, lo, ratio in peaks[:100]:
+    def label(la, lo):
+        """What a peak is named after: [kind, site, km to the town, town, cc]."""
         town = min(towns, key=lambda t: km(la, lo, t[0], t[1]))
         tkm = km(la, lo, town[0], town[1])
         # Country from the country outlines' cell, or from the nearest big town where a border runs through it.
@@ -291,7 +301,59 @@ def main():
             kind, site = "traffic", town[2]
         else:
             kind, site = "corridor", town[2]
-        hotspots.append([la, lo, ratio, kind, site, round(tkm), town[2], cc])
+        return [kind, site, round(tkm), town[2], cc]
+
+    hotspots = [[la, lo, r, *label(la, lo)] for la, lo, r in peaks[:100]]
+
+    # Each city-page city on its own, from the whole grid (not only the 100 strongest peaks): the mean over
+    # pixels with data within 15 km, the share of the 15 km disc that had data, the ratio to the surroundings,
+    # and the strongest smoothed peak within 35 km with what it is named after.
+    clist = json.load(open(os.path.join(ROOT, "data", "cities.json"), encoding="utf-8"))
+    window = sorted(days_used)
+    cvals = {}
+    for c in clist:
+        ys = np.where(np.abs(lat - c["lat"]) < 0.4)[0]
+        xs2 = np.where(np.abs(lon - c["lon"]) < 0.45)[0]
+        if not len(ys) or not len(xs2):
+            cvals[c["id"]] = None
+            continue
+        sub = (slice(ys[0], ys[-1] + 1), slice(xs2[0], xs2[-1] + 1))
+        d = np.hypot(LA[sub] - c["lat"], (LO[sub] - c["lon"]) * math.cos(math.radians(c["lat"]))) * 111.2
+        m15 = (d <= 15) & land[sub]
+        v15 = m15 & valid[sub]
+        cov = float(v15.sum() / max(1, m15.sum()))
+        ok = v15.sum() >= 5 and cov >= 0.5
+        m35 = (d <= 35) & land[sub]
+        pk = None
+        if m35.any() and smooth[sub][m35].max() > 0:
+            i = np.argmax(np.where(m35, smooth[sub], -1))
+            py, px = np.unravel_index(i, d.shape)
+            pla, plo = float(LA[sub][py, px]), float(LO[sub][py, px])
+            pk = [round(float(smooth[sub][py, px]), 2), *label(pla, plo)[:2], round(float(d[py, px])), round(pla, 3), round(plo, 3)]
+        cvals[c["id"]] = {"m": round(float(mean[sub][v15].mean()) / 1e15, 2) if ok else None,
+                          "r": round(float(ratio[sub][v15].mean()), 2) if ok else None, "cov": round(cov, 2), "peak": pk}
+    ranked = sorted((k for k, v in cvals.items() if v and v["r"] is not None), key=lambda k: -cvals[k]["r"])
+    for i, k in enumerate(ranked):
+        cvals[k]["rank"] = i + 1
+    prev = {}
+    if a.upload:
+        acct, ns, tok = os.environ["CLOUDFLARE_ACCOUNT_ID"], os.environ["KV_NAMESPACE_ID"], os.environ["CLOUDFLARE_API_TOKEN"]
+        got = get(f"https://api.cloudflare.com/client/v4/accounts/{acct}/storage/kv/namespaces/{ns}/values/no2-cities",
+                  headers={"Authorization": f"Bearer {tok}"})
+        prev = json.loads(got) if got else {}
+    elif a.hist and os.path.exists(a.hist):
+        prev = json.load(open(a.hist))
+    hist = dict(prev.get("hist") or {})
+    if window:
+        hist[window[-1]] = {k: [v["m"], v["r"]] for k, v in cvals.items() if v and v["r"] is not None}
+    hist = dict(sorted(hist.items())[-120:])
+    ncities = {"source": "Sentinel-5P TROPOMI tropospheric NO2 via NASA GIBS colour tiles; approximate 14-day means by HamariHawa",
+               "built": datetime.now(timezone.utc).isoformat(timespec="minutes"), "window": [window[0], window[-1]] if window else None,
+               "days": len(window), "unit": "1e15 molecules/cm2 (approximate)", "ranked": len(ranked),
+               "fields": {"m": "mean within 15 km", "r": "ratio to the surrounding baseline", "cov": "share of the 15 km disc with data",
+                          "peak": ["smoothed ratio", "kind", "named after", "km from the city", "lat", "lon"], "hist": "window end -> {city: [m, r]}"},
+               "cities": cvals, "hist": hist}
+    open(os.path.join(a.out, "no2-cities.json"), "w").write(json.dumps(ncities, ensure_ascii=False, separators=(",", ":")))
 
     s, n = tile2lat(Y1 + 1, Z), tile2lat(Y0, Z)
     w, e = tile2lon(X0, Z), tile2lon(X1 + 1, Z)
@@ -311,6 +373,8 @@ def main():
         get(f"{base}/no2-png", data=png.getvalue(), method="PUT", headers={**auth, "Content-Type": "application/octet-stream"})
         get(f"{base}/no2-geo-png", data=geo_png.getvalue(), method="PUT", headers={**auth, "Content-Type": "application/octet-stream"})
         get(f"{base}/no2-json", data=json.dumps(meta).encode(), method="PUT", headers={**auth, "Content-Type": "application/json"})
+        get(f"{base}/no2-cities", data=json.dumps(ncities, ensure_ascii=False, separators=(",", ":")).encode(), method="PUT",
+            headers={**auth, "Content-Type": "application/json"})
         print("uploaded to KV")
 
 

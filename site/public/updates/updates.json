@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-10-29-city-snapshots-rankings",
+    "date": "2026-10-29",
+    "title": {
+      "en": "City pages get a fuller snapshot, and city rankings",
+      "ur": "شہروں کے صفحات پر مکمل جائزہ، اور شہروں کی درجہ بندی",
+      "hi": "शहरों के पन्नों पर पूरा जायज़ा, और शहरों की रैंकिंग"
+    },
+    "body": {
+      "en": "<p>Each <a href=\"/air/\">city page</a> now also shows the fires within 50 and 250 km on each of the last 30 days, this crop-burning season against every season since 2019, the city's NO₂ from the satellite over the last two weeks and how it changed, the landfills near it where methane has been measured, the plants, industrial areas and brick kilns around it, and how it compares with the other 57 cities on each. The new <a href=\"/rankings/\">city rankings</a> page ranks all 58, and its fire tables change with each satellite pass. Fire counts on the city pages are now distinct fire spots, as on the daily pages: a fire seen by several satellites counts once. Every city's numbers are also at /api/city?id=lahore.</p>",
+      "ur": "<p>ہر <a href=\"/air/\">شہر کے صفحے</a> پر اب پچھلے 30 دنوں میں 50 اور 250 کلومیٹر کے اندر روزانہ آگ، 2019 سے ہر موسم کے مقابلے میں فصل جلانے کا یہ موسم، پچھلے دو ہفتوں میں سیٹلائٹ سے شہر کی NO₂ اور اس میں تبدیلی، قریب کی وہ کچرا کنڈیاں جہاں میتھین ناپی گئی، آس پاس کے پلانٹ، صنعتی علاقے اور اینٹوں کے بھٹے، اور ہر پیمانے پر باقی 57 شہروں سے موازنہ بھی ہے۔ نیا <a href=\"/rankings/\">شہروں کی درجہ بندی</a> کا صفحہ تمام 58 کی درجہ بندی کرتا ہے، اور اس کی آگ کی جدولیں ہر سیٹلائٹ گزر کے ساتھ بدلتی ہیں۔ شہروں کے صفحات پر آگ کی گنتی اب روزانہ صفحات کی طرح الگ الگ جگہوں کی ہے: کئی سیٹلائٹس کی دیکھی ہوئی ایک آگ ایک بار گنی جاتی ہے۔</p>",
+      "hi": "<p>हर <a href=\"/air/\">शहर के पन्ने</a> पर अब पिछले 30 दिनों में 50 और 250 किमी के भीतर रोज़ की आग, 2019 से हर मौसम की तुलना में पराली जलाने का यह मौसम, पिछले दो हफ़्तों में उपग्रह से शहर की NO₂ और उसमें बदलाव, पास के वे कचरा डंप जहाँ मीथेन मापी गई, आसपास के प्लांट, औद्योगिक इलाक़े और ईंट भट्ठे, और हर पैमाने पर बाक़ी 57 शहरों से तुलना भी है। नया <a href=\"/rankings/\">शहरों की रैंकिंग</a> पन्ना सभी 58 की रैंकिंग करता है, और इसकी आग की तालिकाएँ हर उपग्रह गुज़रने के साथ बदलती हैं। शहरों के पन्नों पर आग की गिनती अब रोज़ के पन्नों की तरह अलग-अलग जगहों की है: कई उपग्रहों की देखी एक आग एक बार गिनी जाती है।</p>"
+    }
+  },
+  {
     "id": "2026-10-26-city-air-pages",
     "date": "2026-10-26",
     "title": {

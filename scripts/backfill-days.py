@@ -182,7 +182,7 @@ def main():
     for d0, d1 in periods(a):
         # Pakistan-time days start at 19:00 UTC the day before, so fetch one extra UTC day in front.
         csvs = firms.csvs(d0 - timedelta(days=1), d1)
-        feed = bf.build(24, csvs)
+        feed = bf.build(168, csvs)  # 168: build() cuts the 24 and 48 h windows to their last hours
         source = "NASA FIRMS " + ("final processing (SP)" if d1.isoformat() <= firms.sp_end.get("VIIRS_SNPP", "")
                                   else "near real time (NRT)")
         # --summaries recomputes the index and district entries from cached downloads without rewriting day files.

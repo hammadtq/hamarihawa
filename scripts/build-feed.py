@@ -892,23 +892,115 @@ def district_at(lat, lon, cc):
     return tuple(best_r[best[3]].split("|")) if best else None
 
 
+def near_city(c, points, km=CITY_KM):
+    """(point, distance) for the points 1 to km kilometres from a city (closer than 1 km is the city itself)."""
+    lat, lon = c["lat"], c["lon"]
+    box_lat, box_lon = km / 111 + 0.1, km / (111 * math.cos(math.radians(lat))) + 0.1
+    for p in points:
+        if abs(p["lat"] - lat) > box_lat or abs(p["lon"] - lon) > box_lon:
+            continue
+        d = great_km(lat, lon, p["lat"], p["lon"])
+        if 1 <= d <= km:
+            yield p, d
+
+
+def daily_spots(points):
+    """Distinct fire spots, worked out per Pakistan-time day and joined: the daily pages' unit. A fire seen
+    on three days counts three times, as the days add up; the same fire seen by several satellites in a day
+    counts once."""
+    by_day = {}
+    for p in points:
+        by_day.setdefault(local_date(p["t"]), []).append(p)
+    return [q for pts in by_day.values() for q in distinct(pts).values()]
+
+
+def city_day_counts(pts):
+    """One Pakistan-time day's points -> [[spots within 50 km, within 250 km, Suomi NPP spots within 250 km], ...]
+    in CITIES order. Spots as on the daily pages (distinct()); Suomi NPP counted on its own, as summary.snpp is,
+    so past seasons compare fairly with today's four satellites."""
+    spots = list(distinct(pts).values())
+    sn = list(distinct([p for p in pts if p["si"] == 0]).values())
+    out = []
+    for c in CITIES:
+        near = list(near_city(c, spots))
+        out.append([sum(1 for _, d in near if d <= 50), len(near), sum(1 for _ in near_city(c, sn))])
+    return out
+
+
+# Fires around each city, day by day, for the city pages' 30-day chart and their season comparison.
+# "city-days" is the store (only this job reads it): {"cities": [ids], "days": {date: city_day_counts rows}}.
+# "city-fires" is what the pages read, worked out from it here so the Worker only formats.
+CITY_FIRE_DAYS = 30
+# Days Suomi NPP produced no, or almost no, data, as in scripts/season-stats.py; city_fires() also catches
+# new ones with the daily pages' rule (pages.js snGap).
+SNPP_GAPS = {"2019-10-31", "2023-11-02", "2024-11-03", "2024-11-04", "2024-11-05", "2024-11-06", "2025-11-12"}
+
+
+def sn_gap(d, e):
+    return d in SNPP_GAPS or bool(e and e.get("sn") and e["sn"][0] < 20 and e.get("spots", 0) >= 200 and e["sn"][0] * 20 < e["spots"])
+
+
+def add_city_days(store, points, keep):
+    """Count one batch of points into the store, for the Pakistan-time days `keep` accepts."""
+    ids = [c["id"] for c in CITIES]
+    if store.get("cities") != ids:  # the city list changed: keep what lines up by id, the rest is unknown
+        old = store.get("cities") or []
+        pos = {cid: i for i, cid in enumerate(old)}
+        store["days"] = {d: [rows[pos[cid]] if cid in pos else None for cid in ids] for d, rows in (store.get("days") or {}).items()}
+        store["cities"] = ids
+    by_day = {}
+    for p in points:
+        by_day.setdefault(local_date(p["t"]), []).append(p)
+    for d, pts in by_day.items():
+        if keep(d):
+            store["days"][d] = city_day_counts(pts)
+    return store
+
+
+def city_fires(store, index, today, generated):
+    """The city pages' fire history: per city the last CITY_FIRE_DAYS complete days ([within 50 km, within
+    250 km] spots, null where the archive has no day) and, for each season since 2019, Suomi NPP spots within
+    250 km from 1 October to the same date (30 November once the season is over). Days Suomi NPP missed and
+    days the archive lacks are left out of the totals and listed, so a season with gaps reads as a floor."""
+    days, ids = store.get("days") or {}, store.get("cities") or []
+    done = sorted(d for d in days if d < today)
+    if not done:
+        return None
+    last = datetime.fromisoformat(done[-1]).date()
+    dates = [(last - timedelta(days=i)).isoformat() for i in range(CITY_FIRE_DAYS - 1, -1, -1)]
+    md = last.isoformat()[5:]
+    cur = last.year if md >= SEASON[0] else last.year - 1
+    to = md if SEASON[0] <= md <= SEASON[1] else SEASON[1]
+    years = list(range(2019, cur + 1))
+    span = {y: [(datetime(y, 10, 1) + timedelta(days=i)).date().isoformat()
+                for i in range((datetime.fromisoformat(f"{y}-{to}") - datetime(y, 10, 1)).days + 1)] for y in years}
+    gaps = {y: [d for d in span[y] if d in days and sn_gap(d, index.get(d))] for y in years}
+    missing = {y: [d for d in span[y] if d not in days] for y in years}
+    out = {}
+    for i, cid in enumerate(ids):
+        r = [(days[d][i][:2] if d in days and days[d][i] else None) for d in dates]
+        sv = []
+        for y in years:
+            use = [d for d in span[y] if d in days and days[d][i] and d not in gaps[y]]
+            sv.append(sum(days[d][i][2] for d in use) if use else None)
+        out[cid] = {"r": r, "s": sv}
+    return {"generated": generated, "last": done[-1], "dates": dates,
+            "season": {"to": to, "cur": cur, "years": years, "gaps": {str(y): v for y, v in gaps.items() if v},
+                       "missing": {str(y): v for y, v in missing.items() if v}},
+            "fields": {"r": ["spots within 50 km", "spots within 250 km"], "s": "Suomi NPP spots within 250 km, 1 Oct to season.to, per season.years"},
+            "cities": out}
+
+
 def city_smoke(points24, points7d, dp_index, generated):
     """For each city: fires in the last 24 h within CITY_KM, by district and direction ("a": [district, bin, n,
     crop, mean km]), the 7-day totals by district ("w": [district, n, crop, mean km], the busiest CITY_ROWS_7D)
     and the 7-day total over every district ("n7").
-    points24 and points7d are every detection in those windows, as the city cards count them."""
+    points24 are the distinct fire spots of the last 24 hours and points7d the daily spots of the week
+    (daily_spots), the same unit as the daily pages, so one fire seen by four satellites counts once."""
     slugs = {(e["name"], e["state"], e["cc"]): sl for sl, e in (dp_index.get("d") or {}).items()}
     names = Dict()
     rows = []
-    def near(c, points):
-        lat, lon = c["lat"], c["lon"]
-        box_lat, box_lon = CITY_KM / 111 + 0.1, CITY_KM / (111 * math.cos(math.radians(lat))) + 0.1
-        for p in points:
-            if abs(p["lat"] - lat) > box_lat or abs(p["lon"] - lon) > box_lon:
-                continue
-            d = great_km(lat, lon, p["lat"], p["lon"])
-            if 1 <= d <= CITY_KM:
-                yield p, d
+    near = near_city
     def key(p):
         return (p["district"] or p["state"] or "?", p["state"] or "", p["cc"] or "")
     out = {}
@@ -1041,6 +1133,21 @@ def main():
                     pub.put(key, json.dumps(part, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
                 pub.put("dpages-index", json.dumps(dp_index, separators=(",", ":"), sort_keys=True, ensure_ascii=False).encode())
             print(f"archive: {len(days)} days, {len(index)} in index, {len(shards)} district shards")
+            # The fires around each city per complete day (today is still filling in; the archive's own
+            # window rule drops the cut-off oldest day).
+            store_path = os.path.join(a.out, "city-days.json")
+            store = json.loads(kv("GET", "city-days") or b"{}") if a.upload else (
+                json.load(open(store_path)) if os.path.exists(store_path) else {})
+            if store.get("days"):  # seeded once by scripts/backfill-city-fires.py; without it there is nothing to add to
+                first = local_date(now - 168 * 3600 * 1000)
+                add_city_days(store, history, keep=lambda d: first < d < pk_today)
+                sbody = json.dumps(store, separators=(",", ":"), sort_keys=True).encode()
+                open(store_path, "wb").write(sbody)
+                summary = city_fires(store, index, pk_today, int(now))
+                fbody = json.dumps(summary, separators=(",", ":"), ensure_ascii=False).encode()
+                open(os.path.join(a.out, "city-fires.json"), "wb").write(fbody)
+                if slow and pub.put("city-days", sbody):
+                    pub.put("city-fires", fbody, json.dumps({k: v for k, v in summary.items() if k != "generated"}, separators=(",", ":")).encode())
         # Only the latest run of days built for the whole region (they carry snc), so the chart doesn't
         # jump where the coverage grew.
         recent = []
@@ -1067,7 +1174,7 @@ def main():
         open(os.path.join(a.out, f"fires-{hours}.kml"), "wb").write(kbody)
         # The KML colours fires by age at build time, so it goes out with its feed, never on its own.
         if hours == 24:
-            smoke = city_smoke(points24, history, dp_index, feed["generated"])
+            smoke = city_smoke(list(distinct(points24).values()), daily_spots(history), dp_index, feed["generated"])
             cbody = json.dumps(smoke, separators=(",", ":"), ensure_ascii=False).encode()
             open(os.path.join(a.out, "cities.json"), "wb").write(cbody)
         if tier_ok:

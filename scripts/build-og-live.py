@@ -54,6 +54,23 @@ def wind_at(g, lat, lon):
     return math.hypot(u, v), (math.degrees(math.atan2(-u, -v)) + 360) % 360
 
 
+def distinct(rows):
+    """Distinct fire spots, as scripts/build-feed.py distinct() counts them for the city pages: one row per
+    ~400 m VIIRS spot (rows are newest first, so the newest detection is kept), plus MODIS detections no
+    VIIRS satellite caught within about a kilometre. Row: [lat, lon, t, frp, sat]; sat 0-2 VIIRS, 3-4 MODIS."""
+    spots, grid = {}, set()
+    for r in rows:
+        if r[4] < 3:
+            spots.setdefault((round(r[0] / 0.004), round(r[1] / 0.004)), r)
+            grid.add((round(r[0] / 0.01), round(r[1] / 0.01)))
+    for r in rows:
+        if r[4] >= 3:
+            g = (round(r[0] / 0.01), round(r[1] / 0.01))
+            if not any((g[0] + i, g[1] + j) in grid for i in (-1, 0, 1) for j in (-1, 0, 1)):
+                spots.setdefault(("m",) + g, r)
+    return list(spots.values())
+
+
 def dist(a, b, c, d):
     p = math.radians
     return 2 * 6371 * math.asin(math.sqrt(math.sin(p(c - a) / 2) ** 2 + math.cos(p(a)) * math.cos(p(c)) * math.sin(p(d - b) / 2) ** 2))
@@ -229,7 +246,7 @@ def main():
     ap.add_argument("--upload", action="store_true")
     a = ap.parse_args()
     feed, wind = get("/api/fires?hours=24&v=2"), get("/api/wind")
-    pts = [[r[0], r[1], r[2], r[3]] for r in feed["points"]]
+    pts = distinct([[r[0], r[1], r[2], r[3], r[4]] for r in feed["points"]])
     borders = json.load(open(os.path.join(ROOT, "data", "places", "borders.json"), encoding="utf-8"))
     towns = [t for t in json.load(open(os.path.join(ROOT, "site", "src", "towns.json"), encoding="utf-8")) if t[-1] >= 250000]
     cities = json.load(open(os.path.join(ROOT, "site", "src", "cities.json"), encoding="utf-8"))

@@ -1,6 +1,6 @@
 import { airKml, trafficKml, satelliteKml, kmlResponse } from "./kml.js";
 import { pages } from "./pages.js";
-import { airPages } from "./air.js";
+import { airPages, cityApi } from "./air.js";
 import { ogUrl, ogSlot } from "./og.js";
 // Hamari Hawa: serves the static site and the fire feed.
 // The feed itself is built every 15 minutes by scripts/build-feed.py (GitHub Actions)
@@ -67,6 +67,10 @@ async function handle(request, env, url, ctx) {
       const h = new Headers({ "content-type": "text/csv; charset=utf-8", "cache-control": "public, max-age=600" });
       if (r.headers.get("last-modified")) h.set("last-modified", r.headers.get("last-modified"));
       return new Response(request.method === "HEAD" ? null : r.body, { status: r.status, headers: h });
+    }
+    if (url.pathname === "/api/city") {
+      if (!["GET", "HEAD"].includes(request.method)) return new Response("method not allowed", { status: 405 });
+      return cityApi(url, env, ctx, edgeCached);
     }
     if (url.pathname === "/api/no2.png" || url.pathname === "/api/no2.json") {
       const png = url.pathname.endsWith(".png");

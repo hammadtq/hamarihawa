@@ -228,8 +228,10 @@ class CitySmokeTest(unittest.TestCase):
 class BudgetSimulation(unittest.TestCase):
     def test_a_busy_day_stays_under_budget(self):
         """192 runs a day (GitHub's schedule plus the Worker's dispatch), NASA's files changing on 57 of them
-        (as measured on 23 Oct 2026). Fast tier: fires-24-v2, kml-24 and cities. Slow tier: 8 keys plus about
-        14 district shards once a day."""
+        (as measured on 23 Oct 2026). Fast tier: fires-24-v2, kml-24 and cities. Slow tier: 8 keys, plus
+        city-days and city-fires when a closed day's counts changed (taken here as every slow run, the worst
+        case), plus about 14 district shards once a day. Then every other KV writer, which the feed's guard
+        doesn't see: wind hourly (24), link previews hourly (24), NO2 daily (4)."""
         st, writes, day = {}, 0, "d"
         changes = set(range(0, 192, 192 // 57 + 1)) | {5, 6, 7}
         rev = 0
@@ -238,7 +240,7 @@ class BudgetSimulation(unittest.TestCase):
             if run in changes:
                 rev += 1
             fast, slow = bf.tiers_due(st, f"r{rev}", now, day)
-            n = (3 if fast else 0) + (8 if slow else 0)
+            n = (3 if fast else 0) + (10 if slow else 0)
             if run == 40 and slow:
                 n += 15
             if n:
@@ -246,8 +248,55 @@ class BudgetSimulation(unittest.TestCase):
             for name, ran in (("fast", fast), ("slow", slow)):
                 if ran:
                     st.setdefault("tiers", {})[name] = {"src": f"r{rev}", "at": now, "pkday": day}
-        self.assertLess(writes, 500, writes)
-        print(f"\n  simulated day: {writes} KV writes")
+        self.assertLess(writes, 600, writes)
+        total = writes + 24 + 24 + 4
+        self.assertLess(total, 850, total)  # Publisher.LIMIT, under the free plan's 1,000
+        print(f"\n  simulated day: {writes} feed KV writes, {total} with wind, previews and NO2")
+
+
+def city_pt(lat, lon, t, si=0):
+    return {"lat": lat, "lon": lon, "t": t, "si": si, "sat": "x", "cc": "PK", "district": "D", "state": "S", "kind": "crop", "night": False, "frp": 1}
+
+
+class CityFires(unittest.TestCase):
+    T0 = int(bf.datetime(2026, 10, 20, 12).timestamp() * 1000)  # noon UTC, 17:00 PKT on 20 Oct
+
+    def test_one_fire_seen_by_two_satellites_counts_once(self):
+        lahore = next(c for c in bf.CITIES if c["id"] == "lahore")
+        near = (lahore["lat"] + 0.2, lahore["lon"])  # about 22 km north
+        rows = bf.city_day_counts([city_pt(*near, self.T0, 0), city_pt(*near, self.T0 + 60000, 1)])
+        i = [c["id"] for c in bf.CITIES].index("lahore")
+        self.assertEqual(rows[i], [1, 1, 1])
+
+    def test_daily_spots_count_each_day(self):
+        p = (31.8, 74.3)
+        a, b = city_pt(*p, self.T0), city_pt(*p, self.T0 + 86400000)
+        self.assertEqual(len(bf.daily_spots([a, b])), 2)
+        self.assertEqual(len(bf.distinct([a, b])), 1)
+
+    def test_season_capped_and_gaps_left_out(self):
+        ids = [c["id"] for c in bf.CITIES]
+        row = lambda v: [[0, v, v]] * len(ids)
+        days = {"2024-10-01": row(10), "2024-11-04": row(500), "2024-11-30": row(7), "2025-10-01": row(3), "2025-12-05": row(1)}
+        store = {"cities": ids, "days": days}
+        out = bf.city_fires(store, {}, "2025-12-06", 0)
+        self.assertEqual(out["season"]["to"], "11-30")  # December: the last whole season
+        self.assertEqual(out["season"]["years"][-1], 2025)
+        s = out["cities"]["lahore"]["s"]
+        y = out["season"]["years"]
+        self.assertEqual(s[y.index(2024)], 17)  # 2024-11-04 is a known Suomi NPP gap
+        self.assertIn("2024-11-04", out["season"]["gaps"]["2024"])
+        self.assertEqual(s[y.index(2025)], 3)
+        self.assertIsNone(s[y.index(2019)])  # no data at all is not zero
+
+    def test_season_to_date_inside_the_season(self):
+        ids = [c["id"] for c in bf.CITIES]
+        days = {"2025-10-01": [[0, 1, 4]] * len(ids), "2025-10-20": [[0, 1, 9]] * len(ids), "2026-10-01": [[0, 1, 2]] * len(ids)}
+        out = bf.city_fires({"cities": ids, "days": days}, {}, "2026-10-02", 0)
+        self.assertEqual(out["season"]["to"], "10-01")
+        y, s = out["season"]["years"], out["cities"]["delhi"]["s"]
+        self.assertEqual(s[y.index(2025)], 4)  # 20 October is after the date reached this year
+        self.assertEqual(s[y.index(2026)], 2)
 
 
 if __name__ == "__main__":
