@@ -10,7 +10,8 @@
   const LOC = { en: "en-GB", ur: "ur-PK", hi: "hi-IN" };
   const T = {
     en: { dirs: ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"],
-      ago: (h) => (h < 1 ? "under an hour ago" : `${h} h ago`), km: (n) => `${n} km away`, here: "You are about here", upwind: "Upwind: the wind is coming from here",
+      ago: (h) => (h < 1 ? "under an hour ago" : `${h} h ago`), km: (n) => `${n} km away`, here: "You are about here",
+      windFrom: (d, v) => `Wind from the <b>${d}</b>${v ? `, ${v} km/h` : ""}`, keyUp: "upwind: smoke heading here", keyOther: "other directions",
       kind: { crop: "likely crop burning", urban: "near a town: waste or industry?", open: "open land", forest: "likely forest fire", shifting: "forest or shifting cultivation",
         mixed: "mixed land: farms, scrub or trees", kiln: "at a brick kiln", industrial: "in an industrial area", hotspot: "at an always-hot spot" },
       nearest: (km, dir, place, ago) => `The nearest fire NASA's satellites saw in the last 24 hours was <b>${km} km ${dir}</b> of you, near ${place} (${ago}).`,
@@ -21,7 +22,8 @@
       unknown: "We couldn't tell where you are. Use the button below, or open a city:", city: (a) => `Where the smoke is coming from in your nearest city: ${a}.`,
       denied: "Location wasn't shared, so this still uses your connection's approximate location.", fail: "The fire feed didn't load. Try again in a minute." },
     ur: { dirs: ["شمال", "شمال مشرق", "مشرق", "جنوب مشرق", "جنوب", "جنوب مغرب", "مغرب", "شمال مغرب"],
-      ago: (h) => (h < 1 ? "ایک گھنٹے سے کم پہلے" : `${h} گھنٹے پہلے`), km: (n) => `${n} کلومیٹر دور`, here: "آپ تقریباً یہاں ہیں", upwind: "ہوا کا رخ: ہوا اسی طرف سے آ رہی ہے",
+      ago: (h) => (h < 1 ? "ایک گھنٹے سے کم پہلے" : `${h} گھنٹے پہلے`), km: (n) => `${n} کلومیٹر دور`, here: "آپ تقریباً یہاں ہیں",
+      windFrom: (d, v) => `ہوا <b>${d}</b> سے${v ? `، ${v} کلومیٹر فی گھنٹہ` : ""}`, keyUp: "ہوا کے رخ پر: دھواں اس طرف آ رہا ہے", keyOther: "دوسری سمتیں",
       kind: { crop: "غالباً فصل کی باقیات جلائی جا رہی ہیں", urban: "شہر کے قریب: کچرا یا صنعت؟", open: "کھلی زمین پر", forest: "غالباً جنگل میں آگ", shifting: "جنگل یا جھوم کاشت",
         mixed: "ملی جلی زمین: کھیت، جھاڑیاں یا درخت", kiln: "اینٹوں کے بھٹے پر", industrial: "صنعتی علاقے میں", hotspot: "ہمیشہ گرم جگہ پر" },
       nearest: (km, dir, place, ago) => `پچھلے 24 گھنٹوں میں ناسا کے سیٹلائٹس کو سب سے قریب آگ آپ سے <b>${km} کلومیٹر ${dir}</b> میں ${place} کے قریب نظر آئی (${ago})۔`,
@@ -32,7 +34,8 @@
       unknown: "ہم آپ کا مقام نہیں جان سکے۔ نیچے والا بٹن استعمال کریں یا کوئی شہر کھولیں:", city: (a) => `آپ کے قریب ترین شہر میں دھواں کہاں سے آ رہا ہے: ${a}۔`,
       denied: "مقام شیئر نہیں ہوا، اس لیے یہ صفحہ اب بھی کنکشن کا اندازاً مقام استعمال کر رہا ہے۔", fail: "آگ کی فیڈ لوڈ نہیں ہوئی۔ ایک منٹ بعد دوبارہ کوشش کریں۔" },
     hi: { dirs: ["उत्तर", "उत्तर-पूर्व", "पूर्व", "दक्षिण-पूर्व", "दक्षिण", "दक्षिण-पश्चिम", "पश्चिम", "उत्तर-पश्चिम"],
-      ago: (h) => (h < 1 ? "एक घंटे से कम पहले" : `${h} घंटे पहले`), km: (n) => `${n} किमी दूर`, here: "आप लगभग यहाँ हैं", upwind: "हवा का रुख़: हवा इसी तरफ़ से आ रही है",
+      ago: (h) => (h < 1 ? "एक घंटे से कम पहले" : `${h} घंटे पहले`), km: (n) => `${n} किमी दूर`, here: "आप लगभग यहाँ हैं",
+      windFrom: (d, v) => `हवा <b>${d}</b> से${v ? `, ${v} किमी/घंटा` : ""}`, keyUp: "हवा के रुख़ पर: धुआँ इधर आ रहा है", keyOther: "दूसरी दिशाएँ",
       kind: { crop: "शायद पराली जल रही है", urban: "शहर के पास: कचरा या उद्योग?", open: "खुली ज़मीन", forest: "शायद जंगल की आग", shifting: "जंगल या झूम खेती",
         mixed: "मिली-जुली ज़मीन: खेत, झाड़ियाँ या पेड़", kiln: "ईंट भट्ठे पर", industrial: "औद्योगिक इलाक़े में", hotspot: "हमेशा गर्म जगह पर" },
       nearest: (km, dir, place, ago) => `पिछले 24 घंटों में नासा के उपग्रहों को सबसे नज़दीकी आग आपसे <b>${km} किमी ${dir}</b> में, ${place} के पास दिखी (${ago})।`,
@@ -61,29 +64,57 @@
   }));
   const around = (all, lat, lon, km) => all.map((f) => ({ ...f, km: dist(lat, lon, f.lat, f.lon) })).filter((f) => f.km <= km).sort((a, b) => a.km - b.km);
 
+  const angle = (a, b) => { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; };
+  // An arrow pointing the way the wind blows (from `deg`, so towards deg + 180).
+  const arrow = (deg, size) => L.divIcon({ className: "", iconSize: [size, size], iconAnchor: [size / 2, size / 2],
+    html: `<svg width="${size}" height="${size}" viewBox="-12 -12 24 24" style="transform:rotate(${deg + 180}deg);overflow:visible">` +
+      '<path d="M0 -11 L7 1 L2.5 0 L2.5 11 L-2.5 11 L-2.5 0 L-7 1 Z" fill="#2f6f9f" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>' });
+
   function draw(el, pts, lat, lon, km, wind, l) {
     if (el._map) { el._map.remove(); el._map = null; }
     const t = T[l] || T.en, nf = new Intl.NumberFormat(LOC[l] || "en-GB", { maximumFractionDigits: 0 });
     const map = (el._map = L.map(el, { scrollWheelZoom: false }));
     L.tileLayer(ESRI, { style: "World_Light_Gray_Base", attribution: ATTR, maxNativeZoom: 16 }).addTo(map);
     L.tileLayer(ESRI, { style: "World_Light_Gray_Reference", maxNativeZoom: 16 }).addTo(map);
+    // With a wind, the fires upwind (whose smoke the wind is bringing) are red and the rest are faded;
+    // without one (the near-me page), red is likely crop burning and brown anything else.
+    const up = (f) => wind != null && angle(bearing(lat, lon, f.lat, f.lon), wind) <= UPWIND;
     if (wind != null) {
       const wedge = [[lat, lon]];
       for (let a = -UPWIND; a <= UPWIND; a += 5) wedge.push(toward(lat, lon, wind + a, km));
-      L.polygon(wedge, { color: "#2f6f9f", weight: 1, fillColor: "#2f6f9f", fillOpacity: 0.08, interactive: true }).bindTooltip(t.upwind, { sticky: true }).addTo(map);
+      L.polygon(wedge, { stroke: false, fillColor: "#2f6f9f", fillOpacity: 0.07, interactive: false }).addTo(map);
     }
     L.circle([lat, lon], { radius: km * 1000, color: "#777", weight: 1, dashArray: "4 4", fill: false, interactive: false }).addTo(map);
     const canvas = L.canvas({ padding: 0.3 }), now = Date.now();
-    for (const f of [...pts].reverse()) {
-      const crop = f.kind === "crop";
-      L.circleMarker([f.lat, f.lon], { renderer: canvas, radius: 4, weight: 0.8, color: crop ? "#a3170d" : "#5a4630", fillColor: crop ? "#e8452f" : "#8a7356", fillOpacity: 0.8 })
+    // Faded fires first, so the upwind ones sit on top.
+    const order = [...pts].reverse().sort((a, b) => up(a) - up(b));
+    for (const f of order) {
+      const style = wind == null
+        ? (f.kind === "crop" ? { color: "#a3170d", fillColor: "#e8452f", fillOpacity: 0.8 } : { color: "#5a4630", fillColor: "#8a7356", fillOpacity: 0.8 })
+        : up(f) ? { color: "#8f140b", fillColor: "#e3321f", fillOpacity: 0.9 } : { color: "#9a9a9a", fillColor: "#c4c4c4", fillOpacity: 0.55 };
+      L.circleMarker([f.lat, f.lon], { renderer: canvas, radius: wind != null && up(f) ? 4.5 : 3.5, weight: 0.8, ...style })
         .bindTooltip(`<b>${esc(f.place)}</b>, ${esc(f.district)}<br>${esc(t.kind[f.kind] || "")}<br>${esc(t.km(nf.format(f.km)))} · ${esc(t.ago(Math.floor((now - f.t) / 36e5)))}`, { direction: "top" })
         .addTo(map);
     }
     L.circleMarker([lat, lon], { radius: 7, weight: 3, color: "#fff", fillColor: "#1d1d1b", fillOpacity: 1 }).bindTooltip(el.dataset.label || t.here, { permanent: !el.dataset.label, direction: "right" }).addTo(map);
-    // Frame the nearest fires: out to the 25th nearest, at least 30 km and at most the page's radius.
-    const r = Math.max(30, Math.min(km, pts.length ? pts[Math.min(pts.length, 25) - 1].km * 1.1 : km));
+    // Frame the nearest fires that matter: the 25th nearest upwind one when there is a wind, otherwise the
+    // 25th nearest of all; at least 40 km out and at most the page's radius.
+    const key = wind != null && pts.some(up) ? pts.filter(up) : pts;
+    const r = Math.max(40, Math.min(km, key.length ? key[Math.min(key.length, 25) - 1].km * 1.15 : km));
     map.fitBounds(L.latLng(lat, lon).toBounds(r * 2000), { padding: [8, 8] });
+    if (wind != null) {
+      // Arrows along the wind into the city, and the wind in words in the corner.
+      for (const f of [0.35, 0.7]) L.marker(toward(lat, lon, wind, r * f), { icon: arrow(wind, 34), interactive: false, keyboard: false }).addTo(map);
+      const box = L.control({ position: "topright" });
+      box.onAdd = () => {
+        const d = L.DomUtil.create("div", "near-wind");
+        d.innerHTML = `<svg width="22" height="22" viewBox="-12 -12 24 24" style="transform:rotate(${wind + 180}deg)"><path d="M0 -11 L7 1 L2.5 0 L2.5 11 L-2.5 11 L-2.5 0 L-7 1 Z" fill="#2f6f9f"/></svg>` +
+          `<span>${t.windFrom(t.dirs[Math.round(wind / 45) % 8], el.dataset.speed ? nf.format(+el.dataset.speed) : "")}</span>` +
+          `<span class="k"><i style="background:#e3321f"></i>${t.keyUp}</span><span class="k"><i style="background:#c4c4c4"></i>${t.keyOther}</span>`;
+        return d;
+      };
+      box.addTo(map);
+    }
   }
 
   // City pages: a fixed point.
