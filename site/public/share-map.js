@@ -29,7 +29,7 @@
   // ?s= changes every 3 hours, as the link-preview images do (src/og.js): WhatsApp and the others keep the
   // preview they first saw for an address, so a new address gets today's picture. Pages ignore it otherwise.
   function link() {
-    const q = `?${lang() === "en" ? "" : `lang=${lang()}&`}s=${Math.floor(Date.now() / 10800000)}c`; // "c": src/og.js OG_REV
+    const q = `?${lang() === "en" ? "" : `lang=${lang()}&`}s=${Math.floor(Date.now() / 10800000)}d`; // "d": src/og.js OG_REV
     if (!isMain()) return `${SITE}${location.pathname}${q}`;
     const m = window.HH.map, c = m.getCenter(), s = window.HH.state;
     const p = [`view=${c.lat.toFixed(3)},${c.lng.toFixed(3)},${m.getZoom()}`];

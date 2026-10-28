@@ -179,7 +179,7 @@ def city_card(c, pts, wind, borders, towns, latest):
     count = (f"{n_all:,} fires within 250 km" if calm else f"{n_up:,} fires upwind" if n_up else "No fires upwind")
     text_box(img, d, [("brand", "HamariHawa"), ("big", f"{c['name']['en']}'s air"), ("mid", "where the smoke"), ("mid", "is coming from"),
                       ("body", wind_line), ("bold", count), ("body", "within 250 km, last 24 hours"), ("small", f"Fires up to {stamp(latest)}")], F)
-    footer(d, F, f"hamarihawa.org/air/{c['id']}", "NASA FIRMS · Open-Meteo wind")
+    footer(d, F, "hamarihawa.org", "NASA FIRMS · Open-Meteo wind")
     return img
 
 
