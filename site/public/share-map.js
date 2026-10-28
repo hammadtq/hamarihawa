@@ -26,8 +26,10 @@
   let current = null, blob = null;
 
   // ---------- The link: our page, and on the live map the view itself ----------
+  // ?s= changes every 3 hours, as the link-preview images do (src/og.js): WhatsApp and the others keep the
+  // preview they first saw for an address, so a new address gets today's picture. Pages ignore it otherwise.
   function link() {
-    const q = lang() === "en" ? "" : `?lang=${lang()}`;
+    const q = `?${lang() === "en" ? "" : `lang=${lang()}&`}s=${Math.floor(Date.now() / 10800000)}`;
     if (!isMain()) return `${SITE}${location.pathname}${q}`;
     const m = window.HH.map, c = m.getCenter(), s = window.HH.state;
     const p = [`view=${c.lat.toFixed(3)},${c.lng.toFixed(3)},${m.getZoom()}`];
@@ -42,7 +44,7 @@
     const h = document.querySelector("article:not([hidden]) h1");
     return (h ? h.textContent : document.title).trim();
   }
-  const caption = () => `${headline()}\n${link()}\n#HamariHawa #AirPollution #Smog`;
+  const caption = () => `${headline()}\n${link()}`;
 
   // ---------- The picture: each Leaflet layer drawn onto one canvas, in the order the map stacks them ----------
   const images = new Map();
