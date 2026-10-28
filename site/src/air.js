@@ -38,6 +38,8 @@ const T = {
     hAir: "The air right now",
     airLine: "US AQI {aqi} ({band}). PM2.5 has averaged {pm} µg/m³ over 24 hours, {who} times the WHO limit, like smoking {cigs} cigarettes a day.",
     airWait: (map) => `Loading the latest reading (Copernicus CAMS model estimates via Open-Meteo)… It is also on the <a href="${map}">live map</a>.`,
+    hMap: "Map of the fires around the city, last 24 hours",
+    mapNote: "Each dot is one fire a NASA satellite saw: red is likely crop burning, brown is anything else. The blue wedge is upwind, where the wind is coming from. Tap a dot for the village and the time.",
     hUp: "Upwind districts, last 24 hours", hDir: "Fires within 250 km by direction, last 24 hours", hWeek: "Fires within 250 km in the last 7 days",
     thDistrict: "District", thState: "Province or state", thCountry: "Country", thDir: "Direction", thKm: "Distance", thFires: "Fires", thCrop: "On farmland",
     thFrom: "From the", windHere: "the wind is coming from here",
@@ -79,6 +81,8 @@ const T = {
     airWait: (map) => `تازہ ترین ریڈنگ آ رہی ہے (Copernicus CAMS کے ماڈل اندازے، بذریعہ Open-Meteo)… یہ <a href="${map}">تازہ نقشے</a> پر بھی ہے۔`,
     hUp: "ہوا کے رخ پر اضلاع، پچھلے 24 گھنٹے", hDir: "250 کلومیٹر کے اندر آگ، سمت کے لحاظ سے، پچھلے 24 گھنٹے", hWeek: "پچھلے 7 دنوں میں 250 کلومیٹر کے اندر آگ",
     thDistrict: "ضلع", thState: "صوبہ یا ریاست", thCountry: "ملک", thDir: "سمت", thKm: "فاصلہ", thFires: "آگ", thCrop: "کھیتوں میں",
+    hMap: "شہر کے آس پاس آگ کا نقشہ، پچھلے 24 گھنٹے",
+    mapNote: "ہر نقطہ وہ ایک آگ ہے جو ناسا کے سیٹلائٹ نے دیکھی: سرخ غالباً فصل کی باقیات جلانا ہے، بھورا کچھ اور۔ نیلا حصہ ہوا کا رخ ہے، جدھر سے ہوا آ رہی ہے۔ گاؤں اور وقت کے لیے نقطے پر ٹیپ کریں۔",
     thFrom: "سمت", windHere: "ہوا اسی طرف سے آ رہی ہے",
     weekNone: "پچھلے 7 دنوں میں 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی گئی۔",
     hLocal: "50 کلومیٹر کے اندر آلودگی کے ذرائع",
@@ -113,6 +117,8 @@ const T = {
     airWait: (map) => `ताज़ा रीडिंग आ रही है (Copernicus CAMS के मॉडल अनुमान, Open-Meteo के ज़रिए)… यह <a href="${map}">लाइव नक्शे</a> पर भी है।`,
     hUp: "हवा के रुख़ पर ज़िले, पिछले 24 घंटे", hDir: "250 किमी के भीतर आग, दिशा के हिसाब से, पिछले 24 घंटे", hWeek: "पिछले 7 दिनों में 250 किमी के भीतर आग",
     thDistrict: "ज़िला", thState: "प्रांत या राज्य", thCountry: "देश", thDir: "दिशा", thKm: "दूरी", thFires: "आग", thCrop: "खेतों में",
+    hMap: "शहर के आसपास आग का नक्शा, पिछले 24 घंटे",
+    mapNote: "हर बिंदु एक आग है जो नासा के उपग्रह ने देखी: लाल शायद पराली जलना है, भूरा कुछ और। नीला हिस्सा हवा का रुख़ है, जिधर से हवा आ रही है। गाँव और समय के लिए बिंदु पर टैप करें।",
     thFrom: "दिशा", windHere: "हवा इसी तरफ़ से आ रही है",
     weekNone: "पिछले 7 दिनों में 250 किमी के भीतर कोई आग नहीं दिखी।",
     hLocal: "50 किमी के भीतर प्रदूषण के स्रोत",
@@ -137,6 +143,10 @@ const AIR_STYLE = `<style>
   .doc tr.wind-here td { font-weight: 600; }
   .doc ul.links li { margin-top: 4px; }
 </style>\n`;
+
+const LEAFLET_CSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n';
+const LEAFLET_JS = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n';
+const NEAR_JS = '<script src="/near-map.js?v=1"></script>\n';
 
 // Local time of a UTC instant (ms) for a city's country: "25 October, 18:40 PKT".
 function at(ms, cc, l) {
@@ -221,6 +231,7 @@ function cityPage(c, data, wind) {
     const th = (cells) => `<thead><tr>${cells.map(([x, num]) => `<th${num ? ' class="n"' : ""}>${x}</th>`).join("")}</tr></thead>`;
     let h = `  <h1>${t.h1(N)}</h1>\n  <p class="lede">${lede(t, l, N, c, s, data, windTime)}</p>\n`;
     h += `  <h2>${t.hAir}</h2>\n  <p class="air-now" data-air data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-line="${esc(t.airLine)}" data-bands="${esc(BANDS[l].join("|"))}">${t.airWait(mapUrl)}</p>\n`;
+    h += `  <h2>${t.hMap}</h2>\n  <p class="muted">${t.mapNote}</p>\n  <div class="ff-map" data-near data-lat="${c.lat}" data-lon="${c.lon}" data-km="250" data-wind="${s.w && !s.calm ? Math.round(s.w[1]) : ""}" data-lang="${l}" data-label="${N}"></div>\n`;
     if (s.upRows.length) {
       h += `  <h2>${t.hUp}</h2>\n  <div class="table-wrap"><table>${th([[t.thDistrict], [t.thState], [t.thCountry], [t.thDir], [t.thKm, 1], [t.thFires, 1]])}<tbody>\n` +
         s.upRows.slice(0, 12).map((r) => { const d = districtName(data, r.di);
@@ -260,7 +271,7 @@ function cityPage(c, data, wind) {
     inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` },
     about: { "@type": "City", name: N, geo: { "@type": "GeoCoordinates", latitude: c.lat, longitude: c.lon }, containedInPlace: { "@type": "Country", name: country } } };
   return render({ path: `/air/${c.id}/`, title: T.en.title(N), desc: T.en.desc(N, descTxt), body, jsonld,
-    head: STYLE + AIR_STYLE, scripts: '<script src="/city-air.js?v=1" defer></script>\n' });
+    head: STYLE + AIR_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=1" defer></script>\n' + LEAFLET_JS + NEAR_JS });
 }
 
 function indexPage(data, wind) {
@@ -280,12 +291,87 @@ function indexPage(data, wind) {
   return render({ path: "/air/", title: T.en.idxTitle, desc: T.en.idxDesc, body, jsonld, head: STYLE + AIR_STYLE });
 }
 
+// /near-me/: "is there a fire near me?". The answer depends on the visitor, so it is worked out in their
+// browser (/near-map.js, from /api/where or their device). What search engines and AI tools read is the
+// explanation and the cities with the most fires around them right now, from the same "cities" key.
+const NEAR = {
+  en: {
+    title: "Fires near me: is there a fire near you right now?",
+    desc: "Check for fires near you in Pakistan and India: the nearest fire NASA's satellites saw in the last 24 hours, how far and which way, on a close-up map. Updated every 15 minutes.",
+    h1: "Is there a fire near me?",
+    lede: "This page looks up the fires NASA's satellites saw in the last 24 hours around where you are, anywhere in Pakistan and India, and shows the nearest ones on a map. It uses your approximate location from your internet connection. Nothing is stored.",
+    wait: "Finding fires near you…", exact: "Use my exact location",
+    hCities: "Cities with the most fires around them right now",
+    cities: "Fires seen within 250 km of each city in the last 24 hours. Open a city to see which way the wind is carrying the smoke.",
+    thCity: "City", thCountry: "Country", thFires: "Fires within 250 km (24 h)", thWind: "Wind from",
+    hHow: "How this works",
+    how: ["Each fire is one detection by NASA's VIIRS or MODIS instruments, about 375 m across, from the FIRMS feed. The feed is checked every 15 minutes.",
+      "Satellites pass over a few times a day, mostly around 1:30 at night and 1:30 in the afternoon, so a fire lit after the last pass will not show yet. Fires under cloud or thick smoke, and very small fires, can be missed.",
+      "Smoke travels: a city can be hazy from fires 100 km or more away when the wind blows from them. The city pages show which way the wind is blowing."],
+    more: 'See every fire on the <a href="/">live map</a> (the "Fires near me" button there does the same lookup), the <a href="/air/">city air pages</a> and the <a href="/fires/">daily fire pages</a>.',
+  },
+  ur: {
+    h1: "کیا میرے قریب کہیں آگ لگی ہے؟",
+    lede: "یہ صفحہ پچھلے 24 گھنٹوں میں ناسا کے سیٹلائٹس کو آپ کے آس پاس نظر آنے والی آگ ڈھونڈتا ہے، پاکستان اور بھارت میں کہیں بھی، اور سب سے قریب والی نقشے پر دکھاتا ہے۔ یہ آپ کے انٹرنیٹ کنکشن سے آپ کا اندازاً مقام لیتا ہے۔ کچھ محفوظ نہیں کیا جاتا۔",
+    wait: "آپ کے قریب آگ ڈھونڈی جا رہی ہے…", exact: "میرا درست مقام استعمال کریں",
+    hCities: "وہ شہر جن کے آس پاس اس وقت سب سے زیادہ آگ ہے",
+    cities: "پچھلے 24 گھنٹوں میں ہر شہر سے 250 کلومیٹر کے اندر دیکھی گئی آگ۔ ہوا دھواں کس طرف لے جا رہی ہے، یہ دیکھنے کے لیے شہر کھولیں۔",
+    thCity: "شہر", thCountry: "ملک", thFires: "250 کلومیٹر کے اندر آگ (24 گھنٹے)", thWind: "ہوا کس طرف سے",
+    hHow: "یہ کیسے کام کرتا ہے",
+    how: ["ہر آگ ناسا کے VIIRS یا MODIS آلات کی ایک نشاندہی ہے، تقریباً 375 میٹر کا علاقہ، FIRMS فیڈ سے۔ فیڈ ہر 15 منٹ میں دیکھی جاتی ہے۔",
+      "سیٹلائٹ دن میں چند بار گزرتے ہیں، زیادہ تر رات ڈیڑھ بجے اور دوپہر ڈیڑھ بجے کے قریب، اس لیے آخری گزر کے بعد لگنے والی آگ ابھی نظر نہیں آئے گی۔ بادلوں یا گہرے دھوئیں کے نیچے کی آگ، اور بہت چھوٹی آگ، رہ سکتی ہے۔",
+      "دھواں سفر کرتا ہے: جب ہوا آگ کی طرف سے چلے تو 100 کلومیٹر یا اس سے زیادہ دور کی آگ سے بھی شہر دھندلا سکتا ہے۔ شہروں کے صفحات بتاتے ہیں کہ ہوا کس طرف سے چل رہی ہے۔"],
+    more: 'ہر آگ <a href="/">تازہ نقشے</a> پر دیکھیں (وہاں "میرے قریب آگ" کا بٹن یہی کام کرتا ہے)، اور <a href="/air/">شہروں کی ہوا</a> اور <a href="/fires/">روزانہ آگ</a> کے صفحات بھی۔',
+  },
+  hi: {
+    h1: "क्या मेरे पास कहीं आग लगी है?",
+    lede: "यह पन्ना पिछले 24 घंटों में नासा के उपग्रहों को आपके आसपास दिखी आग ढूँढता है, पाकिस्तान और भारत में कहीं भी, और सबसे नज़दीकी आग नक्शे पर दिखाता है। यह आपके इंटरनेट कनेक्शन से आपकी अनुमानित जगह लेता है। कुछ भी सहेजा नहीं जाता।",
+    wait: "आपके पास आग ढूँढी जा रही है…", exact: "मेरी सटीक जगह इस्तेमाल करें",
+    hCities: "वे शहर जिनके आसपास इस समय सबसे ज़्यादा आग है",
+    cities: "पिछले 24 घंटों में हर शहर से 250 किमी के भीतर दिखी आग। हवा धुआँ किस तरफ़ ले जा रही है, यह देखने के लिए शहर खोलें।",
+    thCity: "शहर", thCountry: "देश", thFires: "250 किमी के भीतर आग (24 घंटे)", thWind: "हवा किधर से",
+    hHow: "यह कैसे काम करता है",
+    how: ["हर आग नासा के VIIRS या MODIS उपकरणों की एक पहचान है, लगभग 375 मीटर का इलाक़ा, FIRMS फ़ीड से। फ़ीड हर 15 मिनट में देखा जाता है।",
+      "उपग्रह दिन में कुछ ही बार गुज़रते हैं, ज़्यादातर रात डेढ़ बजे और दोपहर डेढ़ बजे के आसपास, इसलिए आख़िरी गुज़र के बाद लगी आग अभी नहीं दिखेगी। बादलों या घने धुएँ के नीचे की आग, और बहुत छोटी आग, छूट सकती है।",
+      "धुआँ सफ़र करता है: जब हवा आग की तरफ़ से चले तो 100 किमी या उससे ज़्यादा दूर की आग से भी शहर धुंधला सकता है। शहरों के पन्ने बताते हैं कि हवा किस तरफ़ से चल रही है।"],
+    more: 'हर आग <a href="/">लाइव नक्शे</a> पर देखें (वहाँ "मेरे पास आग" बटन यही काम करता है), और <a href="/air/">शहरों की हवा</a> और <a href="/fires/">रोज़ की आग</a> के पन्ने भी।',
+  },
+};
+
+function nearMePage(data, wind) {
+  const rows = CITIES.map((c) => ({ c, s: smoke(data, wind, c) })).filter((r) => r.s.all).sort((a, b) => b.s.all - a.s.all).slice(0, 15);
+  const body = {};
+  for (const l of LANGS) {
+    const t = NEAR[l], n = (v) => nf(v, l);
+    let h = `  <h1>${t.h1}</h1>\n  <p class="lede">${t.lede}</p>\n`;
+    h += `  <div data-near-me data-lang="${l}">\n   <p class="air-now" data-answer>${t.wait}</p>\n   <p><button type="button" class="btn" data-exact>${t.exact}</button></p>\n   <div class="ff-map" hidden></div>\n  </div>\n`;
+    if (rows.length) {
+      h += `  <h2>${t.hCities}</h2>\n  <p>${t.cities}</p>\n  <div class="table-wrap"><table><thead><tr><th>${t.thCity}</th><th>${t.thCountry}</th><th>${t.thWind}</th><th class="n">${t.thFires}</th></tr></thead><tbody>\n` +
+        rows.map(({ c, s }) => `   <tr><td><a href="/air/${c.id}/">${esc(c.name[l])}</a></td><td>${COUNTRY[l][c.cc]}</td><td>${!s.w ? "" : s.calm ? T[l].calmCell : compass(s.w[1], l)}</td><td class="n">${n(s.all)}</td></tr>`).join("\n") +
+        "\n  </tbody></table></div>\n";
+    }
+    h += `  <h2>${t.hHow}</h2>\n${t.how.map((x) => `  <p>${x}</p>`).join("\n")}\n  <p>${t.more}</p>`;
+    if (data?.latest) h += `\n  <p class="muted" style="margin-top:18px">${T[l].updated(at(data.latest, "PK", l))}</p>`;
+    body[l] = h;
+  }
+  const jsonld = { "@context": "https://schema.org", "@type": "WebPage", "@id": `${SITE}/near-me/#page`, name: NEAR.en.title, url: `${SITE}/near-me/`,
+    description: NEAR.en.desc, inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` }, spatialCoverage: "Pakistan and India" };
+  return render({ path: "/near-me/", title: NEAR.en.title, desc: NEAR.en.desc, body, jsonld, head: STYLE + AIR_STYLE + LEAFLET_CSS,
+    scripts: '<script src="/cities.js?v=202610260000"></script>\n' + LEAFLET_JS + NEAR_JS });
+}
+
 // The shared shell marks the daily pages' section ("Fire trends") as current; these pages are "City air".
 const navAir = (html) => html.replace(/ aria-current="page"/g, "").replace('data-nav="air"', 'data-nav="air" aria-current="page"');
 
 // Returns a Response for /air/ and /air/<city>/, or null for any other path.
 export async function airPages(url, env, ctx, edgeCached) {
   const p = url.pathname;
+  if (p === "/near-me") return Response.redirect(`${url.origin}/near-me/${url.search}`, 301);
+  if (p === "/near-me/") return edgeCached(ctx, p, 900, async () => {
+    const [data, wind] = await Promise.all([kvJson(env, "cities"), kvJson(env, "wind")]);
+    if (!data) return new Response("This page isn't built yet. Try again in a few minutes.", { status: 503 });
+    return page(nearMePage(data, wind).replace(/ aria-current="page"/g, ""), 200, 600);
+  });
   if (p === "/air") return Response.redirect(`${url.origin}/air/${url.search}`, 301);
   const m = p.match(/^\/air\/([a-z0-9-]+)\/?$/);
   if (p !== "/air/" && !m) return p.startsWith("/air/") ? notFound() : null;

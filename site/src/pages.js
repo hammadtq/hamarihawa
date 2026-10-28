@@ -453,7 +453,7 @@ async function sitemap(env) {
   for (const sl of Object.keys(dp.d || {}).sort()) urls.push([`${SITE}/district/${sl}/`, dp.last]);
   // The city pages (src/air.js) change with every feed run.
   const today = new Date(Date.now() + 5 * 3600000).toISOString().slice(0, 10);
-  urls.push([`${SITE}/air/`, today], ...CITIES.map((c) => [`${SITE}/air/${c.id}/`, today]));
+  urls.push([`${SITE}/near-me/`, today], [`${SITE}/air/`, today], ...CITIES.map((c) => [`${SITE}/air/${c.id}/`, today]));
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.filter((u) => u[1]).map(([u, m]) => `  <url><loc>${u}</loc><lastmod>${m}</lastmod></url>`).join("\n") + "\n</urlset>\n";
 }
