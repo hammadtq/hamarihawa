@@ -1,7 +1,7 @@
 import { airKml, trafficKml, satelliteKml, kmlResponse } from "./kml.js";
 import { pages } from "./pages.js";
 import { airPages } from "./air.js";
-import { ogUrl } from "./og.js";
+import { ogUrl, ogSlot } from "./og.js";
 // Hamari Hawa: serves the static site and the fire feed.
 // The feed itself is built every 15 minutes by scripts/build-feed.py (GitHub Actions)
 // and stored in KV, because naming every fire after its village is too much work
@@ -138,7 +138,9 @@ async function handle(request, env, url, ctx) {
     if (url.pathname === "/kml/satellite.kml") return kmlResponse(satelliteKml(), 3600);
     // Link-preview images drawn every 3 hours by scripts/build-og-live.py, all in one KV value.
     const og = url.pathname.match(/^\/og\/live\/([a-z0-9-]{1,40})\.jpg$/);
-    if (og) return edgeCached(ctx, url.pathname, 1800, () => liveOg(env, og[1], url));
+    // Cached per 3-hour slot and design revision, set here; the ?v= a visitor sends is ignored, so made-up
+    // values can't force KV reads.
+    if (og) return edgeCached(ctx, `${url.pathname}?slot=${ogSlot()}`, 1800, () => liveOg(env, og[1], url));
     if (url.pathname !== "/api/fires") {
       // City pages, and the daily fire and district pages, rendered from KV.
       let res = (await airPages(url, env, ctx, edgeCached)) || (await pages(url, env, ctx, edgeCached)) || (await env.ASSETS.fetch(request));
