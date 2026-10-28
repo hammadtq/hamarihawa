@@ -82,31 +82,56 @@ def stamp(ms):
     return f"{t.tm_mday} {time.strftime('%B', t)}, {t.tm_hour:02d}:{t.tm_min:02d} PKT"
 
 
+MAP_H = H - 78  # the map fills the card above the dark footer band
+
+
+def text_box(img, d, lines, F):
+    """The words, in a white box at the top left. The map's centre (the city) stays clear, so the square
+    WhatsApp crops from the middle of the card shows the map."""
+    x0, y0, x1 = 22, 22, 352
+    y = y0 + 20
+    rows = []
+    for kind, txt in lines:
+        f = {"brand": F(KALAM, 34), "big": F(KALAM, 46 if len(txt) < 16 else 38), "mid": F(KALAM, 30),
+             "body": F(INTER, 19, 400), "bold": F(INTER, 21, 700), "small": F(INTER, 16, 400)}[kind]
+        rows.append((kind, txt, f, y))
+        y += {"brand": 52, "big": 58, "mid": 38, "body": 27, "bold": 29, "small": 24}[kind]
+    d.rounded_rectangle((x0, y0, x1, y + 12), radius=12, fill=(255, 255, 255, 238), outline=(43, 43, 43), width=2)
+    for kind, txt, f, yy in rows:
+        if kind == "brand":
+            og.flame(d, x0 + 18, yy - 2, 36)
+            d.text((x0 + 62, yy - 4), txt, font=f, fill=INK)
+        else:
+            colour = FIRE if kind == "big" else INK if kind in ("mid", "bold") else (110, 110, 114) if kind == "small" else INK2
+            d.text((x0 + 20, yy), txt, font=f, fill=colour)
+
+
+def footer(d, F, left, right):
+    d.rectangle((0, MAP_H, W, H), fill=INK)
+    d.text((40, MAP_H + 14), left, font=F(KALAM, 40), fill=(255, 179, 168))
+    d.text((W - 40, MAP_H + 28), right, font=F(INTER, 20, 400), fill=(170, 170, 175), anchor="ra")
+
+
 def city_card(c, pts, wind, borders, towns, latest):
     F = lambda path, size, wt=None: og.font(path, size, wt)
-    img = Image.new("RGB", (W, H), "white")
+    img = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(img, "RGBA")
-    mx, my, mw, mh = 600, 46, 560, 470
-    cx0, cy0 = mx + mw / 2, my + mh / 2
-    k = min(mw, mh) / (2 * (KM + 15))  # px per km
+    cx0, cy0 = W / 2, MAP_H / 2
+    k = (MAP_H / 2 - 12) / KM  # px per km: the 250 km ring just fits the map's height
     clat, clon = c["lat"], c["lon"]
     kx = 111.2 * math.cos(math.radians(clat))
     proj = lambda la, lo: (cx0 + (lo - clon) * kx * k, cy0 - (la - clat) * 111.2 * k)
-    inside = lambda x, y: mx <= x <= mx + mw and my <= y <= my + mh
-    panel = Image.new("RGB", (mw, mh), PAPER)
-    pd = ImageDraw.Draw(panel, "RGBA")
-    shift = lambda xy: (xy[0] - mx, xy[1] - my)
-    # Countries, as in build-og.py; only polygons near this city.
-    dlat, dlon = (KM + 60) / 111.2, (KM + 60) / kx
+    # Countries, as in build-og.py; only polygons that reach the card.
+    dlat, dlon = (MAP_H / 2 / k + 50) / 111.2, (W / 2 / k + 50) / kx
     for polys in borders.values():
         for poly in polys:
             ring = poly[0]
             los, las = [q[0] for q in ring], [q[1] for q in ring]
             if min(las) > clat + dlat or max(las) < clat - dlat or min(los) > clon + dlon or max(los) < clon - dlon:
                 continue
-            xy = [shift(proj(la, lo)) for lo, la in ring]
+            xy = [proj(la, lo) for lo, la in ring]
             if len(xy) > 2:
-                pd.polygon(xy, fill=(238, 233, 222), outline=(176, 170, 160))
+                d.polygon(xy, fill=(238, 233, 222), outline=(176, 170, 160))
     w = wind_at(wind, clat, clon)
     calm = not w or w[0] < CALM
     near = [(p, dist(clat, clon, p[0], p[1])) for p in pts]
@@ -115,9 +140,8 @@ def city_card(c, pts, wind, borders, towns, latest):
     if not calm:
         def toward(deg, km):
             r = math.radians(deg)
-            return shift(proj(clat + km / 111.2 * math.cos(r), clon + km / kx * math.sin(r)))
-        wedge = [shift(proj(clat, clon))] + [toward(w[1] + a, KM) for a in range(-UPWIND, UPWIND + 1, 5)]
-        pd.polygon(wedge, fill=BLUE + (26,))
+            return proj(clat + km / 111.2 * math.cos(r), clon + km / kx * math.sin(r))
+        d.polygon([proj(clat, clon)] + [toward(w[1] + a, KM) for a in range(-UPWIND, UPWIND + 1, 5)], fill=BLUE + (26,))
         # Wind streaks inside the wedge, all running the way the wind blows.
         rnd = random.Random(c["id"])
         go = math.radians(w[1] + 180)
@@ -125,68 +149,64 @@ def city_card(c, pts, wind, borders, towns, latest):
         L = 9 + min(14, w[0])
         for _ in range(140):
             a, rr = math.radians(w[1] + rnd.uniform(-UPWIND + 3, UPWIND - 3)), KM * math.sqrt(rnd.uniform(0.02, 0.95))
-            x, y = shift(proj(clat + rr / 111.2 * math.cos(a), clon + rr / kx * math.sin(a)))
-            pd.line([(x, y), (x + vx * L, y + vy * L)], fill=(38, 38, 52, 120), width=2)
-    # 250 km ring, dashed.
+            x, y = proj(clat + rr / 111.2 * math.cos(a), clon + rr / kx * math.sin(a))
+            d.line([(x, y), (x + vx * L, y + vy * L)], fill=(38, 38, 52, 120), width=2)
     R = KM * k
-    for i in range(0, 360, 6):
+    for i in range(0, 360, 6):  # the 250 km ring, dashed
         a0, a1 = math.radians(i), math.radians(i + 3)
-        pd.line([(cx0 - mx + R * math.sin(a0), cy0 - my - R * math.cos(a0)), (cx0 - mx + R * math.sin(a1), cy0 - my - R * math.cos(a1))], fill=(120, 120, 120), width=2)
+        d.line([(cx0 + R * math.sin(a0), cy0 - R * math.cos(a0)), (cx0 + R * math.sin(a1), cy0 - R * math.cos(a1))], fill=(120, 120, 120), width=2)
     for p, km in sorted(near, key=lambda q: up(q[0])):
-        x, y = shift(proj(p[0], p[1]))
+        x, y = proj(p[0], p[1])
         if up(p):
-            pd.ellipse((x - 5, y - 5, x + 5, y + 5), fill=(227, 50, 31), outline=(143, 20, 11))
+            d.ellipse((x - 5, y - 5, x + 5, y + 5), fill=(227, 50, 31), outline=(143, 20, 11))
         else:
-            pd.ellipse((x - 3.5, y - 3.5, x + 3.5, y + 3.5), fill=(196, 196, 196), outline=(154, 154, 154))
-    # The biggest towns on the panel, then the city itself.
+            d.ellipse((x - 3.5, y - 3.5, x + 3.5, y + 3.5), fill=(196, 196, 196), outline=(154, 154, 154))
+    # The biggest towns on the card (clear of the text box), then the city itself.
     lab = F(INTER, 16, 600)
     shown = 0
     for la, lo, name, *_rest in sorted(towns, key=lambda t: -t[-1]):
-        if shown >= 7 or dist(clat, clon, la, lo) < 40:
+        if shown >= 9 or dist(clat, clon, la, lo) < 40:
             continue
-        x, y = shift(proj(la, lo))
-        if 20 < x < mw - 90 and 14 < y < mh - 14:
-            pd.ellipse((x - 2.5, y - 2.5, x + 2.5, y + 2.5), fill=INK2)
-            pd.text((x + 6, y - 10), name, font=lab, fill=INK2, stroke_width=3, stroke_fill=PAPER)
+        x, y = proj(la, lo)
+        if 20 < x < W - 100 and 14 < y < MAP_H - 14 and not (x < 380 and y < 340):
+            d.ellipse((x - 2.5, y - 2.5, x + 2.5, y + 2.5), fill=INK2)
+            d.text((x + 6, y - 10), name, font=lab, fill=INK2, stroke_width=3, stroke_fill=PAPER)
             shown += 1
-    x, y = cx0 - mx, cy0 - my
-    pd.ellipse((x - 8, y - 8, x + 8, y + 8), fill=INK, outline="white", width=3)
-    pd.text((x + 12, y - 14), c["name"]["en"], font=F(INTER, 22, 700), fill=INK, stroke_width=4, stroke_fill="white")
-    img.paste(panel, (mx, my))
-    og.pencil_rect(d, (mx, my, mx + mw, my + mh), hash(c["id"]) % 97)
-    # Left column.
-    og.flame(d, 52, 44, 52)
-    d.text((116, 46), "HamariHawa", font=F(KALAM, 46), fill=INK)
-    name = c["name"]["en"]
-    big = F(KALAM, 60 if len(name) < 12 else 50)
-    d.text((56, 140), f"{name}'s air", font=big, fill=FIRE)
-    d.text((56, 208), "where the smoke", font=F(KALAM, 46), fill=INK)
-    d.text((56, 262), "is coming from", font=F(KALAM, 46), fill=INK)
-    body, bold = F(INTER, 25, 400), F(INTER, 25, 700)
+    d.ellipse((cx0 - 9, cy0 - 9, cx0 + 9, cy0 + 9), fill=INK, outline="white", width=3)
+    d.text((cx0 + 14, cy0 - 16), c["name"]["en"], font=F(INTER, 26, 700), fill=INK, stroke_width=4, stroke_fill="white")
     n_up, n_all = sum(1 for p, _ in near if up(p)), len(near)
-    y = 350
-    if calm:
-        lines = [("Almost no wind right now,", body), (f"{n_all:,} fires within 250 km", bold), ("in the last 24 hours.", body)]
-    elif n_up:
-        lines = [(f"Wind from the {DIRS[round(w[1] / 45) % 8]}, {round(w[0])} km/h.", body),
-                 (f"{n_up:,} fires upwind", bold), ("within 250 km in the last 24 hours.", body)]
-    else:
-        lines = [(f"Wind from the {DIRS[round(w[1] / 45) % 8]}, {round(w[0])} km/h.", body),
-                 ("No fires upwind", bold), (f"of {n_all:,} within 250 km in 24 hours.", body)]
-    for txt, f in lines:
-        d.text((56, y), txt, font=f, fill=INK if f is bold else INK2)
-        y += 38
-    d.text((56, y + 8), f"Fires up to {stamp(latest)}", font=F(INTER, 19, 400), fill=(124, 124, 128))
-    d.rectangle((0, H - 78, W, H), fill=INK)
-    d.text((56, H - 64), f"hamarihawa.org/air/{c['id']}", font=F(KALAM, 40), fill=(255, 179, 168))
-    d.text((W - 56, H - 50), "NASA FIRMS · Open-Meteo wind", font=F(INTER, 20, 400), fill=(170, 170, 175), anchor="ra")
+    wind_line = "Almost no wind right now" if calm else f"Wind from the {DIRS[round(w[1] / 45) % 8]}, {round(w[0])} km/h"
+    count = (f"{n_all:,} fires within 250 km" if calm else f"{n_up:,} fires upwind" if n_up else "No fires upwind")
+    text_box(img, d, [("brand", "HamariHawa"), ("big", f"{c['name']['en']}'s air"), ("mid", "where the smoke"), ("mid", "is coming from"),
+                      ("body", wind_line), ("bold", count), ("body", "within 250 km, last 24 hours"), ("small", f"Fires up to {stamp(latest)}")], F)
+    footer(d, F, f"hamarihawa.org/air/{c['id']}", "NASA FIRMS · Open-Meteo wind")
     return img
 
 
-def main_card(pts, stats, latest):
-    img = og.card(["Live fire & air map", "of Pakistan", "and India"],
-                  [f"{stats['spots']:,} fire spots in the last", f"24 hours: {stats['pk']:,} in Pakistan,", f"{stats['in']:,} in India, up to {stamp(latest)}."],
-                  pts, (232, 120, 40), name=None, fonts=(KALAM, INTER))
+def main_card(pts, stats, latest, borders):
+    F = lambda path, size, wt=None: og.font(path, size, wt)
+    img = Image.new("RGB", (W, H), PAPER)
+    d = ImageDraw.Draw(img, "RGBA")
+    # Both countries, centred, as tall as the map area allows.
+    rect = (W / 2 - 270, 8, 660, MAP_H - 16)  # a little right of centre, clear of the text box
+    for polys in borders.values():
+        for poly in polys:
+            ring = [og.project(la, lo, *rect) for lo, la in poly[0]]
+            if len(ring) > 2:
+                d.polygon(ring, fill=(238, 233, 222), outline=(176, 170, 160))
+    for p in pts:
+        x, y = og.project(p[0], p[1], *rect)
+        r = max(2.5, min(7, 2 + math.sqrt(p[3]) * 0.5))
+        d.ellipse((x - r, y - r, x + r, y + r), fill=(232, 120, 40))
+    for nm, la, lo in [("Lahore", 31.55, 74.34), ("Delhi", 28.61, 77.21), ("Karachi", 24.86, 67.0), ("Kolkata", 22.57, 88.36),
+                       ("Mumbai", 19.08, 72.88), ("Bengaluru", 12.97, 77.59)]:
+        x, y = og.project(la, lo, *rect)
+        d.ellipse((x - 4, y - 4, x + 4, y + 4), fill=INK)
+        d.text((x + 8, y - 12), nm, font=F(INTER, 19, 600), fill=INK, stroke_width=3, stroke_fill="white")
+    text_box(img, d, [("brand", "HamariHawa"), ("big", "Live fire map"), ("mid", "of Pakistan and India"),
+                      ("bold", f"{stats['spots']:,} fire spots, 24 hours"), ("body", f"{stats['pk']:,} in Pakistan, {stats['in']:,} in India"),
+                      ("small", f"Fires up to {stamp(latest)}")], F)
+    footer(d, F, "hamarihawa.org", "NASA FIRMS · Sentinel-5P · Copernicus")
     return img
 
 
@@ -211,7 +231,7 @@ def main():
     towns = [t for t in json.load(open(os.path.join(ROOT, "site", "src", "towns.json"), encoding="utf-8")) if t[-1] >= 250000]
     cities = json.load(open(os.path.join(ROOT, "site", "src", "cities.json"), encoding="utf-8"))
     latest = feed.get("latest") or feed["generated"]
-    items = {"main": jpeg(main_card(pts, feed["stats"], latest))}
+    items = {"main": jpeg(main_card(pts, feed["stats"], latest, borders))}
     for c in cities:
         items[c["id"]] = jpeg(city_card(c, pts, wind, borders, towns, latest))
     data = bundle(items, int(time.time() * 1000))
