@@ -4,6 +4,7 @@
 // (the hourly 2-degree grid from scripts/build-wind.py). The air reading itself loads in the visitor's
 // browser (/city-air.js), as the city cards do, so the Worker never calls Open-Meteo.
 import CITIES from "./cities.json";
+import { ogUrl } from "./og.js";
 import { SITE, LANGS, MONTHS, COUNTRY, ORG, STYLE, esc, nf, pct, dname, render, page, kvJson, notFound } from "./pages.js";
 
 const BY_ID = new Map(CITIES.map((c) => [c.id, c]));
@@ -275,7 +276,9 @@ function cityPage(c, data, wind) {
   const jsonld = { "@context": "https://schema.org", "@type": "WebPage", "@id": `${SITE}/air/${c.id}/#page`, name: T.en.title(N), url: `${SITE}/air/${c.id}/`,
     inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` },
     about: { "@type": "City", name: N, geo: { "@type": "GeoCoordinates", latitude: c.lat, longitude: c.lon }, containedInPlace: { "@type": "Country", name: country } } };
+  // Its link preview is this city's own map (scripts/build-og-live.py, served by worker.js).
   return render({ path: `/air/${c.id}/`, title: T.en.title(N), desc: T.en.desc(N, descTxt), body, jsonld,
+    ogImage: ogUrl(c.id), ogAlt: `${N}: the last 24 hours of fires within 250 km and the wind`,
     head: STYLE + AIR_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=1" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS });
 }
 

@@ -1,0 +1,29 @@
+# Link-preview images (og:image) for the live map and the 58 city pages, from the site's own live data
+# (scripts/build-og-live.py). All of them go to KV as one value, "og-live": 8 KV writes a day.
+name: Link previews
+
+on:
+  schedule:
+    - cron: "29 */3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: og-live
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow==11.0.0
+      - name: Draw and upload the previews
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          KV_NAMESPACE_ID: 80f0abe06205411bb5d4feb087c165f6
+        run: python3 -I scripts/build-og-live.py --upload

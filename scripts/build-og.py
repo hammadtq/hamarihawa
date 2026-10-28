@@ -101,6 +101,8 @@ def card(title, sub, points, pt_colour, kiln=False, name="map.png", fonts=None):
     d.rectangle((0, H - 78, W, H), fill=INK)
     d.text((56, H - 64), "hamarihawa.org", font=font(kalam, 44), fill=(255, 179, 168))
     d.text((W - 56, H - 50), "NASA FIRMS · Sentinel-5P · Copernicus", font=font(inter, 20, 400), fill=(170, 170, 175), anchor="ra")
+    if not name:  # scripts/build-og-live.py keeps the image
+        return img
     os.makedirs(OUT, exist_ok=True)
     img.save(os.path.join(OUT, name), optimize=True)
     print("wrote", name)

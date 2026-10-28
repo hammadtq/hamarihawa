@@ -174,12 +174,15 @@ function ord(n) {
 }
 
 // ---------- Shell ----------
-function render({ path, title, desc, body, jsonld, head = "", scripts = "", noindex = false }) {
+function render({ path, title, desc, body, jsonld, head = "", scripts = "", noindex = false, ogImage = "", ogAlt = "" }) {
   const robots = noindex ? '<meta name="robots" content="noindex, follow">\n' : "";
+  let shell = SHELL;
+  if (ogImage) shell = shell.replaceAll("https://hamarihawa.org/og/map-v3.png", ogImage);
+  if (ogAlt) shell = shell.replaceAll('content="HamariHawa: live fire and air map of Pakistan and India"', `content="${esc(ogAlt)}"`);
   const fill = { "@@PATH@@": path, "@@TITLE@@": esc(title), "@@DESC@@": esc(desc), "@@HEAD@@": robots + head, "@@SCRIPTS@@": scripts,
     "@@JSONLD@@": JSON.stringify(jsonld, null, 1).replace(/</g, "\\u003c") };
   for (const l of LANGS) fill[`@@BODY_${l}@@`] = body[l];
-  return SHELL.replace(/@@[A-Za-z_]+@@/g, (m) => fill[m] ?? m);
+  return shell.replace(/@@[A-Za-z_]+@@/g, (m) => fill[m] ?? m);
 }
 // Written out in full: Google's Dataset check rejects a bare {"@id"} reference as the creator.
 const ORG = { "@type": "Organization", "@id": `${SITE}/#org`, name: "HamariHawa", url: `${SITE}/` };

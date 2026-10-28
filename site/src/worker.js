@@ -1,6 +1,7 @@
 import { airKml, trafficKml, satelliteKml, kmlResponse } from "./kml.js";
 import { pages } from "./pages.js";
 import { airPages } from "./air.js";
+import { ogUrl } from "./og.js";
 // Hamari Hawa: serves the static site and the fire feed.
 // The feed itself is built every 15 minutes by scripts/build-feed.py (GitHub Actions)
 // and stored in KV, because naming every fire after its village is too much work
@@ -135,9 +136,17 @@ async function handle(request, env, url, ctx) {
       return meta ? kmlResponse(trafficKml(meta), 3600) : new Response("not built yet", { status: 503 });
     }
     if (url.pathname === "/kml/satellite.kml") return kmlResponse(satelliteKml(), 3600);
+    // Link-preview images drawn every 3 hours by scripts/build-og-live.py, all in one KV value.
+    const og = url.pathname.match(/^\/og\/live\/([a-z0-9-]{1,40})\.jpg$/);
+    if (og) return edgeCached(ctx, url.pathname, 1800, () => liveOg(env, og[1], url));
     if (url.pathname !== "/api/fires") {
       // City pages, and the daily fire and district pages, rendered from KV.
-      const res = (await airPages(url, env, ctx, edgeCached)) || (await pages(url, env, ctx, edgeCached)) || (await env.ASSETS.fetch(request));
+      let res = (await airPages(url, env, ctx, edgeCached)) || (await pages(url, env, ctx, edgeCached)) || (await env.ASSETS.fetch(request));
+      // The live map's link preview is today's map, not the fixed picture in index.html.
+      if ((url.pathname === "/" || url.pathname === "/index.html") && res.status === 200) {
+        const img = ogUrl("main");
+        res = new HTMLRewriter().on('meta[property="og:image"], meta[name="twitter:image"]', { element: (e) => e.setAttribute("content", img) }).transform(res);
+      }
       // hamarihawa.org is the canonical site; keep the workers.dev copy out of search results.
       if (url.hostname.endsWith(".workers.dev")) {
         const r = new Response(res.body, res);
@@ -162,6 +171,20 @@ async function handle(request, env, url, ctx) {
       return json(body, 200, 120);
     });
   }
+}
+
+// "og-live" is b"HHOG1", a 4-byte big-endian header length, a JSON header {generated, items: {id: [offset, length]}},
+// then the JPEGs. Until it exists (or for an id it lacks), answer with the fixed picture.
+async function liveOg(env, id, url) {
+  const fallback = () => Response.redirect(`${url.origin}/og/map-v3.png`, 302);
+  const buf = await env.FEED.get("og-live", { type: "arrayBuffer", cacheTtl: 600 });
+  if (!buf || buf.byteLength < 9 || new TextDecoder().decode(new Uint8Array(buf, 0, 5)) !== "HHOG1") return fallback();
+  const n = new DataView(buf).getUint32(5);
+  const head = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 9, n)));
+  const it = head.items?.[id];
+  if (!it) return id === "main" ? fallback() : new Response("not found", { status: 404 });
+  return new Response(buf.slice(9 + n + it[0], 9 + n + it[0] + it[1]), {
+    headers: { "content-type": "image/jpeg", "cache-control": "public, max-age=1800", "access-control-allow-origin": "*" } });
 }
 
 // Answer from this data centre's cache when we can, so repeat requests (and scrapers adding junk
