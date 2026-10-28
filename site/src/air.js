@@ -31,7 +31,7 @@ const T = {
     calm: (N, at) => `The air over ${N} is almost still right now (under 3 km/h, ${at}), so smoke from the city's own sources and from nearby fires can build up instead of blowing away.`,
     noWind: (N) => `We don't have a wind reading for ${N} right now.`,
     up: (N, n, all) => ` In the last 24 hours NASA's satellites saw <b>${n}</b> fires within 250 km upwind of ${N}, in the direction the wind is coming from, out of ${all} within 250 km in every direction.`,
-    upTop: (list) => ` Most were in ${list}.`, upMost: (list) => ` The largest numbers were in ${list}.`,
+    upTop: (list) => ` Most were in ${list}.`, upOne: (d) => ` It was in ${d}.`, upMost: (list) => ` The largest numbers were in ${list}.`,
     crop: (p) => ` ${p >= 99 ? "Nearly all" : `About ${p}%`} were on farmland, the pattern of crop-residue burning.`,
     span: (out, to) => out.replace(/the last 24 hours/g, `the 24 hours to ${to}`),
     noneUp: (all) => ` None of the ${all} fires seen within 250 km in the last 24 hours lie upwind, so the wind is not carrying their smoke here right now.`,
@@ -73,7 +73,7 @@ const T = {
     calm: (N, at) => `اس وقت ${N} پر ہوا تقریباً رکی ہوئی ہے (3 کلومیٹر فی گھنٹہ سے کم، ${at})، اس لیے شہر کے اپنے ذرائع اور قریب کی آگ کا دھواں اڑنے کے بجائے یہیں جمع ہو سکتا ہے۔`,
     noWind: (N) => `اس وقت ہمارے پاس ${N} کی ہوا کی معلومات نہیں ہیں۔`,
     up: (N, n, all) => ` پچھلے 24 گھنٹوں میں ناسا کے سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر ہوا کے رخ پر، یعنی جدھر سے ہوا آ رہی ہے، <b>${n}</b> جگہ آگ دیکھی، جبکہ ہر سمت میں 250 کلومیٹر کے اندر کل ${all} جگہ۔`,
-    upTop: (list) => ` ان میں سے زیادہ تر ${list} میں تھیں۔`, upMost: (list) => ` سب سے زیادہ ${list} میں تھیں۔`,
+    upTop: (list) => ` ان میں سے زیادہ تر ${list} میں تھیں۔`, upOne: (d) => ` یہ ${d} میں تھی۔`, upMost: (list) => ` سب سے زیادہ ${list} میں تھیں۔`,
     crop: (p) => ` ${p >= 99 ? "تقریباً سب" : `تقریباً ${p}%`} کھیتوں میں تھیں، جو فصلوں کی باقیات جلانے کا انداز ہے۔`,
     span: (out, to) => out.replace(/پچھلے 24 گھنٹوں/g, `${to} تک کے 24 گھنٹوں`),
     noneUp: (all) => ` پچھلے 24 گھنٹوں میں 250 کلومیٹر کے اندر دیکھی گئی ${all} آگ میں سے کوئی بھی ہوا کے رخ پر نہیں، اس لیے ہوا اس وقت ان کا دھواں یہاں نہیں لا رہی۔`,
@@ -110,7 +110,7 @@ const T = {
     calm: (N, at) => `इस समय ${N} पर हवा लगभग थमी हुई है (3 किमी/घंटा से कम, ${at}), इसलिए शहर के अपने स्रोतों और पास की आग का धुआँ उड़ने के बजाय यहीं जमा हो सकता है।`,
     noWind: (N) => `इस समय हमारे पास ${N} की हवा की जानकारी नहीं है।`,
     up: (N, n, all) => ` पिछले 24 घंटों में नासा के उपग्रहों ने ${N} से 250 किमी के भीतर हवा के रुख़ पर, यानी जिधर से हवा आ रही है, <b>${n}</b> जगह आग देखी, जबकि हर दिशा में 250 किमी के भीतर कुल ${all} जगह।`,
-    upTop: (list) => ` इनमें से ज़्यादातर ${list} में थीं।`, upMost: (list) => ` सबसे ज़्यादा ${list} में थीं।`,
+    upTop: (list) => ` इनमें से ज़्यादातर ${list} में थीं।`, upOne: (d) => ` यह ${d} में थी।`, upMost: (list) => ` सबसे ज़्यादा ${list} में थीं।`,
     crop: (p) => ` ${p >= 99 ? "लगभग सभी" : `लगभग ${p}%`} खेतों में थीं, जो पराली जलाने का पैटर्न है।`,
     span: (out, to) => out.replace(/पिछले 24 घंटों/g, `${to} तक के 24 घंटों`),
     noneUp: (all) => ` पिछले 24 घंटों में 250 किमी के भीतर दिखी ${all} आग में से कोई भी हवा के रुख़ पर नहीं है, इसलिए हवा इस समय उनका धुआँ यहाँ नहीं ला रही।`,
@@ -230,7 +230,7 @@ function ledeText(t, l, N, c, s, data, windTime) {
   // "Most" only when the two biggest districts really hold most of them; otherwise just name the biggest.
   const top2 = s.upRows.slice(0, 2), share = top2.reduce((x, r) => x + r.n, 0) / s.upN;
   const top = top2.map((r) => esc(districtName(data, r.di).name)).join(t.and);
-  if (top2.length) out += share > 0.5 ? t.upTop(top) : t.upMost(top);
+  if (top2.length) out += s.upN === 1 ? t.upOne(top) : share > 0.5 ? t.upTop(top) : t.upMost(top);
   if (s.upN >= 10 && s.upCrop / s.upN >= 0.5) out += t.crop(pct(s.upCrop, s.upN));
   return out;
 }
