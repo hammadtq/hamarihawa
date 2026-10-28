@@ -39,7 +39,7 @@ const T = {
     airLine: "US AQI {aqi} ({band}). PM2.5 has averaged {pm} µg/m³ over 24 hours, {who} times the WHO limit, like smoking {cigs} cigarettes a day.",
     airWait: (map) => `Loading the latest reading (Copernicus CAMS model estimates via Open-Meteo)… It is also on the <a href="${map}">live map</a>.`,
     hMap: "Map of the fires around the city, last 24 hours",
-    mapNote: "Each dot is one fire a NASA satellite saw. Red dots are upwind, in the direction the wind is coming from, so their smoke is the likeliest to be reaching the city now; grey dots are in other directions. The arrows show the wind. Tap a dot for the village and the time.",
+    mapNote: "Each dot is one fire a NASA satellite saw. Red dots are upwind, in the direction the wind is coming from, so their smoke is the likeliest to be reaching the city now; grey dots are in other directions. The moving lines show the wind blowing towards the city. Tap a dot for the village and the time.",
     hUp: "Upwind districts, last 24 hours", hDir: "Fires within 250 km by direction, last 24 hours", hWeek: "Fires within 250 km in the last 7 days",
     thDistrict: "District", thState: "Province or state", thCountry: "Country", thDir: "Direction", thKm: "Distance", thFires: "Fires", thCrop: "On farmland",
     thFrom: "From the", windHere: "the wind is coming from here",
@@ -82,7 +82,7 @@ const T = {
     hUp: "ہوا کے رخ پر اضلاع، پچھلے 24 گھنٹے", hDir: "250 کلومیٹر کے اندر آگ، سمت کے لحاظ سے، پچھلے 24 گھنٹے", hWeek: "پچھلے 7 دنوں میں 250 کلومیٹر کے اندر آگ",
     thDistrict: "ضلع", thState: "صوبہ یا ریاست", thCountry: "ملک", thDir: "سمت", thKm: "فاصلہ", thFires: "آگ", thCrop: "کھیتوں میں",
     hMap: "شہر کے آس پاس آگ کا نقشہ، پچھلے 24 گھنٹے",
-    mapNote: "ہر نقطہ وہ ایک آگ ہے جو ناسا کے سیٹلائٹ نے دیکھی۔ سرخ نقطے ہوا کے رخ پر ہیں، جدھر سے ہوا آ رہی ہے، اس لیے ان کا دھواں اس وقت شہر تک پہنچنے کا سب سے زیادہ امکان ہے؛ سرمئی نقطے دوسری سمتوں میں ہیں۔ تیر ہوا کا رخ دکھاتے ہیں۔ گاؤں اور وقت کے لیے نقطے پر ٹیپ کریں۔",
+    mapNote: "ہر نقطہ وہ ایک آگ ہے جو ناسا کے سیٹلائٹ نے دیکھی۔ سرخ نقطے ہوا کے رخ پر ہیں، جدھر سے ہوا آ رہی ہے، اس لیے ان کا دھواں اس وقت شہر تک پہنچنے کا سب سے زیادہ امکان ہے؛ سرمئی نقطے دوسری سمتوں میں ہیں۔ چلتی لکیریں شہر کی طرف آتی ہوا دکھاتی ہیں۔ گاؤں اور وقت کے لیے نقطے پر ٹیپ کریں۔",
     thFrom: "سمت", windHere: "ہوا اسی طرف سے آ رہی ہے",
     weekNone: "پچھلے 7 دنوں میں 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی گئی۔",
     hLocal: "50 کلومیٹر کے اندر آلودگی کے ذرائع",
@@ -118,7 +118,7 @@ const T = {
     hUp: "हवा के रुख़ पर ज़िले, पिछले 24 घंटे", hDir: "250 किमी के भीतर आग, दिशा के हिसाब से, पिछले 24 घंटे", hWeek: "पिछले 7 दिनों में 250 किमी के भीतर आग",
     thDistrict: "ज़िला", thState: "प्रांत या राज्य", thCountry: "देश", thDir: "दिशा", thKm: "दूरी", thFires: "आग", thCrop: "खेतों में",
     hMap: "शहर के आसपास आग का नक्शा, पिछले 24 घंटे",
-    mapNote: "हर बिंदु एक आग है जो नासा के उपग्रह ने देखी। लाल बिंदु हवा के रुख़ पर हैं, जिधर से हवा आ रही है, इसलिए इनका धुआँ इस समय शहर तक पहुँचने की सबसे ज़्यादा संभावना है; धूसर बिंदु दूसरी दिशाओं में हैं। तीर हवा दिखाते हैं। गाँव और समय के लिए बिंदु पर टैप करें।",
+    mapNote: "हर बिंदु एक आग है जो नासा के उपग्रह ने देखी। लाल बिंदु हवा के रुख़ पर हैं, जिधर से हवा आ रही है, इसलिए इनका धुआँ इस समय शहर तक पहुँचने की सबसे ज़्यादा संभावना है; धूसर बिंदु दूसरी दिशाओं में हैं। चलती लकीरें शहर की ओर आती हवा दिखाती हैं। गाँव और समय के लिए बिंदु पर टैप करें।",
     thFrom: "दिशा", windHere: "हवा इसी तरफ़ से आ रही है",
     weekNone: "पिछले 7 दिनों में 250 किमी के भीतर कोई आग नहीं दिखी।",
     hLocal: "50 किमी के भीतर प्रदूषण के स्रोत",
@@ -142,7 +142,7 @@ const AIR_STYLE = `<style>
   .air-now b { font-variant-numeric: tabular-nums; }
   .doc tr.wind-here td { font-weight: 600; }
   .doc ul.links li { margin-top: 4px; }
-  .near-wind { background: rgba(255,255,255,.92); border: 1px solid var(--hair); border-radius: 6px; padding: 6px 9px; font: 13px/1.35 var(--sans); color: var(--ink); display: grid; grid-template-columns: auto 1fr; gap: 2px 6px; align-items: center; max-width: 210px; }
+  .near-wind { background: rgba(255,255,255,.92); border: 1px solid var(--hair); border-radius: 6px; padding: 6px 9px; font: 13px/1.35 var(--sans); color: var(--ink); display: grid; grid-template-columns: 1fr; gap: 2px 6px; align-items: center; max-width: 210px; }
   .near-wind svg { grid-row: span 1; }
   .near-wind .k { grid-column: 1 / -1; color: var(--ink-3); font-size: 12px; }
   .near-wind .k i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-inline-end: 5px; vertical-align: -1px; }
@@ -150,7 +150,7 @@ const AIR_STYLE = `<style>
 
 const LEAFLET_CSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n';
 const LEAFLET_JS = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n';
-const NEAR_JS = '<script src="/near-map.js?v=2"></script>\n';
+const NEAR_JS = '<script src="/near-map.js?v=3"></script>\n';
 
 // Local time of a UTC instant (ms) for a city's country: "25 October, 18:40 PKT".
 function at(ms, cc, l) {

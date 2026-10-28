@@ -65,10 +65,78 @@
   const around = (all, lat, lon, km) => all.map((f) => ({ ...f, km: dist(lat, lon, f.lat, f.lon) })).filter((f) => f.km <= km).sort((a, b) => a.km - b.km);
 
   const angle = (a, b) => { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; };
-  // An arrow pointing the way the wind blows (from `deg`, so towards deg + 180).
-  const arrow = (deg, size) => L.divIcon({ className: "", iconSize: [size, size], iconAnchor: [size / 2, size / 2],
-    html: `<svg width="${size}" height="${size}" viewBox="-12 -12 24 24" style="transform:rotate(${deg + 180}deg);overflow:visible">` +
-      '<path d="M0 -11 L7 1 L2.5 0 L2.5 11 L-2.5 11 L-2.5 0 L-7 1 Z" fill="#2f6f9f" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>' });
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Wind streaks, as on the live map, but only inside the upwind wedge: they drift with the wind towards
+  // the city and are respawned when they leave the wedge or grow old.
+  function streaks(map, lat, lon, wind, km, speed) {
+    map.createPane("streaks").style.zIndex = 390; // under the fire dots
+    const pane = map.getPane("streaks");
+    pane.style.pointerEvents = "none";
+    const canvas = L.DomUtil.create("canvas", "", pane), ctx = canvas.getContext("2d");
+    const step = Math.min(2.4, 0.7 + (speed || 5) * 0.09), MAX_AGE = 120;
+    const go = ((wind + 180) * Math.PI) / 180, vx = Math.sin(go) * step, vy = -Math.cos(go) * step; // screen y points down
+    let W = 0, H = 0, wedge = [], parts = [], raf = 0, frames = 0, visible = true;
+    const inside = (x, y) => { // point in polygon
+      let c = false;
+      for (let i = 0, j = wedge.length - 1; i < wedge.length; j = i++) {
+        const [xi, yi] = wedge[i], [xj, yj] = wedge[j];
+        if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c;
+      }
+      return c;
+    };
+    const spawn = (p) => {
+      for (let k = 0; k < 30; k++) { p.x = Math.random() * W; p.y = Math.random() * H; if (inside(p.x, p.y)) break; }
+      p.age = Math.floor(Math.random() * MAX_AGE);
+    };
+    function build() {
+      const size = map.getSize(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = size.x; H = size.y;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + "px"; canvas.style.height = H + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      L.DomUtil.setPosition(canvas, map.containerPointToLayerPoint([0, 0]));
+      const pt = (ll) => { const q = map.latLngToContainerPoint(ll); return [q.x, q.y]; };
+      wedge = [pt([lat, lon])];
+      for (let a = -UPWIND; a <= UPWIND; a += 5) wedge.push(pt(toward(lat, lon, wind + a, km)));
+      const area = Math.abs(wedge.reduce((s, [x, y], i) => { const [x2, y2] = wedge[(i + 1) % wedge.length]; return s + x * y2 - x2 * y; }, 0)) / 2;
+      const vis = Math.min(area, W * H);
+      parts = Array.from({ length: Math.round(Math.min(600, vis / 650)) }, () => { const p = {}; spawn(p); return p; });
+      ctx.clearRect(0, 0, W, H);
+      frames = 0;
+    }
+    function frame() {
+      raf = 0;
+      if (!document.hidden && visible) {
+        ctx.globalCompositeOperation = "destination-in";
+        ctx.fillStyle = "rgba(0,0,0,0.92)";
+        ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = "source-over";
+        ctx.strokeStyle = "rgba(38,58,92,0.5)";
+        ctx.lineWidth = 1.1;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        for (const p of parts) {
+          const nx = p.x + vx, ny = p.y + vy;
+          if (++p.age > MAX_AGE || !inside(nx, ny)) { spawn(p); p.age = 0; continue; }
+          ctx.moveTo(p.x, p.y); ctx.lineTo(nx, ny);
+          p.x = nx; p.y = ny;
+        }
+        ctx.stroke();
+        frames++;
+      }
+      if (reduced && frames > 60) return;
+      raf = requestAnimationFrame(frame);
+    }
+    const start = () => { build(); if (!raf) raf = requestAnimationFrame(frame); };
+    const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; ctx.clearRect(0, 0, W, H); };
+    map.on("movestart zoomstart", stop);
+    map.on("moveend zoomend resize", start);
+    // Pause while the map is scrolled out of view.
+    if ("IntersectionObserver" in window) new IntersectionObserver((es) => { visible = es.some((e) => e.isIntersecting); }).observe(map.getContainer());
+    start();
+    map.on("unload", stop);
+  }
 
   function draw(el, pts, lat, lon, km, wind, l) {
     if (el._map) { el._map.remove(); el._map = null; }
@@ -103,13 +171,12 @@
     const r = Math.max(40, Math.min(km, key.length ? key[Math.min(key.length, 25) - 1].km * 1.15 : km));
     map.fitBounds(L.latLng(lat, lon).toBounds(r * 2000), { padding: [8, 8] });
     if (wind != null) {
-      // Arrows along the wind into the city, and the wind in words in the corner.
-      for (const f of [0.35, 0.7]) L.marker(toward(lat, lon, wind, r * f), { icon: arrow(wind, 34), interactive: false, keyboard: false }).addTo(map);
+      // Streaks drifting into the city inside the upwind wedge, and the wind in words in the corner.
+      map.whenReady(() => streaks(map, lat, lon, wind, km, +el.dataset.speed));
       const box = L.control({ position: "topright" });
       box.onAdd = () => {
         const d = L.DomUtil.create("div", "near-wind");
-        d.innerHTML = `<svg width="22" height="22" viewBox="-12 -12 24 24" style="transform:rotate(${wind + 180}deg)"><path d="M0 -11 L7 1 L2.5 0 L2.5 11 L-2.5 11 L-2.5 0 L-7 1 Z" fill="#2f6f9f"/></svg>` +
-          `<span>${t.windFrom(t.dirs[Math.round(wind / 45) % 8], el.dataset.speed ? nf.format(+el.dataset.speed) : "")}</span>` +
+        d.innerHTML = `<span>${t.windFrom(t.dirs[Math.round(wind / 45) % 8], el.dataset.speed ? nf.format(+el.dataset.speed) : "")}</span>` +
           `<span class="k"><i style="background:#e3321f"></i>${t.keyUp}</span><span class="k"><i style="background:#c4c4c4"></i>${t.keyOther}</span>`;
         return d;
       };
