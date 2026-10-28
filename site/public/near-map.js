@@ -67,17 +67,32 @@
   const angle = (a, b) => { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; };
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Wind streaks, as on the live map, but only inside the upwind wedge: they drift with the wind towards
-  // the city and are respawned when they leave the wedge or grow old.
-  function streaks(map, lat, lon, wind, km, speed) {
+  // Wind streaks drawn as the live map draws them (wind.js): the same hourly grid from /api/wind, the same
+  // speed, density and ink, but only inside the upwind wedge. A streak that leaves the wedge starts again inside.
+  const RAD = Math.PI / 180;
+  let windGrid;
+  const loadWind = () => (windGrid ||= fetch("/api/wind").then((r) => (r.ok ? r.json() : null)).catch(() => null).then((g) => {
+    if (!g) return null;
+    g.u = g.speed.map((v, i) => -v * Math.sin(g.dir[i] * RAD)); // towards the east
+    g.v = g.speed.map((v, i) => -v * Math.cos(g.dir[i] * RAD)); // towards the north
+    return g;
+  }));
+  function sample(g, lat, lon) {
+    const st = g.step || 1, x = (lon - g.lon0) / st, y = (lat - g.lat0) / st;
+    if (x < 0 || y < 0 || x > g.nx - 1 || y > g.ny - 1) return null;
+    const x0 = Math.min(g.nx - 2, Math.floor(x)), y0 = Math.min(g.ny - 2, Math.floor(y)), fx = x - x0, fy = y - y0;
+    const at = (a, yy, xx) => a[yy * g.nx + xx];
+    const lerp = (a) => (at(a, y0, x0) * (1 - fx) + at(a, y0, x0 + 1) * fx) * (1 - fy) + (at(a, y0 + 1, x0) * (1 - fx) + at(a, y0 + 1, x0 + 1) * fx) * fy;
+    return [lerp(g.u), lerp(g.v)];
+  }
+  function streaks(map, lat, lon, wind, km, g) {
     map.createPane("streaks").style.zIndex = 390; // under the fire dots
     const pane = map.getPane("streaks");
     pane.style.pointerEvents = "none";
     const canvas = L.DomUtil.create("canvas", "", pane), ctx = canvas.getContext("2d");
-    const step = Math.min(2.4, 0.7 + (speed || 5) * 0.09), MAX_AGE = 120;
-    const go = ((wind + 180) * Math.PI) / 180, vx = Math.sin(go) * step, vy = -Math.cos(go) * step; // screen y points down
-    let W = 0, H = 0, wedge = [], parts = [], raf = 0, frames = 0, visible = true;
-    const inside = (x, y) => { // point in polygon
+    const CELL = 8, PX_PER_KMH = 0.035, MAX_AGE = 90; // as in wind.js
+    let W = 0, H = 0, wedge = [], field = null, cols = 0, rows = 0, parts = [], raf = 0, frames = 0, visible = true;
+    const inside = (x, y) => {
       let c = false;
       for (let i = 0, j = wedge.length - 1; i < wedge.length; j = i++) {
         const [xi, yi] = wedge[i], [xj, yj] = wedge[j];
@@ -85,8 +100,14 @@
       }
       return c;
     };
+    const fieldAt = (x, y) => {
+      const c = Math.round(x / CELL), r = Math.round(y / CELL);
+      if (c < 0 || r < 0 || c >= cols || r >= rows) return null;
+      const i = (r * cols + c) * 2;
+      return Number.isNaN(field[i]) ? null : [field[i], field[i + 1]];
+    };
     const spawn = (p) => {
-      for (let k = 0; k < 30; k++) { p.x = Math.random() * W; p.y = Math.random() * H; if (inside(p.x, p.y)) break; }
+      for (let k = 0; k < 30; k++) { p.x = Math.random() * W; p.y = Math.random() * H; if (inside(p.x, p.y) && fieldAt(p.x, p.y)) break; }
       p.age = Math.floor(Math.random() * MAX_AGE);
     };
     function build() {
@@ -99,9 +120,16 @@
       const pt = (ll) => { const q = map.latLngToContainerPoint(ll); return [q.x, q.y]; };
       wedge = [pt([lat, lon])];
       for (let a = -UPWIND; a <= UPWIND; a += 5) wedge.push(pt(toward(lat, lon, wind + a, km)));
-      const area = Math.abs(wedge.reduce((s, [x, y], i) => { const [x2, y2] = wedge[(i + 1) % wedge.length]; return s + x * y2 - x2 * y; }, 0)) / 2;
-      const vis = Math.min(area, W * H);
-      parts = Array.from({ length: Math.round(Math.min(600, vis / 650)) }, () => { const p = {}; spawn(p); return p; });
+      cols = Math.ceil(W / CELL) + 1; rows = Math.ceil(H / CELL) + 1;
+      field = new Float32Array(cols * rows * 2);
+      let n = 0;
+      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+        const i = (r * cols + c) * 2, ok = inside(c * CELL, r * CELL);
+        const ll = ok && map.containerPointToLatLng([c * CELL, r * CELL]), w = ok && sample(g, ll.lat, ll.lng);
+        if (w) { field[i] = w[0] * PX_PER_KMH; field[i + 1] = -w[1] * PX_PER_KMH; n++; } else { field[i] = NaN; field[i + 1] = NaN; }
+      }
+      // The live map's density, for the part of the map the wedge covers.
+      parts = Array.from({ length: Math.round(Math.min(2200, (n * CELL * CELL) / 520)) }, () => { const p = {}; spawn(p); return p; });
       ctx.clearRect(0, 0, W, H);
       frames = 0;
     }
@@ -112,30 +140,30 @@
         ctx.fillStyle = "rgba(0,0,0,0.92)";
         ctx.fillRect(0, 0, W, H);
         ctx.globalCompositeOperation = "source-over";
-        ctx.strokeStyle = "rgba(38,58,92,0.5)";
+        ctx.strokeStyle = "rgba(38,38,52,0.6)";
         ctx.lineWidth = 1.1;
         ctx.lineCap = "round";
         ctx.beginPath();
         for (const p of parts) {
-          const nx = p.x + vx, ny = p.y + vy;
-          if (++p.age > MAX_AGE || !inside(nx, ny)) { spawn(p); p.age = 0; continue; }
+          const v = fieldAt(p.x, p.y);
+          if (!v || ++p.age > MAX_AGE || !inside(p.x, p.y)) { spawn(p); p.age = 0; continue; }
+          const nx = p.x + v[0], ny = p.y + v[1];
           ctx.moveTo(p.x, p.y); ctx.lineTo(nx, ny);
           p.x = nx; p.y = ny;
         }
         ctx.stroke();
         frames++;
       }
-      if (reduced && frames > 60) return;
+      if (reduced && frames > 45) return;
       raf = requestAnimationFrame(frame);
     }
     const start = () => { build(); if (!raf) raf = requestAnimationFrame(frame); };
     const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; ctx.clearRect(0, 0, W, H); };
     map.on("movestart zoomstart", stop);
     map.on("moveend zoomend resize", start);
-    // Pause while the map is scrolled out of view.
     if ("IntersectionObserver" in window) new IntersectionObserver((es) => { visible = es.some((e) => e.isIntersecting); }).observe(map.getContainer());
-    start();
     map.on("unload", stop);
+    start();
   }
 
   function draw(el, pts, lat, lon, km, wind, l) {
@@ -172,7 +200,7 @@
     map.fitBounds(L.latLng(lat, lon).toBounds(r * 2000), { padding: [8, 8] });
     if (wind != null) {
       // Streaks drifting into the city inside the upwind wedge, and the wind in words in the corner.
-      map.whenReady(() => streaks(map, lat, lon, wind, km, +el.dataset.speed));
+      loadWind().then((g) => { if (g && el._map === map) streaks(map, lat, lon, wind, km, g); });
       const box = L.control({ position: "topright" });
       box.onAdd = () => {
         const d = L.DomUtil.create("div", "near-wind");
