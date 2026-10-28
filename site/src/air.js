@@ -155,7 +155,7 @@ const AIR_STYLE = `<style>
 
 const LEAFLET_CSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n';
 const LEAFLET_JS = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n';
-const NEAR_JS = '<script src="/near-map.js?v=6"></script>\n';
+const NEAR_JS = '<script src="/near-map.js?v=7"></script>\n';
 const SHARE_JS = '<script src="/share-map.js?v=6"></script>\n';
 
 // Local time of a UTC instant (ms) for a city's country: "25 October, 18:40 PKT".
@@ -272,7 +272,7 @@ function cityPage(c, data, wind, extra = {}) {
     links.push(`<a href="/fires/">${t.daily}</a>`, `<a href="/trends/">${t.trends}</a>`, `<a href="/air/">${t.allCities}</a>`);
     const nearby = (c.nearby || []).map(([id, km]) => BY_ID.get(id) && `<a href="/air/${id}/">${esc(BY_ID.get(id).name[l])}</a> (${t.km(n(km))})`).filter(Boolean);
     h += `  <h2>${t.hMore(N)}</h2>\n  <ul class="links">${links.map((x) => `<li>${x}</li>`).join("")}</ul>\n`;
-    if (nearby.length) h += `  <p>${t.nearby} ${nearby.join(l === "en" ? ", " : "، ")}</p>\n`;
+    if (nearby.length) h += `  <p>${t.nearby} ${nearby.join(l === "ur" ? "، " : ", ")}</p>\n`;
     h += `  <p class="muted" style="margin-top:18px">${latest ? t.updated(at(latest, c.cc, l)) + " " : ""}${t.caveat}</p>`;
     body[l] = h;
   }

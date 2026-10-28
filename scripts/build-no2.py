@@ -332,9 +332,9 @@ def main():
             pk = [round(float(smooth[sub][py, px]), 2), *label(pla, plo)[:2], round(float(d[py, px])), round(pla, 3), round(plo, 3)]
         cvals[c["id"]] = {"m": round(float(mean[sub][v15].mean()) / 1e15, 2) if ok else None,
                           "r": round(float(ratio[sub][v15].mean()), 2) if ok else None, "cov": round(cov, 2), "peak": pk}
-    ranked = sorted((k for k, v in cvals.items() if v and v["r"] is not None), key=lambda k: -cvals[k]["r"])
-    for i, k in enumerate(ranked):
-        cvals[k]["rank"] = i + 1
+    ranked = [k for k, v in cvals.items() if v and v["r"] is not None]
+    for k in ranked:  # ties share a rank, as on /rankings/
+        cvals[k]["rank"] = 1 + sum(1 for o in ranked if cvals[o]["r"] > cvals[k]["r"])
     prev = {}
     if a.upload:
         acct, ns, tok = os.environ["CLOUDFLARE_ACCOUNT_ID"], os.environ["KV_NAMESPACE_ID"], os.environ["CLOUDFLARE_API_TOKEN"]

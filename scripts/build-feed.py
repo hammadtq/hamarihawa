@@ -475,6 +475,10 @@ def feed_v2(feed):
                points=rows)
     if feed["hours"] == 168:
         out["spots"] = feed["_spot_idx"]
+    else:
+        # The same list for the shorter windows, under its own name so the live map keeps drawing every
+        # detection there; the city maps and link previews count fires from it, exactly as the pages do.
+        out["distinct"] = feed["_spot_idx"]
     return out
 
 
@@ -945,6 +949,9 @@ def add_city_days(store, points, keep):
     ids = [c["id"] for c in CITIES]
     if store.get("cities") != ids:  # the city list changed: keep what lines up by id, the rest is unknown
         old = store.get("cities") or []
+        new = [cid for cid in ids if cid not in old]
+        if old and new:
+            print(f"  city-days: no history yet for {', '.join(new)}; run scripts/backfill-city-fires.py to fill it", file=sys.stderr)
         pos = {cid: i for i, cid in enumerate(old)}
         store["days"] = {d: [rows[pos[cid]] if cid in pos else None for cid in ids] for d, rows in (store.get("days") or {}).items()}
         store["cities"] = ids
@@ -1146,7 +1153,9 @@ def main():
                 summary = city_fires(store, index, pk_today, int(now))
                 fbody = json.dumps(summary, separators=(",", ":"), ensure_ascii=False).encode()
                 open(os.path.join(a.out, "city-fires.json"), "wb").write(fbody)
-                if slow and pub.put("city-days", sbody):
+                # The store and its summary go out together or not at all (plus the state key), so the summary
+                # never lags its store when the day's write allowance runs low.
+                if slow and pub.state["writes"] + 3 <= pub.LIMIT and pub.put("city-days", sbody):
                     pub.put("city-fires", fbody, json.dumps({k: v for k, v in summary.items() if k != "generated"}, separators=(",", ":")).encode())
         # Only the latest run of days built for the whole region (they carry snc), so the chart doesn't
         # jump where the coverage grew.

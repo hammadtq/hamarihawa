@@ -246,7 +246,9 @@ def main():
     ap.add_argument("--upload", action="store_true")
     a = ap.parse_args()
     feed, wind = get("/api/fires?hours=24&v=2"), get("/api/wind")
-    pts = distinct([[r[0], r[1], r[2], r[3], r[4]] for r in feed["points"]])
+    rows = [[r[0], r[1], r[2], r[3], r[4]] for r in feed["points"]]
+    # The feed lists its distinct spots ("distinct"), exactly as the city pages count them; older feeds don't.
+    pts = [rows[i] for i in feed["distinct"]] if feed.get("distinct") is not None else distinct(rows)
     borders = json.load(open(os.path.join(ROOT, "data", "places", "borders.json"), encoding="utf-8"))
     towns = [t for t in json.load(open(os.path.join(ROOT, "site", "src", "towns.json"), encoding="utf-8")) if t[-1] >= 250000]
     cities = json.load(open(os.path.join(ROOT, "site", "src", "cities.json"), encoding="utf-8"))

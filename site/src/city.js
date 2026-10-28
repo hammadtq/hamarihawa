@@ -29,7 +29,7 @@ const T = {
   en: {
     hFires: (N) => `Fires around ${N} in the last 30 days`,
     firesLede: (N, n30, n50, last, days) => `NASA's satellites saw <b>${n30}</b> fire spots within 250 km of ${N} in the ${days} days to ${last}, <b>${n50}</b> of them within 50 km.`,
-    firesNone: (N, last) => `NASA's satellites saw no fires within 250 km of ${N} in the 30 days to ${last}.`,
+    firesNone: (N, last, days) => `NASA's satellites saw no fires within 250 km of ${N} in the ${days} days to ${last}.`,
     key250: "within 250 km", key50: "within 50 km", noDay: "no data",
     chartFires: (N) => `Fire spots around ${N} per day`,
     firesNote: "A fire spot is one fire seen on a day, however many satellites saw it (Pakistan-time days). The archive runs every day from 1 October 2026; before that it holds only the October-November seasons.",
@@ -37,7 +37,7 @@ const T = {
     seasonLede: (N, to) => `Fire spots within 250 km of ${N} from 1 October to ${to}, each year. These count Suomi NPP alone, so every year is measured by the same instrument and the years compare fairly (the 30-day chart above counts all five satellites, three VIIRS and two MODIS, so its numbers are higher).`,
     seasonLedeDone: (N) => `Fire spots within 250 km of ${N} over each whole season, 1 October to 30 November, counted from Suomi NPP alone, so every year is measured by the same instrument.`,
     thYear: "Season", thSpots: "Fire spots", thVsNow: "This season",
-    soFar: "so far", gapNote: (n, one) => `Suomi NPP missed ${n} day${one ? "" : "s"}: a floor`, noData: "no data",
+    soFar: "so far", gapNote: (n, one) => `${n} day${one ? "" : "s"} without Suomi NPP data: a floor`, noData: "no data",
     seasonUp: (N, p, y) => `So far this season there have been ${p}% more fire spots around ${N} than at the same point in ${y}.`,
     seasonDown: (N, p, y) => `So far this season there have been ${p}% fewer fire spots around ${N} than at the same point in ${y}.`,
     hNo2: (N) => `NO₂ pollution in ${N}: traffic, industry and power plants`,
@@ -102,7 +102,7 @@ const T = {
   ur: {
     hFires: (N) => `پچھلے 30 دن میں ${N} کے آس پاس آگ`,
     firesLede: (N, n30, n50, last, days) => `${last} تک کے ${days} دنوں میں ناسا کے سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر <b>${n30}</b> جگہ آگ دیکھی، جن میں سے <b>${n50}</b> 50 کلومیٹر کے اندر تھیں۔`,
-    firesNone: (N, last) => `${last} تک کے 30 دنوں میں ناسا کے سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی۔`,
+    firesNone: (N, last, days) => `${last} تک کے ${days} دنوں میں ناسا کے سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی۔`,
     key250: "250 کلومیٹر کے اندر", key50: "50 کلومیٹر کے اندر", noDay: "معلومات نہیں",
     chartFires: (N) => `${N} کے آس پاس روزانہ آگ`,
     firesNote: "ایک دن میں ایک جگہ کی آگ ایک بار گنی جاتی ہے، چاہے اسے کتنے ہی سیٹلائٹس نے دیکھا ہو (پاکستانی وقت کے دن)۔ ریکارڈ یکم اکتوبر 2026 سے ہر دن کا ہے؛ اس سے پہلے صرف اکتوبر-نومبر کے موسم۔",
@@ -110,7 +110,7 @@ const T = {
     seasonLede: (N, to) => `ہر سال یکم اکتوبر سے ${to} تک ${N} سے 250 کلومیٹر کے اندر آگ۔ یہ صرف سومی این پی پی سیٹلائٹ کی گنتی ہے، اس لیے ہر سال ایک ہی آلے سے ناپا گیا اور برسوں کا موازنہ منصفانہ ہے (اوپر والا 30 دن کا چارٹ پانچوں سیٹلائٹس گنتا ہے، تین VIIRS اور دو MODIS، اس لیے اس کے اعداد زیادہ ہیں)۔`,
     seasonLedeDone: (N) => `ہر پورے موسم میں، یکم اکتوبر سے 30 نومبر تک، ${N} سے 250 کلومیٹر کے اندر آگ، صرف سومی این پی پی کی گنتی سے، تاکہ ہر سال ایک ہی آلے سے ناپا جائے۔`,
     thYear: "موسم", thSpots: "آگ", thVsNow: "یہ موسم",
-    soFar: "اب تک", gapNote: (n) => `سومی این پی پی ${n} دن کی معلومات نہیں دے سکا: کم از کم`, noData: "معلومات نہیں",
+    soFar: "اب تک", gapNote: (n) => `${n} دن سومی این پی پی کی معلومات کے بغیر: کم از کم`, noData: "معلومات نہیں",
     seasonUp: (N, p, y) => `اس موسم میں اب تک ${N} کے آس پاس ${y} کے اسی وقت کے مقابلے میں ${p}% زیادہ آگ دیکھی گئی۔`,
     seasonDown: (N, p, y) => `اس موسم میں اب تک ${N} کے آس پاس ${y} کے اسی وقت کے مقابلے میں ${p}% کم آگ دیکھی گئی۔`,
     hNo2: (N) => `${N} میں NO₂ آلودگی: ٹریفک، صنعت اور بجلی گھر`,
@@ -174,7 +174,7 @@ const T = {
   hi: {
     hFires: (N) => `पिछले 30 दिनों में ${N} के आसपास आग`,
     firesLede: (N, n30, n50, last, days) => `${last} तक के ${days} दिनों में नासा के उपग्रहों ने ${N} से 250 किमी के भीतर <b>${n30}</b> जगह आग देखी, जिनमें से <b>${n50}</b> 50 किमी के भीतर थीं।`,
-    firesNone: (N, last) => `${last} तक के 30 दिनों में नासा के उपग्रहों ने ${N} से 250 किमी के भीतर कोई आग नहीं देखी।`,
+    firesNone: (N, last, days) => `${last} तक के ${days} दिनों में नासा के उपग्रहों ने ${N} से 250 किमी के भीतर कोई आग नहीं देखी।`,
     key250: "250 किमी के भीतर", key50: "50 किमी के भीतर", noDay: "डेटा नहीं",
     chartFires: (N) => `${N} के आसपास रोज़ की आग`,
     firesNote: "एक दिन में एक जगह की आग एक बार गिनी जाती है, चाहे उसे कितने भी उपग्रहों ने देखा हो (पाकिस्तानी समय के दिन)। रिकॉर्ड 1 अक्टूबर 2026 से हर दिन का है; उससे पहले सिर्फ़ अक्टूबर-नवंबर के मौसम।",
@@ -182,7 +182,7 @@ const T = {
     seasonLede: (N, to) => `हर साल 1 अक्टूबर से ${to} तक ${N} से 250 किमी के भीतर आग। यह सिर्फ़ सुओमी एनपीपी उपग्रह की गिनती है, इसलिए हर साल एक ही उपकरण से मापा गया और सालों की तुलना निष्पक्ष है (ऊपर का 30 दिन का चार्ट पाँचों उपग्रह गिनता है, तीन VIIRS और दो MODIS, इसलिए उसके आँकड़े ज़्यादा हैं)।`,
     seasonLedeDone: (N) => `हर पूरे मौसम में, 1 अक्टूबर से 30 नवंबर तक, ${N} से 250 किमी के भीतर आग, सिर्फ़ सुओमी एनपीपी की गिनती से, ताकि हर साल एक ही उपकरण से मापा जाए।`,
     thYear: "मौसम", thSpots: "आग", thVsNow: "यह मौसम",
-    soFar: "अब तक", gapNote: (n) => `सुओमी एनपीपी ${n} दिन का डेटा नहीं दे सका: कम से कम`, noData: "डेटा नहीं",
+    soFar: "अब तक", gapNote: (n) => `${n} दिन सुओमी एनपीपी के डेटा के बिना: कम से कम`, noData: "डेटा नहीं",
     seasonUp: (N, p, y) => `इस मौसम में अब तक ${N} के आसपास ${y} के इसी समय की तुलना में ${p}% ज़्यादा आग दिखी।`,
     seasonDown: (N, p, y) => `इस मौसम में अब तक ${N} के आसपास ${y} के इसी समय की तुलना में ${p}% कम आग दिखी।`,
     hNo2: (N) => `${N} में NO₂ प्रदूषण: ट्रैफ़िक, उद्योग और बिजलीघर`,
@@ -331,7 +331,7 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
   // Fires: 30 days, then the seasons.
   if (cf) {
     const last = date(cf.last, l);
-    h += `  <h2>${t.hFires(N)}</h2>\n  <p>${f30.n250 ? t.firesLede(N, n(f30.n250), n(f30.n50), last, n(f30.days)) : t.firesNone(N, last)}</p>\n`;
+    h += `  <h2>${t.hFires(N)}</h2>\n  <p>${f30.n250 ? t.firesLede(N, n(f30.n250), n(f30.n50), last, n(f30.days)) : f30.days ? t.firesNone(N, last, n(f30.days)) : ""}</p>\n`;
     h += `  ${fireChart(cf, c.id, l, N)}\n  <p class="muted">${t.firesNote}</p>\n`;
     const S = cf.season, sv = cf.cities[c.id]?.s || [];
     if (S && sv.some((v) => v != null)) {
@@ -345,7 +345,7 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
       }
       h += `  <div class="table-wrap"><table><thead><tr><th>${t.thYear}</th><th class="n">${t.thSpots}</th></tr></thead><tbody>\n` +
         S.years.map((y, i) => {
-          const v = sv[i], gaps = (S.gaps?.[y] || []).length, cur = i === S.years.length - 1 && S.to !== "11-30";
+          const v = sv[i], gaps = new Set([...(S.gaps?.[y] || []), ...(S.missing?.[y] || [])]).size, cur = i === S.years.length - 1 && S.to !== "11-30";
           const cell = v == null ? t.noData : n(v) + (gaps ? ` <span class="muted">(${t.gapNote(n(gaps), gaps === 1)})</span>` : "");
           return `   <tr${cur ? ' class="wind-here"' : ""}><td>${y}${cur ? ` <span class="muted">(${t.soFar})</span>` : ""}</td><td class="n">${cell}</td></tr>`;
         }).join("\n") + "\n  </tbody></table></div>\n";

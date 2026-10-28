@@ -80,7 +80,9 @@
   let feed;
   const fires = () => (feed ||= fetch("/api/fires?hours=24&v=2").then((r) => (r.ok ? r.json() : Promise.reject(r.status))).then((d) => {
     const P = d.dict.place, D = d.dict.district, K = d.dict.kind;
-    return distinct(d.points).map((r) => ({ lat: r[0], lon: r[1], t: d.t0 + r[2] * 60000, place: P[r[5]], district: D[r[6]][0], state: D[r[6]][1], kind: K[r[7]] }));
+    // The feed's own list of distinct spots when it has one (the pages' exact count); otherwise worked out here.
+    const rows = Array.isArray(d.distinct) ? d.distinct.map((i) => d.points[i]) : distinct(d.points);
+    return rows.map((r) => ({ lat: r[0], lon: r[1], t: d.t0 + r[2] * 60000, place: P[r[5]], district: D[r[6]][0], state: D[r[6]][1], kind: K[r[7]] }));
   }));
   const around = (all, lat, lon, km) => all.map((f) => ({ ...f, km: dist(lat, lon, f.lat, f.lon) })).filter((f) => f.km <= km).sort((a, b) => a.km - b.km);
 
