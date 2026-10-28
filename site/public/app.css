@@ -400,3 +400,8 @@ html[lang="ur"] .site-foot { line-height: 1.9; }
   .site-foot .sf-wrap { padding: 0 16px; grid-template-columns: 1fr 1fr; gap: 22px 18px; }
   .site-foot .sf-brand { grid-column: 1 / -1; max-width: none; }
 }
+
+/* "Share this map" (share-map.js), a control on the live map and the city maps. */
+.btn.map-share { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.18); }
+.btn.map-share:hover { background: var(--ink); color: #fff; }
+.btn.map-share svg { flex: none; }

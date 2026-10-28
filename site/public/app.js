@@ -863,14 +863,29 @@
   window.HH = { state, t, nf, health, aqiBand, CITIES, map, siteName, setLayer, trafficMeta: loadTrafficMeta, expandFeed, locale: () => LOCALES[state.lang] };
 
   // Deep links from the Pollution sites page: /#at=lat,lon,zoom&layer=traffic&src=kilns
+  // Shared map views (share-map.js): /#view=lat,lon,zoom&layer=no2&hours=48&cc=PK&wind=1. Every value is
+  // checked against what the map offers; anything else is ignored.
   function applyHash() {
     const p = new URLSearchParams(location.hash.slice(1));
     const at = (p.get("at") || "").split(",").map(Number);
-    if (at.length >= 2 && at.every(Number.isFinite)) {
+    const view = (p.get("view") || "").split(",").map(Number);
+    const ok = (a) => a.length >= 2 && a.every(Number.isFinite) && Math.abs(a[0]) <= 90 && Math.abs(a[1]) <= 180;
+    if (ok(view)) map.setView([view[0], view[1]], Math.max(4, Math.min(16, Math.round(view[2]) || 7)));
+    else if (ok(at)) {
       map.setView([at[0], at[1]], at[2] || 10);
       L.circleMarker([at[0], at[1]], { radius: 18, color: "#d62d20", weight: 2, fill: false, dashArray: "4 4", interactive: false }).addTo(map);
     }
-    if (p.get("layer") && LAYERS[p.get("layer")] !== undefined) setLayer(p.get("layer"));
+    if (p.get("layer") && Object.hasOwn(LAYERS, p.get("layer"))) setLayer(p.get("layer"));
+    const hours = p.get("hours");
+    if (["24", "48", "168"].includes(hours)) {
+      state.hours = +hours;
+      $$("#winChips button").forEach((x) => x.classList.toggle("on", x.dataset.w === hours));
+    }
+    const cc = p.get("cc");
+    if (["PK", "IN"].includes(cc)) {
+      state.cc = cc;
+      $$("#ccChips button[data-cc]").forEach((x) => x.classList.toggle("on", x.dataset.cc === cc));
+    }
     return p.get("src");
   }
 

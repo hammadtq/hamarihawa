@@ -150,7 +150,8 @@ const AIR_STYLE = `<style>
 
 const LEAFLET_CSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n';
 const LEAFLET_JS = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n';
-const NEAR_JS = '<script src="/near-map.js?v=4"></script>\n';
+const NEAR_JS = '<script src="/near-map.js?v=5"></script>\n';
+const SHARE_JS = '<script src="/share-map.js?v=1"></script>\n';
 
 // Local time of a UTC instant (ms) for a city's country: "25 October, 18:40 PKT".
 function at(ms, cc, l) {
@@ -275,7 +276,7 @@ function cityPage(c, data, wind) {
     inLanguage: LANGS, publisher: ORG, isPartOf: { "@id": `${SITE}/#website` },
     about: { "@type": "City", name: N, geo: { "@type": "GeoCoordinates", latitude: c.lat, longitude: c.lon }, containedInPlace: { "@type": "Country", name: country } } };
   return render({ path: `/air/${c.id}/`, title: T.en.title(N), desc: T.en.desc(N, descTxt), body, jsonld,
-    head: STYLE + AIR_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=1" defer></script>\n' + LEAFLET_JS + NEAR_JS });
+    head: STYLE + AIR_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=1" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS });
 }
 
 function indexPage(data, wind) {

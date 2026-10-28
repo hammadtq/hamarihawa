@@ -197,7 +197,9 @@
     // 25th nearest of all; at least 40 km out and at most the page's radius.
     const key = wind != null && pts.some(up) ? pts.filter(up) : pts;
     const r = Math.max(40, Math.min(km, key.length ? key[Math.min(key.length, 25) - 1].km * 1.15 : km));
-    map.fitBounds(L.latLng(lat, lon).toBounds(r * 2000), { padding: [8, 8] });
+    // One step further out than the fit, so the fires sit in their surroundings (towns, the wider wedge).
+    map.fitBounds(L.latLng(lat, lon).toBounds(r * 2000), { padding: [8, 8], animate: false });
+    map.setZoom(Math.max(6, map.getZoom() - 1), { animate: false }); // not below 6, where a phone would show half the country
     if (wind != null) {
       // Streaks drifting into the city inside the upwind wedge, and the wind in words in the corner.
       loadWind().then((g) => { if (g && el._map === map) streaks(map, lat, lon, wind, km, g); });
@@ -218,7 +220,10 @@
     el._done = true;
     const lat = +el.dataset.lat, lon = +el.dataset.lon, km = +el.dataset.km || 250;
     const wind = el.dataset.wind === "" || el.dataset.wind == null ? null : +el.dataset.wind;
-    fires().then((all) => draw(el, around(all, lat, lon, km), lat, lon, km, wind, el.dataset.lang)).catch((e) => console.warn("[hh] near map", e));
+    fires().then((all) => {
+      draw(el, around(all, lat, lon, km), lat, lon, km, wind, el.dataset.lang);
+      window.HHShareMap?.control(el._map);
+    }).catch((e) => console.warn("[hh] near map", e));
   }
 
   // /near-me/: the visitor's location, then the answer in words and the map, in every language article.
