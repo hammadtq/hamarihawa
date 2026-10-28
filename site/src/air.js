@@ -28,11 +28,12 @@ const T = {
     h1: (N) => `${N}'s air today: where the smoke is coming from`,
     title: (N) => `${N} air today: where the smoke is coming from`,
     wind: (N, dir, v, at) => `Right now the wind over ${N} blows from the <b>${dir}</b> at ${v} km/h (weather model, ${at}).`,
-    calm: (N, at) => `The air over ${N} is almost still right now (under 3 km/h, ${at}), so smoke from the city's own sources and from nearby fires builds up instead of blowing away.`,
+    calm: (N, at) => `The air over ${N} is almost still right now (under 3 km/h, ${at}), so smoke from the city's own sources and from nearby fires can build up instead of blowing away.`,
     noWind: (N) => `We don't have a wind reading for ${N} right now.`,
     up: (N, n, all) => ` In the last 24 hours NASA's satellites saw <b>${n}</b> fires within 250 km upwind of ${N}, in the direction the wind is coming from, out of ${all} within 250 km in every direction.`,
     upTop: (list) => ` Most were in ${list}.`, upMost: (list) => ` The largest numbers were in ${list}.`,
-    crop: (p) => ` About ${p}% were on farmland, the pattern of crop-residue burning.`,
+    crop: (p) => ` ${p >= 99 ? "Nearly all" : `About ${p}%`} were on farmland, the pattern of crop-residue burning.`,
+    span: (out, to) => out.replace(/the last 24 hours/g, `the 24 hours to ${to}`),
     noneUp: (all) => ` None of the ${all} fires seen within 250 km in the last 24 hours lie upwind, so the wind is not carrying their smoke here right now.`,
     noneAll: (N) => ` Satellites saw no fires within 250 km of ${N} in the last 24 hours. That doesn't measure what is in today's air: haze also comes from the city's traffic, industry, brick kilns, burning rubbish and dust.`,
     around: (all) => ` ${all} fires were seen within 250 km in the last 24 hours.`,
@@ -69,11 +70,12 @@ const T = {
     h1: (N) => `${N} کی ہوا آج: دھواں کہاں سے آ رہا ہے`,
     title: (N) => `${N} کی ہوا آج: دھواں کہاں سے آ رہا ہے`,
     wind: (N, dir, v, at) => `اس وقت ${N} پر ہوا <b>${dir}</b> سے ${v} کلومیٹر فی گھنٹہ کی رفتار سے چل رہی ہے (موسمی ماڈل، ${at})۔`,
-    calm: (N, at) => `اس وقت ${N} پر ہوا تقریباً رکی ہوئی ہے (3 کلومیٹر فی گھنٹہ سے کم، ${at})، اس لیے شہر کے اپنے ذرائع اور قریب کی آگ کا دھواں اڑنے کے بجائے یہیں جمع ہوتا ہے۔`,
+    calm: (N, at) => `اس وقت ${N} پر ہوا تقریباً رکی ہوئی ہے (3 کلومیٹر فی گھنٹہ سے کم، ${at})، اس لیے شہر کے اپنے ذرائع اور قریب کی آگ کا دھواں اڑنے کے بجائے یہیں جمع ہو سکتا ہے۔`,
     noWind: (N) => `اس وقت ہمارے پاس ${N} کی ہوا کی معلومات نہیں ہیں۔`,
     up: (N, n, all) => ` پچھلے 24 گھنٹوں میں ناسا کے سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر ہوا کے رخ پر، یعنی جدھر سے ہوا آ رہی ہے، <b>${n}</b> جگہ آگ دیکھی، جبکہ ہر سمت میں 250 کلومیٹر کے اندر کل ${all} جگہ۔`,
     upTop: (list) => ` ان میں سے زیادہ تر ${list} میں تھیں۔`, upMost: (list) => ` سب سے زیادہ ${list} میں تھیں۔`,
-    crop: (p) => ` تقریباً ${p}% کھیتوں میں تھیں، جو فصلوں کی باقیات جلانے کا انداز ہے۔`,
+    crop: (p) => ` ${p >= 99 ? "تقریباً سب" : `تقریباً ${p}%`} کھیتوں میں تھیں، جو فصلوں کی باقیات جلانے کا انداز ہے۔`,
+    span: (out, to) => out.replace(/پچھلے 24 گھنٹوں/g, `${to} تک کے 24 گھنٹوں`),
     noneUp: (all) => ` پچھلے 24 گھنٹوں میں 250 کلومیٹر کے اندر دیکھی گئی ${all} آگ میں سے کوئی بھی ہوا کے رخ پر نہیں، اس لیے ہوا اس وقت ان کا دھواں یہاں نہیں لا رہی۔`,
     noneAll: (N) => ` پچھلے 24 گھنٹوں میں سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی۔ اس سے آج کی ہوا میں موجود چیزیں نہیں ناپی جاتیں: دھند شہر کی ٹریفک، صنعت، اینٹوں کے بھٹوں، کچرا جلانے اور گرد سے بھی آتی ہے۔`,
     around: (all) => ` پچھلے 24 گھنٹوں میں 250 کلومیٹر کے اندر ${all} جگہ آگ دیکھی گئی۔`,
@@ -105,11 +107,12 @@ const T = {
     h1: (N) => `${N} की हवा आज: धुआँ कहाँ से आ रहा है`,
     title: (N) => `${N} की हवा आज: धुआँ कहाँ से आ रहा है`,
     wind: (N, dir, v, at) => `इस समय ${N} पर हवा <b>${dir}</b> से ${v} किमी/घंटा की रफ़्तार से चल रही है (मौसम मॉडल, ${at})।`,
-    calm: (N, at) => `इस समय ${N} पर हवा लगभग थमी हुई है (3 किमी/घंटा से कम, ${at}), इसलिए शहर के अपने स्रोतों और पास की आग का धुआँ उड़ने के बजाय यहीं जमा होता है।`,
+    calm: (N, at) => `इस समय ${N} पर हवा लगभग थमी हुई है (3 किमी/घंटा से कम, ${at}), इसलिए शहर के अपने स्रोतों और पास की आग का धुआँ उड़ने के बजाय यहीं जमा हो सकता है।`,
     noWind: (N) => `इस समय हमारे पास ${N} की हवा की जानकारी नहीं है।`,
     up: (N, n, all) => ` पिछले 24 घंटों में नासा के उपग्रहों ने ${N} से 250 किमी के भीतर हवा के रुख़ पर, यानी जिधर से हवा आ रही है, <b>${n}</b> जगह आग देखी, जबकि हर दिशा में 250 किमी के भीतर कुल ${all} जगह।`,
     upTop: (list) => ` इनमें से ज़्यादातर ${list} में थीं।`, upMost: (list) => ` सबसे ज़्यादा ${list} में थीं।`,
-    crop: (p) => ` लगभग ${p}% खेतों में थीं, जो पराली जलाने का पैटर्न है।`,
+    crop: (p) => ` ${p >= 99 ? "लगभग सभी" : `लगभग ${p}%`} खेतों में थीं, जो पराली जलाने का पैटर्न है।`,
+    span: (out, to) => out.replace(/पिछले 24 घंटों/g, `${to} तक के 24 घंटों`),
     noneUp: (all) => ` पिछले 24 घंटों में 250 किमी के भीतर दिखी ${all} आग में से कोई भी हवा के रुख़ पर नहीं है, इसलिए हवा इस समय उनका धुआँ यहाँ नहीं ला रही।`,
     noneAll: (N) => ` पिछले 24 घंटों में उपग्रहों ने ${N} से 250 किमी के भीतर कोई आग नहीं देखी। इससे आज की हवा में मौजूद चीज़ें नहीं मापी जातीं: धुंध शहर के ट्रैफ़िक, उद्योग, ईंट भट्ठों, कूड़ा जलाने और धूल से भी आती है।`,
     around: (all) => ` पिछले 24 घंटों में 250 किमी के भीतर ${all} जगह आग दिखी।`,
@@ -212,7 +215,13 @@ function districtName(data, di) {
 }
 const districtLink = (d) => (d.slug ? `<a href="/district/${d.slug}/">${esc(d.name)}</a>` : esc(d.name));
 
+// The fires' 24 hours end at the newest detection, not at the wind reading, so the lede says when.
 function lede(t, l, N, c, s, data, windTime) {
+  let out = ledeText(t, l, N, c, s, data, windTime);
+  if (data?.latest) out = t.span(out, at(data.latest, c.cc, l));
+  return l === "en" ? out.replace(/\b(<b>)?1(<\/b>)? fires\b/g, "$11$2 fire") : out;
+}
+function ledeText(t, l, N, c, s, data, windTime) {
   let out = !s.w ? t.noWind(N) : s.calm ? t.calm(N, windTime) : t.wind(N, compass(s.w[1], l), nf(Math.round(s.w[0]), l), windTime);
   if (!s.all) return out + t.noneAll(N);
   if (!s.w || s.calm) return out + t.around(nf(s.all, l));
@@ -222,7 +231,7 @@ function lede(t, l, N, c, s, data, windTime) {
   const top2 = s.upRows.slice(0, 2), share = top2.reduce((x, r) => x + r.n, 0) / s.upN;
   const top = top2.map((r) => esc(districtName(data, r.di).name)).join(t.and);
   if (top2.length) out += share > 0.5 ? t.upTop(top) : t.upMost(top);
-  if (s.upCrop / s.upN >= 0.5) out += t.crop(pct(s.upCrop, s.upN));
+  if (s.upN >= 10 && s.upCrop / s.upN >= 0.5) out += t.crop(pct(s.upCrop, s.upN));
   return out;
 }
 

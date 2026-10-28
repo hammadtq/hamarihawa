@@ -11,6 +11,8 @@ const date = (iso, l, year) => {
   const [y, m, d] = iso.split("-").map(Number);
   return `${d} ${MONTHS[l][m - 1]}${year ? " " + y : ""}`;
 };
+const SEP = (l) => (l === "ur" ? "، " : ", "); // Hindi lists use the Latin comma; Urdu its own
+
 const KIND = {
   en: { traffic: "a city's traffic", plant: "a power or industrial plant", industry: "an industrial estate", kilns: "brick kilns", corridor: "a road or rail corridor" },
   ur: { traffic: "شہر کی ٹریفک", plant: "بجلی گھر یا صنعتی پلانٹ", industry: "صنعتی علاقہ", kilns: "اینٹوں کے بھٹے", corridor: "سڑک یا ریل کی پٹی" },
@@ -26,24 +28,25 @@ const PLANT = {
 const T = {
   en: {
     hFires: (N) => `Fires around ${N} in the last 30 days`,
-    firesLede: (N, n30, n50, last) => `NASA's satellites saw <b>${n30}</b> fire spots within 250 km of ${N} in the 30 days to ${last}, <b>${n50}</b> of them within 50 km.`,
+    firesLede: (N, n30, n50, last, days) => `NASA's satellites saw <b>${n30}</b> fire spots within 250 km of ${N} in the ${days} days to ${last}, <b>${n50}</b> of them within 50 km.`,
     firesNone: (N, last) => `NASA's satellites saw no fires within 250 km of ${N} in the 30 days to ${last}.`,
     key250: "within 250 km", key50: "within 50 km", noDay: "no data",
     chartFires: (N) => `Fire spots around ${N} per day`,
     firesNote: "A fire spot is one fire seen on a day, however many satellites saw it (Pakistan-time days). The archive runs every day from 1 October 2026; before that it holds only the October-November seasons.",
-    hSeason: (N) => `${N}'s crop-burning season compared with past years`,
-    seasonLede: (N, to) => `Fire spots within 250 km of ${N} from 1 October to ${to}, each year. These count Suomi NPP's detections only: it is the one satellite that flew every year, so the years compare fairly (the 30-day chart above counts all four satellites, so its numbers are higher).`,
-    seasonLedeDone: (N) => `Fire spots within 250 km of ${N} over each whole season, 1 October to 30 November, counted from Suomi NPP's detections only so the years compare fairly.`,
+    hSeason: (N) => `Fires around ${N} this season compared with past years`,
+    seasonLede: (N, to) => `Fire spots within 250 km of ${N} from 1 October to ${to}, each year. These count Suomi NPP alone, so every year is measured by the same instrument and the years compare fairly (the 30-day chart above counts all five satellites, three VIIRS and two MODIS, so its numbers are higher).`,
+    seasonLedeDone: (N) => `Fire spots within 250 km of ${N} over each whole season, 1 October to 30 November, counted from Suomi NPP alone, so every year is measured by the same instrument.`,
     thYear: "Season", thSpots: "Fire spots", thVsNow: "This season",
     soFar: "so far", gapNote: (n, one) => `Suomi NPP missed ${n} day${one ? "" : "s"}: a floor`, noData: "no data",
     seasonUp: (N, p, y) => `So far this season there have been ${p}% more fire spots around ${N} than at the same point in ${y}.`,
     seasonDown: (N, p, y) => `So far this season there have been ${p}% fewer fire spots around ${N} than at the same point in ${y}.`,
     hNo2: (N) => `NO₂ pollution in ${N}: traffic, industry and power plants`,
-    no2Lede: (N, r, m, rank, n, from, to) => `Over the 14 days ${from} to ${to}, nitrogen dioxide in the air over ${N} (within 15 km) was about <b>${r} times</b> the usual level of the surrounding region, roughly ${m} ×10¹⁵ molecules/cm². That is <b>${rank}</b> of the ${n} cities with enough clear days.`,
+    no2Lede: (N, r, m, rank, n, from, to) => `Over the 14 days ${from} to ${to}, nitrogen dioxide in the air over ${N} (within 15 km) was about <b>${r} times</b> the usual level of the surrounding region, roughly ${m} ×10¹⁵ molecules/cm². Of the ${n} cities with enough clear days, it ranks <b>${rank}</b>.`,
     no2Trend: (p, dir) => dir === 0 ? ` About the same as the two weeks before.` : ` That is ${p}% ${dir > 0 ? "higher" : "lower"} than in the two weeks before.`,
     no2None: (N) => `Clouds or missing passes left too little satellite data over ${N} in the last 14 days for a reading.`,
     no2Peak: (r, km, what, site) => `The strongest NO₂ peak within 35 km was ${r} times the usual level, ${km} km from the city centre, near ${what} (${esc(site)}).`,
     no2PeakHere: (r, what) => `The strongest NO₂ peak within 35 km was ${r} times the usual level, in the city itself, the pattern of ${what}.`,
+    no2PeakTown: (r, km, site) => `The strongest NO₂ peak within 35 km was ${r} times the usual level, ${km} km from the city centre in the built-up area of ${esc(site)}, the pattern of traffic.`,
     chartNo2: (N) => `NO₂ over ${N}, each 14-day window`,
     no2Note: "From Sentinel-5P's TROPOMI instrument via NASA's GIBS tiles, which publish NO₂ as colour bands: a level here is good to about one band. NO₂ in big cities comes mostly from vehicle engines; peaks are named after what is nearby, which suggests a source but doesn't measure one.",
     hCh4: (N) => `Landfills and methane near ${N}`,
@@ -53,21 +56,22 @@ const T = {
     rateCell: (v) => `${v} kg/h`, rankOf: (r, n) => `${r} of ${n}`,
     ch4Note: (n) => `Rank among the ${n} landfill records with a measured rate in Carbon Mapper's data for Pakistan and India (this extract covers only these two countries). Rates are Carbon Mapper's automatic per-plume estimates; landfill methane also carries the smell and smoke of burning rubbish.`,
     hPlants: (N) => `Power plants, factories and brick kilns near ${N}`,
-    co2Line: (n, t, one) => `<b>${n}</b> plant${one ? "" : "s"} with CO₂ plumes measured by Carbon Mapper, about <b>${t} tonnes of CO₂ an hour</b> together`,
-    fossilLine: (n, parts) => `<b>${n}</b> fossil-fuel power plants mapped in OpenStreetMap (${parts})`,
+    co2Line: (n, t, one) => `<b>${n}</b> plant${one ? "" : "s"} with CO₂ plumes measured by Carbon Mapper, about <b>${t} tonnes of CO₂ an hour</b>${one ? "" : " together"}`,
+    fossilLine: (n, parts, one) => `<b>${n}</b> fossil-fuel power plant${one ? "" : "s"} mapped in OpenStreetMap (${parts})`,
     industryLine: (n) => `<b>${n}</b> industrial areas mapped in OpenStreetMap`,
     hotLine: (n, top, one) => `<b>${n}</b> always-hot site${one ? "" : "s"} that NASA's satellites saw burning on 20 or more days in 2025${top}`,
-    kilnLine: (n, pk, inn, z) => `<b>${n}</b> brick kilns in the satellite surveys (${pk} in Pakistan, ${inn} in India), ${z}% of them the cleaner zigzag kind`,
-    kilnPm: (t, e, n) => `; their survey estimates ${t} tonnes of PM2.5 a day from ${e} of the ${n} kilns it has figures for`,
+    kilnLine: (n, pk, inn, z, one) => one ? `<b>1</b> brick kiln in the satellite surveys` : `<b>${n}</b> brick kilns in the satellite surveys (${pk} in Pakistan, ${inn} in India), ${z}% of them the cleaner zigzag kind`,
+    kilnPm: (t, e, n) => `; their survey estimates ${t} tonnes of PM2.5 a day in the firing season from the ${e} of the ${n} kilns it has figures for`,
     kilnNone: "No brick kilns in the survey within 50 km",
-    kilnOutside: "Outside the area the brick-kiln surveys cover (the Indus-Gangetic plain), so kilns here aren't counted",
+    kilnOutside: "Outside the area the brick-kiln surveys cover, so kilns here aren't counted",
+    shown: (k) => ` (largest ${k} shown)`,
     plantsNote: "Within 50 km of the city centre, on either side of the border. These are lists of what is there, not measures of how much each adds to the air.",
     hCompare: (N) => `${N}'s pollution sources compared with other cities`,
     compareLede: (N, n) => `Where ${N} stands among the ${n} cities with pages here, on each measure. They are different measures, so a high rank on one isn't a larger share of the air than a high rank on another.`,
     thMeasure: "Measure", thValue: (N) => N, thRank: "Rank",
     mFires: "Fire spots within 250 km, last 30 days", mNo2: "NO₂, times the usual level (14 days)", mCh4: "Landfill methane within 50 km",
     mCo2: "Measured plant CO₂ within 50 km", mKilns: "Brick kilns within 50 km", mInd: "Industrial areas within 50 km", mHot: "Always-hot sites within 50 km",
-    kgh: (v) => `${v} kg/h`, th: (v) => `${v} t/h`, km: (v) => `${v} km`, x: (v) => `${v}×`, none: "none", notRanked: "–",
+    kgh: (v) => `${v} kg/h`, th: (v) => `${v} t/h`, km: (v) => `${v} km`, x: (v) => `${v}×`, none: "none", noneMeasured: "none measured", noReading: "no reading", notRanked: "–", calmRank: "calm wind, no upwind direction",
     hRanks: (N) => `Where ${N} ranks right now`,
     ranksLede: (N) => `${N}'s place among the cities, on the numbers that change with each satellite pass.`,
     rUp: "Fire spots upwind, last 24 hours", rAll: "Fire spots within 250 km, last 24 hours", rWeek: "Fire spots within 250 km, last 7 days",
@@ -97,14 +101,14 @@ const T = {
   },
   ur: {
     hFires: (N) => `پچھلے 30 دن میں ${N} کے آس پاس آگ`,
-    firesLede: (N, n30, n50, last) => `${last} تک کے 30 دنوں میں ناسا کے سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر <b>${n30}</b> جگہ آگ دیکھی، جن میں سے <b>${n50}</b> 50 کلومیٹر کے اندر تھیں۔`,
+    firesLede: (N, n30, n50, last, days) => `${last} تک کے ${days} دنوں میں ناسا کے سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر <b>${n30}</b> جگہ آگ دیکھی، جن میں سے <b>${n50}</b> 50 کلومیٹر کے اندر تھیں۔`,
     firesNone: (N, last) => `${last} تک کے 30 دنوں میں ناسا کے سیٹلائٹس نے ${N} سے 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی۔`,
     key250: "250 کلومیٹر کے اندر", key50: "50 کلومیٹر کے اندر", noDay: "معلومات نہیں",
     chartFires: (N) => `${N} کے آس پاس روزانہ آگ`,
     firesNote: "ایک دن میں ایک جگہ کی آگ ایک بار گنی جاتی ہے، چاہے اسے کتنے ہی سیٹلائٹس نے دیکھا ہو (پاکستانی وقت کے دن)۔ ریکارڈ یکم اکتوبر 2026 سے ہر دن کا ہے؛ اس سے پہلے صرف اکتوبر-نومبر کے موسم۔",
-    hSeason: (N) => `${N} میں فصل جلانے کا موسم پچھلے برسوں کے مقابلے میں`,
-    seasonLede: (N, to) => `ہر سال یکم اکتوبر سے ${to} تک ${N} سے 250 کلومیٹر کے اندر آگ۔ یہ صرف سومی این پی پی سیٹلائٹ کی گنتی ہے، جو ہر سال اڑتا رہا، اس لیے برسوں کا موازنہ منصفانہ ہے (اوپر والا 30 دن کا چارٹ چاروں سیٹلائٹس گنتا ہے، اس لیے اس کے اعداد زیادہ ہیں)۔`,
-    seasonLedeDone: (N) => `ہر پورے موسم میں، یکم اکتوبر سے 30 نومبر تک، ${N} سے 250 کلومیٹر کے اندر آگ، صرف سومی این پی پی کی گنتی سے، تاکہ برسوں کا موازنہ منصفانہ ہو۔`,
+    hSeason: (N) => `اس موسم میں ${N} کے آس پاس آگ پچھلے برسوں کے مقابلے میں`,
+    seasonLede: (N, to) => `ہر سال یکم اکتوبر سے ${to} تک ${N} سے 250 کلومیٹر کے اندر آگ۔ یہ صرف سومی این پی پی سیٹلائٹ کی گنتی ہے، اس لیے ہر سال ایک ہی آلے سے ناپا گیا اور برسوں کا موازنہ منصفانہ ہے (اوپر والا 30 دن کا چارٹ پانچوں سیٹلائٹس گنتا ہے، تین VIIRS اور دو MODIS، اس لیے اس کے اعداد زیادہ ہیں)۔`,
+    seasonLedeDone: (N) => `ہر پورے موسم میں، یکم اکتوبر سے 30 نومبر تک، ${N} سے 250 کلومیٹر کے اندر آگ، صرف سومی این پی پی کی گنتی سے، تاکہ ہر سال ایک ہی آلے سے ناپا جائے۔`,
     thYear: "موسم", thSpots: "آگ", thVsNow: "یہ موسم",
     soFar: "اب تک", gapNote: (n) => `سومی این پی پی ${n} دن کی معلومات نہیں دے سکا: کم از کم`, noData: "معلومات نہیں",
     seasonUp: (N, p, y) => `اس موسم میں اب تک ${N} کے آس پاس ${y} کے اسی وقت کے مقابلے میں ${p}% زیادہ آگ دیکھی گئی۔`,
@@ -115,6 +119,7 @@ const T = {
     no2None: (N) => `پچھلے 14 دنوں میں بادلوں یا سیٹلائٹ کے نہ گزرنے کی وجہ سے ${N} پر پیمائش کے لیے کافی معلومات نہیں۔`,
     no2Peak: (r, km, what, site) => `35 کلومیٹر کے اندر NO₂ کی سب سے اونچی جگہ عام سطح سے ${r} گنا تھی، شہر کے مرکز سے ${km} کلومیٹر دور، ${what} کے قریب (${esc(site)})۔`,
     no2PeakHere: (r, what) => `35 کلومیٹر کے اندر NO₂ کی سب سے اونچی جگہ عام سطح سے ${r} گنا تھی، خود شہر میں، جو ${what} کا انداز ہے۔`,
+    no2PeakTown: (r, km, site) => `35 کلومیٹر کے اندر NO₂ کی سب سے اونچی جگہ عام سطح سے ${r} گنا تھی، شہر کے مرکز سے ${km} کلومیٹر دور ${esc(site)} کی آبادی میں، جو ٹریفک کا انداز ہے۔`,
     chartNo2: (N) => `${N} پر NO₂، ہر 14 دن کا دور`,
     no2Note: "سینٹینل-5P کے ٹروپومی آلے سے، ناسا کی GIBS تصاویر کے ذریعے، جو NO₂ کو رنگوں کی پٹیوں میں دکھاتی ہیں: یہاں کی سطح تقریباً ایک پٹی تک درست ہے۔ بڑے شہروں میں NO₂ زیادہ تر گاڑیوں کے انجنوں سے آتی ہے؛ اونچی جگہوں کے نام قریب کی چیز پر رکھے گئے ہیں، جو ممکنہ ذریعہ بتاتا ہے، ناپتا نہیں۔",
     hCh4: (N) => `${N} کے قریب کچرا کنڈیاں اور میتھین`,
@@ -124,21 +129,22 @@ const T = {
     rateCell: (v) => `${v} کلوگرام فی گھنٹہ`, rankOf: (r, n) => `${n} میں ${r}`,
     ch4Note: (n) => `پاکستان اور ہندوستان کے لیے کاربن میپر کے ڈیٹا میں ناپی گئی شرح والے ${n} کچرا کنڈی ریکارڈز میں درجہ (یہ ڈیٹا صرف ان دو ملکوں کا ہے)۔ شرحیں کاربن میپر کے خودکار اندازے ہیں؛ کچرا کنڈی کی میتھین کے ساتھ کچرا جلنے کی بو اور دھواں بھی آتا ہے۔`,
     hPlants: (N) => `${N} کے قریب بجلی گھر، کارخانے اور اینٹوں کے بھٹے`,
-    co2Line: (n, t) => `<b>${n}</b> پلانٹ جن کا CO₂ کاربن میپر نے ناپا، مل کر تقریباً <b>${t} ٹن CO₂ فی گھنٹہ</b>`,
+    co2Line: (n, t, one) => one ? `<b>1</b> پلانٹ جس کا CO₂ کاربن میپر نے ناپا، تقریباً <b>${t} ٹن CO₂ فی گھنٹہ</b>` : `<b>${n}</b> پلانٹ جن کا CO₂ کاربن میپر نے ناپا، مل کر تقریباً <b>${t} ٹن CO₂ فی گھنٹہ</b>`,
     fossilLine: (n, parts) => `اوپن اسٹریٹ میپ میں <b>${n}</b> ایندھن سے چلنے والے بجلی گھر (${parts})`,
     industryLine: (n) => `اوپن اسٹریٹ میپ میں <b>${n}</b> صنعتی علاقے`,
     hotLine: (n, top) => `<b>${n}</b> ہمیشہ گرم جگہیں جنہیں ناسا کے سیٹلائٹس نے 2025 میں 20 یا زیادہ دن جلتے دیکھا${top}`,
     kilnLine: (n, pk, inn, z) => `سیٹلائٹ سروے میں <b>${n}</b> اینٹوں کے بھٹے (${pk} پاکستان میں، ${inn} ہندوستان میں)، جن میں سے ${z}% صاف تر زگ زیگ قسم کے`,
-    kilnPm: (t, e, n) => `؛ سروے کا اندازہ ہے کہ جن ${e} بھٹوں کے اعداد ہیں (کل ${n}) وہ روزانہ ${t} ٹن PM2.5 چھوڑتے ہیں`,
+    kilnPm: (t, e, n) => `؛ سروے کا اندازہ ہے کہ جن ${e} بھٹوں کے اعداد ہیں (کل ${n}) وہ بھٹوں کے موسم میں روزانہ ${t} ٹن PM2.5 چھوڑتے ہیں`,
     kilnNone: "50 کلومیٹر کے اندر سروے میں اینٹوں کا کوئی بھٹہ نہیں",
-    kilnOutside: "یہ جگہ بھٹوں کے سروے کے علاقے (سندھ-گنگا کا میدان) سے باہر ہے، اس لیے یہاں کے بھٹے نہیں گنے گئے",
+    kilnOutside: "یہ جگہ بھٹوں کے سروے کے علاقے سے باہر ہے، اس لیے یہاں کے بھٹے نہیں گنے گئے",
+    shown: (k) => ` (سب سے بڑے ${k} دکھائے گئے)`,
     plantsNote: "شہر کے مرکز سے 50 کلومیٹر کے اندر، سرحد کے دونوں طرف۔ یہ وہاں موجود چیزوں کی فہرستیں ہیں، یہ نہیں کہ ہر ایک ہوا میں کتنا حصہ ڈالتی ہے۔",
     hCompare: (N) => `${N} کے آلودگی کے ذرائع دوسرے شہروں کے مقابلے میں`,
     compareLede: (N, n) => `یہاں موجود ${n} شہروں میں ہر پیمانے پر ${N} کہاں ہے۔ یہ الگ الگ پیمانے ہیں، اس لیے ایک پر اونچا درجہ دوسرے پر اونچے درجے سے ہوا میں زیادہ حصہ نہیں۔`,
     thMeasure: "پیمانہ", thValue: (N) => N, thRank: "درجہ",
     mFires: "250 کلومیٹر کے اندر آگ، پچھلے 30 دن", mNo2: "NO₂، عام سطح سے گنا (14 دن)", mCh4: "50 کلومیٹر کے اندر کچرا کنڈی میتھین",
     mCo2: "50 کلومیٹر کے اندر ناپا گیا پلانٹ CO₂", mKilns: "50 کلومیٹر کے اندر اینٹوں کے بھٹے", mInd: "50 کلومیٹر کے اندر صنعتی علاقے", mHot: "50 کلومیٹر کے اندر ہمیشہ گرم جگہیں",
-    kgh: (v) => `${v} کلوگرام/گھنٹہ`, th: (v) => `${v} ٹن/گھنٹہ`, km: (v) => `${v} کلومیٹر`, x: (v) => `${v} گنا`, none: "کوئی نہیں", notRanked: "–",
+    kgh: (v) => `${v} کلوگرام/گھنٹہ`, th: (v) => `${v} ٹن/گھنٹہ`, km: (v) => `${v} کلومیٹر`, x: (v) => `${v} گنا`, none: "کوئی نہیں", noneMeasured: "کوئی ناپا نہیں گیا", noReading: "پیمائش نہیں", notRanked: "–", calmRank: "ہوا رکی ہوئی، رخ نہیں",
     hRanks: (N) => `${N} اس وقت کس نمبر پر ہے`,
     ranksLede: (N) => `ہر سیٹلائٹ گزر کے ساتھ بدلنے والے اعداد پر شہروں میں ${N} کا مقام۔`,
     rUp: "ہوا کے رخ پر آگ، پچھلے 24 گھنٹے", rAll: "250 کلومیٹر کے اندر آگ، پچھلے 24 گھنٹے", rWeek: "250 کلومیٹر کے اندر آگ، پچھلے 7 دن",
@@ -167,14 +173,14 @@ const T = {
   },
   hi: {
     hFires: (N) => `पिछले 30 दिनों में ${N} के आसपास आग`,
-    firesLede: (N, n30, n50, last) => `${last} तक के 30 दिनों में नासा के उपग्रहों ने ${N} से 250 किमी के भीतर <b>${n30}</b> जगह आग देखी, जिनमें से <b>${n50}</b> 50 किमी के भीतर थीं।`,
+    firesLede: (N, n30, n50, last, days) => `${last} तक के ${days} दिनों में नासा के उपग्रहों ने ${N} से 250 किमी के भीतर <b>${n30}</b> जगह आग देखी, जिनमें से <b>${n50}</b> 50 किमी के भीतर थीं।`,
     firesNone: (N, last) => `${last} तक के 30 दिनों में नासा के उपग्रहों ने ${N} से 250 किमी के भीतर कोई आग नहीं देखी।`,
     key250: "250 किमी के भीतर", key50: "50 किमी के भीतर", noDay: "डेटा नहीं",
     chartFires: (N) => `${N} के आसपास रोज़ की आग`,
     firesNote: "एक दिन में एक जगह की आग एक बार गिनी जाती है, चाहे उसे कितने भी उपग्रहों ने देखा हो (पाकिस्तानी समय के दिन)। रिकॉर्ड 1 अक्टूबर 2026 से हर दिन का है; उससे पहले सिर्फ़ अक्टूबर-नवंबर के मौसम।",
-    hSeason: (N) => `${N} में पराली जलाने का मौसम पिछले सालों की तुलना में`,
-    seasonLede: (N, to) => `हर साल 1 अक्टूबर से ${to} तक ${N} से 250 किमी के भीतर आग। यह सिर्फ़ सुओमी एनपीपी उपग्रह की गिनती है, जो हर साल उड़ता रहा, इसलिए सालों की तुलना निष्पक्ष है (ऊपर का 30 दिन का चार्ट चारों उपग्रह गिनता है, इसलिए उसके आँकड़े ज़्यादा हैं)।`,
-    seasonLedeDone: (N) => `हर पूरे मौसम में, 1 अक्टूबर से 30 नवंबर तक, ${N} से 250 किमी के भीतर आग, सिर्फ़ सुओमी एनपीपी की गिनती से, ताकि सालों की तुलना निष्पक्ष हो।`,
+    hSeason: (N) => `इस मौसम में ${N} के आसपास आग पिछले सालों की तुलना में`,
+    seasonLede: (N, to) => `हर साल 1 अक्टूबर से ${to} तक ${N} से 250 किमी के भीतर आग। यह सिर्फ़ सुओमी एनपीपी उपग्रह की गिनती है, इसलिए हर साल एक ही उपकरण से मापा गया और सालों की तुलना निष्पक्ष है (ऊपर का 30 दिन का चार्ट पाँचों उपग्रह गिनता है, तीन VIIRS और दो MODIS, इसलिए उसके आँकड़े ज़्यादा हैं)।`,
+    seasonLedeDone: (N) => `हर पूरे मौसम में, 1 अक्टूबर से 30 नवंबर तक, ${N} से 250 किमी के भीतर आग, सिर्फ़ सुओमी एनपीपी की गिनती से, ताकि हर साल एक ही उपकरण से मापा जाए।`,
     thYear: "मौसम", thSpots: "आग", thVsNow: "यह मौसम",
     soFar: "अब तक", gapNote: (n) => `सुओमी एनपीपी ${n} दिन का डेटा नहीं दे सका: कम से कम`, noData: "डेटा नहीं",
     seasonUp: (N, p, y) => `इस मौसम में अब तक ${N} के आसपास ${y} के इसी समय की तुलना में ${p}% ज़्यादा आग दिखी।`,
@@ -185,6 +191,7 @@ const T = {
     no2None: (N) => `पिछले 14 दिनों में बादलों या उपग्रह के न गुज़रने से ${N} पर माप के लिए पर्याप्त डेटा नहीं।`,
     no2Peak: (r, km, what, site) => `35 किमी के भीतर NO₂ का सबसे ऊँचा बिंदु सामान्य स्तर से ${r} गुना था, शहर के केंद्र से ${km} किमी दूर, ${what} के पास (${esc(site)})।`,
     no2PeakHere: (r, what) => `35 किमी के भीतर NO₂ का सबसे ऊँचा बिंदु सामान्य स्तर से ${r} गुना था, ख़ुद शहर में, जो ${what} का पैटर्न है।`,
+    no2PeakTown: (r, km, site) => `35 किमी के भीतर NO₂ का सबसे ऊँचा बिंदु सामान्य स्तर से ${r} गुना था, शहर के केंद्र से ${km} किमी दूर ${esc(site)} की आबादी में, जो ट्रैफ़िक का पैटर्न है।`,
     chartNo2: (N) => `${N} पर NO₂, हर 14 दिन की अवधि`,
     no2Note: "सेंटिनल-5P के ट्रोपोमी उपकरण से, नासा की GIBS तस्वीरों के ज़रिए, जो NO₂ को रंग की पट्टियों में दिखाती हैं: यहाँ का स्तर लगभग एक पट्टी तक सही है। बड़े शहरों में NO₂ ज़्यादातर गाड़ियों के इंजनों से आती है; ऊँचे बिंदुओं के नाम पास की चीज़ पर रखे गए हैं, जो संभावित स्रोत बताता है, मापता नहीं।",
     hCh4: (N) => `${N} के पास कचरा डंप और मीथेन`,
@@ -194,21 +201,22 @@ const T = {
     rateCell: (v) => `${v} किलो/घंटा`, rankOf: (r, n) => `${n} में ${r}`,
     ch4Note: (n) => `पाकिस्तान और भारत के लिए कार्बन मैपर के डेटा में मापी गई दर वाले ${n} कचरा डंप रिकॉर्ड में रैंक (यह डेटा सिर्फ़ इन दो देशों का है)। दरें कार्बन मैपर के स्वचालित अनुमान हैं; कचरा डंप की मीथेन के साथ कचरा जलने की गंध और धुआँ भी आता है।`,
     hPlants: (N) => `${N} के पास बिजलीघर, कारख़ाने और ईंट भट्ठे`,
-    co2Line: (n, t) => `<b>${n}</b> प्लांट जिनका CO₂ कार्बन मैपर ने मापा, मिलाकर लगभग <b>${t} टन CO₂ प्रति घंटा</b>`,
+    co2Line: (n, t, one) => one ? `<b>1</b> प्लांट जिसका CO₂ कार्बन मैपर ने मापा, लगभग <b>${t} टन CO₂ प्रति घंटा</b>` : `<b>${n}</b> प्लांट जिनका CO₂ कार्बन मैपर ने मापा, मिलाकर लगभग <b>${t} टन CO₂ प्रति घंटा</b>`,
     fossilLine: (n, parts) => `ओपनस्ट्रीटमैप में <b>${n}</b> जीवाश्म ईंधन वाले बिजलीघर (${parts})`,
     industryLine: (n) => `ओपनस्ट्रीटमैप में <b>${n}</b> औद्योगिक इलाक़े`,
     hotLine: (n, top) => `<b>${n}</b> हमेशा गर्म जगहें जिन्हें नासा के उपग्रहों ने 2025 में 20 या ज़्यादा दिन जलते देखा${top}`,
     kilnLine: (n, pk, inn, z) => `उपग्रह सर्वे में <b>${n}</b> ईंट भट्ठे (${pk} पाकिस्तान में, ${inn} भारत में), जिनमें से ${z}% साफ़ ज़िगज़ैग क़िस्म के`,
-    kilnPm: (t, e, n) => `; सर्वे का अनुमान है कि जिन ${e} भट्ठों के आँकड़े हैं (कुल ${n}) वे रोज़ ${t} टन PM2.5 छोड़ते हैं`,
+    kilnPm: (t, e, n) => `; सर्वे का अनुमान है कि जिन ${e} भट्ठों के आँकड़े हैं (कुल ${n}) वे भट्ठों के मौसम में रोज़ ${t} टन PM2.5 छोड़ते हैं`,
     kilnNone: "50 किमी के भीतर सर्वे में कोई ईंट भट्ठा नहीं",
-    kilnOutside: "यह जगह भट्ठों के सर्वे के इलाक़े (सिंधु-गंगा का मैदान) से बाहर है, इसलिए यहाँ के भट्ठे नहीं गिने गए",
+    kilnOutside: "यह जगह भट्ठों के सर्वे के इलाक़े से बाहर है, इसलिए यहाँ के भट्ठे नहीं गिने गए",
+    shown: (k) => ` (सबसे बड़े ${k} दिखाए गए)`,
     plantsNote: "शहर के केंद्र से 50 किमी के भीतर, सीमा के दोनों ओर। ये वहाँ मौजूद चीज़ों की सूचियाँ हैं, यह नहीं कि हर एक हवा में कितना जोड़ती है।",
     hCompare: (N) => `${N} के प्रदूषण स्रोत दूसरे शहरों की तुलना में`,
     compareLede: (N, n) => `यहाँ मौजूद ${n} शहरों में हर पैमाने पर ${N} कहाँ है। ये अलग-अलग पैमाने हैं, इसलिए एक पर ऊँची रैंक दूसरे पर ऊँची रैंक से हवा में ज़्यादा हिस्सा नहीं।`,
     thMeasure: "पैमाना", thValue: (N) => N, thRank: "रैंक",
     mFires: "250 किमी के भीतर आग, पिछले 30 दिन", mNo2: "NO₂, सामान्य स्तर से गुना (14 दिन)", mCh4: "50 किमी के भीतर कचरा डंप मीथेन",
     mCo2: "50 किमी के भीतर मापा गया प्लांट CO₂", mKilns: "50 किमी के भीतर ईंट भट्ठे", mInd: "50 किमी के भीतर औद्योगिक इलाक़े", mHot: "50 किमी के भीतर हमेशा गर्म जगहें",
-    kgh: (v) => `${v} किलो/घंटा`, th: (v) => `${v} टन/घंटा`, km: (v) => `${v} किमी`, x: (v) => `${v} गुना`, none: "कोई नहीं", notRanked: "–",
+    kgh: (v) => `${v} किलो/घंटा`, th: (v) => `${v} टन/घंटा`, km: (v) => `${v} किमी`, x: (v) => `${v} गुना`, none: "कोई नहीं", noneMeasured: "कोई नहीं मापा गया", noReading: "माप नहीं", notRanked: "–", calmRank: "हवा थमी हुई, रुख़ नहीं",
     hRanks: (N) => `${N} इस समय किस नंबर पर है`,
     ranksLede: (N) => `हर उपग्रह गुज़रने के साथ बदलने वाले आँकड़ों पर शहरों में ${N} की जगह।`,
     rUp: "हवा के रुख़ पर आग, पिछले 24 घंटे", rAll: "250 किमी के भीतर आग, पिछले 24 घंटे", rWeek: "250 किमी के भीतर आग, पिछले 7 दिन",
@@ -323,7 +331,7 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
   // Fires: 30 days, then the seasons.
   if (cf) {
     const last = date(cf.last, l);
-    h += `  <h2>${t.hFires(N)}</h2>\n  <p>${f30.n250 ? t.firesLede(N, n(f30.n250), n(f30.n50), last) : t.firesNone(N, last)}</p>\n`;
+    h += `  <h2>${t.hFires(N)}</h2>\n  <p>${f30.n250 ? t.firesLede(N, n(f30.n250), n(f30.n50), last, n(f30.days)) : t.firesNone(N, last)}</p>\n`;
     h += `  ${fireChart(cf, c.id, l, N)}\n  <p class="muted">${t.firesNote}</p>\n`;
     const S = cf.season, sv = cf.cities[c.id]?.s || [];
     if (S && sv.some((v) => v != null)) {
@@ -357,18 +365,18 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
     } else h += `  <p>${t.no2None(N)}</p>\n`;
     if (no2?.peak && no2.peak[0] >= 1.5) {
       const [r, kind, site, km] = no2.peak;
-      h += `  <p>${km <= 5 && kind === "traffic" ? t.no2PeakHere(n(r), KIND[l][kind]) : t.no2Peak(n(r), n(km), KIND[l][kind] || kind, site)}</p>\n`;
+      h += `  <p>${kind === "traffic" ? (km <= 5 ? t.no2PeakHere(n(r), KIND[l][kind]) : t.no2PeakTown(n(r), n(km), site)) : t.no2Peak(n(r), n(km), KIND[l][kind] || kind, site)}</p>\n`;
     }
     h += `  ${no2Chart(n2, c.id, l, N)}\n  <p class="muted">${t.no2Note} ${t.no2AsOf(date(n2.window[0], l), date(n2.window[1], l, true))}</p>\n`;
   }
   // Methane.
   const ch4 = src.ch4;
   if (ch4) {
-    h += `  <h2>${t.hCh4(N)}</h2>\n  <p>${ch4.n ? t.ch4Lede(N, n(ch4.n), n(ch4.kg_h), ch4.n === 1) : t.ch4None(N)}</p>\n`;
+    h += `  <h2>${t.hCh4(N)}</h2>\n  <p>${ch4.n ? t.ch4Lede(N, n(ch4.n), n(ch4.kg_h), ch4.n === 1) + (ch4.n > ch4.top.length ? t.shown(n(ch4.top.length)) : "") : t.ch4None(N)}</p>\n`;
     if (ch4.n) {
       h += `  <div class="table-wrap"><table><thead><tr><th>${t.thSite}</th><th class="n">${t.thRate}</th><th class="n">${t.thPlumes}</th><th>${t.thLast}</th><th class="n">${t.thRankAll}</th></tr></thead><tbody>\n` +
         ch4.top.map(([name, rate, plumes, , last, cc, km, district, rk]) =>
-          `   <tr><td>${esc(name)} <span class="muted">(${esc(district)}${l === "en" ? ", " : "، "}${COUNTRY[l][cc]}${l === "en" ? ", " : "، "}${t.km(n(km))})</span></td><td class="n">${t.rateCell(n(rate))}</td><td class="n">${n(plumes)}</td><td>${date(last, l, true)}</td><td class="n">${t.rankOf(n(rk), n(ch4.of))}</td></tr>`).join("\n") +
+          `   <tr><td>${esc(name)} <span class="muted">(${esc(district)}${SEP(l)}${COUNTRY[l][cc]}${SEP(l)}${t.km(n(km))})</span></td><td class="n">${t.rateCell(n(rate))}</td><td class="n">${n(plumes)}</td><td>${date(last, l, true)}</td><td class="n">${t.rankOf(n(rk), n(ch4.of))}</td></tr>`).join("\n") +
         "\n  </tbody></table></div>\n";
       h += `  <p class="muted">${t.ch4Note(n(ch4.of))}</p>\n`;
     }
@@ -377,15 +385,15 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
   if (src.kilns) {
     const items = [];
     if (src.co2.n) items.push(t.co2Line(n(src.co2.n), n(src.co2.t_h), src.co2.n === 1) + ": " +
-      src.co2.top.map(([name, kind, th]) => `${esc(name)} (${PLANT[l][kind] || kind}, ${t.th(n(th))})`).join(l === "en" ? ", " : "، "));
+      src.co2.top.map(([name, kind, th]) => `${esc(name)} (${PLANT[l][kind] || kind}${SEP(l)}${t.th(n(th))})`).join(SEP(l)));
     if (src.fossil.n) {
-      const parts = ["coal", "gas", "oil"].filter((f) => src.fossil[f]).map((f) => `${n(src.fossil[f])} ${FUEL[l][f]}`).join(l === "en" ? ", " : "، ");
-      items.push(t.fossilLine(n(src.fossil.n), parts) + (src.fossil.top.length ? ": " + src.fossil.top.map(([name, , mw]) => esc(name) + (mw ? ` (${n(Math.round(mw))} MW)` : "")).join(l === "en" ? ", " : "، ") : ""));
+      const parts = ["coal", "gas", "oil"].filter((f) => src.fossil[f]).map((f) => `${n(src.fossil[f])} ${FUEL[l][f]}`).join(SEP(l));
+      items.push(t.fossilLine(n(src.fossil.n), parts, src.fossil.n === 1) + (src.fossil.top.length ? ": " + src.fossil.top.map(([name, , mw]) => esc(name) + (mw ? ` (${n(Math.round(mw))} MW)` : "")).join(SEP(l)) + (src.fossil.n > src.fossil.top.length ? t.shown(n(src.fossil.top.length)) : "") : ""));
     }
     if (src.industry.n) items.push(t.industryLine(n(src.industry.n)));
-    if (src.hot.n) items.push(t.hotLine(n(src.hot.n), src.hot.top.length ? ": " + src.hot.top.map(([name, days]) => `${esc(name)} (${n(days)})`).join(l === "en" ? ", " : "، ") : "", src.hot.n === 1));
+    if (src.hot.n) items.push(t.hotLine(n(src.hot.n), src.hot.top.length ? ": " + src.hot.top.map(([name, days]) => `${esc(name)} (${n(days)})`).join(SEP(l)) : "", src.hot.n === 1));
     const k = src.kilns;
-    items.push(!k.survey ? t.kilnOutside : k.n ? t.kilnLine(n(k.n), n(k.pk), n(k.in), n(k.zigzag ?? 0)) + (k.pm25_t_day != null && k.est * 2 >= k.n ? t.kilnPm(n(k.pm25_t_day), n(k.est), n(k.n)) : "") : t.kilnNone);
+    items.push(!k.survey ? t.kilnOutside : k.n ? t.kilnLine(n(k.n), n(k.pk), n(k.in), n(k.zigzag ?? 0), k.n === 1) + (k.pm25_t_day != null && k.est * 2 >= k.n ? t.kilnPm(n(k.pm25_t_day), n(k.est), n(k.n)) : "") : t.kilnNone);
     h += `  <h2>${t.hPlants(N)}</h2>\n  <ul>${items.map((x) => `<li>${x}</li>`).join("")}</ul>\n  <p class="muted">${t.plantsNote} <a href="/sites/">/sites/</a> · ${t.sourcesAsOf(date(SRC_BUILT, l, true))}</p>\n`;
   }
   // Comparison of the measures.
@@ -399,13 +407,13 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
     return [r, tot];
   })();
   const rows = [
-    [t.mFires, f30.n250 ? n(f30.n250) : t.none, fRank],
-    [t.mNo2, no2?.r != null ? t.x(n(no2.r)) : t.none, no2?.rank ? [no2.rank, n2.ranked] : null],
-    [t.mCh4, src.ch4?.kg_h ? t.kgh(n(src.ch4.kg_h)) : t.none, R.ch4 ? [R.ch4, RN.ch4] : null],
-    [t.mCo2, src.co2?.t_h ? t.th(n(src.co2.t_h)) : t.none, R.co2 ? [R.co2, RN.co2] : null],
-    [t.mKilns, src.kilns?.survey ? (src.kilns.n ? n(src.kilns.n) : t.none) : "–", R.kilns ? [R.kilns, RN.kilns] : null],
-    [t.mInd, src.industry ? n(src.industry.n) : t.none, R.industry ? [R.industry, RN.industry] : null],
-    [t.mHot, src.hot?.n ? n(src.hot.n) : t.none, R.hot ? [R.hot, RN.hot] : null],
+    [t.mFires, n(f30.n250), fRank],
+    [t.mNo2, no2?.r != null ? t.x(n(no2.r)) : t.noReading, no2?.rank ? [no2.rank, n2.ranked] : null],
+    [t.mCh4, src.ch4?.kg_h ? t.kgh(n(src.ch4.kg_h)) : t.noneMeasured, R.ch4 ? [R.ch4, RN.ch4] : null],
+    [t.mCo2, src.co2?.t_h ? t.th(n(src.co2.t_h)) : t.noneMeasured, R.co2 ? [R.co2, RN.co2] : null],
+    [t.mKilns, src.kilns?.survey ? n(src.kilns.n) : "–", R.kilns ? [R.kilns, RN.kilns] : null],
+    [t.mInd, src.industry ? n(src.industry.n) : "0", R.industry ? [R.industry, RN.industry] : null],
+    [t.mHot, n(src.hot?.n || 0), R.hot ? [R.hot, RN.hot] : null],
   ];
   h += `  <h2>${t.hCompare(N)}</h2>\n  <p>${t.compareLede(N, n(CITIES.length))}</p>\n` +
     `  <div class="table-wrap"><table><thead><tr><th>${t.thMeasure}</th><th class="n">${t.thValue(N)}</th><th>${t.thRank}</th></tr></thead><tbody>\n` +
@@ -413,9 +421,9 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
     "\n  </tbody></table></div>\n";
   // Live ranks.
   if (ranks) {
-    const live = [[t.rUp, ranks.up], [t.rAll, ranks.all], [t.rWeek, ranks.week]].map(([label, m]) => {
+    const live = [[t.rUp, ranks.up, true], [t.rAll, ranks.all], [t.rWeek, ranks.week]].map(([label, m, isUp]) => {
       const r = m.get(c.id);
-      return `<li>${label}: ${r ? `<b>${t.rankOf(n(r), n(m.size))}</b>` : t.notRanked}</li>`;
+      return `<li>${label}: ${r ? `<b>${t.rankOf(n(r), n(m.size))}</b>` : isUp && (!s.w || s.calm) ? t.calmRank : "0"}</li>`;
     });
     h += `  <h2>${t.hRanks(N)}</h2>\n  <p>${t.ranksLede(N)}</p>\n  <ul>${live.join("")}</ul>\n  <p>${t.seeAll}</p>\n`;
   }
@@ -424,7 +432,7 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
   if (cf) qa.push([t.qFires(N), t.aFires(N, n(s.all), n(f30.n250))]);
   if (no2?.r != null) qa.push([t.qNo2(N), t.no2Lede(N, n(no2.r), n(no2.m), n(no2.rank), n(n2.ranked), date(n2.window[0], l), date(n2.window[1], l, true))]);
   if (src.kilns?.survey) qa.push([t.qKilns(N), src.kilns.n ? t.aKilns(N, n(src.kilns.n)) : t.kilnNone + "."]);
-  if (src.ch4) qa.push([t.qCh4(N), src.ch4.n ? t.aCh4(src.ch4.top.map(([name, rate]) => `${esc(name)} (${t.rateCell(n(rate))})`).join(l === "en" ? ", " : "، ")) : t.ch4None(N)]);
+  if (src.ch4) qa.push([t.qCh4(N), src.ch4.n ? t.aCh4(src.ch4.top.map(([name, rate]) => `${esc(name)} (${t.rateCell(n(rate))})`).join(SEP(l))) : t.ch4None(N)]);
   h += `  <h2>${t.hQa(N)}</h2>\n` + qa.map(([q, a]) => `  <h3>${q}</h3>\n  <p>${a}</p>`).join("\n") + "\n";
   h += `  <p class="muted">${t.dataLine(`/api/city?id=${c.id}`)}</p>\n`;
   return h;
@@ -493,7 +501,7 @@ export function rankingsBody(rows, { n2, latest, at }) {
       const fresh = k === "no2" && n2?.window ? t.rkNo2Fresh(date(n2.window[0], l), date(n2.window[1], l, true)) : k === "ch4" || k === "kilns" ? t.rkSrcFresh(date(SRC_BUILT, l, true)) : latest ? t.rkFresh(at(latest, l)) : "";
       body[l] = (body[l] || "") + `  <h2 id="${k}">${label(l)}</h2>\n  <p class="muted">${fresh}</p>\n` +
         `  <div class="table-wrap"><table class="rk"><thead><tr><th class="n">#</th><th>${t.thCity}</th><th>${t.thCountry}</th><th class="n">${label(l)}</th></tr></thead><tbody>\n` +
-        list.map((r, i) => `   <tr${i >= 15 ? ' class="more" hidden' : ""}><td class="n">${nf(i + 1, l)}</td><td><a href="/air/${r.c.id}/">${esc(r.c.name[l])}</a></td><td>${COUNTRY[l][r.c.cc]}</td><td class="n">${fmt(k, f(r), l)}</td></tr>`).join("\n") +
+        list.map((r, i) => `   <tr${i >= 15 ? ' class="more" hidden' : ""}><td class="n">${nf(1 + list.findIndex((o) => f(o) === f(r)), l)}</td><td><a href="/air/${r.c.id}/">${esc(r.c.name[l])}</a></td><td>${COUNTRY[l][r.c.cc]}</td><td class="n">${fmt(k, f(r), l)}</td></tr>`).join("\n") +
         `\n  </tbody></table></div>\n` + (list.length > 15 ? `  <p><button type="button" class="btn" data-more>${t.rkMore(nf(list.length, l))}</button></p>\n` : "");
     }
   }
