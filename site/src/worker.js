@@ -136,9 +136,9 @@ async function handle(request, env, url, ctx) {
       return meta ? kmlResponse(trafficKml(meta), 3600) : new Response("not built yet", { status: 503 });
     }
     if (url.pathname === "/kml/satellite.kml") return kmlResponse(satelliteKml(), 3600);
-    // Link-preview images drawn every 3 hours by scripts/build-og-live.py, all in one KV value.
+    // Link-preview images drawn every hour by scripts/build-og-live.py, all in one KV value.
     const og = url.pathname.match(/^\/og\/live\/([a-z0-9-]{1,40})\.jpg$/);
-    // Cached per 3-hour slot and design revision, set here; the ?v= a visitor sends is ignored, so made-up
+    // Cached per hour and design revision, set here; the ?v= a visitor sends is ignored, so made-up
     // values can't force KV reads.
     if (og) return edgeCached(ctx, `${url.pathname}?slot=${ogSlot()}`, 1800, () => liveOg(env, og[1], url));
     if (url.pathname !== "/api/fires") {

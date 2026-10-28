@@ -3,10 +3,10 @@
 site's own live data in the style of scripts/build-og.py.
 
 Each city card shows that city's last 24 hours of fires within 250 km, the upwind wedge and the wind,
-as the city page does (src/air.js: wind from the hourly grid, upwind = within 45 degrees, calm below
+counted as the city page counts them (src/air.js: wind from the hourly grid, upwind = within 45 degrees, calm below
 3 km/h). The live map's card is build-og.py's map with today's fires and counts.
 
-All images go to KV as ONE value, "og-live" (so a refresh costs one of the free plan's 1,000 daily
+All images go to KV as ONE value, "og-live" (so the hourly refresh costs 24 of the free plan's 1,000 daily
 writes), laid out as b"HHOG1", a 4-byte big-endian header length, a JSON header
 {"generated": ms, "items": {id: [offset, length]}}, then the JPEGs. The Worker serves /og/live/<id>.jpg
 from it. Nothing here takes input from visitors.
@@ -26,7 +26,7 @@ og = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(og)
 W, H, INK, INK2, FIRE, PAPER = og.W, og.H, og.INK, og.INK2, og.FIRE, og.PAPER
 GREY, BLUE = (178, 178, 182), (47, 111, 159)
-KM, UPWIND, CALM = 250, 45, 3
+KM, UPWIND, CALM, BIN = 250, 45, 3, 5
 DIRS = ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"]
 
 
@@ -134,9 +134,12 @@ def city_card(c, pts, wind, borders, towns, latest):
                 d.polygon(xy, fill=(238, 233, 222), outline=(176, 170, 160))
     w = wind_at(wind, clat, clon)
     calm = not w or w[0] < CALM
+    # Counted exactly as the city page counts them (scripts/build-feed.py city_smoke, src/air.js smoke): every
+    # detection 1-250 km away, its direction in 5-degree bins, upwind when the bin's centre is within 45 degrees.
     near = [(p, dist(clat, clon, p[0], p[1])) for p in pts]
-    near = [(p, km) for p, km in near if km <= KM]
-    up = (lambda p: not calm and angle(bearing(clat, clon, p[0], p[1]), w[1]) <= UPWIND)
+    near = [(p, km) for p, km in near if 1 <= km <= KM]
+    bin_deg = lambda p: int(bearing(clat, clon, p[0], p[1]) // BIN) * BIN + BIN / 2
+    up = (lambda p: not calm and angle(bin_deg(p), w[1]) <= UPWIND)
     if not calm:
         def toward(deg, km):
             r = math.radians(deg)

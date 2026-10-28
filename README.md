@@ -38,7 +38,7 @@ The heavy work (naming every fire after its village, merging duplicate detection
 - `scripts/build-sites.py`, `scripts/build-sources.py`: the Pollution sites directory and source layers in `site/public/sources/`.
 - `scripts/osm-industrial.py`: industrial estates, named fossil power plants and major roads (`--roads`) from Geofabrik OpenStreetMap extracts.
 - `scripts/build-og-report.py`: the Two Punjabs link-preview card (`site/public/og/two-punjabs.png`), in the same style as `scripts/build-og.py`.
-- `scripts/build-og-live.py`: fresh link-preview images for the live map and every city page, from the live feed and wind, every 3 hours (`.github/workflows/og.yml`), stored in KV as one value (`og-live`) and served at `/og/live/<id>.jpg`. Fonts in `scripts/fonts/` (Kalam and Inter, SIL Open Font License).
+- `scripts/build-og-live.py`: fresh link-preview images for the live map and every city page, from the live feed and wind, every hour (`.github/workflows/og.yml`), stored in KV as one value (`og-live`) and served at `/og/live/<id>.jpg`. Fonts in `scripts/fonts/` (Kalam and Inter, SIL Open Font License).
 - `scripts/build-kml.py`: the pollution-sites layer for Google Earth (`site/public/kml/sources.kml`). `site/public/hamarihawa.kml` links it with the live layers the Worker serves.
 - `scripts/build-pages.py`: builds `/data/`, `/trends/`, `/reports/`, the rolling `/updates/` page with its Atom feed, and `sitemap.xml` (dates from git). Page text is in `scripts/pages/{data,trends}-{en,ur,hi}.html`. To post an update, add an entry at the top of `site/public/updates/updates.json` and rerun it.
 - `report/`: the 24-month Lahore and Islamabad Air Ledger, also served at `/report/`.

@@ -1,11 +1,11 @@
 # Link-preview images (og:image) for the live map and the 58 city pages, from the site's own live data
-# (scripts/build-og-live.py). All of them go to KV as one value, "og-live": 8 KV writes a day.
+# (scripts/build-og-live.py). All of them go to KV as one value, "og-live": 24 KV writes a day.
 name: Link previews
 
 on:
   schedule:
-    # 15 minutes before each 3-hour slot (src/og.js) begins, so a new slot starts with fresh pictures.
-    - cron: "45 2-23/3 * * *"
+    # Hourly, after the wind (wind.yml, :41) and before the hour's slot (src/og.js) begins at :00.
+    - cron: "48 * * * *"
   workflow_dispatch:
 
 concurrency:
