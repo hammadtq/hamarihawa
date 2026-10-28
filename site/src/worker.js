@@ -147,7 +147,10 @@ async function handle(request, env, url, ctx) {
       // The live map's link preview is today's map, not the fixed picture in index.html.
       if ((url.pathname === "/" || url.pathname === "/index.html") && res.status === 200) {
         const img = ogUrl("main");
-        res = new HTMLRewriter().on('meta[property="og:image"], meta[name="twitter:image"]', { element: (e) => e.setAttribute("content", img) }).transform(res);
+        res = new HTMLRewriter()
+          .on('meta[property="og:image"], meta[name="twitter:image"]', { element: (e) => e.setAttribute("content", img) })
+          .on('meta[property="og:image:width"]', { element: (e) => e.before(`<meta property="og:image:secure_url" content="${img}">\n<meta property="og:image:type" content="image/jpeg">\n`, { html: true }) })
+          .transform(res);
       }
       // hamarihawa.org is the canonical site; keep the workers.dev copy out of search results.
       if (url.hostname.endsWith(".workers.dev")) {

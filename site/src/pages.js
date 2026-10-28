@@ -177,7 +177,8 @@ function ord(n) {
 function render({ path, title, desc, body, jsonld, head = "", scripts = "", noindex = false, ogImage = "", ogAlt = "" }) {
   const robots = noindex ? '<meta name="robots" content="noindex, follow">\n' : "";
   let shell = SHELL;
-  if (ogImage) shell = shell.replaceAll("https://hamarihawa.org/og/map-v3.png", ogImage);
+  if (ogImage) shell = shell.replaceAll("https://hamarihawa.org/og/map-v3.png", ogImage)
+    .replace('<meta property="og:image:width"', `<meta property="og:image:secure_url" content="${ogImage}">\n<meta property="og:image:type" content="image/jpeg">\n<meta property="og:image:width"`);
   if (ogAlt) shell = shell.replaceAll('content="HamariHawa: live fire and air map of Pakistan and India"', `content="${esc(ogAlt)}"`);
   const fill = { "@@PATH@@": path, "@@TITLE@@": esc(title), "@@DESC@@": esc(desc), "@@HEAD@@": robots + head, "@@SCRIPTS@@": scripts,
     "@@JSONLD@@": JSON.stringify(jsonld, null, 1).replace(/</g, "\\u003c") };
