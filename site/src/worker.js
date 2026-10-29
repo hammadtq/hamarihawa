@@ -32,6 +32,7 @@ export default {
   },
 
   async fetch(request, env, ctx) {
+    NOCACHE = env.NOCACHE === "1";
     const url = new URL(request.url);
     // Always HTTPS, always the bare domain.
     // `wrangler dev --var DEV:1` serves plain http locally, so the redirect is skipped there.
@@ -198,7 +199,10 @@ async function liveOg(env, id, url) {
 
 // Answer from this data centre's cache when we can, so repeat requests (and scrapers adding junk
 // query strings) don't each cost a KV read. Only successful answers are kept, for `ttl` seconds.
+// `wrangler dev --remote --var NOCACHE:1` shares production's edge cache, so local renders must skip it.
+let NOCACHE = false;
 async function edgeCached(ctx, path, ttl, make) {
+  if (NOCACHE) return make();
   const key = new Request(`https://cache.hamarihawa.org${path}`);
   const cache = caches.default;
   const hit = await cache.match(key);

@@ -323,91 +323,32 @@ export function liveRanks(rows) {
   return { up: rank((s) => (s.w && !s.calm ? s.upN : null)), all: rank((s) => s.all), week: rank((s) => s.n7) };
 }
 
-// ---------- The city page's new sections ----------
-export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
-  const t = T[l], n = (v) => nf(v, l), src = c.src || {};
-  let h = "";
-  const f30 = fires30(cf, c.id);
-  // Fires: 30 days, then the seasons.
-  if (cf) {
-    const last = date(cf.last, l);
-    h += `  <h2>${t.hFires(N)}</h2>\n  <p>${f30.n250 ? t.firesLede(N, n(f30.n250), n(f30.n50), last, n(f30.days)) : f30.days ? t.firesNone(N, last, n(f30.days)) : ""}</p>\n`;
-    h += `  ${fireChart(cf, c.id, l, N)}\n  <p class="muted">${t.firesNote}</p>\n`;
-    const S = cf.season, sv = cf.cities[c.id]?.s || [];
-    if (S && sv.some((v) => v != null)) {
-      const toLabel = date(`2000-${S.to}`, l);
-      h += `  <h2>${t.hSeason(N)}</h2>\n  <p>${S.to === "11-30" ? t.seasonLedeDone(N) : t.seasonLede(N, toLabel)}</p>\n`;
-      const cur = sv[S.years.length - 1], prevI = S.years.length - 2, prevV = sv[prevI];
-      const clean = (y) => !(S.gaps?.[y] || []).length && !(S.missing?.[y] || []).length;
-      if (S.to !== "11-30" && cur != null && prevV && clean(S.years[S.years.length - 1]) && clean(S.years[prevI])) {
-        const p = Math.round(((cur - prevV) / prevV) * 100);
-        h += `  <p>${p >= 0 ? t.seasonUp(N, n(p), S.years[prevI]) : t.seasonDown(N, n(-p), S.years[prevI])}</p>\n`;
-      }
-      h += `  <div class="table-wrap"><table><thead><tr><th>${t.thYear}</th><th class="n">${t.thSpots}</th></tr></thead><tbody>\n` +
-        S.years.map((y, i) => {
-          const v = sv[i], gaps = new Set([...(S.gaps?.[y] || []), ...(S.missing?.[y] || [])]).size, cur = i === S.years.length - 1 && S.to !== "11-30";
-          const cell = v == null ? t.noData : n(v) + (gaps ? ` <span class="muted">(${t.gapNote(n(gaps), gaps === 1)})</span>` : "");
-          return `   <tr${cur ? ' class="wind-here"' : ""}><td>${y}${cur ? ` <span class="muted">(${t.soFar})</span>` : ""}</td><td class="n">${cell}</td></tr>`;
-        }).join("\n") + "\n  </tbody></table></div>\n";
-    }
-  }
-  // NO2.
-  const no2 = no2Of(n2, c.id);
-  if (n2) {
-    h += `  <h2>${t.hNo2(N)}</h2>\n`;
-    if (no2 && no2.r != null) {
-      let p = t.no2Lede(N, n(no2.r), n(no2.m), n(no2.rank), n(n2.ranked), date(n2.window[0], l), date(n2.window[1], l, true));
-      if (no2.prev) {
-        const d = Math.round(((no2.r - no2.prev) / no2.prev) * 100);
-        p += t.no2Trend(n(Math.abs(d)), Math.abs(d) < 5 ? 0 : Math.sign(d));
-      }
-      h += `  <p>${p}</p>\n`;
-    } else h += `  <p>${t.no2None(N)}</p>\n`;
-    if (no2?.peak && no2.peak[0] >= 1.5) {
-      const [r, kind, site, km] = no2.peak;
-      h += `  <p>${kind === "traffic" ? (km <= 5 ? t.no2PeakHere(n(r), KIND[l][kind]) : t.no2PeakTown(n(r), n(km), site)) : t.no2Peak(n(r), n(km), KIND[l][kind] || kind, site)}</p>\n`;
-    }
-    h += `  ${no2Chart(n2, c.id, l, N)}\n  <p class="muted">${t.no2Note} ${t.no2AsOf(date(n2.window[0], l), date(n2.window[1], l, true))}</p>\n`;
-  }
-  // Methane.
-  const ch4 = src.ch4;
-  if (ch4) {
-    h += `  <h2>${t.hCh4(N)}</h2>\n  <p>${ch4.n ? t.ch4Lede(N, n(ch4.n), n(ch4.kg_h), ch4.n === 1) + (ch4.n > ch4.top.length ? t.shown(n(ch4.top.length)) : "") : t.ch4None(N)}</p>\n`;
-    if (ch4.n) {
-      h += `  <div class="table-wrap"><table><thead><tr><th>${t.thSite}</th><th class="n">${t.thRate}</th><th class="n">${t.thPlumes}</th><th>${t.thLast}</th><th class="n">${t.thRankAll}</th></tr></thead><tbody>\n` +
-        ch4.top.map(([name, rate, plumes, , last, cc, km, district, rk]) =>
-          `   <tr><td>${esc(name)} <span class="muted">(${esc(district)}${SEP(l)}${COUNTRY[l][cc]}${SEP(l)}${t.km(n(km))})</span></td><td class="n">${t.rateCell(n(rate))}</td><td class="n">${n(plumes)}</td><td>${date(last, l, true)}</td><td class="n">${t.rankOf(n(rk), n(ch4.of))}</td></tr>`).join("\n") +
-        "\n  </tbody></table></div>\n";
-      h += `  <p class="muted">${t.ch4Note(n(ch4.of))}</p>\n`;
-    }
-  }
-  // Plants, industry, kilns.
-  if (src.kilns) {
-    const items = [];
-    if (src.co2.n) items.push(t.co2Line(n(src.co2.n), n(src.co2.t_h), src.co2.n === 1) + ": " +
-      src.co2.top.map(([name, kind, th]) => `${esc(name)} (${PLANT[l][kind] || kind}${SEP(l)}${t.th(n(th))})`).join(SEP(l)));
-    if (src.fossil.n) {
-      const parts = ["coal", "gas", "oil"].filter((f) => src.fossil[f]).map((f) => `${n(src.fossil[f])} ${FUEL[l][f]}`).join(SEP(l));
-      items.push(t.fossilLine(n(src.fossil.n), parts, src.fossil.n === 1) + (src.fossil.top.length ? ": " + src.fossil.top.map(([name, , mw]) => esc(name) + (mw ? ` (${n(Math.round(mw))} MW)` : "")).join(SEP(l)) + (src.fossil.n > src.fossil.top.length ? t.shown(n(src.fossil.top.length)) : "") : ""));
-    }
-    if (src.industry.n) items.push(t.industryLine(n(src.industry.n)));
-    if (src.hot.n) items.push(t.hotLine(n(src.hot.n), src.hot.top.length ? ": " + src.hot.top.map(([name, days]) => `${esc(name)} (${n(days)})`).join(SEP(l)) : "", src.hot.n === 1));
-    const k = src.kilns;
-    items.push(!k.survey ? t.kilnOutside : k.n ? t.kilnLine(n(k.n), n(k.pk), n(k.in), n(k.zigzag ?? 0), k.n === 1) + (k.pm25_t_day != null && k.est * 2 >= k.n ? t.kilnPm(n(k.pm25_t_day), n(k.est), n(k.n)) : "") : t.kilnNone);
-    h += `  <h2>${t.hPlants(N)}</h2>\n  <ul>${items.map((x) => `<li>${x}</li>`).join("")}</ul>\n  <p class="muted">${t.plantsNote} <a href="/sites/">/sites/</a> · ${t.sourcesAsOf(date(SRC_BUILT, l, true))}</p>\n`;
-  }
-  // Comparison of the measures.
-  const R = src.rank || {}, RN = src.ranked || {};
-  const fRank = (() => { // fire spots in 30 days, among cities with any
-    if (!cf) return null;
-    const v = f30.n250;
-    if (!v) return null;
-    let r = 1, tot = 0;
-    for (const id in cf.cities) { const o = fires30(cf, id).n250; if (o > 0) tot++; if (o > v) r++; }
-    return [r, tot];
-  })();
+// ---------- The tables and answers folded under "All the numbers" (citypage.js lays out the rest) ----------
+export function seasonTable(cf, id, l) {
+  const t = T[l], n = (v) => nf(v, l), S = cf?.season, sv = cf?.cities?.[id]?.s || [];
+  if (!S || !sv.some((v) => v != null)) return "";
+  return `<div class="table-wrap"><table><thead><tr><th>${t.thYear}</th><th class="n">${t.thSpots}</th></tr></thead><tbody>\n` +
+    S.years.map((y, i) => {
+      const v = sv[i], gaps = new Set([...(S.gaps?.[y] || []), ...(S.missing?.[y] || [])]).size, cur = i === S.years.length - 1 && S.to !== "11-30";
+      const cell = v == null ? t.noData : n(v) + (gaps ? ` <span class="muted">(${t.gapNote(n(gaps), gaps === 1)})</span>` : "");
+      return `   <tr${cur ? ' class="wind-here"' : ""}><td>${y}${cur ? ` <span class="muted">(${t.soFar})</span>` : ""}</td><td class="n">${cell}</td></tr>`;
+    }).join("\n") + "\n  </tbody></table></div>";
+}
+
+export function ch4Table(src, l) {
+  const t = T[l], n = (v) => nf(v, l), ch4 = src.ch4;
+  if (!ch4?.n) return "";
+  return `<div class="table-wrap"><table><thead><tr><th>${t.thSite}</th><th class="n">${t.thRate}</th><th class="n">${t.thPlumes}</th><th>${t.thLast}</th><th class="n">${t.thRankAll}</th></tr></thead><tbody>\n` +
+    ch4.top.map(([name, rate, plumes, , last, cc, km, district, rk]) =>
+      `   <tr><td>${esc(name)} <span class="muted">(${esc(district)}${SEP(l)}${COUNTRY[l][cc]}${SEP(l)}${t.km(n(km))})</span></td><td class="n">${t.rateCell(n(rate))}</td><td class="n">${n(plumes)}</td><td>${date(last, l, true)}</td><td class="n">${t.rankOf(n(rk), n(ch4.of))}</td></tr>`).join("\n") +
+    "\n  </tbody></table></div>\n" + `<p class="muted">${t.ch4Note(n(ch4.of))}</p>`;
+}
+
+// Every measure, its value and its rank, as a table (the strips above draw the same ranks).
+export function cityRows(c, l, { cf, n2, f30, f30rank, no2 }) {
+  const t = T[l], n = (v) => nf(v, l), src = c.src || {}, R = src.rank || {}, RN = src.ranked || {};
   const rows = [
-    [t.mFires, n(f30.n250), fRank],
+    [t.mFires, cf ? n(f30.n250) : "–", f30rank],
     [t.mNo2, no2?.r != null ? t.x(n(no2.r)) : t.noReading, no2?.rank ? [no2.rank, n2.ranked] : null],
     [t.mCh4, src.ch4?.kg_h ? t.kgh(n(src.ch4.kg_h)) : t.noneMeasured, R.ch4 ? [R.ch4, RN.ch4] : null],
     [t.mCo2, src.co2?.t_h ? t.th(n(src.co2.t_h)) : t.noneMeasured, R.co2 ? [R.co2, RN.co2] : null],
@@ -415,27 +356,30 @@ export function citySections(c, l, { N, s, cf, n2, ranks, ledeText }) {
     [t.mInd, src.industry ? n(src.industry.n) : "0", R.industry ? [R.industry, RN.industry] : null],
     [t.mHot, n(src.hot?.n || 0), R.hot ? [R.hot, RN.hot] : null],
   ];
-  h += `  <h2>${t.hCompare(N)}</h2>\n  <p>${t.compareLede(N, n(CITIES.length))}</p>\n` +
-    `  <div class="table-wrap"><table><thead><tr><th>${t.thMeasure}</th><th class="n">${t.thValue(N)}</th><th>${t.thRank}</th></tr></thead><tbody>\n` +
+  return `<p>${t.compareLede(esc(c.name[l]), n(CITIES.length))}</p><div class="table-wrap"><table><thead><tr><th>${t.thMeasure}</th><th class="n">${t.thValue(esc(c.name[l]))}</th><th>${t.thRank}</th></tr></thead><tbody>\n` +
     rows.map(([m, v, rk]) => `   <tr><td>${m}</td><td class="n">${v}</td><td>${rk ? t.rankOf(n(rk[0]), n(rk[1])) + rankBar(rk[0], rk[1]) : t.notRanked}</td></tr>`).join("\n") +
-    "\n  </tbody></table></div>\n";
-  // Live ranks.
-  if (ranks) {
-    const live = [[t.rUp, ranks.up, true], [t.rAll, ranks.all], [t.rWeek, ranks.week]].map(([label, m, isUp]) => {
-      const r = m.get(c.id);
-      return `<li>${label}: ${r ? `<b>${t.rankOf(n(r), n(m.size))}</b>` : isUp && (!s.w || s.calm) ? t.calmRank : "0"}</li>`;
-    });
-    h += `  <h2>${t.hRanks(N)}</h2>\n  <p>${t.ranksLede(N)}</p>\n  <ul>${live.join("")}</ul>\n  <p>${t.seeAll}</p>\n`;
-  }
-  // Questions, answered from the numbers above (no claims about shares of the air).
+    "\n  </tbody></table></div>";
+}
+
+export function liveRows(c, l, { s, ranks }) {
+  const t = T[l], n = (v) => nf(v, l);
+  if (!ranks) return "";
+  const live = [[t.rUp, ranks.up, true], [t.rAll, ranks.all], [t.rWeek, ranks.week]].map(([label, m, isUp]) => {
+    const r = m.get(c.id);
+    return `<li>${label}: ${r ? `<b>${t.rankOf(n(r), n(m.size))}</b>` : isUp && (!s.w || s.calm) ? t.calmRank : "0"}</li>`;
+  });
+  return `<p>${t.ranksLede(esc(c.name[l]))}</p><ul>${live.join("")}</ul><p>${t.seeAll}</p>`;
+}
+
+// Questions, answered from the numbers on the page (no claims about shares of the air).
+export function qaRows(c, l, { N, s, cf, n2, f30, no2, ledeText }) {
+  const t = T[l], n = (v) => nf(v, l), src = c.src || {};
   const qa = [[t.qFrom(N), ledeText]];
   if (cf) qa.push([t.qFires(N), t.aFires(N, n(s.all), n(f30.n250))]);
   if (no2?.r != null) qa.push([t.qNo2(N), t.no2Lede(N, n(no2.r), n(no2.m), n(no2.rank), n(n2.ranked), date(n2.window[0], l), date(n2.window[1], l, true))]);
   if (src.kilns?.survey) qa.push([t.qKilns(N), src.kilns.n ? t.aKilns(N, n(src.kilns.n)) : t.kilnNone + "."]);
   if (src.ch4) qa.push([t.qCh4(N), src.ch4.n ? t.aCh4(src.ch4.top.map(([name, rate]) => `${esc(name)} (${t.rateCell(n(rate))})`).join(SEP(l))) : t.ch4None(N)]);
-  h += `  <h2>${t.hQa(N)}</h2>\n` + qa.map(([q, a]) => `  <h3>${q}</h3>\n  <p>${a}</p>`).join("\n") + "\n";
-  h += `  <p class="muted">${t.dataLine(`/api/city?id=${c.id}`)}</p>\n`;
-  return h;
+  return qa.map(([q, a]) => `<h3>${q}</h3>\n<p>${a}</p>`).join("\n");
 }
 
 // ---------- JSON-LD: the page's numbers as one derived dataset ----------
@@ -508,3 +452,4 @@ export function rankingsBody(rows, { n2, latest, at }) {
   return { body, lists };
 }
 export const RANK_T = T;
+export { fireChart, no2Chart, fires30, no2Of, KIND, FUEL, PLANT, SEP, date, SRC_BUILT };

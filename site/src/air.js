@@ -5,7 +5,8 @@
 // browser (/city-air.js), as the city cards do, so the Worker never calls Open-Meteo.
 import CITIES from "./cities.json";
 import { ogUrl } from "./og.js";
-import { citySections, cityDataset, cityJson, rankingsBody, liveRanks, RANK_T } from "./city.js";
+import { cityDataset, cityJson, rankingsBody, liveRanks, RANK_T, SRC_BUILT } from "./city.js";
+import { cityBody, CITY_STYLE } from "./citypage.js";
 import { SITE, LANGS, MONTHS, COUNTRY, ORG, STYLE, esc, nf, pct, dname, render, page, kvJson, notFound } from "./pages.js";
 
 const BY_ID = new Map(CITIES.map((c) => [c.id, c]));
@@ -155,8 +156,9 @@ const AIR_STYLE = `<style>
 
 const LEAFLET_CSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n';
 const LEAFLET_JS = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n';
-const NEAR_JS = '<script src="/near-map.js?v=7"></script>\n';
+const NEAR_JS = '<script src="/near-map.js?v=8"></script>\n';
 const SHARE_JS = '<script src="/share-map.js?v=6"></script>\n';
+const CITY_JS = '<script src="/city-page.js?v=1"></script>\n';
 
 // Local time of a UTC instant (ms) for a city's country: "25 October, 18:40 PKT".
 function at(ms, cc, l) {
@@ -246,27 +248,27 @@ function cityPage(c, data, wind, extra = {}) {
     const windTime = windMs ? at(windMs, c.cc, l) : "";
     const th = (cells) => `<thead><tr>${cells.map(([x, num]) => `<th${num ? ' class="n"' : ""}>${x}</th>`).join("")}</tr></thead>`;
     const ledeHtml = lede(t, l, N, c, s, data, windTime);
-    let h = `  <h1>${t.h1(N)}</h1>\n  <p class="lede">${ledeHtml}</p>\n`;
-    h += `  <h2>${t.hAir}</h2>\n  <p class="air-now" data-air data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-line="${esc(t.airLine)}" data-bands="${esc(BANDS[l].join("|"))}">${t.airWait(mapUrl)}</p>\n`;
-    h += `  <h2>${t.hMap}</h2>\n  <p class="muted">${t.mapNote}</p>\n  <div class="ff-map" data-near data-lat="${c.lat}" data-lon="${c.lon}" data-km="250" data-wind="${s.w && !s.calm ? Math.round(s.w[1]) : ""}" data-speed="${s.w ? Math.round(s.w[0]) : ""}" data-lang="${l}" data-label="${N}"></div>\n`;
+    // The three fire tables that used to open the page, now folded under "All the numbers".
+    const tables = [];
     if (s.upRows.length) {
-      h += `  <h2>${t.hUp}</h2>\n  <div class="table-wrap"><table>${th([[t.thDistrict], [t.thState], [t.thCountry], [t.thDir], [t.thKm, 1], [t.thFires, 1]])}<tbody>\n` +
+      tables.push([t.hUp, `<div class="table-wrap"><table>${th([[t.thDistrict], [t.thState], [t.thCountry], [t.thDir], [t.thKm, 1], [t.thFires, 1]])}<tbody>\n` +
         s.upRows.slice(0, 12).map((r) => { const d = districtName(data, r.di);
           return `   <tr><td>${districtLink(d)}</td><td>${esc(d.state)}</td><td>${COUNTRY[l][d.cc] || ""}</td><td>${compass(r.deg, l)}</td><td class="n">${t.km(n(r.km))}</td><td class="n">${n(r.n)}</td></tr>`; }).join("\n") +
-        "\n  </tbody></table></div>\n";
+        "\n  </tbody></table></div>"]);
     }
     if (s.all) {
       const here = s.w && !s.calm ? Math.round(s.w[1] / 45) % 8 : -1;
-      h += `  <h2>${t.hDir}</h2>\n  <div class="table-wrap"><table>${th([[t.thFrom], [t.thFires, 1]])}<tbody>\n` +
+      tables.push([t.hDir, `<div class="table-wrap"><table>${th([[t.thFrom], [t.thFires, 1]])}<tbody>\n` +
         s.sectors.map((v, i) => `   <tr${i === here ? ' class="wind-here"' : ""}><td>${DIRS[l][i]}${i === here ? ` <span class="muted">(${t.windHere})</span>` : ""}</td><td class="n">${n(v)}</td></tr>`).join("\n") +
-        "\n  </tbody></table></div>\n";
+        "\n  </tbody></table></div>"]);
     }
-    h += `  <h2>${t.hWeek}</h2>\n`;
-    h += s.week.length ? `  <div class="table-wrap"><table>${th([[t.thDistrict], [t.thState], [t.thCountry], [t.thKm, 1], [t.thFires, 1], [t.thCrop, 1]])}<tbody>\n` +
+    tables.push([t.hWeek, s.week.length ? `<div class="table-wrap"><table>${th([[t.thDistrict], [t.thState], [t.thCountry], [t.thKm, 1], [t.thFires, 1], [t.thCrop, 1]])}<tbody>\n` +
       s.week.slice(0, 10).map(([di, wn, crop, km]) => { const d = districtName(data, di);
         return `   <tr><td>${districtLink(d)}</td><td>${esc(d.state)}</td><td>${COUNTRY[l][d.cc] || ""}</td><td class="n">${t.km(n(km))}</td><td class="n">${n(wn)}</td><td class="n">${pct(crop, wn)}%</td></tr>`; }).join("\n") +
-      "\n  </tbody></table></div>\n" : `  <p>${t.weekNone}</p>\n`;
-    h += citySections(c, l, { N, s, cf: extra.cf, n2: extra.n2, ranks: extra.ranks, ledeText: ledeHtml.replace(/<[^>]+>/g, "").trim() });
+      "\n  </tbody></table></div>" : `<p>${t.weekNone}</p>`]);
+    const mapHtml = `<div class="ff-map" data-near data-lat="${c.lat}" data-lon="${c.lon}" data-km="250" data-wind="${s.w && !s.calm ? Math.round(s.w[1]) : ""}" data-speed="${s.w ? Math.round(s.w[0]) : ""}" data-lang="${l}" data-label="${N}"></div>`;
+    let h = cityBody(c, l, { N, h1: t.h1(N), title: t.title(N), ledeHtml, ledeText: ledeHtml.replace(/<[^>]+>/g, "").trim(), hMap: t.hMap, mapNote: t.mapNote, mapHtml,
+      tables, dirs: DIRS[l], bands: BANDS[l], s, cf: extra.cf, n2: extra.n2, ranks: extra.ranks, srcBuilt: SRC_BUILT });
     const links = [`<a href="${mapUrl}">${t.mapLink(N)}</a>`];
     if (home?.slug) links.push(`<a href="/district/${home.slug}/">${t.distLink(esc(home.name))}</a>`);
     links.push(`<a href="/fires/">${t.daily}</a>`, `<a href="/trends/">${t.trends}</a>`, `<a href="/air/">${t.allCities}</a>`);
@@ -287,7 +289,7 @@ function cityPage(c, data, wind, extra = {}) {
   // Its link preview is this city's own map (scripts/build-og-live.py, served by worker.js).
   return render({ path: `/air/${c.id}/`, title: T.en.title(N), desc: T.en.desc(N, descTxt), body, jsonld,
     ogImage: ogUrl(c.id), ogAlt: `${N}: the last 24 hours of fires within 250 km and the wind`,
-    head: STYLE + AIR_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=1" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS });
+    head: STYLE + AIR_STYLE + CITY_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=2" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS + CITY_JS });
 }
 
 function indexPage(data, wind) {

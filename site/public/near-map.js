@@ -206,14 +206,23 @@
     const canvas = L.canvas({ padding: 0.3 }), now = Date.now();
     // Faded fires first, so the upwind ones sit on top.
     const order = [...pts].reverse().sort((a, b) => up(a) - up(b));
+    const marks = [];
     for (const f of order) {
       const style = wind == null
         ? (f.kind === "crop" ? { color: "#a3170d", fillColor: "#e8452f", fillOpacity: 0.8 } : { color: "#5a4630", fillColor: "#8a7356", fillOpacity: 0.8 })
         : up(f) ? { color: "#8f140b", fillColor: "#e3321f", fillOpacity: 0.9 } : { color: "#9a9a9a", fillColor: "#c4c4c4", fillOpacity: 0.55 };
-      L.circleMarker([f.lat, f.lon], { renderer: canvas, radius: wind != null && up(f) ? 4.5 : 3.5, weight: 0.8, ...style })
-        .bindTooltip(`<b>${esc(f.place)}</b>, ${esc(f.district)}<br>${esc(t.kind[f.kind] || "")}<br>${esc(t.km(nf.format(f.km)))} · ${esc(t.ago(Math.floor((now - f.t) / 36e5)))}`, { direction: "top" })
+      const m = L.circleMarker([f.lat, f.lon], { renderer: canvas, radius: wind != null && up(f) ? 4.5 : 3.5, weight: 0.8, ...style });
+      // Sectors as the page counts them: 5-degree bins by their centre (src/air.js smoke()).
+      marks.push({ m, style, sector: Math.round((Math.floor(bearing(lat, lon, f.lat, f.lon) / 5) * 5 + 2.5) / 45) % 8 });
+      m.bindTooltip(`<b>${esc(f.place)}</b>, ${esc(f.district)}<br>${esc(t.kind[f.kind] || "")}<br>${esc(t.km(nf.format(f.km)))} · ${esc(t.ago(Math.floor((now - f.t) / 36e5)))}`, { direction: "top" })
         .addTo(map);
     }
+    // The city page's wind rose picks out one direction (city-page.js): its fires red, the rest faded.
+    el._sector = (i) => {
+      for (const k of marks) k.m.setStyle(i < 0 ? k.style : k.sector === i ? { color: "#8f140b", fillColor: "#e3321f", fillOpacity: 0.9 } : { color: "#bdbdbd", fillColor: "#dadada", fillOpacity: 0.4 });
+      for (const k of marks) if (i < 0 ? wind != null && k.style.fillColor === "#e3321f" : k.sector === i) k.m.bringToFront();
+    };
+    if (el._pendingSector != null) el._sector(el._pendingSector);
     L.circleMarker([lat, lon], { radius: 7, weight: 3, color: "#fff", fillColor: "#1d1d1b", fillOpacity: 1 }).bindTooltip(el.dataset.label || t.here, { permanent: !el.dataset.label, direction: "right" }).addTo(map);
     // Frame the nearest fires that matter: the 25th nearest upwind one when there is a wind, otherwise the
     // 25th nearest of all; at least 40 km out and at most the page's radius.

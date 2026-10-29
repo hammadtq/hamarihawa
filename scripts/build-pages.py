@@ -427,6 +427,64 @@ def city_sources(here, kinds):
     }
 
 
+def _deg(a, b):
+    """Bearing from a to b in degrees (0 = north), for naming which way a site lies from the centre."""
+    la1, lo1, la2, lo2 = map(math.radians, (a[0], a[1], b[0], b[1]))
+    y = math.sin(lo2 - lo1) * math.cos(la2)
+    x = math.cos(la1) * math.sin(la2) - math.sin(la1) * math.cos(la2) * math.cos(lo2 - lo1)
+    return round((math.degrees(math.atan2(y, x)) + 360) % 360)
+
+
+def city_pins_and_map(here, kinds, towns):
+    """Two things for the city page's pictures: "pins", the places it shows from above (the landfill with the
+    most measured methane, the largest fossil-fuel plant and the densest patch of brick kilns), each with its
+    distance and bearing from the centre; and "map", every mapped source within NEAR_KM for the page's sources
+    map (written to public/sources/city/<id>.json, so visitors never load the region-wide lists)."""
+    sites = json.load(open(SITES_JSON, encoding="utf-8"))
+    box = lambda la, lo: abs(la - here[0]) < 0.5 and abs(lo - here[1]) < 0.6
+    near = lambda la, lo: box(la, lo) and _km(here, (la, lo)) <= NEAR_KM
+    r4 = lambda v: round(v, 4)
+    kilns = [k for k in kinds["kilns"] if near(k[0], k[1])]
+    plants = [p for p in kinds["plants"] if near(p[0], p[1])]
+    mw = lambda it: float(re.sub(r"[^0-9.]", "", it[4] or "0") or 0)
+    named = [l for l in sites["landfills"] if near(l["lat"], l["lon"])]
+    landfills = [[r4(l["lat"]), r4(l["lon"]), "" if l.get("unnamed") else l["name"], l.get("rate") or 0, l.get("heatDays") or 0] for l in named]
+    for o in kinds["landfills"]:  # OSM dumps not already in the canonical list (1 km apart)
+        if near(o[0], o[1]) and not any(_km((o[0], o[1]), (l[0], l[1])) < 1 for l in landfills):
+            landfills.append([r4(o[0]), r4(o[1]), o[2] or "", 0, 0])
+    hot = [[r4(h["lat"]), r4(h["lon"]), h["days"], "" if h.get("unnamed") else h["name"]] for h in sites["hot"] if near(h["lat"], h["lon"])]
+    industry = [[r4(i[0]), r4(i[1]), i[3]] for i in kinds["industry"] if near(i[0], i[1])]
+    plist = [[r4(p[0]), r4(p[1]), p[2], p[3] or "", mw(p) or None, 0] for p in plants]
+    # Plants and factories Carbon Mapper measured CO2 from: added to a mapped plant within 1 km, or as their own site.
+    for c in sites["plants"]:
+        if (c.get("co2_t_h") or 0) <= 0 or not near(c["lat"], c["lon"]):
+            continue
+        hit = next((q for q in plist if _km((q[0], q[1]), (c["lat"], c["lon"])) < 1), None)
+        if hit:
+            hit[5] += c["co2_t_h"]
+        else:
+            plist.append([r4(c["lat"]), r4(c["lon"]), c.get("kind") or "industry", "" if c.get("unnamed") else c["name"], None, c["co2_t_h"]])
+    m = {"k": [[r4(k[0]), r4(k[1]), k[2]] for k in kilns], "p": plist, "l": landfills, "i": industry, "h": hot}
+    pin = lambda la, lo, name: {"lat": r4(la), "lon": r4(lo), "name": name, "km": round(_km(here, (la, lo))), "deg": _deg(here, (la, lo))}
+    pins = {}
+    ch4 = sorted((l for l in named if l.get("gas") == "CH4" and (l.get("rate") or 0) > 0), key=lambda l: -l["rate"])
+    if ch4:
+        pins["landfill"] = pin(ch4[0]["lat"], ch4[0]["lon"], ch4[0]["name"])
+    big = sorted((p for p in plants if p[3] and mw(p)), key=lambda p: -mw(p))
+    if big:
+        pins["plant"] = pin(big[0][0], big[0][1], big[0][3])
+    if kilns:  # the 1.5 km cell holding the most kilns, if it holds at least 4
+        cells = {}
+        for k in kilns:
+            cells.setdefault((round(k[0] / 0.015), round(k[1] / 0.015)), []).append(k)
+        best = max(cells.values(), key=len)
+        if len(best) >= 4:
+            la, lo = sum(k[0] for k in best) / len(best), sum(k[1] for k in best) / len(best)
+            town = min(towns, key=lambda t: _km((la, lo), (t[0], t[1])))
+            pins["kilns"] = {**pin(la, lo, town[2]), "n": len(best), "town_km": round(_km((la, lo), (town[0], town[1])))}
+    return pins, m
+
+
 def city_ranks(worker):
     """Rank each city among the 58 on each measure, largest first (1 = most). Ties share a rank; a city with
     none gets no rank, and kilns are ranked only inside the kiln survey's area. Each methane record also gets
@@ -453,9 +511,14 @@ def cities():
     cs = json.load(open(os.path.join(ROOT, "data", "cities.json"), encoding="utf-8"))
     src = lambda f: json.load(open(os.path.join(PUB, "sources", f), encoding="utf-8"))["items"]
     kinds = {"kilns": src("kilns.json"), "plants": src("plants.json"), "industry": src("osm-industrial.json"), "landfills": src("osm-landfill.json")}
+    towns = json.load(open(os.path.join(PUB, "sources", "towns.json"), encoding="utf-8"))
+    mapdir = os.path.join(PUB, "sources", "city")
+    os.makedirs(mapdir, exist_ok=True)
     worker = []
     for c in cs:
         here = (c["lat"], c["lon"])
+        pins, srcmap = city_pins_and_map(here, kinds, towns)
+        open(os.path.join(mapdir, f"{c['id']}.json"), "w", encoding="utf-8").write(json.dumps(srcmap, ensure_ascii=False, separators=(",", ":")))
         near = {}
         for k, items in kinds.items():
             # A cheap box test first: 50 km is under half a degree everywhere in the region.
@@ -466,7 +529,7 @@ def cities():
         others = sorted((x for x in cs if x["id"] != c["id"]), key=lambda x: _km(here, (x["lat"], x["lon"])))[:4]
         worker.append({**{k: c[k] for k in ("id", "cc", "lat", "lon", "pop", "name")}, "near": near,
                        "nearby": [[x["id"], round(_km(here, (x["lat"], x["lon"])))] for x in others],
-                       "src": city_sources(here, kinds)})
+                       "src": city_sources(here, kinds), "pins": pins, "mapped": {"landfills": len(srcmap["l"])}})
     city_ranks(worker)
     open(os.path.join(ROOT, "site", "src", "cities.json"), "w", encoding="utf-8").write(
         "[\n" + ",\n".join(json.dumps(w, ensure_ascii=False, separators=(",", ":")) for w in worker) + "\n]\n")

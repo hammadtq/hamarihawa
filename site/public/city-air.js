@@ -18,7 +18,17 @@
       const nf = new Intl.NumberFormat(LOC[el.dataset.lang] || "en-GB", { maximumFractionDigits: 1 });
       const vals = { aqi: nf.format(Math.round(aqi)), band: el.dataset.bands.split("|")[band(aqi)],
         pm: nf.format(Math.round(pm)), who: nf.format(pm / 15), cigs: nf.format(pm / 22) };
-      el.innerHTML = el.dataset.line.replace(/\{(\w+)\}/g, (m, k) => (k in vals ? `<b>${vals[k]}</b>` : m));
+      const line = el.dataset.line.replace(/\{(\w+)\}/g, (m, k) => (k in vals ? `<b>${vals[k]}</b>` : m));
+      if (el.dataset.card != null) {
+        // The city page's report card: the AQI as a big coloured number, the band, the line, cigarettes drawn.
+        const b = band(aqi), cigs = Math.min(12, Math.round(pm / 22));
+        el.innerHTML = `<div class="cp-aqi-num${b === 1 ? " dark" : ""}" style="background:var(--aqi-${b}, #999)"><b>${vals.aqi}</b><span>${el.dataset.unit}</span></div>` +
+          `<div class="cp-aqi-txt"><div class="cp-aqi-band" style="color:var(--aqi-${b}, #999)">${vals.band}</div><div>${line}` +
+          (cigs ? `<span class="cp-cigs" aria-hidden="true">${"<i class=\"cp-cig\"></i>".repeat(cigs)}</span>` : "") +
+          `</div><div class="muted" style="font-size:12.5px">${el.dataset.src}</div></div>`;
+        continue;
+      }
+      el.innerHTML = line;
       el.style.borderInlineStart = `4px solid var(--aqi-${band(aqi)}, #999)`;
       el.style.paddingInlineStart = "10px";
     }
