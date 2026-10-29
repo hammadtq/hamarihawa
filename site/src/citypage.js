@@ -229,6 +229,26 @@ export const CITY_STYLE = `<style>
   html[lang="ur"] .cp-aqi-band { font-family: var(--urdu); font-size: 22px; line-height: 1.8; }
   .cp-cigs { display: inline-flex; gap: 3px; vertical-align: -1px; margin-inline-start: 6px; flex-wrap: wrap; }
   .cp-cig { width: 20px; height: 7px; border-radius: 2px; background: linear-gradient(90deg, #fff 0 72%, #e9a15c 72% 100%); border: 1px solid #9a9a9a; }
+  .cp-wk { border-top: 1px dashed var(--hair); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .cp-wk[hidden] { display: none; }
+  .cp-wk-h { display: flex; align-items: center; gap: 8px; font: 700 21px/1.2 var(--hand); }
+  html[lang="ur"] .cp-wk-h { font-family: var(--urdu); font-size: 19px; line-height: 1.8; }
+  .doc .cp-wk p { margin: 0; }
+  .cp-wk svg { vertical-align: -2px; flex: none; }
+  .cp-wk-row, .cp-wk-lbl { display: grid; grid-template-columns: repeat(8, 1fr); max-width: 440px; text-align: center; }
+  .cp-wk-d { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; color: var(--ink-3); white-space: nowrap; overflow: hidden; }
+  .cp-wk-d .dot { display: block; width: var(--s, 22px); height: var(--s, 22px); border-radius: 50%; background: var(--c); }
+  .cp-wk-d .dw { height: 32px; display: flex; align-items: center; justify-content: center; }
+  .cp-wk-d.past .dot { opacity: .5; }
+  .cp-wk-d.today { color: var(--ink); font-weight: 700; }
+  .cp-wk-d.today .dot { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--ink); }
+  .cp-wk-d.next .dot { background: repeating-linear-gradient(135deg, var(--c) 0 4px, color-mix(in srgb, var(--c) 55%, #fff) 4px 7px); }
+  .cp-wk-d .wx { height: 15px; }
+  .cp-wk-lbl { font-size: 11.5px; color: var(--ink-3); margin-top: -2px; }
+  .cp-wk-lbl span:first-child { grid-column: 1 / 4; border-top: 1px solid var(--hair); padding-top: 2px; }
+  .cp-wk-lbl span:last-child { grid-column: 5 / 9; border-top: 1px dashed var(--ink-3); padding-top: 2px; }
+  .cp-wk-next { font-weight: 600; }
+  .doc .cp-wk .cp-wk-key, .doc .cp-wk .cp-wk-src { font-size: 12px; line-height: 1.4; color: var(--ink-3); }
   .doc .cp-card .lede { margin: 0; border-top: 1px dashed var(--hair); padding-top: 12px; }
   .cp-badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
   .doc a.cp-badge { display: flex; flex-direction: column; gap: 1px; border: 1px solid var(--hair); border-radius: 10px; padding: 8px 11px; background: var(--bg); text-decoration: none; }
@@ -416,6 +436,7 @@ export function cityBody(c, l, a) {
   // 1. The card.
   h += `  <div class="cp-card">\n   <p class="cp-kicker">${t.kicker(N)}</p>\n` +
     `   <div class="cp-aqi" data-air data-card data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-unit="${esc(t.aqiUnit)}" data-line="${esc(t.aqiSub)}" data-src="${esc(t.aqiSrc)}" data-bands="${esc(a.bands.join("|"))}">${t.aqiWait}</div>\n` +
+    `   <div class="cp-wk" data-week data-lang="${l}" data-bands="${esc(a.bands.join("|"))}" hidden></div>\n` +
     `   <p class="lede">${a.ledeHtml}</p>\n   ${badges(c, l, t, { s, cf, n2, ranks, f30rank })}\n   ${shareRow(c, l, t, N)}\n  </div>\n`;
   const jumps = ["today", "causes", "map", "season", "compare", "details"];
   h += `  <nav class="cp-jump" aria-label="${esc(t.jumpLabel)}">${jumps.map((k) => `<a href="#${ID(k, l)}">${t.jump[k]}</a>`).join("")}</nav>\n`;

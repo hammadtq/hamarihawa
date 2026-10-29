@@ -292,7 +292,7 @@ function cityPage(c, data, wind, extra = {}) {
   // Its link preview is this city's own map (scripts/build-og-live.py, served by worker.js).
   return render({ path: `/air/${c.id}/`, title: T.en.title(N), desc: T.en.desc(N, descTxt), body, jsonld,
     ogImage: ogUrl(c.id), ogAlt: `${N}: the last 24 hours of fires within 250 km and the wind`,
-    head: STYLE + AIR_STYLE + CITY_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=2" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS + CITY_JS });
+    head: STYLE + AIR_STYLE + CITY_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=4" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS + CITY_JS });
 }
 
 function indexPage(data, wind) {
