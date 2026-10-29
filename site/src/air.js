@@ -44,6 +44,7 @@ const T = {
     airWait: (map) => `Loading the latest reading (Copernicus CAMS model estimates via Open-Meteo)… It is also on the <a href="${map}">live map</a>.`,
     hMap: "Map of the fires around the city, last 24 hours",
     mapNote: "Each dot is one fire a NASA satellite saw. Red dots are upwind, in the direction the wind is coming from, so their smoke is the likeliest to be reaching the city now; grey dots are in other directions. The moving lines show the wind blowing towards the city. Tap a dot for the village and the time.",
+    mapNoteCalm: "Each dot is one fire a NASA satellite saw. The wind is calm, so there is no upwind side: smoke from fires on every side can drift in and settle over the city. Red dots are likely crop burning, brown dots other fires. Tap a dot for the village and the time.",
     hUp: "Upwind districts, last 24 hours", hDir: "Fires within 250 km by direction, last 24 hours", hWeek: "Fires within 250 km in the last 7 days",
     thDistrict: "District", thState: "Province or state", thCountry: "Country", thDir: "Direction", thKm: "Distance", thFires: "Fires", thCrop: "On farmland",
     thFrom: "From the", windHere: "the wind is coming from here",
@@ -88,6 +89,7 @@ const T = {
     thDistrict: "ضلع", thState: "صوبہ یا ریاست", thCountry: "ملک", thDir: "سمت", thKm: "فاصلہ", thFires: "آگ", thCrop: "کھیتوں میں",
     hMap: "شہر کے آس پاس آگ کا نقشہ، پچھلے 24 گھنٹے",
     mapNote: "ہر نقطہ وہ ایک آگ ہے جو ناسا کے سیٹلائٹ نے دیکھی۔ سرخ نقطے ہوا کے رخ پر ہیں، جدھر سے ہوا آ رہی ہے، اس لیے ان کا دھواں اس وقت شہر تک پہنچنے کا سب سے زیادہ امکان ہے؛ سرمئی نقطے دوسری سمتوں میں ہیں۔ چلتی لکیریں شہر کی طرف آتی ہوا دکھاتی ہیں۔ گاؤں اور وقت کے لیے نقطے پر ٹیپ کریں۔",
+    mapNoteCalm: "ہر نقطہ وہ ایک آگ ہے جو ناسا کے سیٹلائٹ نے دیکھی۔ ہوا تھمی ہوئی ہے، اس لیے کوئی ایک سمت ہوا کا رخ نہیں: ہر طرف کی آگ کا دھواں شہر پر آ کر ٹھہر سکتا ہے۔ سرخ نقطے غالباً فصل کی باقیات جلنے کے ہیں، بھورے نقطے دوسری آگ۔ گاؤں اور وقت کے لیے نقطے پر ٹیپ کریں۔",
     thFrom: "سمت", windHere: "ہوا اسی طرف سے آ رہی ہے",
     weekNone: "پچھلے 7 دنوں میں 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی گئی۔",
     hLocal: "50 کلومیٹر کے اندر آلودگی کے ذرائع",
@@ -125,6 +127,7 @@ const T = {
     thDistrict: "ज़िला", thState: "प्रांत या राज्य", thCountry: "देश", thDir: "दिशा", thKm: "दूरी", thFires: "आग", thCrop: "खेतों में",
     hMap: "शहर के आसपास आग का नक्शा, पिछले 24 घंटे",
     mapNote: "हर बिंदु एक आग है जो नासा के उपग्रह ने देखी। लाल बिंदु हवा के रुख़ पर हैं, जिधर से हवा आ रही है, इसलिए इनका धुआँ इस समय शहर तक पहुँचने की सबसे ज़्यादा संभावना है; धूसर बिंदु दूसरी दिशाओं में हैं। चलती लकीरें शहर की ओर आती हवा दिखाती हैं। गाँव और समय के लिए बिंदु पर टैप करें।",
+    mapNoteCalm: "हर बिंदु एक आग है जो नासा के उपग्रह ने देखी। हवा थमी हुई है, इसलिए कोई एक तरफ़ हवा का रुख़ नहीं: हर तरफ़ की आग का धुआँ शहर पर आकर ठहर सकता है। लाल बिंदु शायद पराली जलने के हैं, भूरे बिंदु दूसरी आग। गाँव और समय के लिए बिंदु पर टैप करें।",
     thFrom: "दिशा", windHere: "हवा इसी तरफ़ से आ रही है",
     weekNone: "पिछले 7 दिनों में 250 किमी के भीतर कोई आग नहीं दिखी।",
     hLocal: "50 किमी के भीतर प्रदूषण के स्रोत",
@@ -156,7 +159,7 @@ const AIR_STYLE = `<style>
 
 const LEAFLET_CSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">\n';
 const LEAFLET_JS = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>\n';
-const NEAR_JS = '<script src="/near-map.js?v=8"></script>\n';
+const NEAR_JS = '<script src="/near-map.js?v=9"></script>\n';
 const SHARE_JS = '<script src="/share-map.js?v=6"></script>\n';
 const CITY_JS = '<script src="/city-page.js?v=1"></script>\n';
 
@@ -267,7 +270,7 @@ function cityPage(c, data, wind, extra = {}) {
         return `   <tr><td>${districtLink(d)}</td><td>${esc(d.state)}</td><td>${COUNTRY[l][d.cc] || ""}</td><td class="n">${t.km(n(km))}</td><td class="n">${n(wn)}</td><td class="n">${pct(crop, wn)}%</td></tr>`; }).join("\n") +
       "\n  </tbody></table></div>" : `<p>${t.weekNone}</p>`]);
     const mapHtml = `<div class="ff-map" data-near data-lat="${c.lat}" data-lon="${c.lon}" data-km="250" data-wind="${s.w && !s.calm ? Math.round(s.w[1]) : ""}" data-speed="${s.w ? Math.round(s.w[0]) : ""}" data-lang="${l}" data-label="${N}"></div>`;
-    let h = cityBody(c, l, { N, h1: t.h1(N), title: t.title(N), ledeHtml, ledeText: ledeHtml.replace(/<[^>]+>/g, "").trim(), hMap: t.hMap, mapNote: t.mapNote, mapHtml,
+    let h = cityBody(c, l, { N, h1: t.h1(N), title: t.title(N), ledeHtml, ledeText: ledeHtml.replace(/<[^>]+>/g, "").trim(), hMap: t.hMap, mapNote: s.w && s.calm ? t.mapNoteCalm : t.mapNote, mapHtml,
       tables, dirs: DIRS[l], bands: BANDS[l], s, cf: extra.cf, n2: extra.n2, ranks: extra.ranks, srcBuilt: SRC_BUILT });
     const links = [`<a href="${mapUrl}">${t.mapLink(N)}</a>`];
     if (home?.slug) links.push(`<a href="/district/${home.slug}/">${t.distLink(esc(home.name))}</a>`);
