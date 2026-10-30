@@ -124,10 +124,16 @@ class ComparisonTest(unittest.TestCase):
         csv = "latitude,longitude,acq_date,acq_time,confidence,frp,daynight\n"
         for lat, lon in ((31.40, 74.20), (31.60, 75.10), (19.08, 72.88)):  # Kasur, Amritsar, Mumbai
             csv += f"{lat},{lon},2026-10-20,0800,n,5.0,D\n"
-        s = bf.day_files(bf.build(24, [csv, None, None, None])["_all"])["2026-10-20"]["summary"]
+        s = bf.day_files(bf.build(24, [None, csv, None, None])["_all"])["2026-10-20"]["summary"]  # NOAA-20
         self.assertEqual(s["sn"], [3, 1, 2, 0, 0, 0])
         self.assertEqual(s["snc"], [2, 1, 1, 0, 0, 0])
         self.assertNotIn("states", bf.index_entry(s, False))
+
+    def test_reference_satellite_is_noaa20(self):
+        # Suomi NPP stopped on 2 Nov 2026: its spots still go on the map but are no longer the year-on-year count.
+        csv = "latitude,longitude,acq_date,acq_time,confidence,frp,daynight\n31.40,74.20,2026-10-20,0800,n,5.0,D\n"
+        s = bf.day_files(bf.build(24, [csv, None, None, None])["_all"])["2026-10-20"]["summary"]
+        self.assertEqual((s["spots"], s["sn"][0]), (1, 0))
         self.assertIn("snc", bf.index_entry(s, False))
 
     def test_districts_outside_the_box_have_no_year_comparison(self):
@@ -277,15 +283,16 @@ class CityFires(unittest.TestCase):
     def test_season_capped_and_gaps_left_out(self):
         ids = [c["id"] for c in bf.CITIES]
         row = lambda v: [[0, v, v]] * len(ids)
-        days = {"2024-10-01": row(10), "2024-11-04": row(500), "2024-11-30": row(7), "2025-10-01": row(3), "2025-12-05": row(1)}
+        days = {"2023-10-01": row(500), "2023-10-02": row(4), "2024-10-01": row(10), "2024-11-30": row(7), "2025-10-01": row(3), "2025-12-05": row(1)}
         store = {"cities": ids, "days": days}
         out = bf.city_fires(store, {}, "2025-12-06", 0)
         self.assertEqual(out["season"]["to"], "11-30")  # December: the last whole season
         self.assertEqual(out["season"]["years"][-1], 2025)
         s = out["cities"]["lahore"]["s"]
         y = out["season"]["years"]
-        self.assertEqual(s[y.index(2024)], 17)  # 2024-11-04 is a known Suomi NPP gap
-        self.assertIn("2024-11-04", out["season"]["gaps"]["2024"])
+        self.assertEqual(s[y.index(2023)], 4)  # 2023-10-01 is a known NOAA-20 gap
+        self.assertIn("2023-10-01", out["season"]["gaps"]["2023"])
+        self.assertEqual(s[y.index(2024)], 17)
         self.assertEqual(s[y.index(2025)], 3)
         self.assertIsNone(s[y.index(2019)])  # no data at all is not zero
 

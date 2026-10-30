@@ -79,6 +79,6 @@ export function satelliteKml() {
     `<Folder><name>Haze and smoke (MODIS aerosol), ${day(1)}</name><visibility>1</visibility>` +
       ov(`Haze, ${day(2)} (fills gaps)`, "MODIS_Combined_Value_Added_AOD", day(2), "image/png", 1, "b4ffffff", 1) +
       ov(`Haze, ${day(1)}`, "MODIS_Combined_Value_Added_AOD", day(1), "image/png", 2, "b4ffffff", 1) + `</Folder>` +
-    ov(`Satellite photo (VIIRS true colour), ${day(1)}`, "VIIRS_SNPP_CorrectedReflectance_TrueColor", day(1), "image/jpeg", 0, "ffffffff", 0);
+    ov(`Satellite photo (VIIRS true colour), ${day(1)}`, "VIIRS_NOAA20_CorrectedReflectance_TrueColor", day(1), "image/jpeg", 0, "ffffffff", 0);
   return doc("Satellite images", "NASA GIBS: MODIS haze and smoke, and the VIIRS true-colour photo where smoke plumes are visible. Refreshed every 6 hours.", body);
 }

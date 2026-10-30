@@ -5,7 +5,7 @@
   <div data-chart="filter"></div>
 
   <h2 id="seasons">Every burning season since 2019</h2>
-  <p>Each line is one season, 1 October to 30 November, when farmers burn rice stubble before sowing wheat. The red line is this year. To compare years fairly, these charts count only what NASA's <b>Suomi NPP</b> satellite saw, because it has flown every year. Newer satellites see more fires, so adding them would make recent years look worse than they are.</p>
+  <p>Each line is one season, 1 October to 30 November, when farmers burn rice stubble before sowing wheat. The red line is this year. To compare years fairly, these charts count only what the <b>NOAA-20</b> satellite saw, because it has flown every season since 2019. (They counted Suomi NPP until NASA stopped delivering its data on 2 November 2026.) Newer satellites see more fires, so adding them would make recent years look worse than they are.</p>
   <div data-chart="season"></div>
 
   <h2 id="totals">Season totals</h2>
@@ -17,7 +17,7 @@
   <div data-chart="bubbles"></div>
 
   <h2 id="night">Day and night</h2>
-  <p>Suomi NPP crosses the region around 1:30 in the afternoon and 1:30 at night. Each bar shows what share of a season's fires it caught on the night pass. That share has grown from about 3% in 2019 to about 8% in 2025. A fire lit at 4 pm that dies down before 1:30 am is missed by both passes, and that is now common: iFOREST, using a satellite that looks every 15 minutes, found over 90% of large farm fires in Indian Punjab in 2024 and 2025 started after 3 pm, against 3% in 2021. <b>So these counts are a floor, not a total, and the fall since 2021 is partly fires the satellites missed.</b> Burnt-area maps show Indian Punjab's burning fell by about a third from 2022 to 2025, not the 90% the counts suggest. Our <a href="/report/two-punjabs/">Two Punjabs report</a> looks at this side by side, and finds no sign of the same shift in Pakistani Punjab.</p>
+  <p>NOAA-20 crosses the region around 1:30 in the afternoon and 1:30 at night. Each bar shows what share of a season's fires it caught on the night pass. That share has grown from about 3% in 2019 to about 8% in 2025. A fire lit at 4 pm that dies down before 1:30 am is missed by both passes, and that is now common: iFOREST, using a satellite that looks every 15 minutes, found over 90% of large farm fires in Indian Punjab in 2024 and 2025 started after 3 pm, against 3% in 2021. <b>So these counts are a floor, not a total, and the fall since 2021 is partly fires the satellites missed.</b> Burnt-area maps show Indian Punjab's burning fell by about a third from 2022 to 2025, not the 90% the counts suggest. Our <a href="/report/two-punjabs/">Two Punjabs report</a> looks at this side by side, and finds no sign of the same shift in Pakistani Punjab.</p>
   <div data-chart="night"></div>
 
   <h2 id="method">How this is counted</h2>
@@ -25,7 +25,7 @@
     <li><b>Area</b>: <b>Northern plains</b> (the default) counts 25–35.5°N, 66–88.5°E, from Peshawar and the edge of Karachi to Patna, where the stubble is burnt; the archive has covered it since 2019. <b>Whole countries</b> counts all of Pakistan and India, which brings in coal fields, forest fires and shifting cultivation in the east and south. Every season was rebuilt for both countries in October 2026, so both choices compare all years.</li>
     <li><b>Fire spots</b>: places hot enough for the satellite to notice, in 375 m squares. The same spot seen by several satellites counts once.</li>
     <li><b>Cloud and smoke</b> hide fires, so single days swing. The season lines use a 7-day average.</li>
-    <li><b>Missing days</b>: Suomi NPP returned no data on 4–6 November 2024 (a NASA outage) and missed its afternoon pass on 31 October 2019, 2 November 2023, 3 November 2024 and 12 November 2025. Those days are left out of the lines and count as zero in the totals, so 2024 in particular is low.</li>
+    <li><b>Missing days</b>: NOAA-20 returned almost no data on 1 October 2023. That day is left out of the lines and counts as zero in the totals.</li>
     <li><b>Days</b> run on Pakistan time, so the 1:30 am pass belongs to the date it happened on.</li>
     <li><b>Sources</b>: NASA FIRMS. Past seasons are from NASA's final processing; this season is from its near-real-time feed, which can differ by a few percent.</li>
     <li><b>The data</b>: daily totals at <a href="/api/days"><code>/api/days</code></a> and districts at <a href="/api/districts"><code>/api/districts</code></a>. See <a href="/data/#json">Use the data</a>.</li>

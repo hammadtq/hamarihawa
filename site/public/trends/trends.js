@@ -7,15 +7,15 @@
   const S = {
     en: {
       all: "All", pk: "Pakistan", in: "India",
-      head: "So far this season (1 October to {d}), NASA's Suomi NPP satellite has seen {n} fire spots {where}. That is {vsLast} the same dates last year, and {vsAvg} the {y0}–{y1} average.",
-      headShort: "So far this season (1 October to {d}), NASA's Suomi NPP satellite has seen {n} fire spots {where}.",
+      head: "So far this season (1 October to {d}), the NOAA-20 satellite has seen {n} fire spots {where}. That is {vsLast} the same dates last year, and {vsAvg} the {y0}–{y1} average.",
+      headShort: "So far this season (1 October to {d}), the NOAA-20 satellite has seen {n} fire spots {where}.",
       where0: "across Pakistan and North India", where1: "in Pakistan's north", where2: "in North India",
       whereAll0: "across Pakistan and India", whereAll1: "in Pakistan", whereAll2: "in India",
       north: "Northern plains", whole: "Whole countries",
       more: "{p}% more than", less: "{p}% fewer than", same: "about the same as",
-      axisSeason: "Fires a day, 7-day average (Suomi NPP)",
+      axisSeason: "Fires a day, 7-day average (NOAA-20)",
       soFar: "{y} so far", sameDates: "1 Oct to {d}", rest: "rest of the season", wholeSeason: "whole season",
-      nightAxis: "Share of fires seen on the night pass (Suomi NPP)",
+      nightAxis: "Share of fires seen on the night pass (NOAA-20)",
       play: "▶ Play", pause: "❚❚ Pause", slider: "Day of the season",
       bubbleDay: "{d}: {n} fire spots seen by all satellites", bubbleNone: "{d}: no fire spots recorded",
       tipDistrict: "{place}: {n} fire spots",
@@ -23,15 +23,15 @@
     },
     ur: {
       all: "سب", pk: "پاکستان", in: "ہندوستان",
-      head: "اس موسم میں اب تک (1 اکتوبر سے {d} تک) ناسا کے Suomi NPP سیٹلائٹ نے {where} {n} مقامات پر آگ دیکھی ہے۔ یہ تعداد پچھلے سال کی انہی تاریخوں {vsLast}، اور {y0} تا {y1} کی اوسط {vsAvg}۔",
-      headShort: "اس موسم میں اب تک (1 اکتوبر سے {d} تک) ناسا کے Suomi NPP سیٹلائٹ نے {where} {n} مقامات پر آگ دیکھی ہے۔",
+      head: "اس موسم میں اب تک (1 اکتوبر سے {d} تک) NOAA-20 سیٹلائٹ نے {where} {n} مقامات پر آگ دیکھی ہے۔ یہ تعداد پچھلے سال کی انہی تاریخوں {vsLast}، اور {y0} تا {y1} کی اوسط {vsAvg}۔",
+      headShort: "اس موسم میں اب تک (1 اکتوبر سے {d} تک) NOAA-20 سیٹلائٹ نے {where} {n} مقامات پر آگ دیکھی ہے۔",
       where0: "پاکستان اور شمالی ہندوستان میں", where1: "پاکستان کے شمال میں", where2: "شمالی ہندوستان میں",
       whereAll0: "پورے پاکستان اور ہندوستان میں", whereAll1: "پورے پاکستان میں", whereAll2: "پورے ہندوستان میں",
       north: "شمالی میدان", whole: "پورے ملک",
       more: "سے {p}% زیادہ ہے", less: "سے {p}% کم ہے", same: "کے برابر ہے",
-      axisSeason: "روزانہ آگ (7 دن کی اوسط، Suomi NPP)",
+      axisSeason: "روزانہ آگ (7 دن کی اوسط، NOAA-20)",
       soFar: "{y} (اب تک)", sameDates: "1 اکتوبر سے {d} تک", rest: "موسم کا باقی حصہ", wholeSeason: "پورا موسم",
-      nightAxis: "رات والے چکر میں نظر آنے والی آگ کا حصہ (Suomi NPP)",
+      nightAxis: "رات والے چکر میں نظر آنے والی آگ کا حصہ (NOAA-20)",
       play: "▶ چلائیں", pause: "❚❚ روکیں", slider: "موسم کا دن",
       bubbleDay: "{d}: تمام سیٹلائٹس نے {n} مقامات پر آگ دیکھی", bubbleNone: "{d}: کوئی آگ درج نہیں ہوئی",
       tipDistrict: "{place}: {n} مقامات پر آگ",
@@ -39,15 +39,15 @@
     },
     hi: {
       all: "सब", pk: "पाकिस्तान", in: "भारत",
-      head: "इस मौसम में अब तक (1 अक्टूबर से {d} तक) नासा के Suomi NPP उपग्रह ने {where} {n} जगहों पर आग देखी है। यह संख्या पिछले साल की इन्हीं तारीख़ों {vsLast}, और {y0} से {y1} तक के औसत {vsAvg}।",
-      headShort: "इस मौसम में अब तक (1 अक्टूबर से {d} तक) नासा के Suomi NPP उपग्रह ने {where} {n} जगहों पर आग देखी है।",
+      head: "इस मौसम में अब तक (1 अक्टूबर से {d} तक) NOAA-20 उपग्रह ने {where} {n} जगहों पर आग देखी है। यह संख्या पिछले साल की इन्हीं तारीख़ों {vsLast}, और {y0} से {y1} तक के औसत {vsAvg}।",
+      headShort: "इस मौसम में अब तक (1 अक्टूबर से {d} तक) NOAA-20 उपग्रह ने {where} {n} जगहों पर आग देखी है।",
       where0: "पाकिस्तान और उत्तर भारत में", where1: "पाकिस्तान के उत्तर में", where2: "उत्तर भारत में",
       whereAll0: "पूरे पाकिस्तान और भारत में", whereAll1: "पूरे पाकिस्तान में", whereAll2: "पूरे भारत में",
       north: "उत्तरी मैदान", whole: "पूरे देश",
       more: "से {p}% ज़्यादा है", less: "से {p}% कम है", same: "के बराबर है",
-      axisSeason: "रोज़ की आग (7 दिन का औसत, Suomi NPP)",
+      axisSeason: "रोज़ की आग (7 दिन का औसत, NOAA-20)",
       soFar: "{y} (अब तक)", sameDates: "1 अक्टूबर से {d} तक", rest: "मौसम का बाक़ी हिस्सा", wholeSeason: "पूरा मौसम",
-      nightAxis: "रात वाले चक्कर में दिखी आग का हिस्सा (Suomi NPP)",
+      nightAxis: "रात वाले चक्कर में दिखी आग का हिस्सा (NOAA-20)",
       play: "▶ चलाएँ", pause: "❚❚ रोकें", slider: "मौसम का दिन",
       bubbleDay: "{d}: सभी उपग्रहों ने {n} जगहों पर आग देखी", bubbleNone: "{d}: कोई आग दर्ज नहीं हुई",
       tipDistrict: "{place}: {n} जगहों पर आग",
@@ -86,10 +86,10 @@
   const isoOf = (y, i) => (i < 31 ? `${y}-10-${String(i + 1).padStart(2, "0")}` : `${y}-11-${String(i - 30).padStart(2, "0")}`);
   const fmtDay = (y, i, withYear, month = "short") => new Intl.DateTimeFormat(LOC[lang], { day: "numeric", month, ...(withYear ? { year: "numeric" } : {}), timeZone: "UTC" })
     .format(Date.UTC(y, i < 31 ? 9 : 10, i < 31 ? i + 1 : i - 30));
-  // Suomi NPP count for the chosen country. Days archived before the split existed only have the total.
+  // NOAA-20 count for the chosen country. Days archived before the split existed only have the total.
   function val(e) {
     if (!e || e.partial) return null;
-    // Suomi NPP returned no usable data (NASA's 2-6 Nov 2024 outage, dropped passes) when it saw almost
+    // NOAA-20 returned no usable data (NASA's 2-6 Nov 2024 outage, dropped passes) when it saw almost
     // nothing on a day the other satellites saw plenty: missing, not zero.
     if (e.sn && e.sn[0] < 20 && e.spots >= 200 && e.sn[0] * 20 < e.spots) return null;
     // snc: the northern box every season covers (days since the region grew); older days only cover it.

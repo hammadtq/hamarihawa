@@ -52,7 +52,8 @@ def main():
     for y in YEARS:
         # The other VIIRS satellites go in too, so the desert-burst filter has the same witnesses as the live
         # feed (a burst is dropped only when another satellite flew over and saw nothing); only Suomi NPP is counted.
-        feed = bf.build(24, [season_csv(raw, y), season_csv(raw, y, "VIIRS_NOAA20_"), season_csv(raw, y, "VIIRS_NOAA21_"), None])
+        # 168: build() cuts the shorter windows to their last hours.
+        feed = bf.build(168, [season_csv(raw, y), season_csv(raw, y, "VIIRS_NOAA20_"), season_csv(raw, y, "VIIRS_NOAA21_"), None])
         by_day = defaultdict(list)
         for p in feed["_all"]:
             if p["si"] != 0:

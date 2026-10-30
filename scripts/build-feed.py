@@ -434,6 +434,12 @@ def build(hours, csvs):
 
 
 SAT_INDEX = {"Suomi NPP": 0, "NOAA-20": 1, "NOAA-21": 2, "Aqua": 3, "Terra": 4}
+# The reference satellite: counted on its own so seasons compare fairly whatever else was flying. NOAA-20
+# (VIIRS, same instrument and 1:30 pm/am crossing as Suomi NPP) has flown every season since 2019. It replaced
+# Suomi NPP, whose data NASA stopped delivering on 2 November 2026; the whole archive was rebuilt on NOAA-20 then.
+# The stored keys keep their old names (summary "sn", "snc", "snpp"; states [2], [3]; district rows [6], [7];
+# city-days [2]); they now hold NOAA-20 counts.
+REF_SI = SAT_INDEX["NOAA-20"]
 V2_FIELDS = ["lat", "lon", "t", "frp", "sat", "place", "district", "kind"]
 V2_EVENT = ["t", "sat", "district", "night", "n", "high", "frpMax", "frpSum", "lat", "lon", "kinds", "places", "sites",
             "place", "placeKm", "town", "townKm", "flat", "flon", "kind"]
@@ -551,11 +557,11 @@ def summarise(spots):
 
 def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"):
     """Split points into Pakistan-time days: {date: day file} for the dates `keep` accepts.
-    summary.snpp counts spots Suomi NPP saw on its own, the one satellite flying every year since
-    2012, so past seasons compare fairly with today's four-satellite counts; summary.sn splits it as
+    summary.snpp counts spots the reference satellite (REF_SI, NOAA-20) saw on its own, so past seasons
+    compare fairly with today's four-satellite counts; summary.sn splits it as
     [all, PK, IN, night all, night PK, night IN], and summary.snc is the same inside geo.COMPARE_BOX, the area
     every archived year covers, for year-on-year comparisons. The day file's "districts" lists the busiest
-    districts as [district, state, cc, spots, lat, lon, Suomi NPP spots inside geo.COMPARE_BOX, all Suomi NPP
+    districts as [district, state, cc, spots, lat, lon, reference-satellite spots inside geo.COMPARE_BOX, all reference
     spots] (centre of that day's fires; older day files stop at the in-box count, all they covered),
     for the trends map and the district pages; "places" lists the villages with the most spots as
     [place, district, cc, spots], for the daily fire pages."""
@@ -567,7 +573,7 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
         if not keep(date):
             continue
         spots = sorted(distinct(pts).values(), key=lambda p: p["t"])
-        sn_spots = distinct([p for p in pts if p["si"] == 0]).values()
+        sn_spots = distinct([p for p in pts if p["si"] == REF_SI]).values()
         sn, snc, sn_d, sn_dc = [0] * 6, [0] * 6, {}, {}
         for p in sn_spots:
             col = 1 if p["cc"] == "PK" else 2 if p["cc"] == "IN" else None
@@ -591,7 +597,7 @@ def day_files(points, keep=lambda date: True, source="NASA FIRMS near real time"
             if p.get("place"):
                 pk = (p["place"], p["district"] or "", p["cc"] or "")
                 by_p[pk] = by_p.get(pk, 0) + 1
-        # Per state (country|state): [spots, night spots, Suomi NPP spots, Suomi NPP night spots], every state,
+        # Per state (country|state): [spots, night spots, reference-satellite spots, its night spots], every state,
         # so regional series (the two Punjabs, Haryana) never depend on the capped district list.
         states = {}
         for p in spots:
@@ -630,10 +636,10 @@ PAGE_MIN = (500, 20)  # a district gets a page once the archive holds 500+ spots
 
 def district_index(index, dist, prev=None):
     """Compact per-district numbers for the district pages (/district/<slug>/), which the Worker renders.
-    Only complete days count. Each season is [Suomi NPP spots, Suomi NPP to this season's date,
-    all-satellite spots, all-satellite to date]; the Suomi NPP figures are None when some day lacks them.
+    Only complete days count. Each season is [NOAA-20 spots, NOAA-20 to this season's date,
+    all-satellite spots, all-satellite to date]; the NOAA-20 figures are None when some day lacks them.
     Totals are a floor: the dist index keeps each day's 150 busiest districts with 2+ spots.
-    The Suomi NPP figures count the whole district when every one of its rows was built for the whole region
+    The NOAA-20 figures count the whole district when every one of its rows was built for the whole region
     (8 fields), and otherwise only its part inside geo.COMPARE_BOX, which every archived year covers; a district
     wholly outside the box then has no comparison.
     prev is the last published index ({"d": {slug: {...}}}): a district keeps the slug it was published under,
@@ -663,7 +669,7 @@ def district_index(index, dist, prev=None):
             e["daily"][date] = n
             if season is not None:
                 t = e["s"].setdefault(season, [0, 0, 0, 0])
-                # Suomi NPP inside the box every year covers, so a district crossing its edge compares like with
+                # NOAA-20 inside the box every year covers, so a district crossing its edge compares like with
                 # like, and for the whole district once all its rows have that (r[7]).
                 sn = r[6] if len(r) > 6 else None
                 e["box"] += sn or 0
@@ -919,11 +925,11 @@ def daily_spots(points):
 
 
 def city_day_counts(pts):
-    """One Pakistan-time day's points -> [[spots within 50 km, within 250 km, Suomi NPP spots within 250 km], ...]
-    in CITIES order. Spots as on the daily pages (distinct()); Suomi NPP counted on its own, as summary.snpp is,
+    """One Pakistan-time day's points -> [[spots within 50 km, within 250 km, NOAA-20 spots within 250 km], ...]
+    in CITIES order. Spots as on the daily pages (distinct()); NOAA-20 (REF_SI) counted on its own, as summary.snpp is,
     so past seasons compare fairly with today's four satellites."""
     spots = list(distinct(pts).values())
-    sn = list(distinct([p for p in pts if p["si"] == 0]).values())
+    sn = list(distinct([p for p in pts if p["si"] == REF_SI]).values())
     out = []
     for c in CITIES:
         near = list(near_city(c, spots))
@@ -935,9 +941,9 @@ def city_day_counts(pts):
 # "city-days" is the store (only this job reads it): {"cities": [ids], "days": {date: city_day_counts rows}}.
 # "city-fires" is what the pages read, worked out from it here so the Worker only formats.
 CITY_FIRE_DAYS = 30
-# Days Suomi NPP produced no, or almost no, data, as in scripts/season-stats.py; city_fires() also catches
-# new ones with the daily pages' rule (pages.js snGap).
-SNPP_GAPS = {"2019-10-31", "2023-11-02", "2024-11-03", "2024-11-04", "2024-11-05", "2024-11-06", "2025-11-12"}
+# Days NOAA-20 (the reference satellite) produced no, or almost no, data: found by comparing it with Suomi NPP
+# over the archive. city_fires() also catches new ones with the daily pages' rule (pages.js snGap).
+SNPP_GAPS = {"2023-10-01"}
 
 
 def sn_gap(d, e):
@@ -966,8 +972,8 @@ def add_city_days(store, points, keep):
 
 def city_fires(store, index, today, generated):
     """The city pages' fire history: per city the last CITY_FIRE_DAYS complete days ([within 50 km, within
-    250 km] spots, null where the archive has no day) and, for each season since 2019, Suomi NPP spots within
-    250 km from 1 October to the same date (30 November once the season is over). Days Suomi NPP missed and
+    250 km] spots, null where the archive has no day) and, for each season since 2019, NOAA-20 spots within
+    250 km from 1 October to the same date (30 November once the season is over). Days NOAA-20 missed and
     days the archive lacks are left out of the totals and listed, so a season with gaps reads as a floor."""
     days, ids = store.get("days") or {}, store.get("cities") or []
     done = sorted(d for d in days if d < today)
@@ -994,7 +1000,7 @@ def city_fires(store, index, today, generated):
     return {"generated": generated, "last": done[-1], "dates": dates,
             "season": {"to": to, "cur": cur, "years": years, "gaps": {str(y): v for y, v in gaps.items() if v},
                        "missing": {str(y): v for y, v in missing.items() if v}},
-            "fields": {"r": ["spots within 50 km", "spots within 250 km"], "s": "Suomi NPP spots within 250 km, 1 Oct to season.to, per season.years"},
+            "fields": {"r": ["spots within 50 km", "spots within 250 km"], "s": "NOAA-20 spots within 250 km, 1 Oct to season.to, per season.years"},
             "cities": out}
 
 

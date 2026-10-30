@@ -135,13 +135,16 @@
     aod: { id: "MODIS_Combined_Value_Added_AOD", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2,
       grad: ["#fffdcd", "#ffdf6c", "#ffaf36", "#ff701e", "#f52810", "#c7030d", "#7d000e"], ticks: ["0", "0.3", "0.6", "1+"] },
     // OMPS on Suomi NPP: OMI on the ageing Aura satellite began serving corrupt tiles in Oct 2026. Same colour scale.
-    smoke: { id: "OMPS_Aerosol_Index", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2,
+    // NASA stopped delivering Suomi NPP data on 2 Nov 2026 and GIBS has no other aerosol index for this region,
+    // so the layer leaves the list once its last days have aged out (end: the last date the map may ask for).
+    smoke: { id: "OMPS_Aerosol_Index", lvl: 6, ext: "png", op: 0.65, lag: 1, fill: 2, end: "2026-11-04",
       grad: ["#ffffff", "#dada7f", "#fcfc07", "#cfcb00", "#fa2300", "#cc0100", "#730019"], ticks: ["0", "2.5", "5"] },
-    truecolor: { id: "VIIRS_SNPP_CorrectedReflectance_TrueColor", lvl: 9, ext: "jpg", op: 1, lag: 1, fill: 2, grad: null, ticks: null },
+    truecolor: { id: "VIIRS_NOAA20_CorrectedReflectance_TrueColor", lvl: 9, ext: "jpg", op: 1, lag: 1, fill: 2, grad: null, ticks: null },
     // Our own 14-day NO2 average and its labelled hotspots (scripts/build-no2.py), not a GIBS layer.
     traffic: { custom: true, op: 0.85, grad: ["rgba(255,200,80,.5)", "#f07828", "#cd281e", "#781446"], ticks: ["2×", "3×", "5×+"] },
   };
-  const order = ["none", "traffic", "no2", "aod", "smoke", "truecolor"];
+  const live = (k) => !LAYERS[k]?.end || new Date().toISOString().slice(0, 10) <= LAYERS[k].end;
+  const order = ["none", "traffic", "no2", "aod", "smoke", "truecolor"].filter(live);
   const HOT_ICONS = {
     traffic: '<path d="M5 15h14l-1.5-5h-11zM7 15v3M17 15v3M8 18h0M16 18h0M6.5 10l1.5-3h8l1.5 3" />',
     plant: '<path d="M4 20V11l5 3V11l5 3V6h3v14zM15 6V3h2v3" />',
@@ -875,7 +878,7 @@
       map.setView([at[0], at[1]], at[2] || 10);
       L.circleMarker([at[0], at[1]], { radius: 18, color: "#d62d20", weight: 2, fill: false, dashArray: "4 4", interactive: false }).addTo(map);
     }
-    if (p.get("layer") && Object.hasOwn(LAYERS, p.get("layer"))) setLayer(p.get("layer"));
+    if (p.get("layer") && Object.hasOwn(LAYERS, p.get("layer")) && live(p.get("layer"))) setLayer(p.get("layer"));
     const hours = p.get("hours");
     if (["24", "48", "168"].includes(hours)) {
       state.hours = +hours;
