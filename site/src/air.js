@@ -292,7 +292,7 @@ function cityPage(c, data, wind, extra = {}) {
   // Its link preview is this city's own map (scripts/build-og-live.py, served by worker.js).
   return render({ path: `/air/${c.id}/`, title: T.en.title(N), desc: T.en.desc(N, descTxt), body, jsonld,
     ogImage: ogUrl(c.id), ogAlt: `${N}: the last 24 hours of fires within 250 km and the wind`,
-    head: STYLE + AIR_STYLE + CITY_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=4" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS + CITY_JS });
+    head: STYLE + AIR_STYLE + CITY_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=5" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS + CITY_JS });
 }
 
 function indexPage(data, wind) {
@@ -410,7 +410,7 @@ function rankingsPage(data, wind, extra) {
     ...lists.map((x, i) => ({ ...x, "@id": `${SITE}/rankings/#list-${i}` }))] };
   const cities = JSON.stringify(CITIES.map((c) => [c.id, c.lat, c.lon, c.name, c.cc])).replace(/</g, "\\u003c");
   return render({ path: "/rankings/", title: RANK_T.en.rkTitle, desc: RANK_T.en.rkDesc, body, jsonld, head: STYLE + AIR_STYLE,
-    scripts: `<script>window.HH_RK=${cities};</script>\n<script src="/rankings.js?v=1" defer></script>\n` });
+    scripts: `<script>window.HH_RK=${cities};</script>\n<script src="/rankings.js?v=2" defer></script>\n` });
 }
 
 // /api/city?id=<id>: every number the city page computes, as JSON (live air quality excluded).

@@ -29,21 +29,39 @@ export function kmlResponse(body, maxAge) {
     "cache-control": `public, max-age=${maxAge}`, "access-control-allow-origin": "*" } });
 }
 
+// US AQI from this hour's PM2.5 and PM10 (EPA breakpoints of May 2024, the higher of the two), the "now"
+// figure ground-station sites such as IQAir show. Open-Meteo's own us_aqi is a 24-hour average and lags the
+// smog by hours. The same function is in app.js, city-air.js, rankings.js and src/kml.js.
+const AQI_BP = [
+  [[0, 9, 0, 50], [9.1, 35.4, 51, 100], [35.5, 55.4, 101, 150], [55.5, 125.4, 151, 200], [125.5, 225.4, 201, 300], [225.5, 325.4, 301, 500]],
+  [[0, 54, 0, 50], [55, 154, 51, 100], [155, 254, 101, 150], [255, 354, 151, 200], [355, 424, 201, 300], [425, 604, 301, 500]],
+];
+const aqiOf = (c, bp) => {
+  if (c == null || !(c >= 0)) return null;
+  const [lo, hi, a, b] = bp.find((s) => c <= s[1]) || bp[bp.length - 1];
+  return Math.round(a + ((b - a) * (c - lo)) / (hi - lo));
+};
+const aqiNow = (pm25, pm10) => {
+  const v = [aqiOf(pm25 == null ? null : Math.floor(pm25 * 10) / 10, AQI_BP[0]), aqiOf(pm10 == null ? null : Math.floor(pm10), AQI_BP[1])];
+  return v.some((x) => x != null) ? Math.max(...v.filter((x) => x != null)) : null;
+};
+
 // City air now: one Open-Meteo call for all cities (CAMS model, not ground sensors).
 export async function airKml() {
   const q = `latitude=${CITIES.map((c) => c[1]).join(",")}&longitude=${CITIES.map((c) => c[2]).join(",")}`;
-  const r = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?${q}&current=us_aqi,pm2_5&timezone=GMT`,
+  const r = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?${q}&current=us_aqi,pm2_5,pm10&timezone=GMT`,
     { cf: { cacheTtl: 1800, cacheEverything: true } });
   if (!r.ok) return null;
   const data = [].concat(await r.json());
   const styles = BANDS.map(([, , c], i) => `<Style id="b${i}"><IconStyle><color>${c}</color><scale>1.3</scale><Icon><href>https://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href></Icon></IconStyle><LabelStyle><scale>1</scale></LabelStyle></Style>`).join("");
   const marks = CITIES.map(([name, lat, lon], i) => {
     const cur = data[i]?.current;
-    if (!cur || cur.us_aqi == null) return "";
-    const b = BANDS.findIndex(([max]) => cur.us_aqi <= max);
+    const aqi = cur && (aqiNow(cur.pm2_5, cur.pm10) ?? cur.us_aqi);
+    if (aqi == null) return "";
+    const b = BANDS.findIndex(([max]) => aqi <= max);
     const pm = cur.pm2_5;
-    return point(`${name} ${Math.round(cur.us_aqi)}`, `b${b}`, lat, lon,
-      `<b>US AQI ${Math.round(cur.us_aqi)}</b>: ${BANDS[b][1]}<br>PM2.5 ${pm.toFixed(0)} µg/m³, ${(pm / 15).toFixed(1)}× the WHO 24-hour limit` +
+    return point(`${name} ${Math.round(aqi)}`, `b${b}`, lat, lon,
+      `<b>US AQI ${Math.round(aqi)}</b>: ${BANDS[b][1]}<br>PM2.5 ${pm.toFixed(0)} µg/m³, ${(pm / 15).toFixed(1)}× the WHO 24-hour limit` +
       `<br>Like smoking ${(pm / 22).toFixed(1)} cigarettes a day<br>Model hour ${esc(cur.time)} UTC (Copernicus CAMS via Open-Meteo). ` +
       `Model estimates read low in winter.<br><a href="${SITE}/#at=${lat},${lon},10">Open on HamariHawa</a>`);
   }).join("");

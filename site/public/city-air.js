@@ -9,11 +9,27 @@
   const weeks = [...document.querySelectorAll("[data-week]")];
   const { lat, lon } = els[0].dataset;
   const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}` +
-    "&current=us_aqi,pm2_5&hourly=pm2_5,us_aqi&past_days=7&forecast_days=5&timezone=auto";
+    "&current=us_aqi,pm2_5,pm10&hourly=pm2_5,us_aqi&past_days=7&forecast_days=5&timezone=auto";
   const wxUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
     "&daily=precipitation_sum,wind_speed_10m_max&hourly=boundary_layer_height&past_days=3&forecast_days=10&timezone=auto";
   const LOC = { en: "en-GB", ur: "ur-PK", hi: "hi-IN" };
   const band = (a) => (a <= 50 ? 0 : a <= 100 ? 1 : a <= 150 ? 2 : a <= 200 ? 3 : a <= 300 ? 4 : 5);
+  // US AQI from this hour's PM2.5 and PM10 (EPA breakpoints of May 2024, the higher of the two), the "now"
+  // figure ground-station sites such as IQAir show. Open-Meteo's own us_aqi is a 24-hour average and lags the
+  // smog by hours. The same function is in app.js, city-air.js, rankings.js and src/kml.js.
+  const AQI_BP = [
+    [[0, 9, 0, 50], [9.1, 35.4, 51, 100], [35.5, 55.4, 101, 150], [55.5, 125.4, 151, 200], [125.5, 225.4, 201, 300], [225.5, 325.4, 301, 500]],
+    [[0, 54, 0, 50], [55, 154, 51, 100], [155, 254, 101, 150], [255, 354, 151, 200], [355, 424, 201, 300], [425, 604, 301, 500]],
+  ];
+  const aqiOf = (c, bp) => {
+    if (c == null || !(c >= 0)) return null;
+    const [lo, hi, a, b] = bp.find((s) => c <= s[1]) || bp[bp.length - 1];
+    return Math.round(a + ((b - a) * (c - lo)) / (hi - lo));
+  };
+  const aqiNow = (pm25, pm10) => {
+    const v = [aqiOf(pm25 == null ? null : Math.floor(pm25 * 10) / 10, AQI_BP[0]), aqiOf(pm10 == null ? null : Math.floor(pm10), AQI_BP[1])];
+    return v.some((x) => x != null) ? Math.max(...v.filter((x) => x != null)) : null;
+  };
   const mean = (v) => (v.length ? v.reduce((s, x) => s + x, 0) / v.length : null);
 
   const T = {
@@ -63,7 +79,7 @@
     const times = a.hourly.time.map((x) => Date.parse(x + "Z") - off);
     const vals = a.hourly.pm2_5.filter((v, i) => v != null && times[i] <= now && times[i] > now - 24 * 36e5);
     const pm = vals.length ? mean(vals) : a.current.pm2_5;
-    const aqi = a.current.us_aqi;
+    const aqi = aqiNow(a.current.pm2_5, a.current.pm10) ?? a.current.us_aqi;
     if (aqi == null || pm == null) return;
     for (const el of els) {
       const nf = new Intl.NumberFormat(LOC[el.dataset.lang] || "en-GB", { maximumFractionDigits: 1 });

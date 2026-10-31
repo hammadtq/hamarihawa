@@ -15,14 +15,30 @@
   const LOC = { en: "en-GB", ur: "ur-PK", hi: "hi-IN" };
   const COUNTRY = { en: { PK: "Pakistan", IN: "India" }, ur: { PK: "پاکستان", IN: "ہندوستان" }, hi: { PK: "पाकिस्तान", IN: "भारत" } };
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  // US AQI from this hour's PM2.5 and PM10 (EPA breakpoints of May 2024, the higher of the two), the "now"
+  // figure ground-station sites such as IQAir show. Open-Meteo's own us_aqi is a 24-hour average and lags the
+  // smog by hours. The same function is in app.js, city-air.js, rankings.js and src/kml.js.
+  const AQI_BP = [
+    [[0, 9, 0, 50], [9.1, 35.4, 51, 100], [35.5, 55.4, 101, 150], [55.5, 125.4, 151, 200], [125.5, 225.4, 201, 300], [225.5, 325.4, 301, 500]],
+    [[0, 54, 0, 50], [55, 154, 51, 100], [155, 254, 101, 150], [255, 354, 151, 200], [355, 424, 201, 300], [425, 604, 301, 500]],
+  ];
+  const aqiOf = (c, bp) => {
+    if (c == null || !(c >= 0)) return null;
+    const [lo, hi, a, b] = bp.find((s) => c <= s[1]) || bp[bp.length - 1];
+    return Math.round(a + ((b - a) * (c - lo)) / (hi - lo));
+  };
+  const aqiNow = (pm25, pm10) => {
+    const v = [aqiOf(pm25 == null ? null : Math.floor(pm25 * 10) / 10, AQI_BP[0]), aqiOf(pm10 == null ? null : Math.floor(pm10), AQI_BP[1])];
+    return v.some((x) => x != null) ? Math.max(...v.filter((x) => x != null)) : null;
+  };
   let pending = null;
   function fetchAir() {
     const C = window.HH_RK || [];
     const url = "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=" + C.map((c) => c[1]).join(",") +
-      "&longitude=" + C.map((c) => c[2]).join(",") + "&current=us_aqi,pm2_5&timezone=GMT";
+      "&longitude=" + C.map((c) => c[2]).join(",") + "&current=us_aqi,pm2_5,pm10&timezone=GMT";
     return (pending ||= fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(r.status))).then((a) => {
       const list = Array.isArray(a) ? a : [a];
-      return C.map((c, i) => ({ c, aqi: list[i]?.current?.us_aqi, pm: list[i]?.current?.pm2_5 })).filter((x) => x.aqi != null);
+      return C.map((c, i) => ({ c, aqi: list[i] && (aqiNow(list[i].current?.pm2_5, list[i].current?.pm10) ?? list[i].current?.us_aqi), pm: list[i]?.current?.pm2_5 })).filter((x) => x.aqi != null);
     }).catch((err) => { pending = null; throw err; }));
   }
   function airTable(btn) {

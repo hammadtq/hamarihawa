@@ -605,6 +605,22 @@
     const x = Math.cos(a[0] * toR) * Math.sin(b[0] * toR) - Math.sin(a[0] * toR) * Math.cos(b[0] * toR) * Math.cos((b[1] - a[1]) * toR);
     return (Math.atan2(y, x) / toR + 360) % 360;
   }
+  // US AQI from this hour's PM2.5 and PM10 (EPA breakpoints of May 2024, the higher of the two), the "now"
+  // figure ground-station sites such as IQAir show. Open-Meteo's own us_aqi is a 24-hour average and lags the
+  // smog by hours. The same function is in app.js, city-air.js, rankings.js and src/kml.js.
+  const AQI_BP = [
+    [[0, 9, 0, 50], [9.1, 35.4, 51, 100], [35.5, 55.4, 101, 150], [55.5, 125.4, 151, 200], [125.5, 225.4, 201, 300], [225.5, 325.4, 301, 500]],
+    [[0, 54, 0, 50], [55, 154, 51, 100], [155, 254, 101, 150], [255, 354, 151, 200], [355, 424, 201, 300], [425, 604, 301, 500]],
+  ];
+  const aqiOf = (c, bp) => {
+    if (c == null || !(c >= 0)) return null;
+    const [lo, hi, a, b] = bp.find((s) => c <= s[1]) || bp[bp.length - 1];
+    return Math.round(a + ((b - a) * (c - lo)) / (hi - lo));
+  };
+  const aqiNow = (pm25, pm10) => {
+    const v = [aqiOf(pm25 == null ? null : Math.floor(pm25 * 10) / 10, AQI_BP[0]), aqiOf(pm10 == null ? null : Math.floor(pm10), AQI_BP[1])];
+    return v.some((x) => x != null) ? Math.max(...v.filter((x) => x != null)) : null;
+  };
   function aqiBand(a) { return a <= 50 ? 0 : a <= 100 ? 1 : a <= 150 ? 2 : a <= 200 ? 3 : a <= 300 ? 4 : 5; }
 
   // Health maths, explained in the "How we calculate" box.
@@ -634,7 +650,7 @@
         const times = a.hourly.time.map((x) => Date.parse(x + "Z"));
         const vals = a.hourly.pm2_5.filter((v, i) => v != null && times[i] <= now && times[i] > now - 24 * 36e5);
         const pm24 = vals.length ? vals.reduce((s, v) => s + v, 0) / vals.length : a.current.pm2_5;
-        return { ...a.current, pm24, at: Date.parse(a.current.time + "Z") };
+        return { ...a.current, us_aqi: aqiNow(a.current.pm2_5, a.current.pm10) ?? a.current.us_aqi, pm24, at: Date.parse(a.current.time + "Z") };
       });
       state.wind = wind ? (Array.isArray(wind) ? wind : [wind]).map((w) => w.current) : null;
       renderCards();
@@ -794,12 +810,12 @@
         me = { lat: w.lat, lon: w.lon, city: w.city || w.region, country: w.country, approx: true };
       }
       const a = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${me.lat}&longitude=${me.lon}` +
-        "&current=us_aqi,pm2_5&hourly=pm2_5&past_days=1&forecast_days=1&timezone=GMT").then((r) => r.json());
+        "&current=us_aqi,pm2_5,pm10&hourly=pm2_5&past_days=1&forecast_days=1&timezone=GMT").then((r) => r.json());
       const now = Date.now();
       const times = a.hourly.time.map((x) => Date.parse(x + "Z"));
       const vals = a.hourly.pm2_5.filter((v, i) => v != null && times[i] <= now && times[i] > now - 24 * 36e5);
       const pm24 = vals.length ? vals.reduce((x, v) => x + v, 0) / vals.length : a.current.pm2_5;
-      state.local = { ...me, city: me.city || state.local?.city || "", aqi: a.current.us_aqi, pm24 };
+      state.local = { ...me, city: me.city || state.local?.city || "", aqi: aqiNow(a.current.pm2_5, a.current.pm10) ?? a.current.us_aqi, pm24 };
       renderMyAir();
       window.dispatchEvent(new Event("hh:local"));
     } catch (err) {
