@@ -389,7 +389,7 @@ tfoot td{font-weight:600;border-top:2px solid var(--line);background:var(--surfa
     <div>
       <h3>Model data and caveats</h3>
       <ul>
-        <li>Hourly PM2.5, PM10, NO₂, SO₂, O₃, CO and dust for 1 Sep 2024 – 13 Sep 2026 from the Open-Meteo Air Quality API (Copernicus CAMS global reanalysis and forecast, ~11 km grid), averaged to months.</li>
+        <li>Hourly PM2.5, PM10, NO₂, SO₂, O₃, CO and dust for 1 Sep 2024 – 13 Sep 2026 from the Open-Meteo Air Quality API (Copernicus CAMS global reanalysis and forecast, ~45 km grid), averaged to months.</li>
         <li>CAMS under-reads the ground network in winter by a wide margin: Oct–Feb IQAir/CAMS ratio averages 1.5 in Lahore and 1.6 in Islamabad, and CAMS over-reads Islamabad in summer (ratio 0.8). That is why the model series is used only for the pollutant mix, never for the headline numbers.</li>
         <li>US AQI per month is derived from the monthly mean PM2.5 with the EPA breakpoints revised in February 2024 (9.0 / 35.4 / 55.4 / 125.4 / 225.4 µg/m³; 325.4 is AQI 500). IQAir's own monthly AQI figures for Oct 2025 – Sep 2026 match this derivation exactly in 22 of 24 months; the two exceptions (Lahore, Dec 2025 and Jun 2026) are months where IQAir's published AQI and PM2.5 disagree with each other. An earlier version of this report used the pre-2024 breakpoints, which understated the AQI of every polluted month.</li>
         <li>aqi.in, a second aggregator with its own sensors, reads Lahore's 2025 annual PM2.5 as 71 µg/m³ and 2026 to date as 51, consistent in direction with IQAir (2025 worse than 2026 so far).</li>
