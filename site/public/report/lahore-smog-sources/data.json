@@ -1,0 +1,288 @@
+{
+ "report": "Lahore's smog, source by source: what satellites can see, and what they can't",
+ "published": "2026-11-02",
+ "centre": {
+  "lat": 31.55,
+  "lon": 74.34,
+  "name": "central Lahore"
+ },
+ "evidence": [
+  {
+   "id": "ground_october",
+   "claim": "Lahore above Pakistan's legal PM2.5 limit on all 31 days of October 2026; average 100.1 µg/m³ across 26 monitors; weather alone cut PM2.5 about 19% vs October 2025",
+   "source": "PAQI analysis as reported by ProPakistani, 2 Nov 2026",
+   "url": "https://propakistani.pk/2026/11/02/lahore-smog-drops-27-percent-october-weather/"
+  },
+  {
+   "id": "aqi_nov",
+   "claim": "Lahore AQI reported at 448 (2 Nov) and over 500 (1-2 Nov)",
+   "source": "The Nation; Daily Pakistan",
+   "url": [
+    "https://www.nation.com.pk/02-Nov-2026/lahore-ranks-polluted-city-world-aqi-reaches-hazardous-448",
+    "https://en.dailypakistan.com.pk/02-Nov-2026/anti-smog-guns-in-action-as-lahore-aqi-tops-500"
+   ]
+  },
+  {
+   "id": "wind_october",
+   "claim": "Mean October 10 m wind speed at Lahore (m/s)",
+   "values": {
+    "2019": 6.6,
+    "2020": 7.1,
+    "2021": 7.8,
+    "2022": 7.4,
+    "2023": 7.2,
+    "2024": 6.8,
+    "2025": 4.4,
+    "2026": 4.9
+   },
+   "source": "ERA5 reanalysis via Open-Meteo archive API, hourly, 31.55 N 74.34 E"
+  },
+  {
+   "id": "timelapse_counts",
+   "claim": "Fire spots per day (all satellites) in the frame 30.0-32.6 N, 72.4-75.9 E",
+   "values": {
+    "2026-10-01": 135,
+    "2026-10-02": 212,
+    "2026-10-03": 182,
+    "2026-10-04": 217,
+    "2026-10-05": 200,
+    "2026-10-06": 318,
+    "2026-10-07": 250,
+    "2026-10-08": 203,
+    "2026-10-09": 295,
+    "2026-10-10": 351,
+    "2026-10-11": 4,
+    "2026-10-12": 152,
+    "2026-10-13": 151,
+    "2026-10-14": 217,
+    "2026-10-15": 41,
+    "2026-10-16": 150,
+    "2026-10-17": 449,
+    "2026-10-18": 826,
+    "2026-10-19": 611,
+    "2026-10-20": 356,
+    "2026-10-21": 574,
+    "2026-10-22": 656,
+    "2026-10-23": 842,
+    "2026-10-24": 451,
+    "2026-10-25": 586,
+    "2026-10-26": 686,
+    "2026-10-27": 829,
+    "2026-10-28": 1047,
+    "2026-10-29": 1265,
+    "2026-10-30": 1044,
+    "2026-10-31": 1239,
+    "2026-11-01": 1538
+   },
+   "source": "NASA FIRMS via HamariHawa /api/day"
+  },
+  {
+   "id": "crop_40km",
+   "claim": "Crop-labelled fire spots within 40 km of central Lahore, 15 Oct-1 Nov 2026, all satellites",
+   "total": 781,
+   "by_district": {
+    "Sheikhupura": 322,
+    "Tarn Taran (IN)": 149,
+    "Amritsar (IN)": 106,
+    "Nankana Sahib": 77,
+    "Lahore": 62,
+    "Kasur": 50,
+    "Gujranwala": 15
+   },
+   "non_crop_within_40km": {
+    "total": 72,
+    "urban": 21,
+    "kiln": 20,
+    "always-hot spot": 14,
+    "near landfill": 11,
+    "industrial": 5,
+    "mixed": 1
+   },
+   "source": "HamariHawa /api/day (NASA FIRMS)"
+  },
+  {
+   "id": "crop_100km",
+   "claim": "Crop-labelled fire spots within 100 km of central Lahore, 15 Oct-1 Nov 2026",
+   "total": 7130,
+   "pakistan": 4759,
+   "india": 2371,
+   "source": "HamariHawa /api/day (NASA FIRMS)"
+  },
+  {
+   "id": "no2",
+   "claim": "Tropospheric NO2, mean of 15 Oct-1 Nov, Lahore box 31.40-31.65 N 74.20-74.45 E vs farmland box 31.0-31.3 N 73.8-74.1 E",
+   "values": {
+    "2023": {
+     "city": 6291230158730158.0,
+     "rural": 3209123477350640.5,
+     "ratio": 1.9604200969929695,
+     "peak": 9584000000000000.0,
+     "peak_at": [
+      31.644,
+      74.213
+     ],
+     "city_obs_per_px": 6.220779220779221,
+     "rural_obs_per_px": 8.802884615384615,
+     "near_industry_km": [
+      1.5
+     ],
+     "near_plants": [
+      [
+       12.8,
+       "Atlas Power Plant"
+      ],
+      [
+       21.1,
+       "Sapphire Electric Power Plant"
+      ]
+     ],
+     "inner_p95": 5671875000000000.0
+    },
+    "2024": {
+     "city": 6050113636363636.0,
+     "rural": 3761541132478632.5,
+     "ratio": 1.6084135260743433,
+     "peak": 7131666666666667.0,
+     "peak_at": [
+      31.55,
+      74.301
+     ],
+     "city_obs_per_px": 18.0,
+     "rural_obs_per_px": 18.0,
+     "near_industry_km": [
+      1.6
+     ],
+     "near_plants": [
+      [
+       25.0,
+       "Atlas Power Plant"
+      ],
+      [
+       33.6,
+       "Kohinoor Energy Power Plant"
+      ]
+     ],
+     "inner_p95": 5984166666666667.0
+    },
+    "2025": {
+     "city": 6239853896103896.0,
+     "rural": 3213975694444444.5,
+     "ratio": 1.9414751352631163,
+     "peak": 8099722222222222.0,
+     "peak_at": [
+      31.55,
+      74.301
+     ],
+     "city_obs_per_px": 18.0,
+     "rural_obs_per_px": 18.0,
+     "near_industry_km": [
+      1.6
+     ],
+     "near_plants": [
+      [
+       25.0,
+       "Atlas Power Plant"
+      ],
+      [
+       33.6,
+       "Kohinoor Energy Power Plant"
+      ]
+     ],
+     "inner_p95": 5682500000000000.0
+    },
+    "2026": {
+     "city": 5654981281975600.0,
+     "rural": 3117219665884330.0,
+     "ratio": 1.8141106139760375,
+     "peak": 7245714285714286.0,
+     "peak_at": [
+      31.494,
+      74.301
+     ],
+     "city_obs_per_px": 7.142857142857143,
+     "rural_obs_per_px": 9.052884615384615,
+     "near_industry_km": [
+      3.1
+     ],
+     "near_plants": [
+      [
+       27.7,
+       "Kohinoor Energy Power Plant"
+      ],
+      [
+       29.0,
+       "Atlas Power Plant"
+      ]
+     ],
+     "inner_p95": 4792142857142857.0
+    }
+   },
+   "source": "Copernicus Sentinel-5P TROPOMI via NASA GIBS (TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column), processed by HamariHawa",
+   "caveat": "2024 and 2025 tiles are processed differently (full coverage every day); values read back from colour bands"
+  },
+  {
+   "id": "no2_hotspots_2026",
+   "claim": "HamariHawa NO2 hotspots 18-31 Oct 2026 (ratio to surroundings): Rawalpindi 6.49, Karachi 6.14, Lahore NW 31.625,74.235 4.81, Lahore south-centre 31.494,74.344 4.71",
+   "source": "https://hamarihawa.org/api/no2.json"
+  },
+  {
+   "id": "kilns",
+   "claim": "Brick kilns within 25 / 50 km of central Lahore, Pakistani side",
+   "values": {
+    "25km": 197,
+    "50km": 898
+   },
+   "source": "site/public/sources/kilns.json (SentinelKilnDB CC BY-NC 4.0; Brick Kiln Dataset for Pakistan's IGP Region CC BY 4.0)"
+  },
+  {
+   "id": "plants_industry",
+   "claim": "Within 50 km: 7 oil/gas power plants (Bhikki 1,230.9 MW, Sapphire 235, Halmore 225, Atlas 213.9, Saba 134, Kohinoor 131.4, Reshma) and 215 OSM industrial areas",
+   "source": "site/public/sources/city/lahore.json (OpenStreetMap)"
+  },
+  {
+   "id": "mehmood_booti",
+   "claim": "Closed 2016; 14 million tonnes on about 41 acres; capped, vent pipes installed; gas to be sold or flared; Lakhodair takes about 5,000 t/day",
+   "source": "BBC Urdu, Umar Draz Nangiana, 24 Mar 2025",
+   "url": "https://www.bbc.com/urdu/articles/cg4k93376v7o"
+  },
+  {
+   "id": "mehmood_booti_fires",
+   "claim": "NASA fire detections within 450 m of the Mehmood Booti mound centre (31.6104, 74.3847), archived Oct-Nov season days",
+   "values": {
+    "2019": 0,
+    "2020": 1,
+    "2021": 5,
+    "2022": 1,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "source": "HamariHawa archive (NASA FIRMS)"
+  },
+  {
+   "id": "lakhodair_surface",
+   "claim": "Sentinel-2 clear passes (cloud <15%) Oct 2024-Nov 2026 over the Lakhodair dump surface (31.619-31.636 N, 74.413-74.424 E): 86; passes with any pixel B12>0.45: 5; the two large ones (21 Aug 2025, 8 Oct 2026) were clouds on inspection; the others 2-10 pixels",
+   "source": "Earth Search Sentinel-2 L2A COGs, processed by HamariHawa"
+  },
+  {
+   "id": "lakhodair_methane",
+   "claim": "Lakhodair methane 1,559 kg/h; 19 plumes; persistence 92%; first 2023-06-10, last 2026-03-22. No Carbon Mapper methane record for Mehmood Booti",
+   "source": "Carbon Mapper via site/public/sources/sites.json"
+  },
+  {
+   "id": "dust",
+   "claim": "CAMS modelled dust >= 50 µg/m³ at Lahore on 9 days in Oct 2026 (1-3, 7-11, 30 Oct); dust 43% of modelled PM10 over the month; modelled PM2.5 on dusty days 65 vs 70 µg/m³ on other days",
+   "source": "Copernicus CAMS global via Open-Meteo air-quality API, 31.55 N 74.34 E"
+  },
+  {
+   "id": "inventories",
+   "claim": "Urban Unit 2023 inventory: transport about 83% of Lahore's total emissions (noted possible overestimate). PAQI national study: transport 35%, heavy industry 28%, brick kilns 17%; rejected by Punjab EPD",
+   "source": [
+    "https://www.urbanunit.gov.pk/Download/publications/Files/8/2023/Emission Inventory of Lahore 2023.pdf",
+    "https://dialogue.earth/en/?p=60062120",
+    "https://www.dawn.com/news/1960268"
+   ]
+  }
+ ]
+}

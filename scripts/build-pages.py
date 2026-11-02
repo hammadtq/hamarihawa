@@ -312,6 +312,10 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
+    ("/report/lahore-smog-sources/", "2026-11-02", "Lahore's smog, source by source: what satellites can see, and what they can't", {
+        "en": "Lahore's traffic-and-industry gas stays at twice the level of its farmland every year; what arrives in late October is crop burning on the city's edge and still air. Its dumps leak methane, not smoke, and dust is a coarse-particle problem on a few days.",
+        "ur": "لاہور میں ٹریفک اور صنعت کی گیس ہر سال اس کے کھیتوں کے مقابلے میں دگنی رہتی ہے؛ اکتوبر کے آخر میں جو نیا آتا ہے وہ شہر کے کنارے فصلوں کی آگ اور ٹھہری ہوئی ہوا ہے۔ اس کے کوڑے کے ڈھیروں سے دھواں نہیں، میتھین نکلتی ہے، اور گرد چند دنوں کا، موٹے ذرات کا مسئلہ ہے۔",
+        "hi": "लाहौर में ट्रैफ़िक और उद्योग की गैस हर साल उसके खेतों के मुक़ाबले दोगुनी रहती है; अक्टूबर के आख़िर में जो नया आता है, वह है शहर के किनारे फ़सल की आग और ठहरी हुई हवा। इसके कूड़े के ढेरों से धुआँ नहीं, मीथेन निकलती है, और धूल कुछ दिनों की, मोटे कणों की समस्या है।"}),
     ("/report/madhya-pradesh-indian-punjab-fire-spots/", "2026-10-28", "Madhya Pradesh overtakes Indian Punjab: satellite fire spots in October, 2019–2026", {
         "en": "From 1 to 24 October 2026 Madhya Pradesh had its most satellite fire spots in eight years, and Indian Punjab and Haryana their fewest.",
         "ur": "1 سے 24 اکتوبر 2026 کے دوران مدھیہ پردیش میں سیٹلائٹ سے دیکھے گئے آگ کے مقامات آٹھ برسوں میں سب سے زیادہ رہے، جبکہ ہندوستانی پنجاب اور ہریانہ میں سب سے کم۔",
@@ -337,7 +341,7 @@ def reports_page():
     jsonld = {"@context": "https://schema.org", "@type": "CollectionPage", "@id": f"{SITE}/reports/#page", "name": "HamariHawa reports",
               "url": f"{SITE}/reports/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG,
               "hasPart": [{"@type": "Report", "name": t, "url": f"{SITE}{p}", "datePublished": d} for p, d, t, _ in REPORTS]}
-    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: Madhya Pradesh overtakes Indian Punjab (October fire spots 2019-2026), Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
+    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: Lahore's smog source by source (2026), Madhya Pradesh overtakes Indian Punjab (October fire spots 2019-2026), Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
                arts, jsonld)
     os.makedirs(os.path.join(PUB, "reports"), exist_ok=True)
     open(os.path.join(PUB, "reports", "index.html"), "w", encoding="utf-8").write(out)
@@ -563,6 +567,7 @@ SITEMAP = [  # (path, source files whose last commit dates the page, changefreq,
     ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
     ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
     ("/trends/", ["scripts/pages/trends-en.html", "site/public/trends/trends.js"], "daily", "0.8", True),
+    ("/report/lahore-smog-sources/", ["scripts/reports/lahore-smog-sources/article.en.html", "site/public/report/lahore-smog-sources/data.json"], "monthly", "0.8", True),
     ("/report/madhya-pradesh-indian-punjab-fire-spots/", ["scripts/reports/madhya-pradesh-indian-punjab-fire-spots/article.en.html", "site/public/report/madhya-pradesh-indian-punjab-fire-spots/data.json"], "monthly", "0.8", True),
     ("/report/two-punjabs/", ["scripts/build-report-punjabs.py", "site/public/report/two-punjabs/seasons.json"], "monthly", "0.8", True),
     ("/data/", ["scripts/pages/data-en.html"], "monthly", "0.7", True),

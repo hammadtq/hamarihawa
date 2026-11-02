@@ -59,7 +59,8 @@ def build(slug):
               "isBasedOn": {"@type": "Dataset", "name": f"Evidence for \"{meta['title']}\"", "url": f"{url}data.json",
                             "license": "https://creativecommons.org/licenses/by/4.0/"}}
     out = bp.page(path, meta["title"], meta["description"], arts, jsonld, extra_head=CSS, wide=True,
-                  og_alt=meta["description"])
+                  og_alt=meta["description"],
+                  **({"og_image": meta["og_image"]} if meta.get("og_image") else {}))
     os.makedirs(os.path.join(bp.PUB, "report", slug), exist_ok=True)
     open(os.path.join(bp.PUB, "report", slug, "index.html"), "w", encoding="utf-8").write(out)
     print(f"report written: {path}")
