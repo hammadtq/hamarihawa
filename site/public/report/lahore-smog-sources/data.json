@@ -551,10 +551,11 @@
   },
   {
    "id": "modis_fire_history",
-   "claim": "MODIS (Terra+Aqua, SP, conf >= 30) fires 15 Oct-30 Nov: NE Pakistani Punjab (box 29.5-32.6 N, 72.0-76.9 E) 631/670/694 in 2002-04, 1,572/1,663/1,614/1,636 in 2022-25; share of 1 Oct-30 Nov fires in November: Indian Punjab 5/10/11% (2002-04) to 78/67/83/85/73% (2021-25); Pakistani side 87/79/88% to 57/51/63/61/45%. Within 100 km of Lahore, Indian side 2.4-5.6x Pakistani side in 2009-2020, similar in 2024-25 (950 vs 750; 793 vs 683)",
+   "claim": "MODIS (Terra+Aqua) active-fire detections. Counts, 15 Oct-30 Nov: NE Pakistani Punjab (box 29.5-32.6 N, 72.0-76.9 E) 631/670/694 in 2002-04, 1,572/1,663/1,614/1,636 in 2022-25. Share of 1 Oct-30 Nov detections recorded in November: Indian Punjab 5/10/11% (2002-04) to 78/67/83/85/73% (2021-25); Pakistani Punjab 87/79/88% to 57/51/63/61/45%. Within 100 km of Lahore, 15 Oct-30 Nov: Indian side 2.4-5.6x Pakistani side in 2009-2020, similar in 2024-25 (950 vs 750; 793 vs 683)",
    "source": "NASA FIRMS MODIS_SP C6.1, processed by HamariHawa",
-   "definition": "MODIS only (Terra + Aqua, MODIS_SP Collection 6.1 standard product, confidence >= 30), all detections in the stated box or radius with no crop/kind classification and no cross-satellite deduplication, 15 Oct-30 Nov (shares: 1 Oct-30 Nov) each year 2002-2025. These are not the HamariHawa archive's classified detections, and late-afternoon burning after the satellite overpasses is missed (NASA Earth Observatory).",
-   "status": "arithmetic_only (inputs not attached)"
+   "definition": "MODIS only (Terra + Aqua, FIRMS MODIS_SP Collection 6.1 standard product), confidence >= 30, FIRMS type 0 (presumed vegetation fire), within the box 29.5-32.6 N, 72.0-76.9 E; exact duplicate rows removed. Not classified by source (no crop/kiln/town labels, unlike the HamariHawa archive's recent counts) and not deduplicated across satellites or into individual fires. Counts compare 15 Oct-30 Nov; November shares are of 1 Oct-30 Nov, Punjab state on each side; the 100 km comparison uses haversine distance from 31.55 N, 74.34 E. Late-afternoon burning after the satellite overpasses is missed (NASA Earth Observatory).",
+   "status": "arithmetic_only (inputs not attached)",
+   "script": "scripts/reports/lahore-smog-sources/analysis/fetch_firms.py, firms_analysis.py"
   },
   {
    "id": "era5_long",
@@ -584,7 +585,7 @@
   "arithmetic_only": "arithmetic checked; underlying observations not re-checked",
   "unverified": "not reproduced; precision removed or limitation stated"
  },
- "version": "2026-11-03c",
+ "version": "2026-11-03d",
  "inputs": {
   "note": "Extracts sent with the PDF (folder HamariHawa-Lahore-smog-data-3-Nov-2026) and kept in the repo under report/data/",
   "files": {

@@ -43,10 +43,11 @@ CSS = """<style>
   .doc td:first-child, .doc th:first-child { white-space: normal; }
   .doc table.guide td, .doc table.guide th { white-space: normal; vertical-align: top; min-width: 8.5em; font-size: 14.5px; line-height: 1.4; }
   .doc table.guide td:first-child { min-width: 7em; }
+  .doc p.note { font-size: 14px; color: var(--ink-2); }
   @media (max-width: 640px) {
     .doc table.guide, .doc table.guide tbody, .doc table.guide tr, .doc table.guide td { display: block; min-width: 0; }
+    .doc table.guide thead { display: none; }
     .doc table.guide caption { display: block; width: auto; }
-    .doc table.guide tr:first-child { display: none; }
     .doc table.guide tr { padding: 10px 0; border-top: 1px solid var(--hair); }
     .doc table.guide td { border: 0; padding: 3px 0; }
     .doc table.guide td:first-child { font-size: 16px; }

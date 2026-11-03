@@ -59,5 +59,11 @@
  "*Idealized: the same emissions in a shallower layer, other factors held constant. Mixing heights: ERA5, monthly averages over all hours of the day,": "*सीधा-सादा हिसाब: उतना ही प्रदूषण, पतली परत में, बाक़ी सब जस का तस। परत की ऊँचाई: ERA5, दिन-रात के सभी घंटों के मासिक औसत,",
  "central Lahore, 2019–2025 (May 858 m, June 825 m, November 262 m); nights are much shallower, afternoons deeper. HamariHawa (hamarihawa.org)": "मध्य लाहौर, 2019–2025 (मई 858 m, जून 825 m, नवंबर 262 m); रात में परत बहुत नीची, दोपहर में ऊँची। HamariHawa (hamarihawa.org)",
  ", spread through ~850 m": ", ~850 m में फैला हुआ",
- ", plus crop smoke": ", ऊपर से पराली का धुआँ"
+ ", plus crop smoke": ", ऊपर से पराली का धुआँ",
+ "Charts: very low-visibility winter days at Amritsar by decade, and the share of MODIS active-fire detections in Punjab recorded in November, 2002 to 2025": "चार्ट: अमृतसर में हर दशक में सर्दियों के बेहद कम दृश्यता वाले दिन, और पंजाब में MODIS के आग के निशानों का कितना हिस्सा नवंबर में दर्ज हुआ, 2002 से 2025",
+ "When satellites detect fire activity": "सैटेलाइटों को आग कब दिखती है",
+ "Share of October–November MODIS active-fire detections": "अक्टूबर–नवंबर के MODIS के आग के निशानों का हिस्सा",
+ "recorded in November; not classified by source or deduplicated": "जो नवंबर में दर्ज हुआ; स्रोत के हिसाब से न बँटे, न दोहराव हटा",
+ "Winter = December plus the next January, grouped by December's year. Fires: FIRMS MODIS (Terra, Aqua), type 0, confidence ≥30, 1 Oct–30 Nov,": "सर्दी = दिसंबर और अगली जनवरी, दिसंबर वाले साल में गिनी गई। आग: FIRMS MODIS (Terra, Aqua), type 0, कॉन्फ़िडेंस ≥30, 1 अक्टू–30 नवं,",
+ "Punjab on each side within 29.5–32.6 N, 72–76.9 E; fires lit after the afternoon overpass are missed. HamariHawa (hamarihawa.org)": "दोनों तरफ़ का पंजाब, 29.5–32.6 N, 72–76.9 E के भीतर; दोपहर में सैटेलाइट गुज़रने के बाद लगी आग छूट जाती है। HamariHawa (hamarihawa.org)"
 }

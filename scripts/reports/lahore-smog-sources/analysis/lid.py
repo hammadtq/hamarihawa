@@ -44,7 +44,7 @@ def panel(x0,w,h_m,sky,title,sub,warm,seed,fires):
     else:  # shallow capped layer: smoke drifts with the light wind and jiggles, but can't rise
         for k in range(4):
             grp=pts[k::4]
-            o.append(f'<g class="a" style="--w:{w}px;animation-name:wind;animation-duration:{(46,52,58,64)[k]}s"><g style="animation:jig {(2.6,3.1,3.7,4.3)[k]}s ease-in-out infinite">{dots(grp)}{dots(grp,-w,0)}</g></g>')
+            o.append(f'<g class="a" style="--w:{-w}px;animation-name:wind;animation-duration:{(46,52,58,64)[k]}s"><g style="animation:jig {(2.6,3.1,3.7,4.3)[k]}s ease-in-out infinite">{dots(grp)}{dots(grp,w,0)}</g></g>')
     o.append('</g>')
     if fires:  # crop smoke rising from the fires, stopped by the lid and spreading under it
         fx=x0+w-88
@@ -59,8 +59,8 @@ def panel(x0,w,h_m,sky,title,sub,warm,seed,fires):
             o.append(f'<path class="flow" d="M{cx+30} {hy+40} C {cx+60} {hy+90}, {cx+55} {G-120}, {cx+30} {G-45}" fill="none" stroke="#33414f" stroke-width="1.6" marker-end="url(#ar)"/>')
         lab(x0+w/2,hy+80,T("sun-heated ground stirs")); lab(x0+w/2,hy+96,T("the air up and down"))
     # light wind arrow, same in both
-    wy=hy+(G-hy)*0.42 if warm else hy+150
-    o.append(f'<line x1="{x0+w/2-60}" x2="{x0+w/2+10}" y1="{wy}" y2="{wy}" stroke="#33414f" stroke-width="2.2" marker-end="url(#ar)"/>')
+    wy=hy+14 if warm else hy+150
+    o.append(f'<line x1="{x0+w/2+10}" x2="{x0+w/2-60}" y1="{wy}" y2="{wy}" stroke="#33414f" stroke-width="2.2" marker-end="url(#ar)"/>')
     lab(x0+w/2+62,wy+4,T("light wind, ~2 m/s"))
     # ground: city, chimney, fields
     o.append(f'<rect x="{x0}" y="{G}" width="{w}" height="14" fill="#7b6a4f"/>')
