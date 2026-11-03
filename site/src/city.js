@@ -252,7 +252,7 @@ function fireChart(cf, id, l, N) {
   if (!rows.some(Boolean)) return "";
   const W = 720, H = 180, pad = 24, n = cf.dates.length, bw = (W - 8) / n;
   const max = Math.max(1, ...rows.map((r) => (r ? r[1] : 0)));
-  const y = (v) => ((H - pad - 8) * v) / max;
+  const y = (v) => ((H - pad - 20) * v) / max; // headroom for the max label
   let g = "", line = [];
   cf.dates.forEach((d, i) => {
     const r = rows[i], x = 4 + i * bw, w = Math.max(1, bw - 3);
