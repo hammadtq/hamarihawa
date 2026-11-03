@@ -1,0 +1,8 @@
+lat,lon,fuel,name,capacity_mw_osm,flag,km
+31.2631,74.189,oil,Kohinoor Energy Power Plant,131.44,0,35.0
+31.7326,73.8753,oil,Saba Power Plant,134.0,0,48.5
+31.6789,74.0838,oil,Atlas Power Plant,213.856,0,28.2
+31.6334,73.8704,gas,Halmore Power,225.0,0,45.4
+31.7599,74.0352,gas,Sapphire Electric Power Plant,235.0,0,37.1
+31.6034,73.9053,gas,Bhikki Power Plant,1230.9,0,41.6
+31.246,74.1775,oil,Reshma Power Station,,0,37.2

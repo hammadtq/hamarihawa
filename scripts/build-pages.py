@@ -312,10 +312,10 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
-    ("/report/lahore-smog-sources/", "2026-11-02", "Lahore's smog, source by source: what satellites can see, and what they can't", {
-        "en": "Lahore's traffic-and-industry gas stays at twice the level of its farmland every year; what arrives in late October is crop burning on the city's edge and still air. Its dumps leak methane, not smoke, and dust is a coarse-particle problem on a few days.",
-        "ur": "لاہور میں ٹریفک اور صنعت کی گیس ہر سال اس کے کھیتوں کے مقابلے میں دگنی رہتی ہے؛ اکتوبر کے آخر میں جو نیا آتا ہے وہ شہر کے کنارے فصلوں کی آگ اور ٹھہری ہوئی ہوا ہے۔ اس کے کوڑے کے ڈھیروں سے دھواں نہیں، میتھین نکلتی ہے، اور گرد چند دنوں کا، موٹے ذرات کا مسئلہ ہے۔",
-        "hi": "लाहौर में ट्रैफ़िक और उद्योग की गैस हर साल उसके खेतों के मुक़ाबले दोगुनी रहती है; अक्टूबर के आख़िर में जो नया आता है, वह है शहर के किनारे फ़सल की आग और ठहरी हुई हवा। इसके कूड़े के ढेरों से धुआँ नहीं, मीथेन निकलती है, और धूल कुछ दिनों की, मोटे कणों की समस्या है।"}),
+    ("/report/lahore-smog-sources/", "2026-11-02", "Lahore's smog: the year-round baseline, and what changes in October", {
+        "en": "Lahore's fine-particle pollution was above Pakistan's 24-hour standard in every month of the past year. In October and November the air it mixes into gets shallower, and crop fires break out around the city, on top of that year-round baseline.",
+        "ur": "گزشتہ ایک سال میں لاہور میں باریک ذرات کی آلودگی ہر مہینے پاکستان کی 24 گھنٹے کی مقررہ حد سے اوپر رہی۔ اکتوبر اور نومبر میں سال بھر کی اس آلودگی پر مزید دو چیزیں آ جاتی ہیں: ہوا کی جس تہہ میں دھواں پھیلتا ہے وہ پتلی ہو جاتی ہے، اور شہر کے ارد گرد فصلوں کو آگ لگنے لگتی ہے۔",
+        "hi": "पिछले एक साल में लाहौर में बारीक कणों का प्रदूषण हर महीने पाकिस्तान की 24 घंटे की सीमा से ऊपर रहा। अक्टूबर और नवंबर में, साल भर के इस बुनियादी प्रदूषण के ऊपर, हवा की वह परत पतली हो जाती है जिसमें धुआँ घुलता है, और शहर के आसपास खेतों में आग लगने लगती है।"}),
     ("/report/madhya-pradesh-indian-punjab-fire-spots/", "2026-10-28", "Madhya Pradesh overtakes Indian Punjab: satellite fire spots in October, 2019–2026", {
         "en": "From 1 to 24 October 2026 Madhya Pradesh had its most satellite fire spots in eight years, and Indian Punjab and Haryana their fewest.",
         "ur": "1 سے 24 اکتوبر 2026 کے دوران مدھیہ پردیش میں سیٹلائٹ سے دیکھے گئے آگ کے مقامات آٹھ برسوں میں سب سے زیادہ رہے، جبکہ ہندوستانی پنجاب اور ہریانہ میں سب سے کم۔",

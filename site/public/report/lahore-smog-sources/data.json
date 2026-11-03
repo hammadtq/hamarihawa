@@ -1,5 +1,5 @@
 {
- "report": "Lahore's smog, source by source: what satellites can see, and what they can't",
+ "report": "Lahore's smog: the year-round baseline, and what changes in October",
  "published": "2026-11-02",
  "centre": {
   "lat": 31.55,
@@ -9,37 +9,112 @@
  "evidence": [
   {
    "id": "ground_october",
-   "claim": "Lahore above Pakistan's legal PM2.5 limit on all 31 days of October 2026; average 100.1 µg/m³ across 26 monitors; weather alone cut PM2.5 about 19% vs October 2025",
+   "claim": "PAQI: Lahore October mean PM2.5 136.3 (2025) -> 100.1 µg/m³ (2026), -27%, at 26 sites reporting in both years; PAQI model: this October's weather alone lowered PM2.5 about 19% versus last October's weather",
    "source": "PAQI analysis as reported by ProPakistani, 2 Nov 2026",
-   "url": "https://propakistani.pk/2026/11/02/lahore-smog-drops-27-percent-october-weather/"
+   "url": "https://propakistani.pk/2026/11/02/lahore-smog-drops-27-percent-october-weather/amp/",
+   "note": "Matched-site PAQI figures, not IQAir's 124 and 100. The earlier claim of 31 days above 35 is no longer used. Counterfactual: this October's emissions under last October's weather; with typical weather in both months the gap would be about 4% (ProPakistani).",
+   "status": "verified against press report; PAQI's model not reproduced"
   },
   {
    "id": "aqi_nov",
-   "claim": "Lahore AQI reported at 448 (2 Nov) and over 500 (1-2 Nov)",
-   "source": "The Nation; Daily Pakistan",
+   "claim": "Lahore AQI 448 on Sunday 1 Nov 2026 (PMD sources, The Nation); IQAir US AQI 535 at 8 am on 2 Nov 2026 (Dawn)",
+   "source": "The Nation, 2 Nov 2026; Dawn, 2 Nov 2026",
    "url": [
     "https://www.nation.com.pk/02-Nov-2026/lahore-ranks-polluted-city-world-aqi-reaches-hazardous-448",
-    "https://en.dailypakistan.com.pk/02-Nov-2026/anti-smog-guns-in-action-as-lahore-aqi-tops-500"
+    "https://www.dawn.com/news/2041584"
    ]
   },
   {
-   "id": "wind_october",
-   "claim": "Mean October 10 m wind speed at Lahore (m/s)",
+   "id": "monthly_pm25",
+   "claim": "Lahore monthly mean PM2.5 (µg/m³), IQAir city history (one product, two readings)",
    "values": {
-    "2019": 6.6,
-    "2020": 7.1,
-    "2021": 7.8,
-    "2022": 7.4,
-    "2023": 7.2,
-    "2024": 6.8,
-    "2025": 4.4,
-    "2026": 4.9
+    "2025-10": 123.5,
+    "2025-11": 183.4,
+    "2025-12": 177.5,
+    "2026-01": 124,
+    "2026-02": 125.3,
+    "2026-03": 67.1,
+    "2026-04": 48.4,
+    "2026-05": 45.5,
+    "2026-06": 40,
+    "2026-07": 53,
+    "2026-08": 55.9,
+    "2026-09": 58.6,
+    "2026-10": 100.3
    },
-   "source": "ERA5 reanalysis via Open-Meteo archive API, hourly, 31.55 N 74.34 E"
+   "limits": {
+    "pakistan_24h": 35,
+    "pakistan_annual": 15,
+    "who_annual": 5,
+    "note": "35 is a 24-hour standard shown on a monthly chart for context; monthly means can't give daily exceedance counts"
+   },
+   "source": "IQAir Lahore city page, Historic > Monthly. Oct 2025-Aug 2026 read 2026-09-14 (report/data/iqair-citypage-monthly-oct2025-sep2026.json); Sep-Oct 2026 read 2026-11-02T20:36Z (report/data/iqair-citypage-monthly-snapshot-2026-11-03.json); Dec 2025-Aug 2026 identical in both readings",
+   "geography": "IQAir city average, Lahore",
+   "units": "µg/m³, monthly mean",
+   "derived": {
+    "apr_sep_2026_range": [
+     40,
+     58.6
+    ],
+    "apr_sep_2026_mean": 50.2,
+    "oct2025_over_aprsep": 2.46,
+    "nov2025_over_aprsep": 3.65,
+    "aprsep_mean_over_annual_standard_15": 3.3
+   },
+   "not_used": "IQAir 2025 annual-report city table (different, finalized product): Oct 123.4, Nov 183.9, Dec 171 (report/data/iqair-annual-and-2025-monthly.json). Earlier draft used Sep 45.6, which covered 1-14 Sep only.",
+   "status": "corrected (Sep, Oct 2026); verified",
+   "input": [
+    "iqair-citypage-monthly-oct2025-sep2026.json",
+    "iqair-citypage-monthly-snapshot-2026-11-03.json"
+   ]
+  },
+  {
+   "id": "mixing_height",
+   "claim": "ERA5 boundary-layer height and 10 m wind at central Lahore, monthly means 2019-2025",
+   "blh_m": {
+    "1": 224,
+    "2": 298,
+    "3": 408,
+    "4": 688,
+    "5": 858,
+    "6": 825,
+    "7": 529,
+    "8": 477,
+    "9": 451,
+    "10": 399,
+    "11": 262,
+    "12": 191
+   },
+   "wind_ms": {
+    "1": 1.86,
+    "2": 2.16,
+    "3": 2.38,
+    "4": 2.44,
+    "5": 2.42,
+    "6": 2.21,
+    "7": 2.2,
+    "8": 1.99,
+    "9": 1.78,
+    "10": 1.82,
+    "11": 1.85,
+    "12": 1.77
+   },
+   "october_1_26_blh_m": {
+    "2019": 466,
+    "2020": 430,
+    "2021": 439,
+    "2022": 485,
+    "2023": 328,
+    "2024": 410,
+    "2025": 319,
+    "2026": 362
+   },
+   "source": "ERA5 via Open-Meteo archive API (models=era5), hourly, 31.55 N 74.34 E",
+   "note": "An earlier version of this report gave October wind speeds from Open-Meteo's default blended series, in km/h mislabelled as m/s; that series changes model in recent years. ERA5 alone shows no unusual October wind in 2025 or 2026."
   },
   {
    "id": "timelapse_counts",
-   "claim": "Fire spots per day (all satellites) in the frame 30.0-32.6 N, 72.4-75.9 E",
+   "claim": "Hotspot detections of all kinds, all satellites, in the frame 30.0-32.6 N, 72.4-75.9 E, per Pakistan-time day",
    "values": {
     "2026-10-01": 135,
     "2026-10-02": 212,
@@ -74,7 +149,14 @@
     "2026-10-31": 1239,
     "2026-11-01": 1538
    },
-   "source": "NASA FIRMS via HamariHawa /api/day"
+   "source": "NASA FIRMS via HamariHawa /api/day",
+   "definition": "All hotspot kinds (crop, kiln, urban, industrial, landfill, hotspot, forest, open, mixed), all satellites (Suomi NPP, NOAA-20, NOAA-21, MODIS Terra, MODIS Aqua), inside the rectangular frame 30.0-32.6 N, 72.4-75.9 E (no radius filter), per Pakistan-time day. crop_associated gives the subset with kind = crop for the two days quoted in the report. Processing: FIRMS VIIRS (low-confidence detections dropped) and MODIS (confidence >= 30); the same ~400 m spot seen by several satellites on one Pakistan-time day is counted once; MODIS points dropped where VIIRS saw a fire within ~1 km. Each detection is classified by kind (crop, kiln, urban, industrial, landfill, hotspot = persistent always-hot spot, forest, open, mixed); 'crop' = on farmland away from known kilns, dumps, industry and towns (an inference, not ground-checked). Detections are not deduplicated fire events, burned area or emissions; clouds and data gaps are not corrected.",
+   "status": "reproduced from archive (exact match, 3 Nov 2026)",
+   "crop_associated": {
+    "2026-10-01": 121,
+    "2026-11-01": 1490
+   },
+   "input": "fires-all-satellites-frame-2026-10-01-to-11-01.csv"
   },
   {
    "id": "crop_40km",
@@ -98,7 +180,11 @@
     "industrial": 5,
     "mixed": 1
    },
-   "source": "HamariHawa /api/day (NASA FIRMS)"
+   "source": "HamariHawa /api/day (NASA FIRMS)",
+   "definition": "Crop-associated detections only (kind = crop), all satellites, within 40 km (haversine) of central Lahore, 15 Oct-1 Nov 2026 inclusive, both sides of the border, by district. non_crop_within_40km counts the other kinds within the same radius and dates (urban, kiln, always-hot spot = kind 'hotspot', near landfill = kind 'landfill', industrial, mixed). Distances are great-circle (haversine) from 31.55 N, 74.34 E, Earth radius 6,371 km; see radius_filtering. Processing: FIRMS VIIRS (low-confidence detections dropped) and MODIS (confidence >= 30); the same ~400 m spot seen by several satellites on one Pakistan-time day is counted once; MODIS points dropped where VIIRS saw a fire within ~1 km. Each detection is classified by kind (crop, kiln, urban, industrial, landfill, hotspot = persistent always-hot spot, forest, open, mixed); 'crop' = on farmland away from known kilns, dumps, industry and towns (an inference, not ground-checked). Detections are not deduplicated fire events, burned area or emissions; clouds and data gaps are not corrected.",
+   "status": "reproduced from archive (exact match, 3 Nov 2026)",
+   "input": "fires-all-satellites-frame-2026-10-01-to-11-01.csv",
+   "radius_filtering": "see radius_filtering at top level"
   },
   {
    "id": "crop_100km",
@@ -106,7 +192,102 @@
    "total": 7130,
    "pakistan": 4759,
    "india": 2371,
-   "source": "HamariHawa /api/day (NASA FIRMS)"
+   "source": "HamariHawa /api/day (NASA FIRMS)",
+   "definition": "Crop-associated detections only (kind = crop), all satellites, within 100 km (haversine) of central Lahore, 15 Oct-1 Nov 2026 inclusive; pakistan/india split by the country of the detection's district. Distances are great-circle (haversine) from 31.55 N, 74.34 E, Earth radius 6,371 km; see radius_filtering. Processing: FIRMS VIIRS (low-confidence detections dropped) and MODIS (confidence >= 30); the same ~400 m spot seen by several satellites on one Pakistan-time day is counted once; MODIS points dropped where VIIRS saw a fire within ~1 km. Each detection is classified by kind (crop, kiln, urban, industrial, landfill, hotspot = persistent always-hot spot, forest, open, mixed); 'crop' = on farmland away from known kilns, dumps, industry and towns (an inference, not ground-checked). Detections are not deduplicated fire events, burned area or emissions; clouds and data gaps are not corrected.",
+   "status": "reproduced from archive (exact match, 3 Nov 2026)",
+   "input": "fires-all-satellites-frame-2026-10-01-to-11-01.csv",
+   "radius_filtering": "see radius_filtering at top level"
+  },
+  {
+   "id": "crop_seasons",
+   "claim": "NOAA-20 crop-fire spots within 100 km of central Lahore, Pakistani side, by period: 1-14 Oct, 15 Oct-1 Nov, 2-15 Nov, 16-30 Nov",
+   "values": {
+    "2019": [
+     262,
+     812,
+     571,
+     1287
+    ],
+    "2020": [
+     1032,
+     970,
+     1309,
+     803
+    ],
+    "2021": [
+     934,
+     3139,
+     2749,
+     779
+    ],
+    "2022": [
+     483,
+     1622,
+     1203,
+     713
+    ],
+    "2023": [
+     897,
+     622,
+     1073,
+     765
+    ],
+    "2024": [
+     831,
+     1925,
+     1261,
+     508
+    ],
+    "2025": [
+     372,
+     2193,
+     1337,
+     165
+    ],
+    "2026": [
+     508,
+     1654,
+     null,
+     null
+    ]
+   },
+   "source": "HamariHawa archive (NASA FIRMS)",
+   "definition": "NOAA-20 only (VIIRS, low confidence dropped; no MODIS and no other VIIRS satellite), crop-associated detections (kind = crop), districts in Pakistan only, within 100 km (haversine) of central Lahore; periods 1-14 Oct, 15 Oct-1 Nov, 2-15 Nov, 16-30 Nov, Pakistan time; the same ~400 m spot on one day counted once. after_1_nov_share_pct = (2-15 Nov + 16-30 Nov) / 1 Oct-30 Nov total. Distances are great-circle (haversine) from 31.55 N, 74.34 E, Earth radius 6,371 km; see radius_filtering. Kinds as in timelapse_counts; not fire events, burned area or emissions.",
+   "status": "reproduced from archive (exact match, 3 Nov 2026)",
+   "derived": {
+    "2026_vs_2025_pct": -24.58,
+    "2026_vs_2024_pct": -14.08,
+    "after_1_nov_share_pct": {
+     "2019": 63.4,
+     "2020": 51.3,
+     "2021": 46.4,
+     "2022": 47.6,
+     "2023": 54.8,
+     "2024": 39.1,
+     "2025": 36.9
+    }
+   },
+   "input": "fires-noaa20-crop-pk-100km-2019-2026.csv",
+   "radius_filtering": "see radius_filtering at top level"
+  },
+  {
+   "id": "indian_punjab_peak",
+   "claim": "Indian Punjab NOAA-20 crop-fire peak day per season: 2019-11-04, 2020-11-04, 2021-11-07, 2022-11-05, 2023-11-07, 2024-11-18, 2025-11-01; 2026 busiest day so far 122 spots. Diwali: 27 Oct 2019, 14 Nov 2020, 4 Nov 2021, 24 Oct 2022, 12 Nov 2023, 31 Oct 2024, 20 Oct 2025, 8 Nov 2026",
+   "source": "HamariHawa archive (NASA FIRMS)",
+   "definition": "NOAA-20 only, crop-associated detections (kind = crop) in districts of Indian Punjab state (whole state, no radius filter), counted per Pakistan-time day, 1 Oct-30 Nov; the peak day is the day with the most detections (2026: archive to 2 Nov). Daily counts attached. Not fire events, burned area or emissions. Clouds and data gaps are not corrected.",
+   "status": "reproduced from archive (exact match, 3 Nov 2026); Diwali dates are calendar facts, not checked against the archive",
+   "note": "Detections in Indian Punjab have fallen since 2021, but NASA reports a shift to later-afternoon burning after satellite overpasses, so fewer detections need not mean less burning. No causal claim about Diwali.",
+   "input": "fires-noaa20-crop-indian-punjab-daily-2019-2026.csv",
+   "peak_counts": {
+    "2019": 3497,
+    "2020": 4165,
+    "2021": 5055,
+    "2022": 3813,
+    "2023": 1978,
+    "2024": 801,
+    "2025": 279,
+    "2026": 122
+   }
   },
   {
    "id": "no2",
@@ -218,30 +399,82 @@
     }
    },
    "source": "Copernicus Sentinel-5P TROPOMI via NASA GIBS (TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column), processed by HamariHawa",
-   "caveat": "2024 and 2025 tiles are processed differently (full coverage every day); values read back from colour bands"
+   "caveat": "values read back from GIBS colour bands (quantized to about one band); valid observations per city pixel about 6.2 (2023), 18 (2024), 18 (2025), 7.1 (2026): 2024-25 tiles have a markedly different coverage pattern (a value every day), cause not established; the ~10% 2026-vs-2023 difference is not treated as a trend. Imagery usable here from 2023; TROPOMI record starts 2018.",
+   "units": "tropospheric NO2 column, molecules/cm²",
+   "status": "arithmetic verified; product version per year not documented by GIBS layer"
   },
   {
    "id": "no2_hotspots_2026",
-   "claim": "HamariHawa NO2 hotspots 18-31 Oct 2026 (ratio to surroundings): Rawalpindi 6.49, Karachi 6.14, Lahore NW 31.625,74.235 4.81, Lahore south-centre 31.494,74.344 4.71",
-   "source": "https://hamarihawa.org/api/no2.json"
+   "claim": "HamariHawa NO2 hotspots, 14 days to 1 Nov 2026, Pakistan: Rawalpindi 6.43, Karachi 5.82, Lahore south-centre (31.494, 74.344) 4.68 (ratio to surroundings)",
+   "source": "https://hamarihawa.org/api/no2.json",
+   "note": "HamariHawa relative-enrichment ranking (column vs surroundings), 14 days to 1 Nov 2026; not an official ranking of ground-level concentrations"
+  },
+  {
+   "id": "vehicles",
+   "claim": "Lahore registered vehicles 30 Sep 2024: 7,484,203 (motorcycles 5,234,187; cars 1,677,740; rickshaws 228,508; pickups/vans 130,827; tractors 68,595; buses 56,957; trucks 44,127; taxis 27,573); Punjab 24,533,994. About 15,000 heavy vehicles enter Lahore daily (traffic police via Dawn, 3 Dec 2022). Punjab 2020 road exhaust PM2.5 (kt/yr): heavy-duty and buses 17.62, motorcycles 5.78, cars 4.32, light-duty 4.25; tyre/brake 2.20, road abrasion 2.45. NOx (kt): heavy 219.3, cars 90.5, light-duty 25.3, motorcycles 3.8",
+   "source": [
+    "https://excise.punjab.gov.pk/system/files/STOOD%20REGISTERED%20VEHICLES%20IN%20PUNJAB%20AS%20OF%2030-SEP-2024%20web_0.pdf",
+    "https://urbanunit.gov.pk/Download/publications/Files/8/2023/Emission%20Inventory%20of%20Punjab%201990-2020_FD.pdf",
+    "https://www.dawn.com/news/amp/1724428"
+   ],
+   "derived": {
+    "exhaust_pm25_kt": 31.97,
+    "wear_plus_abrasion_kt": 4.65,
+    "wear_share_of_total_pct": 12.7,
+    "wear_additional_to_exhaust_pct": 14.5,
+    "exhaust_shares_pct": {
+     "heavy_duty_buses": 55.1,
+     "motorcycles": 18.1,
+     "cars": 13.5,
+     "light_duty": 13.3
+    }
+   },
+   "geography": "registrations: Lahore district; emissions: all of Punjab, 2020",
+   "status": "verified (Excise PDF, Annex B); wording corrected",
+   "note": "Registrations don't measure vehicles operating in Lahore. EMEP/EEA diesel-vs-four-stroke comparison is of technology-category factors, not a measured Lahore fleet ratio. Lahore inventory: CO about 80% of transport emission mass (not a motorcycle-specific breakdown)."
+  },
+  {
+   "id": "fuel",
+   "claim": "Euro V for imported petrol from Aug 2020 and diesel from Jan 2021; local refineries (May 2025): one Euro V, two Euro III, others high-sulphur diesel; Brownfield refinery policy (2023, amended Feb 2024 and Aug 2026): completion within five years of signing the Upgrade Agreement, extendable by cure period (max one year cumulative), force majeure, or a further one year case by case (§6.1.3.5, §6.1.4.1); ECC approved the Upgrade Agreement with a five-year completion period on 14 Sep 2026 (PID PR 146), tariff incentives seven years (§6.1.2.2); new vehicles Euro II",
+   "source": [
+    "https://www.dawn.com/news/1567870",
+    "https://tribune.com.pk/story/2544378",
+    "https://petroleum.gov.pk/SiteImage/Misc/files/Brownfield%20Refinery%20upgradation_2023%281%29.pdf",
+    "https://pid.gov.pk/site/press_detail/33920",
+    "https://www.app.com.pk/?p=1091461"
+   ],
+   "status": "corrected (was: about seven years to upgrade)",
+   "note": "'Notified 10 Sep 2026' could not be confirmed from the policy or PID release"
   },
   {
    "id": "kilns",
    "claim": "Brick kilns within 25 / 50 km of central Lahore, Pakistani side",
    "values": {
-    "25km": 197,
-    "50km": 898
+    "25km": 196,
+    "50km": 890
    },
-   "source": "site/public/sources/kilns.json (SentinelKilnDB CC BY-NC 4.0; Brick Kiln Dataset for Pakistan's IGP Region CC BY 4.0)"
+   "source": "site/public/sources/kilns.json (SentinelKilnDB CC BY-NC 4.0; Brick Kiln Dataset for Pakistan's IGP Region CC BY 4.0)",
+   "dedup": "two datasets merged; points within about 60 m merged (scripts/build-sources.py build_kilns); within 50 km (both sides) 1,022 points remain, 71 pairs under 100 m apart and 186 under 200 m, so a few may be duplicates",
+   "note": "mapped features, not a census of operating kilns",
+   "status": "corrected (was 894/197; the earlier side-assignment method could not be reproduced); deduplication imperfect",
+   "side_method": "geoBoundaries PAK ADM1 polygon (point-in-polygon)",
+   "input": "kilns-within-50km.csv"
   },
   {
    "id": "plants_industry",
-   "claim": "Within 50 km: 7 oil/gas power plants (Bhikki 1,230.9 MW, Sapphire 235, Halmore 225, Atlas 213.9, Saba 134, Kohinoor 131.4, Reshma) and 215 OSM industrial areas",
-   "source": "site/public/sources/city/lahore.json (OpenStreetMap)"
+   "claim": "Within 50 km: 7 oil/gas power plants, five to the west/north-west around Sheikhupura (Bhikki about 1,180 MW per NEPRA, Sapphire 235, Halmore 225, Atlas 214, Saba 134) and two near Raiwind (Kohinoor 131, Reshma); 181 OSM industrial areas within 50 km on the Pakistani side (214 within 50 km in total)",
+   "source": "site/public/sources/city/lahore.json (OpenStreetMap); https://ppib.gov.pk/bhikki.html",
+   "operational_note": "Atlas Power Limited and Saba Power Company: PPAs terminated effective 30 Sep 2024 (CPPA-G Annual Report 2025, printed p.42; Dawn 11 Oct 2024). Operating status of the others not checked; locations and contract status don't establish operation or emissions.",
+   "osm_read": "October 2026",
+   "status": "industrial count reproduced (181); PPA dates verified; operation not verified",
+   "input": [
+    "osm-power-plants-within-50km.csv",
+    "osm-industrial-areas-near-lahore.csv"
+   ]
   },
   {
    "id": "mehmood_booti",
-   "claim": "Closed 2016; 14 million tonnes on about 41 acres; capped, vent pipes installed; gas to be sold or flared; Lakhodair takes about 5,000 t/day",
+   "claim": "Closed 2016; about 14 million tonnes on about 41 acres; covered with soil, vent pipes installed; LWMC: gas to be sold to industry if enough, burnt if not; as of March 2025 methane releasing slowly from vents; Lakhodair takes about 5,000 t/day",
    "source": "BBC Urdu, Umar Draz Nangiana, 24 Mar 2025",
    "url": "https://www.bbc.com/urdu/articles/cg4k93376v7o"
   },
@@ -258,31 +491,118 @@
     "2025": 0,
     "2026": 0
    },
-   "source": "HamariHawa archive (NASA FIRMS)"
+   "source": "HamariHawa archive (NASA FIRMS)",
+   "definition": "Detections of any kind from any satellite (Suomi NPP, NOAA-20, NOAA-21, MODIS Terra, MODIS Aqua) within 450 m (haversine, Earth radius 6,371 km) of the Mehmood Booti mound centre 31.6104 N, 74.3847 E, Pakistan-time days 1 Oct-30 Nov each season (2026: 1 Oct-2 Nov, 33 days). No crop/kind filter: all seven detections found are classified 'landfill' and all are VIIRS (Suomi NPP or NOAA-20). Same archive processing (low-confidence VIIRS dropped, one detection per ~400 m spot per day). Heat seen nearby but beyond 450 m (e.g. neighbouring sites within ~1 km) is not counted here. Not fire events or emissions; clouds and data gaps are not corrected, and small, short-lived, smoke-obscured or underground fires can be missed.",
+   "status": "reproduced from archive (exact match, 3 Nov 2026)",
+   "input": "fires-mehmood-booti-450m-2019-2026.csv"
   },
   {
    "id": "lakhodair_surface",
    "claim": "Sentinel-2 clear passes (cloud <15%) Oct 2024-Nov 2026 over the Lakhodair dump surface (31.619-31.636 N, 74.413-74.424 E): 86; passes with any pixel B12>0.45: 5; the two large ones (21 Aug 2025, 8 Oct 2026) were clouds on inspection; the others 2-10 pixels",
-   "source": "Earth Search Sentinel-2 L2A COGs, processed by HamariHawa"
+   "source": "Earth Search Sentinel-2 L2A COGs, processed by HamariHawa",
+   "status": "unverified count; text no longer gives a number",
+   "reproduction": "The original 86 scenes were not archived. Re-listing on 3 Nov 2026 (Earth Search STAC, sentinel-2-l2a, dump box, scene-level eo:cloud_cover < 15, 1 Oct 2024-2 Nov 2026) gives 184 items on 99 distinct dates: report/data/lakhodair-s2-scenes-2026-11-03.json. Scene-level cloud cover doesn't guarantee a clear view of the site.",
+   "conclusion": "No clear large surface fire identified in the usable images examined; small, short-lived, obscured or subsurface fires can be missed"
   },
   {
    "id": "lakhodair_methane",
-   "claim": "Lakhodair methane 1,559 kg/h; 19 plumes; persistence 92%; first 2023-06-10, last 2026-03-22. No Carbon Mapper methane record for Mehmood Booti",
-   "source": "Carbon Mapper via site/public/sources/sites.json"
+   "claim": "Carbon Mapper source record, Lakhodair: persistence-adjusted source emission estimate 1,559.3 kg CH4/h, reported uncertainty 438.3 kg/h (confidence level not stated); 19 plumes; detected on 11 of 12 observed dates (persistence 91.67%); plume detection dates 2023-06-10 to 2026-03-22. No Carbon Mapper record for Mehmood Booti",
+   "source": [
+    "https://api.carbonmapper.org/api/v1/catalog/sources.geojson?bbox=74.36&bbox=31.59&bbox=74.44&bbox=31.65",
+    "https://carbonmapper.org/articles/product-guide"
+   ],
+   "note": "Carbon Mapper persistence-adjusted source estimate combining emission rates by observation date; not a continuous whole-landfill measurement. Not all detected plumes necessarily have quantified rates; uncertainty confidence level not stated.",
+   "status": "corrected wording",
+   "derived": {
+    "avg_emission_auto_kg_h": 1701.05,
+    "times_persistence": 0.91667,
+    "equals": 1559.3
+   },
+   "input": "carbonmapper-lakhodair-2026-11-02.geojson"
   },
   {
    "id": "dust",
-   "claim": "CAMS modelled dust >= 50 µg/m³ at Lahore on 9 days in Oct 2026 (1-3, 7-11, 30 Oct); dust 43% of modelled PM10 over the month; modelled PM2.5 on dusty days 65 vs 70 µg/m³ on other days",
-   "source": "Copernicus CAMS global via Open-Meteo air-quality API, 31.55 N 74.34 E"
+   "claim": "CAMS global (Open-Meteo 'dust' = aermr06, largest dust bin, particle radii 0.9-20 µm (ECMWF param 210006; radii per ECMWF forum), not total dust) daily mean >= 50 µg/m³ at 31.55 N 74.34 E on 9 days in Oct 2026 (1-3, 7-11, 30 Oct); modelled PM2.5 averaged 65.30 µg/m³ on those days and 67.67 on the other 22",
+   "method": "hourly values, averaged by Pakistan-time day (timezone Asia/Karachi), 24 hours per day",
+   "source": "Open-Meteo air-quality API, domains=cams_global, read 3 Nov 2026 (report/data/cams-lahore-oct2026-hourly.json); field mapping: open-meteo Sources/App/Cams/CamsDomain.swift; https://codes.ecmwf.int/grib/param-db/210006",
+   "removed": "'dust about 40-44% of modelled PM10' (one size bin is not a dust-PM10 fraction); causal conclusions about dust and AQI",
+   "status": "verified (recomputed); interpretation corrected",
+   "pm10_definition": "PM10 includes particles with aerodynamic diameters up to about 10 µm, including PM2.5",
+   "input": "cams-lahore-oct2026-hourly.json"
   },
   {
    "id": "inventories",
-   "claim": "Urban Unit 2023 inventory: transport about 83% of Lahore's total emissions (noted possible overestimate). PAQI national study: transport 35%, heavy industry 28%, brick kilns 17%; rejected by Punjab EPD",
+   "claim": "Urban Unit Lahore 2023 inventory (2021 data), PM2.5 t/yr: transport 397, crop burning 371, waste burning 320, industry 29, total 1,120; transport's 83% is of all pollutants summed by mass (mostly CO); notes vehicle figures may be overestimated. PAQI national landscape report (https://zenodo.org/records/17629179; Dawn, 10 Dec 2025): Lahore primary PM2.5 emissions 35% transport, 28% heavy industry, 17% brick kilns; Punjab EPA disputes its data",
    "source": [
-    "https://www.urbanunit.gov.pk/Download/publications/Files/8/2023/Emission Inventory of Lahore 2023.pdf",
-    "https://dialogue.earth/en/?p=60062120",
+    "https://urbanunit.gov.pk/Download/publications/Files/8/2023/Emission%20Inventory%20of%20Lahore%202023.pdf",
     "https://www.dawn.com/news/1960268"
-   ]
+   ],
+   "note": "Emission-inventory shares, not ambient or receptor apportionment; secondary formation, transport and removal prevent direct conversion"
+  },
+  {
+   "id": "visibility_history",
+   "claim": "Share of Dec-Jan days with daily-mean visibility < 1 km, winters with >= 70% of days reported. Amritsar airport (GSOD 42071099999): 1970s 0.8%, 1980s 4.4%, 1990s 10.3%, 2000s 13.9%, 2010s 20.0%, 2020-24 41.1%. Lahore airport (41641099999) days < 1 km per Oct-Jan winter: 1992-97 0-1; 1998-99 to 2017-18 1-23",
+   "source": "NOAA NCEI Global Surface Summary of the Day",
+   "caveat": "unadjusted daily-mean visibility; fog, haze and smoke not separable; changing observation frequency can shift daily means",
+   "geography": "Amritsar airport about 47 km from 31.55 N 74.34 E; Lahore airport about 7 km",
+   "winter_label": "Amritsar: Dec of year Y + Jan of Y+1, grouped by Y; Lahore: Oct-Jan season labelled Y-(Y+1)",
+   "observation_frequency": "Amritsar median readings per day: 5-7 in 1970s-80s, 6-14 in 1990s, 10-21 in 2000s, 22-24 since 2010s; series not adjusted",
+   "status": "verified (recomputed); labels corrected (was 25 km)"
+  },
+  {
+   "id": "modis_fire_history",
+   "claim": "MODIS (Terra+Aqua, SP, conf >= 30) fires 15 Oct-30 Nov: NE Pakistani Punjab (box 29.5-32.6 N, 72.0-76.9 E) 631/670/694 in 2002-04, 1,572/1,663/1,614/1,636 in 2022-25; share of 1 Oct-30 Nov fires in November: Indian Punjab 5/10/11% (2002-04) to 78/67/83/85/73% (2021-25); Pakistani side 87/79/88% to 57/51/63/61/45%. Within 100 km of Lahore, Indian side 2.4-5.6x Pakistani side in 2009-2020, similar in 2024-25 (950 vs 750; 793 vs 683)",
+   "source": "NASA FIRMS MODIS_SP C6.1, processed by HamariHawa",
+   "definition": "MODIS only (Terra + Aqua, MODIS_SP Collection 6.1 standard product, confidence >= 30), all detections in the stated box or radius with no crop/kind classification and no cross-satellite deduplication, 15 Oct-30 Nov (shares: 1 Oct-30 Nov) each year 2002-2025. These are not the HamariHawa archive's classified detections, and late-afternoon burning after the satellite overpasses is missed (NASA Earth Observatory).",
+   "status": "arithmetic_only (inputs not attached)"
+  },
+  {
+   "id": "era5_long",
+   "claim": "ERA5 November mean boundary-layer height at Lahore by decade: 1980s 278 m, 1990s 298, 2000s 294, 2010s 281, 2020-25 252; Theil-Sen -7 m/decade (p 0.05); November wind about 1.85 m/s with no trend; lowest Novembers 2025 (220.0 m), 1987 (226.1), 2023 (230.9), 2016 (233.8); OLS trend -6.2 m/decade (about -10% over 1980-2025), interannual SD 29 m; November mean 10 m wind 1.86 (1980s) vs 1.88 m/s (last 10 years)",
+   "source": "ERA5 via Open-Meteo (models=era5), 1980-2025",
+   "note": "all-hour means, not afternoon depths; 2025 and 2023 Novembers had conditions favouring accumulation near the ground; humidity and other variables not analysed",
+   "status": "corrected (ranking)"
+  },
+  {
+   "id": "history_literature",
+   "claim": "Lahore annual PM2.5 194 ± 94 µg/m³, Jan 2007-Jan 2008 (Stone et al. 2010); fog frequency regime shifts ~1990 and ~1998 over South Asia (Syed et al. 2012); Lahore district population 6.32 m (1998), 13.00 m (2023); Lahore registered vehicles ~1.95 m (2008, JICA)",
+   "source": [
+    "https://doi.org/10.1016/j.atmosenv.2009.12.015",
+    "https://doi.org/10.1007/s00382-012-1414-0",
+    "https://www.pbs.gov.pk/census-2023",
+    "https://openjicareport.jica.go.jp/pdf/12068219_02.pdf"
+   ],
+   "note": "Stone et al. 2010: PM2.5 194 ± 94 µg/m³, samples every sixth day 12 Jan 2007-19 Jan 2008; one study, not comparable with modern network means for trends. Syed et al. 2012: 82 stations 1976-2010, fog regime shifts 1990 and 1998, alongside gradual RH rise (abstract via search snippets; publisher page blocked). Dawn 30 Dec 2008 on Suparco fog study. JICA 2012: 1.95 m motorized vehicles registered in Lahore in 2008. IRIN Dec 2006 'smog' article could not be opened, so not cited.",
+   "status": "verified (Stone abstract, Dawn, JICA); Syed via abstract snippets"
   }
- ]
+ ],
+ "revised": "2026-11-03",
+ "status_key": {
+  "verified": "checked against the primary source, or recomputed from an archived input on 3 Nov 2026",
+  "reproduced from archive": "recomputed exactly from HamariHawa's archived FIRMS-derived day files (extract attached); the archive's processing of raw FIRMS files was not independently re-audited",
+  "corrected": "changed on 3 Nov 2026 after review",
+  "arithmetic_only": "arithmetic checked; underlying observations not re-checked",
+  "unverified": "not reproduced; precision removed or limitation stated"
+ },
+ "version": "2026-11-03c",
+ "inputs": {
+  "note": "Extracts sent with the PDF (folder HamariHawa-Lahore-smog-data-3-Nov-2026) and kept in the repo under report/data/",
+  "files": {
+   "fires-noaa20-crop-pk-100km-2019-2026.csv": "every NOAA-20 crop-associated detection on the Pakistani side within 100 km of 31.55 N 74.34 E, 1 Oct-30 Nov 2019-2025 and 1 Oct-2 Nov 2026 (reproduces crop_seasons)",
+   "fires-all-satellites-frame-2026-10-01-to-11-01.csv": "every detection, all satellites and kinds, in the frame 30.0-32.6 N 72.4-75.9 E, 1 Oct-1 Nov 2026 (reproduces timelapse_counts, crop_40km, crop_100km, non-crop counts)",
+   "kilns-within-50km.csv": "merged kiln points within 50 km, with side (geoBoundaries PAK ADM1 polygon)",
+   "osm-industrial-areas-near-lahore.csv": "OpenStreetMap industrial areas, distance and side",
+   "osm-power-plants-within-50km.csv": "OpenStreetMap power plants within 50 km",
+   "iqair-citypage-monthly-oct2025-sep2026.json": "IQAir city history read 14 Sep 2026",
+   "iqair-citypage-monthly-snapshot-2026-11-03.json": "IQAir city history read 2 Nov 2026 20:36 UTC",
+   "iqair-annual-and-2025-monthly.json": "IQAir 2025 annual-report product (not used in chart)",
+   "cams-lahore-oct2026-hourly.json": "Open-Meteo CAMS global hourly PM2.5, PM10, dust, Oct 2026",
+   "carbonmapper-lakhodair-2026-11-02.geojson": "Carbon Mapper source record",
+   "lakhodair-s2-scenes-2026-11-03.json": "Sentinel-2 scene list (re-listed)",
+   "era5_oct_nov.csv, gsod_season_visibility.csv, gsod_split_octnov_decjan.csv, firms_season_counts.csv": "history analysis outputs (scripts in repo: scripts/reports/lahore-smog-sources/analysis/)",
+   "fires-mehmood-booti-450m-2019-2026.csv": "every detection within 450 m of the Mehmood Booti mound centre, all satellites and kinds, 1 Oct-30 Nov 2019-2025 and 1 Oct-2 Nov 2026 (reproduces mehmood_booti_fires)",
+   "fires-noaa20-crop-indian-punjab-daily-2019-2026.csv": "NOAA-20 crop-associated detections per Pakistan-time day in Indian Punjab state, 1 Oct-30 Nov 2019-2025 and 1 Oct-2 Nov 2026 (reproduces indian_punjab_peak)"
+  }
+ },
+ "radius_filtering": "The km_from_31.55N_74.34E column in the fire CSVs is rounded to 0.1 km for display. To reproduce the reported counts, recompute each detection's great-circle (haversine) distance from its lat/lon to 31.55 N, 74.34 E with Earth radius 6,371 km and filter on that. Filtering the rounded column directly gives different boundary counts: 785 instead of 781 within 40 km and 7,148 instead of 7,130 within 100 km (15 Oct-1 Nov 2026, kind = crop). fires-noaa20-crop-pk-100km-2019-2026.csv is already filtered to <= 100 km by haversine distance. Mehmood Booti uses the same formula from 31.6104 N, 74.3847 E."
 }
