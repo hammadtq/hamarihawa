@@ -1,5 +1,8 @@
 # MODIS fire counts (FIRMS) by side, state and fortnight. Inputs: raw/firms/*.csv, borders.json, places tiles.
+# Country is assigned using boundary polygons; state/province is assigned from the nearest mapped settlement.
+# Season windows (and the 2026 cutoff) come from firms_season.py; observations outside them are dropped.
 import csv, glob, json, math, os, sys, statistics as st, datetime as dt, collections
+from firms_season import in_season, partial_label
 H = sys.argv[1]
 REPO = '/Users/hammadtariq/go/src/github.com/hammadtq/hamarihawa/data'
 B = json.load(open(f'{REPO}/places/borders.json'))
@@ -55,6 +58,7 @@ for fn in sorted(glob.glob(os.path.join(H, 'raw', 'firms', '*.csv'))):
         seen.add(key)
         if int(r['confidence']) < 30: dropped['conf<30'] += 1; continue
         if r.get('type') not in (None, '', '0'): dropped['type ' + r['type']] += 1; continue
+        if not in_season(dt.date.fromisoformat(r['acq_date'])): dropped['outside season window'] += 1; continue
         lat, lon = float(r['latitude']), float(r['longitude'])
         cc = country(lon, lat)
         if cc is None: dropped['no country'] += 1; continue
@@ -72,7 +76,7 @@ for y in range(2001, 2027):
     fy = [x for x in fires if x['date'].year == y]
     win = [x for x in fy if dt.date(y, 10, 15) <= x['date'] <= dt.date(y, 11, 30)]
     todate = [x for x in fy if dt.date(y, 10, 15) <= x['date'] <= dt.date(y, 11, 1)]
-    row = dict(year=y, partial=('to 1 Nov (NRT)' if y == 2026 else ''))
+    row = dict(year=y, partial=partial_label(y))
     row['r100_PK'] = sum(1 for x in win if x['d'] <= 100 and x['cc'] == 'PK')
     row['r100_IN'] = sum(1 for x in win if x['d'] <= 100 and x['cc'] == 'IN')
     row['box_PK_all'] = sum(1 for x in win if x['cc'] == 'PK')

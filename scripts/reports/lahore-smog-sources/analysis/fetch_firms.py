@@ -1,5 +1,7 @@
-# Fetch NASA FIRMS MODIS detections (area API) for the Punjab box, 1 Oct - 30 Nov each year.
+# Fetch NASA FIRMS MODIS detections (area API) for the Punjab box, 1 Oct - 30 Nov each year
+# (2026: 1 Oct to firms_season.CUTOFF_2026, near-real-time).
 import os, sys, time, datetime as dt, urllib.request
+from firms_season import season_start, season_end
 H = sys.argv[1]
 KEY = open(os.path.expanduser('~/.config/hamarihawa/firms_key')).read().strip()
 BOX = '72.0,29.5,76.9,32.6'
@@ -25,8 +27,8 @@ def get(src, start, days, fn):
 YEARS = [int(a) for a in " ".join(sys.argv[2:]).split()] or range(2001, 2027)
 for year in YEARS:
     src = 'MODIS_SP' if year <= 2025 else 'MODIS_NRT'
-    d = dt.date(year, 10, 1)
-    end = dt.date(year, 11, 30) if year <= 2025 else dt.date(2026, 11, 2)
+    d = season_start(year)
+    end = season_end(year)
     while d <= end:
         days = min(5, (end - d).days + 1)
         fn = os.path.join(out, f'{src}_{d.isoformat()}_{days}d.csv')

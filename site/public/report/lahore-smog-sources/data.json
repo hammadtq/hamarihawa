@@ -553,9 +553,9 @@
    "id": "modis_fire_history",
    "claim": "MODIS (Terra+Aqua) active-fire detections. Counts, 15 Oct-30 Nov: NE Pakistani Punjab (box 29.5-32.6 N, 72.0-76.9 E) 631/670/694 in 2002-04, 1,572/1,663/1,614/1,636 in 2022-25. Share of 1 Oct-30 Nov detections recorded in November: Indian Punjab 5/10/11% (2002-04) to 78/67/83/85/73% (2021-25); Pakistani Punjab 87/79/88% to 57/51/63/61/45%. Within 100 km of Lahore, 15 Oct-30 Nov: Indian side 2.4-5.6x Pakistani side in 2009-2020, similar in 2024-25 (950 vs 750; 793 vs 683)",
    "source": "NASA FIRMS MODIS_SP C6.1, processed by HamariHawa",
-   "definition": "MODIS only (Terra + Aqua, FIRMS MODIS_SP Collection 6.1 standard product), confidence >= 30, FIRMS type 0 (presumed vegetation fire), within the box 29.5-32.6 N, 72.0-76.9 E; exact duplicate rows removed. Not classified by source (no crop/kiln/town labels, unlike the HamariHawa archive's recent counts) and not deduplicated across satellites or into individual fires. Counts compare 15 Oct-30 Nov; November shares are of 1 Oct-30 Nov, Punjab state on each side; the 100 km comparison uses haversine distance from 31.55 N, 74.34 E. Late-afternoon burning after the satellite overpasses is missed (NASA Earth Observatory).",
+   "definition": "MODIS only (Terra + Aqua, FIRMS MODIS_SP Collection 6.1 standard product), confidence >= 30, FIRMS type 0 (presumed vegetation fire), within the box 29.5-32.6 N, 72.0-76.9 E; exact duplicate rows removed. Not classified by source (no crop/kiln/town labels, unlike the HamariHawa archive's recent counts) and not deduplicated across satellites or into individual fires. Counts compare 15 Oct-30 Nov; November shares are of 1 Oct-30 Nov, Punjab state on each side; the 100 km comparison uses haversine distance from 31.55 N, 74.34 E. Late-afternoon burning after the satellite overpasses is missed (NASA Earth Observatory). Country is assigned using boundary polygons; state/province is assigned from the nearest mapped settlement. The 2026 near-real-time row (not used in the report) covers 1 Oct to 1 Nov 2026; the cutoff is set once in firms_season.py and enforced in the analysis, so later cached observations are dropped. Fields named 15 Oct-1 Nov are restricted to that window.",
    "status": "arithmetic_only (inputs not attached)",
-   "script": "scripts/reports/lahore-smog-sources/analysis/fetch_firms.py, firms_analysis.py"
+   "script": "scripts/reports/lahore-smog-sources/analysis/fetch_firms.py, firms_analysis.py, firms_season.py"
   },
   {
    "id": "era5_long",
@@ -585,7 +585,7 @@
   "arithmetic_only": "arithmetic checked; underlying observations not re-checked",
   "unverified": "not reproduced; precision removed or limitation stated"
  },
- "version": "2026-11-03d",
+ "version": "2026-11-03e",
  "inputs": {
   "note": "Extracts sent with the PDF (folder HamariHawa-Lahore-smog-data-3-Nov-2026) and kept in the repo under report/data/",
   "files": {
