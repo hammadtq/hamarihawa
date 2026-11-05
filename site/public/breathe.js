@@ -1,6 +1,6 @@
 // "Breathe again" on a city page (/air/<city>/; markup in site/src/citypage.js): when the air should next get
 // lighter, for the next 10 days. Smog cities rarely reach safe air, but rain, strong wind and a deep, breezy
-// afternoon mixing layer give them a day or two of lighter smog; this finds the next such break. It is all of PM2.5
+// afternoon mixing layer give them a day or two of lighter smoke; this finds the next such break. "Smoke" in the wording is the whole of CAMS's PM2.5
 // (fires, traffic, industry, kilns, dust), so it keeps working after the burning season, all winter.
 //
 // Two sources, both requested from the visitor's browser (the Worker never calls Open-Meteo):
@@ -31,59 +31,68 @@
     en: {
       wait: "Reading the weather models…", fail: "The forecast could not be loaded just now.",
       now: "Today", tomorrow: "Tomorrow", inDays: (d) => `In ${d} days`, maybe: (d) => (d === 1 ? "Maybe tomorrow" : `Maybe in ${d} days`), none: "Not in the next 10 days", light: "Already light",
-      today: "Today", tmw: "Tomorrow", and: (a, b) => `${a} and ${b.replace(/^T/, "t")}`, to: (a, b) => `${a} to ${b.replace(/^T/, "t")}`,
-      less: (p) => `about ${p}% less smog than the past 7 days`, half: "about half the smog of the past 7 days",
+      today: "Today", tmw: "Tomorrow", and: (a, b) => `${a} and ${b.replace(/^Tomorrow/, "tomorrow")}`, to: (a, b) => `${a} to ${b.replace(/^Tomorrow/, "tomorrow")}`,
+      less: (p) => `about ${p}% less smoke than the past 7 days`, half: "about half the smoke of the past 7 days",
       spanLess: (s, x) => `${s}: ${x}.`, spanMaybe: (s) => `${s} could bring lighter air.`,
-      why: { rain: (m, n, mm) => `Rain in ${m} of ${n} weather models, about ${mm} mm.`, wind: (k) => `Wind up to ${k} km/h.`, mix: "Breezy afternoons lift and spread the smog.", none: "The smog model expects it; the weather shows no single clear cause." },
-      back: (d) => `Smog starts building up again from ${d}.`, still: (d) => `Still air from ${d} may trap smog near the ground.`,
-      maybeNote: "This is past the smog forecast's 4 days, so it comes from the weather alone and is less certain.",
-      noneWhy: "No weather model shows rain or strong wind for the next 10 days.", lighterOnly: (d) => `${d} should be a little lighter, but not a real break.`, noneStill: (d) => `Still air from ${d} may trap smog near the ground.`,
-      lightTxt: (N) => `The smog model has kept ${N}'s air fairly light this past week.`,
-      legend: { brk: "break", lighter: "a little lighter", same: "about the same", worse: "smoggier", base: "past 7 days" },
-      airLbl: "Smog forecast", wxLbl: "Weather only",
+      why: { rain: (m, n, mm) => `Rain in ${m} of ${n} weather models, about ${mm} mm.`, wind: (k) => `Wind up to ${k} km/h.`, mix: "Breezy afternoons lift and spread the smoke.", none: "The smoke model expects it; the weather shows no single clear cause." },
+      back: (d) => `Smoke starts building up again from ${d}.`, still: (d) => `Still air from ${d} may trap smoke near the ground.`,
+      maybeNote: "This is past the smoke forecast's 4 days, so it comes from the weather alone and is less certain.",
+      noneWhy: "No weather model shows rain or strong wind for the next 10 days.", lighterOnly: (d) => `${d} should be a little lighter, but not a real break.`, noneStill: (d) => `Still air from ${d} may trap smoke near the ground.`,
+      lightTxt: (N) => `The smoke model has kept ${N}'s air fairly light this past week.`,
+      legend: { brk: "break", lighter: "a little lighter", same: "about the same", worse: "smokier", base: "past 7 days" },
+      airLbl: "Smoke forecast", wxLbl: "Weather only",
+      outlook: (parts) => `After that, from the weather alone: ${parts.join("; ")}.`, outlook0: (parts) => `Past the smoke forecast, from the weather alone: ${parts.join("; ")}.`, later: (list) => `Another possible break: ${list}.`,
+      ol: { build: (s) => `${s}, still air, so smoke likely builds up`, flat: (s) => `${s}, about the same`, maybe: (s, c) => `${s}, ${c} may bring lighter air` },
+      olCause: { rain: "rain", wind: "strong wind", mix: "breezy afternoons" }, olKey: "outlook from the weather",
       icon: { rain: "rain", wind: "strong wind", mix: "breezy, well mixed", still: "still air" },
       share: "Share picture", wa: "WhatsApp", copy: "Copy link", copied: "Link copied", saved: "Picture saved",
       q: (N) => `When can ${N} breathe again?`,
-      src: "Smog: fine particles (PM2.5) from every source, crop fires, traffic, industry, kilns and dust alike, in the Copernicus CAMS model via Open-Meteo, compared with its own past 7 days (it reads low in winter, so this shows the change, not the level). Weather: ECMWF, GFS and ICON models via Open-Meteo; mixing layer from GFS.",
-      imgSrc: "Smog (PM2.5): CAMS forecast vs its past 7 days. Weather: ECMWF, GFS, ICON.",
+      src: "Smoke: Copernicus CAMS model via Open-Meteo, compared with its own past 7 days (it reads low in winter, so this shows the change, not the level). Weather: ECMWF, GFS and ICON models via Open-Meteo; mixing layer from GFS.",
+      imgSrc: "Smoke: CAMS forecast vs its past 7 days. Weather: ECMWF, GFS, ICON.",
     },
     ur: {
       wait: "موسمی ماڈل دیکھے جا رہے ہیں…", fail: "پیش گوئی اس وقت نہیں مل سکی۔",
       now: "آج", tomorrow: "کل", inDays: (d) => `${d} دن میں`, maybe: (d) => (d === 1 ? "شاید کل" : `شاید ${d} دن میں`), none: "اگلے 10 دن میں نہیں", light: "ہوا پہلے ہی ہلکی",
       today: "آج", tmw: "کل", and: (a, b) => `${a} اور ${b}`, to: (a, b) => `${a} سے ${b} تک`,
-      less: (p) => `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم سموگ`, half: "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھی سموگ",
+      less: (p) => `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم دھواں`, half: "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھا دھواں",
       spanLess: (s, x) => `${s}: ${x}۔`, spanMaybe: (s) => `${s} کو ہوا کچھ ہلکی ہو سکتی ہے۔`,
-      why: { rain: (m, n, mm) => `${n} میں سے ${m} موسمی ماڈل بارش دکھا رہے ہیں، لگ بھگ ${mm} ملی میٹر۔`, wind: (k) => `ہوا ${k} کلومیٹر فی گھنٹہ تک چلے گی۔`, mix: "دوپہر کی ہوا سموگ کو اوپر اٹھا کر بکھیر دے گی۔", none: "سموگ کا ماڈل یہی بتاتا ہے، اگرچہ موسم میں کوئی ایک واضح وجہ نظر نہیں آتی۔" },
-      back: (d) => `${d} سے سموگ پھر بڑھنے لگے گی۔`, still: (d) => `${d} سے تھمی ہوا سموگ کو زمین کے قریب روک سکتی ہے۔`,
-      maybeNote: "یہ سموگ کی 4 دن کی پیش گوئی سے آگے ہے، اس لیے صرف موسم کی بنیاد پر ہے اور اتنا یقینی نہیں۔",
-      noneWhy: "اگلے 10 دنوں میں کسی موسمی ماڈل میں نہ بارش ہے نہ تیز ہوا۔", lighterOnly: (d) => `${d} ہوا کچھ ہلکی رہے گی، مگر کوئی خاص مہلت نہیں۔`, noneStill: (d) => `${d} سے تھمی ہوا سموگ کو زمین کے قریب روک سکتی ہے۔`,
-      lightTxt: (N) => `سموگ کے ماڈل کے مطابق پچھلے ہفتے ${N} کی ہوا کافی ہلکی رہی ہے۔`,
-      legend: { brk: "مہلت", lighter: "کچھ ہلکی", same: "تقریباً ویسی ہی", worse: "زیادہ سموگ", base: "پچھلے 7 دن" },
-      airLbl: "سموگ کی پیش گوئی", wxLbl: "صرف موسم",
+      why: { rain: (m, n, mm) => `${n} میں سے ${m} موسمی ماڈل بارش دکھا رہے ہیں، لگ بھگ ${mm} ملی میٹر۔`, wind: (k) => `ہوا ${k} کلومیٹر فی گھنٹہ تک چلے گی۔`, mix: "دوپہر کی ہوا دھوئیں کو اوپر اٹھا کر بکھیر دے گی۔", none: "دھوئیں کا ماڈل یہی بتاتا ہے، اگرچہ موسم میں کوئی ایک واضح وجہ نظر نہیں آتی۔" },
+      back: (d) => `${d} سے دھواں پھر بڑھنے لگے گا۔`, still: (d) => `${d} سے تھمی ہوا دھوئیں کو زمین کے قریب روک سکتی ہے۔`,
+      maybeNote: "یہ دھوئیں کی 4 دن کی پیش گوئی سے آگے ہے، اس لیے صرف موسم کی بنیاد پر ہے اور اتنا یقینی نہیں۔",
+      noneWhy: "اگلے 10 دنوں میں کسی موسمی ماڈل میں نہ بارش ہے نہ تیز ہوا۔", lighterOnly: (d) => `${d} ہوا کچھ ہلکی رہے گی، مگر کوئی خاص مہلت نہیں۔`, noneStill: (d) => `${d} سے تھمی ہوا دھوئیں کو زمین کے قریب روک سکتی ہے۔`,
+      lightTxt: (N) => `دھوئیں کے ماڈل کے مطابق پچھلے ہفتے ${N} کی ہوا کافی ہلکی رہی ہے۔`,
+      legend: { brk: "مہلت", lighter: "کچھ ہلکی", same: "تقریباً ویسی ہی", worse: "زیادہ دھواں", base: "پچھلے 7 دن" },
+      airLbl: "دھوئیں کی پیش گوئی", wxLbl: "صرف موسم",
+      outlook: (parts) => `اس کے بعد، صرف موسم کی بنیاد پر: ${parts.join("؛ ")}۔`, outlook0: (parts) => `دھوئیں کی پیش گوئی سے آگے، صرف موسم کی بنیاد پر: ${parts.join("؛ ")}۔`, later: (list) => `ایک اور ممکنہ مہلت: ${list}۔`,
+      ol: { build: (s) => `${s} تھمی ہوا، دھواں بڑھنے کا امکان`, flat: (s) => `${s} تقریباً ویسا ہی`, maybe: (s, c) => `${s} ${c} سے ہوا کچھ ہلکی ہو سکتی ہے` },
+      olCause: { rain: "بارش", wind: "تیز ہوا", mix: "ہوا دار دوپہر" }, olKey: "موسم کی بنیاد پر اندازہ",
       icon: { rain: "بارش", wind: "تیز ہوا", mix: "ہوا دار دوپہر", still: "تھمی ہوا" },
       share: "تصویر شیئر کریں", wa: "واٹس ایپ", copy: "لنک کاپی کریں", copied: "لنک کاپی ہو گیا", saved: "تصویر محفوظ ہو گئی",
       q: (N) => `${N} میں سکھ کا سانس کب ملے گا؟`,
-      src: "سموگ: ہوا کے باریک ذرات (PM2.5) ہر ذریعے سے، فصلوں کی آگ، ٹریفک، صنعت، بھٹے اور گرد سب، کوپرنیکس CAMS ماڈل میں، اوپن میٹیو کے ذریعے، اپنے ہی پچھلے 7 دنوں سے موازنہ (سردیوں میں یہ کم بتاتا ہے، اس لیے یہاں سطح نہیں، تبدیلی دکھائی گئی ہے)۔ موسم: ECMWF، GFS اور ICON ماڈل، اوپن میٹیو کے ذریعے؛ ہوا کی ملاوٹ کی تہہ GFS سے۔",
-      imgSrc: "سموگ (PM2.5): CAMS پیش گوئی، پچھلے 7 دنوں کے مقابلے میں۔ موسم: ECMWF، GFS، ICON۔",
+      src: "دھواں: کوپرنیکس CAMS ماڈل، اوپن میٹیو کے ذریعے، اپنے ہی پچھلے 7 دنوں سے موازنہ (سردیوں میں یہ کم بتاتا ہے، اس لیے یہاں سطح نہیں، تبدیلی دکھائی گئی ہے)۔ موسم: ECMWF، GFS اور ICON ماڈل، اوپن میٹیو کے ذریعے؛ ہوا کی ملاوٹ کی تہہ GFS سے۔",
+      imgSrc: "دھواں: CAMS پیش گوئی، پچھلے 7 دنوں کے مقابلے میں۔ موسم: ECMWF، GFS، ICON۔",
     },
     hi: {
       wait: "मौसम के मॉडल पढ़े जा रहे हैं…", fail: "अनुमान अभी नहीं मिल सका।",
       now: "आज", tomorrow: "कल", inDays: (d) => `${d} दिन में`, maybe: (d) => (d === 1 ? "शायद कल" : `शायद ${d} दिन में`), none: "अगले 10 दिन में नहीं", light: "हवा पहले से हल्की",
       today: "आज", tmw: "कल", and: (a, b) => `${a} और ${b}`, to: (a, b) => `${a} से ${b} तक`,
-      less: (p) => `पिछले 7 दिनों से लगभग ${p}% कम स्मॉग`, half: "पिछले 7 दिनों के मुक़ाबले लगभग आधा स्मॉग",
+      less: (p) => `पिछले 7 दिनों से लगभग ${p}% कम धुआँ`, half: "पिछले 7 दिनों के मुक़ाबले लगभग आधा धुआँ",
       spanLess: (s, x) => `${s}: ${x}।`, spanMaybe: (s) => `${s} को हवा कुछ हल्की हो सकती है।`,
-      why: { rain: (m, n, mm) => `${n} में से ${m} मौसम मॉडल बारिश दिखा रहे हैं, लगभग ${mm} मिमी।`, wind: (k) => `हवा ${k} किमी/घंटा तक चलेगी।`, mix: "दोपहर की हवा स्मॉग को ऊपर उठाकर बिखेर देगी।", none: "स्मॉग का मॉडल यही बताता है, हालाँकि मौसम में कोई एक साफ़ वजह नहीं दिखती।" },
-      back: (d) => `${d} से स्मॉग फिर बढ़ने लगेगा।`, still: (d) => `${d} से थमी हवा स्मॉग को ज़मीन के पास रोक सकती है।`,
-      maybeNote: "यह स्मॉग के 4 दिन के अनुमान से आगे है, इसलिए सिर्फ़ मौसम पर आधारित है और उतना पक्का नहीं।",
-      noneWhy: "अगले 10 दिनों में किसी मौसम मॉडल में न बारिश है न तेज़ हवा।", lighterOnly: (d) => `${d} हवा कुछ हल्की रहेगी, पर कोई ख़ास राहत नहीं।`, noneStill: (d) => `${d} से थमी हवा स्मॉग को ज़मीन के पास रोक सकती है।`,
-      lightTxt: (N) => `स्मॉग के मॉडल के मुताबिक़ पिछले हफ़्ते ${N} की हवा काफ़ी हल्की रही है।`,
-      legend: { brk: "राहत", lighter: "कुछ हल्की", same: "लगभग वैसी ही", worse: "ज़्यादा स्मॉग", base: "पिछले 7 दिन" },
-      airLbl: "स्मॉग का अनुमान", wxLbl: "सिर्फ़ मौसम",
+      why: { rain: (m, n, mm) => `${n} में से ${m} मौसम मॉडल बारिश दिखा रहे हैं, लगभग ${mm} मिमी।`, wind: (k) => `हवा ${k} किमी/घंटा तक चलेगी।`, mix: "दोपहर की हवा धुएँ को ऊपर उठाकर बिखेर देगी।", none: "धुएँ का मॉडल यही बताता है, हालाँकि मौसम में कोई एक साफ़ वजह नहीं दिखती।" },
+      back: (d) => `${d} से धुआँ फिर बढ़ने लगेगा।`, still: (d) => `${d} से थमी हवा धुएँ को ज़मीन के पास रोक सकती है।`,
+      maybeNote: "यह धुएँ के 4 दिन के अनुमान से आगे है, इसलिए सिर्फ़ मौसम पर आधारित है और उतना पक्का नहीं।",
+      noneWhy: "अगले 10 दिनों में किसी मौसम मॉडल में न बारिश है न तेज़ हवा।", lighterOnly: (d) => `${d} हवा कुछ हल्की रहेगी, पर कोई ख़ास राहत नहीं।`, noneStill: (d) => `${d} से थमी हवा धुएँ को ज़मीन के पास रोक सकती है।`,
+      lightTxt: (N) => `धुएँ के मॉडल के मुताबिक़ पिछले हफ़्ते ${N} की हवा काफ़ी हल्की रही है।`,
+      legend: { brk: "राहत", lighter: "कुछ हल्की", same: "लगभग वैसी ही", worse: "ज़्यादा धुआँ", base: "पिछले 7 दिन" },
+      airLbl: "धुएँ का अनुमान", wxLbl: "सिर्फ़ मौसम",
+      outlook: (parts) => `उसके बाद, सिर्फ़ मौसम के आधार पर: ${parts.join("; ")}।`, outlook0: (parts) => `धुएँ के अनुमान से आगे, सिर्फ़ मौसम के आधार पर: ${parts.join("; ")}।`, later: (list) => `एक और संभावित राहत: ${list}।`,
+      ol: { build: (s) => `${s} थमी हवा, धुआँ बढ़ने की आशंका`, flat: (s) => `${s} लगभग वैसा ही`, maybe: (s, c) => `${s} ${c} से हवा कुछ हल्की हो सकती है` },
+      olCause: { rain: "बारिश", wind: "तेज़ हवा", mix: "हवादार दोपहर" }, olKey: "मौसम के आधार पर अंदाज़ा",
       icon: { rain: "बारिश", wind: "तेज़ हवा", mix: "हवादार दोपहर", still: "थमी हवा" },
       share: "तस्वीर शेयर करें", wa: "व्हाट्सऐप", copy: "लिंक कॉपी करें", copied: "लिंक कॉपी हो गया", saved: "तस्वीर सेव हो गई",
       q: (N) => `${N} में चैन की साँस कब मिलेगी?`,
-      src: "स्मॉग: हवा के बारीक कण (PM2.5) हर स्रोत से, फ़सलों की आग, ट्रैफ़िक, उद्योग, भट्ठे और धूल सब, कोपरनिकस CAMS मॉडल में, ओपन-मेटियो से, अपने ही पिछले 7 दिनों से तुलना (सर्दियों में यह कम बताता है, इसलिए यहाँ स्तर नहीं, बदलाव दिखाया गया है)। मौसम: ECMWF, GFS और ICON मॉडल, ओपन-मेटियो से; मिक्सिंग लेयर GFS से।",
-      imgSrc: "स्मॉग (PM2.5): CAMS अनुमान, पिछले 7 दिनों के मुक़ाबले। मौसम: ECMWF, GFS, ICON।",
+      src: "धुआँ: कोपरनिकस CAMS मॉडल, ओपन-मेटियो से, अपने ही पिछले 7 दिनों से तुलना (सर्दियों में यह कम बताता है, इसलिए यहाँ स्तर नहीं, बदलाव दिखाया गया है)। मौसम: ECMWF, GFS और ICON मॉडल, ओपन-मेटियो से; मिक्सिंग लेयर GFS से।",
+      imgSrc: "धुआँ: CAMS अनुमान, पिछले 7 दिनों के मुक़ाबले। मौसम: ECMWF, GFS, ICON।",
     },
   };
 
@@ -94,7 +103,9 @@
     still: '<g fill="none" stroke="#9a8f80" stroke-width="1.8" stroke-linecap="round"><path d="M2 5h12M3.5 8.5h9M2 12h12"/></g>',
   };
   const svg = (k, s = 15) => `<svg viewBox="0 0 16 16" width="${s}" height="${s}" aria-hidden="true">${ICON[k]}</svg>`;
-  const COLOR = { brk: GREEN, lighter: "#8cc084", same: "#c9a86a", worse: "#d0594c" };
+  const COLOR = { brk: GREEN, lighter: "#8cc084", same: "#c9a86a", worse: "#d0594c", maybe: GREEN, flat: "#c9a86a", build: "#d0594c" };
+  // Weather-only days are drawn at three fixed heights (an outlook, not a number): lighter, about the same, building.
+  const WXH = { maybe: 0.7, flat: 1, build: 1.3 };
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const mean = (v) => (v.length ? v.reduce((s, x) => s + x, 0) / v.length : null);
   const median = (v) => { if (!v.length) return null; const s = [...v].sort((a, b) => a - b), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
@@ -156,7 +167,8 @@
       const r = p == null ? null : p / base;
       let st;
       if (r != null) st = r <= 0.7 ? "brk" : r <= 0.87 ? "lighter" : r < 1.15 ? "same" : "worse";
-      else st = wx.cause && wx.cause !== "still" ? "maybe" : wx.cause === "still" ? "still" : "";
+      // Past the smoke forecast, every day still gets an outlook from the weather: lighter, about the same or building up.
+      else st = wx.cause && wx.cause !== "still" ? "maybe" : wx.cause === "still" ? "build" : "flat";
       days.push({ k, i, r, st, air: r != null, wx });
     }
     // The first break: a smoke-forecast break, or past its horizon a weather-only one; then the run of such days.
@@ -167,7 +179,12 @@
     const end = run.length ? run[run.length - 1].i : -1;
     const back = run.length && run[0].air ? days.find((d) => d.i > end && d.air && d.st !== "brk") : null;
     const stillDay = days.find((d) => d.i > end && d.wx.cause === "still");
-    return { days, base, run, back, stillDay, light: base < 25 && s < 0 };
+    // Every break in the 10 days, not only the first; and the weather-only days grouped into runs of one outlook.
+    const runs = [];
+    days.forEach((d) => { if (!isBrk(d)) return; const r = runs[runs.length - 1]; if (r && r[r.length - 1].i === d.i - 1 && r[0].air === d.air) r.push(d); else runs.push([d]); });
+    const outlook = [];
+    days.filter((d) => !d.air).forEach((d) => { const g = outlook[outlook.length - 1]; if (g && g[0].st === d.st && g[0].wx.cause === d.wx.cause) g.push(d); else outlook.push([d]); });
+    return { days, base, run, runs, outlook, back, stillDay, light: base < 25 && s < 0 };
   }
 
   // ---------- The widget ----------
@@ -183,6 +200,12 @@
 
   function answer(f, l, N) {
     const t = T[l], { name, nf } = names(l), run = f.run;
+    const spanOf = (g) => (g.length === 1 ? name(g[0]) : g.length === 2 ? t.and(name(g[0]), name(g[1])) : t.to(name(g[0]), name(g[g.length - 1])));
+    // The weather-only days in words, leaving out the ones the headline already covers.
+    const skip = new Set(run[0]?.air === false ? run.map((d) => d.i) : []);
+    const parts = f.outlook.filter((g) => !skip.has(g[0].i)).map((g) => g[0].st === "maybe" ? t.ol.maybe(spanOf(g), t.olCause[g[0].wx.cause]) : t.ol[g[0].st](spanOf(g)));
+    const outlook = parts.length ? (run.length && !f.light ? t.outlook : t.outlook0)(parts) : "";
+    const later = f.runs.slice(1);
     const out = { big: "", tone: "none", span: "", lines: [], note: "" };
     if (f.light) { out.big = t.light; out.tone = "brk"; out.lines.push(t.lightTxt(N)); return out; }
     if (!run.length) {
@@ -190,7 +213,8 @@
       const lt = f.days.find((d) => d.st === "lighter");
       if (lt) out.lines.push(t.lighterOnly(name(lt)));
       out.lines.push(t.noneWhy);
-      if (f.stillDay) out.lines.push(t.noneStill(name(f.stillDay)));
+      if (outlook) out.lines.push(outlook);
+      else if (f.stillDay) out.lines.push(t.noneStill(name(f.stillDay)));
       return out;
     }
     const a = run[0], z = run[run.length - 1];
@@ -211,7 +235,10 @@
     const c = run.map((d) => d.wx).find((x) => x.cause && x.cause !== "still");
     out.lines.push(!c ? t.why.none : c.cause === "rain" ? t.why.rain(nf.format(c.rainM), nf.format(c.rainN), nf.format(c.mm)) : c.cause === "wind" ? t.why.wind(nf.format(c.wind)) : t.why.mix);
     if (f.back) out.lines.push(t.back(name(f.back)));
-    else if (f.stillDay) out.lines.push(t.still(name(f.stillDay)));
+    // The days after: the weather outlook (when the first break is in the smoke forecast), or any later breaks.
+    if (outlook) out.lines.push(a.air ? outlook : t.outlook0(parts));
+    else if (later.length) out.lines.push(t.later(later.map(spanOf).join(", ")));
+    else if (!f.back && f.stillDay) out.lines.push(t.still(name(f.stillDay)));
     return out;
   }
 
@@ -222,10 +249,10 @@
     const nAir = f.days.filter((d) => d.air).length;
     const cols = f.days.map((d) => {
       const brk = d.st === "brk" || d.st === "maybe";
-      const lbl = d.air ? t.legend[d.st] : d.st === "maybe" ? t.legend.brk + "?" : d.wx.cause ? t.icon[d.wx.cause] : "";
+      const lbl = d.air ? t.legend[d.st] : d.st === "maybe" ? t.legend.brk + "?" : d.wx.cause ? t.icon[d.wx.cause] : t.legend.same + "?";
       const bar = d.air
         ? `<i class="bar" style="height:${Math.max(4, Math.round((Math.min(d.r, MAXR) / MAXR) * H))}px;background:${COLOR[d.st]}"></i>`
-        : d.st === "maybe" ? `<i class="bar maybe"></i>` : "";
+        : d.st in WXH ? `<i class="bar wx" style="height:${Math.round((WXH[d.st] / MAXR) * H)}px;--c:${COLOR[d.st]}"></i>` : "";
       return `<div class="cp-br-d${brk ? " brk" : ""}${d.air ? " air" : ""}" title="${esc(`${wd(d)} ${dm(d)}${lbl ? `: ${lbl}` : ""}`)}">` +
         `<span class="wd">${d.i === 0 ? `<span class="full">${t.today}</span><span class="short">${wdShort(d)}</span>` : wd(d)}</span><span class="dm">${dm(d)}</span>` +
         `<span class="plot" style="--b:${baseY}px">${bar}</span>` +
@@ -234,7 +261,7 @@
     const used = [...new Set(f.days.map((d) => d.wx.cause).filter(Boolean))];
     const stUsed = ["brk", "lighter", "same", "worse"].filter((s) => f.days.some((d) => d.air && d.st === s));
     // The share link has its own path, so its preview says the same as this (see breatheMeta in citypage.js):
-    // only numbers go in it, the start day, days, per cent less smog, and smog forecast or weather only.
+    // only numbers go in it, the start day, days, per cent less smoke, and smoke forecast or weather only.
     const run = f.run, qs = new URLSearchParams();
     if (f.light || !run.length) { qs.set("k", f.light ? "l" : "x"); qs.set("d", f.days[0].k); }
     else { qs.set("d", run[0].k); qs.set("n", run.length); if (run[0].air) qs.set("p", ans.p); qs.set("k", run[0].air ? "a" : "w"); }
@@ -247,7 +274,7 @@
       `<div class="cp-br-strip" style="--na:${nAir}">${cols}</div>` +
       `<div class="cp-br-lbl"><span style="grid-column:1 / span ${nAir}">${t.airLbl}</span><span style="grid-column:${nAir + 1} / -1">${t.wxLbl}</span></div>` +
       `<p class="cp-br-key">${stUsed.map((s) => `<span><i style="background:${COLOR[s]}"></i>${t.legend[s]}</span>`).join("")}` +
-      `<span><i class="base"></i>${t.legend.base}</span>${used.map((x) => `<span>${svg(x, 13)} ${t.icon[x]}</span>`).join("")}</p>` +
+      `<span><i class="base"></i>${t.legend.base}</span>${nAir < DAYS ? `<span><i class="wxk"></i>${t.olKey}</span>` : ""}${used.map((x) => `<span>${svg(x, 13)} ${t.icon[x]}</span>`).join("")}</p>` +
       `<div class="cp-share"><button type="button" class="wa" data-br-share>${t.share}</button>` +
       `<a href="https://wa.me/?text=${encodeURIComponent(`${shareTxt} ${url}`)}" target="_blank" rel="noopener">${t.wa}</a>` +
       `<button type="button" data-copy="${esc(url)}" data-done="${esc(t.copied)}">${t.copy}</button></div>` +
@@ -289,9 +316,10 @@
     y = wrap(t.q(N), `700 SZpx ${fam}`, 50, y + 20, "#1d1b19");
     const col = ans.tone === "brk" ? GREEN : ans.tone === "maybe" ? "#5d8f5a" : "#8a8580";
     y = wrap(ans.big, `700 SZpx ${fam}`, rtl ? 104 : 130, y + (rtl ? 70 : 100), col) - (rtl ? 60 : 40);
-    for (const [i, s] of ans.lines.entries()) y = wrap(s, `${i === 0 ? 600 : 400} SZpx ${body}`, i === 0 ? 34 : 29, y + 6, i === 0 ? "#1d1b19" : "#47423d");
+    // The picture keeps the answer, the reason and what comes next; the 10-day outlook is in the strip.
+    for (const [i, s] of ans.lines.slice(0, 3).entries()) y = wrap(s, `${i === 0 ? 600 : 400} SZpx ${body}`, i === 0 ? 34 : 29, y + 6, i === 0 ? "#1d1b19" : "#47423d");
     // The strip, drawn in reading order.
-    const top = Math.max(y + 30, rtl ? 660 : 690), H = 150, gap = 10, cw = (S - 2 * P - gap * (DAYS - 1)) / DAYS, MAXR = 1.6;
+    const top = Math.min(S - (rtl ? 330 : 300), Math.max(y + 30, rtl ? 660 : 690)), H = 150, gap = 10, cw = (S - 2 * P - gap * (DAYS - 1)) / DAYS, MAXR = 1.6;
     const { wd, dm } = names(l);
     f.days.forEach((d, j) => {
       const x = rtl ? S - P - (j + 1) * cw - j * gap : P + j * (cw + gap);
@@ -299,8 +327,10 @@
       if (d.air) {
         const h = Math.max(6, (Math.min(d.r, MAXR) / MAXR) * H);
         g.fillStyle = COLOR[d.st]; g.beginPath(); g.roundRect(x + 6, top + H - h, cw - 12, h, 6); g.fill();
-      } else if (d.st === "maybe") {
-        g.strokeStyle = GREEN; g.setLineDash([8, 6]); g.lineWidth = 3; g.beginPath(); g.roundRect(x + 8, top + H * 0.45, cw - 16, H * 0.55, 6); g.stroke(); g.setLineDash([]);
+      } else if (d.st in WXH) {
+        const h = (WXH[d.st] / MAXR) * H;
+        g.globalAlpha = 0.35; g.fillStyle = COLOR[d.st]; g.beginPath(); g.roundRect(x + 8, top + H - h, cw - 16, h, 6); g.fill(); g.globalAlpha = 1;
+        g.strokeStyle = COLOR[d.st]; g.setLineDash([8, 6]); g.lineWidth = 3; g.beginPath(); g.roundRect(x + 8, top + H - h, cw - 16, h, 6); g.stroke(); g.setLineDash([]);
       }
       g.textAlign = "center"; g.fillStyle = d.i === 0 ? "#1d1b19" : "#5a5550";
       g.font = `600 ${rtl ? 22 : 24}px ${body}`; g.fillText(wd(d), x + cw / 2, top + H + (rtl ? 48 : 40));

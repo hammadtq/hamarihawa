@@ -260,7 +260,7 @@ export const CITY_STYLE = `<style>
   .cp-br-d .plot { position: relative; width: 100%; height: 80px; display: flex; align-items: flex-end; justify-content: center; margin: 3px 0; }
   .cp-br-d.air .plot::after { content: ""; position: absolute; inset-inline: 0; bottom: var(--b); border-top: 1.5px dashed var(--ink-2); }
   .cp-br-d .bar { display: block; width: 62%; max-width: 34px; border-radius: 4px 4px 2px 2px; }
-  .cp-br-d .bar.maybe { height: 44px; border: 2px dashed #2f8f46; background: transparent; }
+  .cp-br-d .bar.wx { border: 1.5px dashed var(--c); background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--c) 45%, transparent) 0 3px, transparent 3px 6px); }
   .cp-br-d .wx { height: 16px; }
   .cp-br-lbl { font-size: 11.5px; color: var(--ink-3); margin-top: -4px; }
   .cp-br-lbl span { border-top: 1px solid var(--hair); padding-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -268,6 +268,7 @@ export const CITY_STYLE = `<style>
   .doc p.cp-br-key { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; color: var(--ink-3); margin: 0; }
   .cp-br-key span { display: inline-flex; align-items: center; gap: 5px; }
   .cp-br-key i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+  .cp-br-key i.wxk { border: 1.5px dashed var(--ink-3); background: repeating-linear-gradient(135deg, #cfc8bb 0 3px, transparent 3px 6px); }
   .cp-br-key i.base { width: 16px; height: 0; border-top: 1.5px dashed var(--ink-2); border-radius: 0; }
   .cp-br .cp-share button.wa { background: #1f9d55; border-color: #1f9d55; color: #fff; }
   .doc .cp-br-src { font-size: 12px; line-height: 1.4; color: var(--ink-3); margin: 0; }
@@ -635,22 +636,22 @@ const MON = {
 const BT = {
   en: { q: (N) => `When can ${N} breathe again?`, today: "Today", tmw: "tomorrow", Tmw: "Tomorrow",
     and: (a, b) => `${a} and ${b}`, to: (a, b) => `${a} to ${b}`, day: (w, d, m) => `${w} ${d} ${m}`,
-    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "about half the smog of the past 7 days" : `about ${p}% less smog than the past 7 days`}.`,
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "about half the smoke of the past 7 days" : `about ${p}% less smoke than the past 7 days`}.`,
     maybe: (s) => `${s} could bring lighter air.`, none: "Not in the next 10 days.", light: "The air has been fairly light this past week.",
-    desc: "The next days of lighter smog, from the CAMS PM2.5 forecast and three weather models (ECMWF, GFS, ICON): rain, wind and still air, day by day.",
-    alt: "Breathe again: when the smog should next lift" },
+    desc: "The next days of lighter smoke, from the CAMS smoke forecast and three weather models (ECMWF, GFS, ICON): rain, wind and still air, day by day.",
+    alt: "Breathe again: when the smoke should next lift" },
   ur: { q: (N) => `${N} میں سکھ کا سانس کب ملے گا؟`, today: "آج", tmw: "کل", Tmw: "کل",
     and: (a, b) => `${a} اور ${b}`, to: (a, b) => `${a} سے ${b} تک`, day: (w, d, m) => `${w}، ${d} ${m}`,
-    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھی سموگ" : `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم سموگ`}۔`,
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھا دھواں" : `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم دھواں`}۔`,
     maybe: (s) => `${s} کو ہوا کچھ ہلکی ہو سکتی ہے۔`, none: "اگلے 10 دن میں نہیں۔", light: "پچھلے ہفتے ہوا کافی ہلکی رہی ہے۔",
-    desc: "سموگ کب کم ہو گی: CAMS کی PM2.5 کی پیش گوئی اور تین موسمی ماڈل (ECMWF، GFS، ICON)، بارش، ہوا اور تھمی ہوا، دن بہ دن۔",
-    alt: "سکھ کا سانس: سموگ کب چھٹے گی" },
+    desc: "دھواں کب کم ہو گا: CAMS کی دھوئیں کی پیش گوئی اور تین موسمی ماڈل (ECMWF، GFS، ICON)، بارش، ہوا اور تھمی ہوا، دن بہ دن۔",
+    alt: "سکھ کا سانس: دھواں کب چھٹے گا" },
   hi: { q: (N) => `${N} में चैन की साँस कब मिलेगी?`, today: "आज", tmw: "कल", Tmw: "कल",
     and: (a, b) => `${a} और ${b}`, to: (a, b) => `${a} से ${b} तक`, day: (w, d, m) => `${w}, ${d} ${m}`,
-    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "पिछले 7 दिनों के मुक़ाबले लगभग आधा स्मॉग" : `पिछले 7 दिनों से लगभग ${p}% कम स्मॉग`}।`,
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "पिछले 7 दिनों के मुक़ाबले लगभग आधा धुआँ" : `पिछले 7 दिनों से लगभग ${p}% कम धुआँ`}।`,
     maybe: (s) => `${s} को हवा कुछ हल्की हो सकती है।`, none: "अगले 10 दिन में नहीं।", light: "पिछले हफ़्ते हवा काफ़ी हल्की रही है।",
-    desc: "स्मॉग कब छँटेगा: CAMS का PM2.5 अनुमान और तीन मौसम मॉडल (ECMWF, GFS, ICON), बारिश, हवा और थमी हवा, दिन-ब-दिन।",
-    alt: "चैन की साँस: स्मॉग कब छँटेगा" },
+    desc: "धुआँ कब छँटेगा: CAMS का धुएँ का अनुमान और तीन मौसम मॉडल (ECMWF, GFS, ICON), बारिश, हवा और थमी हवा, दिन-ब-दिन।",
+    alt: "चैन की साँस: धुआँ कब छँटेगा" },
 };
 const ZONE_MIN = { PK: 300, IN: 330 };
 
@@ -680,5 +681,5 @@ export function breatheMeta(c, q, now = Date.now()) {
   }
   // A "none" or "light" link only holds for the day it was made.
   if ((k === "x" || k === "l") && d && dayN(d) !== 0) line = "";
-  return { l, title: line ? `${t.q(N)} ${line}` : t.q(N), desc: t.desc, alt: t.alt, image: `${SITE}/og/breathe-${l}.png` };
+  return { l, title: line ? `${t.q(N)} ${line}` : t.q(N), desc: t.desc, alt: t.alt, image: `${SITE}/og/breathe-${l}.png?v=2` };
 }
