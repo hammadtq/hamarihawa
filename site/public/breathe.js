@@ -14,6 +14,11 @@
 //   6,000 m²/s and 1.5 times the city's own past week; it is still air below 2,000 m²/s (and 0.6 times).
 //   Ventilation tracked the CAMS breaks in Lahore and Delhi in November 2026 (about 9,500 on break days,
 //   1,000-2,000 on the days smoke built up).
+// - Dust: strong dry wind does not always clear the air. Over Nov 2025-Oct 2026 in eight cities, when CAMS
+//   dust had averaged 80 µg/m³ or more over the past week, windy dry days had a median PM2.5 1.17 times the
+//   past week (dust storms: Lahore and Multan in May-June, Delhi and Jaipur March-August, Quetta most of the
+//   year); below that, 0.85 times (Karachi's sea breeze, winter everywhere). So in a dusty week strong wind
+//   counts as dust raised, not as a break.
 // The share button draws the same answer as a square picture (canvas) for WhatsApp and status posts.
 (() => {
   const els = [...document.querySelectorAll("[data-breathe]")];
@@ -21,7 +26,7 @@
   const { lat, lon } = els[0].dataset;
   const MODELS = ["ecmwf_ifs025", "gfs_seamless", "icon_seamless"];
   const DAYS = 10;
-  const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&hourly=pm2_5&past_days=7&forecast_days=6&timezone=auto`;
+  const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&hourly=pm2_5,dust&past_days=7&forecast_days=6&timezone=auto`;
   const wxUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=precipitation_sum,wind_speed_10m_max` +
     `&hourly=boundary_layer_height,wind_speed_10m&models=${MODELS.join(",")}&past_days=7&forecast_days=${DAYS + 1}&timezone=auto`;
   const LOC = { en: "en-GB", ur: "ur-PK", hi: "hi-IN" };
@@ -42,9 +47,9 @@
       legend: { brk: "break", lighter: "a little lighter", same: "about the same", worse: "smokier", base: "past 7 days" },
       airLbl: "Smoke forecast", wxLbl: "Weather only",
       outlook: (parts) => `After that, from the weather alone: ${parts.join("; ")}.`, outlook0: (parts) => `Past the smoke forecast, from the weather alone: ${parts.join("; ")}.`, later: (list) => `Another possible break: ${list}.`,
-      ol: { build: (s) => `${s}, still air, so smoke likely builds up`, flat: (s) => `${s}, about the same`, maybe: (s, c) => `${s}, ${c} may bring lighter air` },
+      ol: { dust: (s) => `${s}, strong dry wind may raise dust`, build: (s) => `${s}, still air, so smoke likely builds up`, flat: (s) => `${s}, about the same`, maybe: (s, c) => `${s}, ${c} may bring lighter air` },
       olCause: { rain: "rain", wind: "strong wind", mix: "breezy afternoons" }, olKey: "outlook from the weather",
-      icon: { rain: "rain", wind: "strong wind", mix: "breezy, well mixed", still: "still air" },
+      icon: { rain: "rain", wind: "strong wind", mix: "breezy, well mixed", still: "still air", dust: "dusty wind" },
       share: "Share picture", wa: "WhatsApp", copy: "Copy link", copied: "Link copied", saved: "Picture saved",
       q: (N) => `When can ${N} breathe again?`,
       src: "Smoke: Copernicus CAMS model via Open-Meteo, compared with its own past 7 days (it reads low in winter, so this shows the change, not the level). Weather: ECMWF, GFS and ICON models via Open-Meteo; mixing layer from GFS.",
@@ -64,9 +69,9 @@
       legend: { brk: "مہلت", lighter: "کچھ ہلکی", same: "تقریباً ویسی ہی", worse: "زیادہ دھواں", base: "پچھلے 7 دن" },
       airLbl: "دھوئیں کی پیش گوئی", wxLbl: "صرف موسم",
       outlook: (parts) => `اس کے بعد، صرف موسم کی بنیاد پر: ${parts.join("؛ ")}۔`, outlook0: (parts) => `دھوئیں کی پیش گوئی سے آگے، صرف موسم کی بنیاد پر: ${parts.join("؛ ")}۔`, later: (list) => `ایک اور ممکنہ مہلت: ${list}۔`,
-      ol: { build: (s) => `${s} تھمی ہوا، دھواں بڑھنے کا امکان`, flat: (s) => `${s} تقریباً ویسا ہی`, maybe: (s, c) => `${s} ${c} سے ہوا کچھ ہلکی ہو سکتی ہے` },
+      ol: { dust: (s) => `${s} تیز خشک ہوا سے گرد اڑنے کا امکان`, build: (s) => `${s} تھمی ہوا، دھواں بڑھنے کا امکان`, flat: (s) => `${s} تقریباً ویسا ہی`, maybe: (s, c) => `${s} ${c} سے ہوا کچھ ہلکی ہو سکتی ہے` },
       olCause: { rain: "بارش", wind: "تیز ہوا", mix: "ہوا دار دوپہر" }, olKey: "موسم کی بنیاد پر اندازہ",
-      icon: { rain: "بارش", wind: "تیز ہوا", mix: "ہوا دار دوپہر", still: "تھمی ہوا" },
+      icon: { rain: "بارش", wind: "تیز ہوا", mix: "ہوا دار دوپہر", still: "تھمی ہوا", dust: "گرد آلود ہوا" },
       share: "تصویر شیئر کریں", wa: "واٹس ایپ", copy: "لنک کاپی کریں", copied: "لنک کاپی ہو گیا", saved: "تصویر محفوظ ہو گئی",
       q: (N) => `${N} میں سکھ کا سانس کب ملے گا؟`,
       src: "دھواں: کوپرنیکس CAMS ماڈل، اوپن میٹیو کے ذریعے، اپنے ہی پچھلے 7 دنوں سے موازنہ (سردیوں میں یہ کم بتاتا ہے، اس لیے یہاں سطح نہیں، تبدیلی دکھائی گئی ہے)۔ موسم: ECMWF، GFS اور ICON ماڈل، اوپن میٹیو کے ذریعے؛ ہوا کی ملاوٹ کی تہہ GFS سے۔",
@@ -86,9 +91,9 @@
       legend: { brk: "राहत", lighter: "कुछ हल्की", same: "लगभग वैसी ही", worse: "ज़्यादा धुआँ", base: "पिछले 7 दिन" },
       airLbl: "धुएँ का अनुमान", wxLbl: "सिर्फ़ मौसम",
       outlook: (parts) => `उसके बाद, सिर्फ़ मौसम के आधार पर: ${parts.join("; ")}।`, outlook0: (parts) => `धुएँ के अनुमान से आगे, सिर्फ़ मौसम के आधार पर: ${parts.join("; ")}।`, later: (list) => `एक और संभावित राहत: ${list}।`,
-      ol: { build: (s) => `${s} थमी हवा, धुआँ बढ़ने की आशंका`, flat: (s) => `${s} लगभग वैसा ही`, maybe: (s, c) => `${s} ${c} से हवा कुछ हल्की हो सकती है` },
+      ol: { dust: (s) => `${s} तेज़ सूखी हवा से धूल उड़ने की आशंका`, build: (s) => `${s} थमी हवा, धुआँ बढ़ने की आशंका`, flat: (s) => `${s} लगभग वैसा ही`, maybe: (s, c) => `${s} ${c} से हवा कुछ हल्की हो सकती है` },
       olCause: { rain: "बारिश", wind: "तेज़ हवा", mix: "हवादार दोपहर" }, olKey: "मौसम के आधार पर अंदाज़ा",
-      icon: { rain: "बारिश", wind: "तेज़ हवा", mix: "हवादार दोपहर", still: "थमी हवा" },
+      icon: { rain: "बारिश", wind: "तेज़ हवा", mix: "हवादार दोपहर", still: "थमी हवा", dust: "धूल भरी हवा" },
       share: "तस्वीर शेयर करें", wa: "व्हाट्सऐप", copy: "लिंक कॉपी करें", copied: "लिंक कॉपी हो गया", saved: "तस्वीर सेव हो गई",
       q: (N) => `${N} में चैन की साँस कब मिलेगी?`,
       src: "धुआँ: कोपरनिकस CAMS मॉडल, ओपन-मेटियो से, अपने ही पिछले 7 दिनों से तुलना (सर्दियों में यह कम बताता है, इसलिए यहाँ स्तर नहीं, बदलाव दिखाया गया है)। मौसम: ECMWF, GFS और ICON मॉडल, ओपन-मेटियो से; मिक्सिंग लेयर GFS से।",
@@ -101,6 +106,7 @@
     wind: '<g fill="none" stroke="#2f6f9f" stroke-width="1.6" stroke-linecap="round"><path d="M1.5 6h9a2.2 2.2 0 1 0-2.2-2.2"/><path d="M1.5 10.5h11a2 2 0 1 1-2 2"/></g>',
     mix: '<g fill="none" stroke="#2f8f46" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V5M1.8 7.2 4 5l2.2 2.2"/><path d="M11 14V3M8.8 5.2 11 3l2.2 2.2"/></g>',
     still: '<g fill="none" stroke="#9a8f80" stroke-width="1.8" stroke-linecap="round"><path d="M2 5h12M3.5 8.5h9M2 12h12"/></g>',
+    dust: '<g fill="#b07a3a"><path d="M1.5 5.5h7a2 2 0 1 0-2-2" fill="none" stroke="#b07a3a" stroke-width="1.6" stroke-linecap="round"/><circle cx="3" cy="10" r="1.2"/><circle cx="7" cy="12" r="1.2"/><circle cx="11" cy="9.5" r="1.2"/><circle cx="13.5" cy="13" r="1"/><circle cx="5" cy="14.5" r="0.9"/></g>',
   };
   const svg = (k, s = 15) => `<svg viewBox="0 0 16 16" width="${s}" height="${s}" aria-hidden="true">${ICON[k]}</svg>`;
   const COLOR = { brk: GREEN, lighter: "#8cc084", same: "#c9a86a", worse: "#d0594c", maybe: GREEN, flat: "#c9a86a", build: "#d0594c" };
@@ -133,6 +139,11 @@
     for (let i = 1; i <= 7; i++) { const v = dayPm(addDays(today, -i)); if (v != null) past.push(v); }
     if (past.length < 4) return null;
     const base = mean(past);
+    const dust = {};
+    a.hourly.time.forEach((t, i) => { const v = a.hourly.dust?.[i]; if (v != null) (dust[t.slice(0, 10)] ||= []).push(v); });
+    const pastDust = [];
+    for (let i = 1; i <= 7; i++) { const v = dust[addDays(today, -i)]; if (v?.length >= 20) pastDust.push(mean(v)); }
+    const dusty = pastDust.length >= 4 && mean(pastDust) >= 80;
 
     // Weather by local day.
     const di = (k) => w.daily.time.indexOf(k);
@@ -157,7 +168,7 @@
       const windy = windMax != null && windMax >= 20;
       const mix = vc != null && vc >= Math.max(6000, 1.5 * (vcBase || 0));
       const still = vc != null && vc < Math.min(2000, 0.6 * (vcBase || Infinity)) && (windMax == null || windMax < 12);
-      const cause = rainy ? "rain" : windy ? "wind" : mix ? "mix" : still ? "still" : "";
+      const cause = rainy ? "rain" : windy ? (dusty ? "dust" : "wind") : mix ? "mix" : still ? "still" : "";
       return { cause, rainM: wet.length, rainN: rain.length, mm: Math.round(median(wet) || 0), wind: Math.round(windMax || 0) };
     };
 
@@ -168,7 +179,7 @@
       let st;
       if (r != null) st = r <= 0.7 ? "brk" : r <= 0.87 ? "lighter" : r < 1.15 ? "same" : "worse";
       // Past the smoke forecast, every day still gets an outlook from the weather: lighter, about the same or building up.
-      else st = wx.cause && wx.cause !== "still" ? "maybe" : wx.cause === "still" ? "build" : "flat";
+      else st = wx.cause === "still" || wx.cause === "dust" ? "build" : wx.cause ? "maybe" : "flat";
       days.push({ k, i, r, st, air: r != null, wx });
     }
     // The first break: a smoke-forecast break, or past its horizon a weather-only one; then the run of such days.
@@ -203,7 +214,7 @@
     const spanOf = (g) => (g.length === 1 ? name(g[0]) : g.length === 2 ? t.and(name(g[0]), name(g[1])) : t.to(name(g[0]), name(g[g.length - 1])));
     // The weather-only days in words, leaving out the ones the headline already covers.
     const skip = new Set(run[0]?.air === false ? run.map((d) => d.i) : []);
-    const parts = f.outlook.filter((g) => !skip.has(g[0].i)).map((g) => g[0].st === "maybe" ? t.ol.maybe(spanOf(g), t.olCause[g[0].wx.cause]) : t.ol[g[0].st](spanOf(g)));
+    const parts = f.outlook.filter((g) => !skip.has(g[0].i)).map((g) => g[0].st === "maybe" ? t.ol.maybe(spanOf(g), t.olCause[g[0].wx.cause]) : g[0].wx.cause === "dust" ? t.ol.dust(spanOf(g)) : t.ol[g[0].st](spanOf(g)));
     const outlook = parts.length ? (run.length && !f.light ? t.outlook : t.outlook0)(parts) : "";
     const later = f.runs.slice(1);
     const out = { big: "", tone: "none", span: "", lines: [], note: "" };
@@ -232,7 +243,7 @@
       out.lines.push(t.spanMaybe(span));
       out.note = t.maybeNote;
     }
-    const c = run.map((d) => d.wx).find((x) => x.cause && x.cause !== "still");
+    const c = run.map((d) => d.wx).find((x) => x.cause && x.cause !== "still" && x.cause !== "dust");
     out.lines.push(!c ? t.why.none : c.cause === "rain" ? t.why.rain(nf.format(c.rainM), nf.format(c.rainN), nf.format(c.mm)) : c.cause === "wind" ? t.why.wind(nf.format(c.wind)) : t.why.mix);
     if (f.back) out.lines.push(t.back(name(f.back)));
     // The days after: the weather outlook (when the first break is in the smoke forecast), or any later breaks.
