@@ -9,6 +9,7 @@ import { ogUrl } from "./og.js";
 import { SITE, COUNTRY, esc, nf, pct } from "./pages.js";
 import { RANK_T as CT, fireChart, no2Chart, fires30, no2Of, cityRows, liveRows, qaRows, ch4Table, seasonTable, KIND, FUEL, SEP, date } from "./city.js";
 
+const N_ = (x) => x; // the number arrives formatted
 const T = {
   en: {
     kicker: (N) => `${N}'s smoke report`,
@@ -30,6 +31,9 @@ const T = {
     roseNone: "No fires within 250 km in the last 24 hours.",
     calm: "calm",
     hCauses: (N) => `What satellites see around ${N}`,
+    local: (N, list) => ` The sources to watch are closer to home: ${N} is ${list}.`, localAnd: (a, b) => `${a}, and ${b}`,
+    lk: { no2: (r, n) => `#${r} of ${n} cities for NO₂ over the city, from traffic, industry and power plants`, fossil: (r, n) => `#${r} of the ${n} cities with fossil-fuel power plants within 50 km`,
+      kilns: (r, n) => `#${r} of the ${n} cities with brick kilns within 50 km`, ch4: (r, n) => `#${r} of the ${n} cities with landfill methane measured within 50 km`, industry: (r, n) => `#${r} of ${n} cities for industrial areas within 50 km` },
     causesLede: "What satellites and surveys see around the city. Each is a different measure, so they can't be added up into shares of the air.",
     cFires: "Fires", cNo2: "NO₂: traffic and industry", cKilns: "Brick kilns", cLandfill: "Landfills", cPower: "Power plants and industry",
     tFires: (d) => `fire spots within 250 km in the last ${d} days`, tNo2: "times the region's usual NO₂, last 14 days", tNo2None: "not enough clear days for a reading",
@@ -98,6 +102,9 @@ const T = {
     roseNone: "پچھلے 24 گھنٹوں میں 250 کلومیٹر کے اندر کوئی آگ نہیں دیکھی گئی۔",
     calm: "رکی ہوا",
     hCauses: (N) => `سیٹلائٹ ${N} کے آس پاس کیا دیکھتے ہیں`,
+    local: (N, list) => ` نظر رکھنے کے ذرائع شہر کے قریب ہی ہیں: ${list}۔`, localAnd: (a, b) => `${a}، اور ${b}`,
+    lk: { no2: (r, n) => `شہر پر NO₂ (ٹریفک، صنعت، بجلی گھر) میں ${N_(n)} شہروں میں نمبر ${r}`, fossil: (r, n) => `50 کلومیٹر کے اندر تیل، گیس اور کوئلے کے بجلی گھروں میں، جن ${N_(n)} شہروں کے پاس یہ ہیں ان میں نمبر ${r}`,
+      kilns: (r, n) => `50 کلومیٹر کے اندر اینٹوں کے بھٹوں میں، جن ${N_(n)} شہروں کے پاس یہ ہیں ان میں نمبر ${r}`, ch4: (r, n) => `50 کلومیٹر کے اندر کچرا کنڈیوں سے ناپی گئی میتھین میں، جن ${N_(n)} شہروں کے پاس یہ ہے ان میں نمبر ${r}`, industry: (r, n) => `50 کلومیٹر کے اندر صنعتی علاقوں میں ${N_(n)} شہروں میں نمبر ${r}` },
     causesLede: "سیٹلائٹ اور سروے شہر کے آس پاس کیا دیکھتے ہیں۔ ہر ایک الگ پیمانہ ہے، اس لیے انہیں جوڑ کر ہوا میں حصے نہیں بنائے جا سکتے۔",
     cFires: "آگ", cNo2: "NO₂: ٹریفک اور صنعت", cKilns: "اینٹوں کے بھٹے", cLandfill: "کچرا کنڈیاں", cPower: "بجلی گھر اور صنعت",
     tFires: (d) => `پچھلے ${d} دنوں میں 250 کلومیٹر کے اندر آگ`, tNo2: "علاقے کی عام NO₂ سے گنا، پچھلے 14 دن", tNo2None: "پیمائش کے لیے کافی صاف دن نہیں",
@@ -166,6 +173,9 @@ const T = {
     roseNone: "पिछले 24 घंटों में 250 किमी के भीतर कोई आग नहीं दिखी।",
     calm: "थमी हवा",
     hCauses: (N) => `उपग्रह ${N} के आसपास क्या देखते हैं`,
+    local: (N, list) => ` नज़र रखने लायक़ स्रोत शहर के पास ही हैं: ${list}।`, localAnd: (a, b) => `${a}, और ${b}`,
+    lk: { no2: (r, n) => `शहर पर NO₂ (ट्रैफ़िक, उद्योग, बिजलीघर) में ${N_(n)} शहरों में नंबर ${r}`, fossil: (r, n) => `50 किमी के भीतर तेल, गैस और कोयले के बिजलीघरों में, जिन ${N_(n)} शहरों के पास ये हैं उनमें नंबर ${r}`,
+      kilns: (r, n) => `50 किमी के भीतर ईंट भट्ठों में, जिन ${N_(n)} शहरों के पास ये हैं उनमें नंबर ${r}`, ch4: (r, n) => `50 किमी के भीतर लैंडफ़िल से मापी गई मीथेन में, जिन ${N_(n)} शहरों के पास यह है उनमें नंबर ${r}`, industry: (r, n) => `50 किमी के भीतर औद्योगिक इलाक़ों में ${N_(n)} शहरों में नंबर ${r}` },
     causesLede: "उपग्रह और सर्वे शहर के आसपास क्या देखते हैं। हर एक अलग पैमाना है, इसलिए इन्हें जोड़कर हवा में हिस्से नहीं बनाए जा सकते।",
     cFires: "आग", cNo2: "NO₂: ट्रैफ़िक और उद्योग", cKilns: "ईंट भट्ठे", cLandfill: "लैंडफ़िल", cPower: "बिजलीघर और उद्योग",
     tFires: (d) => `पिछले ${d} दिनों में 250 किमी के भीतर आग`, tNo2: "इलाक़े के सामान्य NO₂ का गुना, पिछले 14 दिन", tNo2None: "माप के लिए पर्याप्त साफ़ दिन नहीं",
@@ -454,22 +464,34 @@ export function cityBody(c, l, a) {
     return [r, tot];
   })();
   const where = (pin) => t.whereKm(n(pin.km), a.dirs[Math.round(pin.deg / 45) % 8]);
+  // A quiet city: no fire upwind right now (or calm air with under 20 fires within 250 km) and its 30 days of
+  // fires in the bottom half of the cities. Fires are not its story, so the lede names its strongest local ranks
+  // and the source tiles come before the fire map.
+  const quiet = !!(s.w && (s.calm ? s.all < 20 : !s.upN) && (!f30rank || f30rank[0] > f30rank[1] / 2));
+  let ledeHtml = a.ledeHtml;
+  if (quiet) {
+    const R0 = c.src?.rank || {}, RN = c.src?.ranked || {};
+    const loc = [["no2", no2?.rank, n2?.ranked], ["fossil", R0.fossil, RN.fossil], ["kilns", R0.kilns, RN.kilns], ["ch4", R0.ch4, RN.ch4], ["industry", R0.industry, RN.industry]]
+      .filter(([, r, m]) => r && m && r <= m / 2).sort((x, y) => x[1] / x[2] - y[1] / y[2]).slice(0, 2)
+      .map(([k, r, m]) => t.lk[k](n(r), n(m)));
+    if (loc.length) ledeHtml += t.local(N, loc.length === 2 ? t.localAnd(loc[0], loc[1]) : loc[0]);
+  }
   let h = `  <h1>${a.h1}</h1>\n`;
 
   // 1. The card.
   h += `  <div class="cp-card">\n   <p class="cp-kicker">${t.kicker(N)}</p>\n` +
     `   <div class="cp-aqi" data-air data-card data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-unit="${esc(t.aqiUnit)}" data-line="${esc(t.aqiSub)}" data-src="${esc(t.aqiSrc)}" data-bands="${esc(a.bands.join("|"))}">${t.aqiWait}</div>\n` +
     `   <a class="cp-br-tease" href="#${ID("breathe", l)}" data-breathe-tease hidden></a>\n` +
-    `   <p class="lede">${a.ledeHtml}</p>\n   ${badges(c, l, t, { s, cf, n2, ranks, f30rank })}\n   ${shareRow(c, l, t, N)}\n  </div>\n`;
-  const jumps = ["today", "breathe", "causes", "map", "season", "compare", "details"];
+    `   <p class="lede">${ledeHtml}</p>\n   ${badges(c, l, t, { s, cf, n2, ranks, f30rank })}\n   ${shareRow(c, l, t, N)}\n  </div>\n`;
+  const jumps = quiet ? ["causes", "today", "breathe", "map", "season", "compare", "details"] : ["today", "breathe", "causes", "map", "season", "compare", "details"];
   h += `  <nav class="cp-jump" aria-label="${esc(t.jumpLabel)}">${jumps.map((k) => `<a href="#${ID(k, l)}">${t.jump[k]}</a>`).join("")}</nav>\n`;
 
   // 2. Today's smoke: the live map and the rose.
-  h += `  <div class="cp">\n  <h2 id="${ID("today", l)}">${a.hMap}</h2>\n  <p class="muted">${a.mapNote}</p>\n  <div class="cp-smoke">${a.mapHtml}${rose(s, l, t, a.dirs)}</div>\n`;
+  const mapPart = `  <h2 id="${ID("today", l)}">${a.hMap}</h2>\n  <p class="muted">${a.mapNote}</p>\n  <div class="cp-smoke">${a.mapHtml}${rose(s, l, t, a.dirs)}</div>\n`;
   // 2b. Breathe again: when the next break in the smoke should come (filled in by /breathe.js), after the map,
   // so the map stays near the top; the card carries a one-line teaser that links here.
   const brUrl = `${SITE}/air/${c.id}/${l === "en" ? "" : `?lang=${l}`}#${ID("breathe", l)}`;
-  h += `  <section class="cp-br" id="${ID("breathe", l)}" data-breathe data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-city="${c.id}" data-name="${esc(N)}" data-url="${esc(brUrl)}">\n` +
+  const brPart = `  <section class="cp-br" id="${ID("breathe", l)}" data-breathe data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-city="${c.id}" data-name="${esc(N)}" data-url="${esc(brUrl)}">\n` +
     `   <p class="cp-kicker">${t.brKicker}</p>\n   <h2>${t.brQ(N)}</h2>\n   <div data-breathe-body aria-live="polite"><p class="muted">${t.brWait}</p></div>\n  </section>\n`;
 
   // 3. What's in the air: the tiles, then a story for each.
@@ -552,9 +574,10 @@ export function cityBody(c, l, a) {
     body += `<p class="muted">${ct.plantsNote}</p>`;
     stories.push(["power", "factory", t.cPower, body]);
   }
-  h += `  <h2 id="${ID("causes", l)}">${t.hCauses(N)}</h2>\n  <p>${t.causesLede}</p>\n`;
-  h += `  <div class="cp-causes">${tiles.map(([key, ic, title, v, sub, r]) =>
+  let causes = `  <h2 id="${ID("causes", l)}">${t.hCauses(N)}</h2>\n  <p>${t.causesLede}</p>\n`;
+  causes += `  <div class="cp-causes">${tiles.map(([key, ic, title, v, sub, r]) =>
     `<a class="cp-cause" href="#${ID(key, l)}" style="${cvars(key)}">${icon(ic)}<span class="t">${title}</span><span class="v">${v}</span><span class="s">${sub}</span>${r ? `<span class="r">${r}</span>` : ""}</a>`).join("")}</div>\n`;
+  h += `  <div class="cp">\n` + (quiet ? causes + mapPart + brPart : mapPart + brPart + causes);
   h += stories.map(([key, ic, title, body]) => `  <section class="cp-story" id="${ID(key, l)}" style="${cvars(key)}"><div class="ic">${icon(ic)}</div><h3>${title}</h3><div class="body">${body}</div></section>\n`).join("");
 
   // 4. The sources map (drawn in the browser from /sources/city/<id>.json).
