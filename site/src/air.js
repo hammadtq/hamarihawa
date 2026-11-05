@@ -6,7 +6,7 @@
 import CITIES from "./cities.json";
 import { ogUrl } from "./og.js";
 import { cityDataset, cityJson, rankingsBody, liveRanks, RANK_T, SRC_BUILT } from "./city.js";
-import { cityBody, CITY_STYLE } from "./citypage.js";
+import { cityBody, CITY_STYLE, breatheMeta } from "./citypage.js";
 import { SITE, LANGS, MONTHS, COUNTRY, ORG, STYLE, esc, nf, pct, dname, render, page, kvJson, notFound } from "./pages.js";
 
 const BY_ID = new Map(CITIES.map((c) => [c.id, c]));
@@ -292,7 +292,7 @@ function cityPage(c, data, wind, extra = {}) {
   // Its link preview is this city's own map (scripts/build-og-live.py, served by worker.js).
   return render({ path: `/air/${c.id}/`, title: T.en.title(N), desc: T.en.desc(N, descTxt), body, jsonld,
     ogImage: ogUrl(c.id), ogAlt: `${N}: the last 24 hours of fires within 250 km and the wind`,
-    head: STYLE + AIR_STYLE + CITY_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=6" defer></script>\n<script src="/breathe.js?v=1" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS + CITY_JS });
+    head: STYLE + AIR_STYLE + CITY_STYLE + LEAFLET_CSS, scripts: '<script src="/city-air.js?v=6" defer></script>\n<script src="/breathe.js?v=2" defer></script>\n' + LEAFLET_JS + NEAR_JS + SHARE_JS + CITY_JS });
 }
 
 function indexPage(data, wind) {
@@ -434,6 +434,25 @@ export async function cityApi(url, env, ctx, edgeCached) {
 const navTo = (key) => (html) => html.replace(/ aria-current="page"/g, "").replace(`data-nav="${key}"`, `data-nav="${key}" aria-current="page"`);
 const navAir = navTo("air");
 
+// The share link's head: its own title, description and picture, noindex (the canonical stays the city page),
+// and og:url this very link, since Facebook and WhatsApp follow og:url for the preview.
+function breatheHead(html, m, self) {
+  const T = esc(m.title), D = esc(m.desc), A = esc(m.alt), I = m.image;
+  return html
+    .replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${T}">`)
+    .replace(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${T}">`)
+    .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${D}">`)
+    .replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${D}">`)
+    .replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${esc(self)}">`)
+    .replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${I}">`)
+    .replace(/<meta property="og:image:secure_url" content="[^"]*">/, `<meta property="og:image:secure_url" content="${I}">`)
+    .replace(/<meta property="og:image:type" content="[^"]*">/, '<meta property="og:image:type" content="image/png">')
+    .replace(/<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${I}">`)
+    .replace(/<meta property="og:image:alt" content="[^"]*">/, `<meta property="og:image:alt" content="${A}">`)
+    .replace(/<meta name="twitter:image:alt" content="[^"]*">/, `<meta name="twitter:image:alt" content="${A}">`)
+    .replace('<meta name="viewport"', '<meta name="robots" content="noindex, follow">\n<meta name="viewport"');
+}
+
 // Returns a Response for /air/ and /air/<city>/, or null for any other path.
 export async function airPages(url, env, ctx, edgeCached) {
   const p = url.pathname;
@@ -450,6 +469,20 @@ export async function airPages(url, env, ctx, edgeCached) {
     return page(navTo("rankings")(rankingsPage(data, wind, { n2 })), 200, 600);
   });
   if (p === "/air") return Response.redirect(`${url.origin}/air/${url.search}`, 301);
+  // The "Breathe again" share link: the city page with a preview that says what the widget said.
+  const br = p.match(/^\/air\/([a-z0-9-]+)\/breathe\/?$/);
+  if (br) {
+    const c = BY_ID.get(br[1]);
+    if (!c) return notFound();
+    const q = url.searchParams, meta = breatheMeta(c, q);
+    const key = `${p}?d=${q.get("d") || ""}&n=${q.get("n") || ""}&p=${q.get("p") || ""}&k=${q.get("k") || ""}&lang=${meta.l}`;
+    return edgeCached(ctx, key, 900, async () => {
+      const [data, wind, cf, n2] = await Promise.all([kvJson(env, "cities"), kvJson(env, "wind"), kvJson(env, "city-fires"), kvJson(env, "no2-cities")]);
+      if (!data) return new Response("City pages aren't built yet. Try again in a few minutes.", { status: 503 });
+      const html = navAir(cityPage(c, data, wind, { cf, n2, ranks: allCities(data, wind).ranks }));
+      return page(breatheHead(html, meta, `${SITE}${p.endsWith("/") ? p : p + "/"}${url.search}`), 200, 600);
+    });
+  }
   const m = p.match(/^\/air\/([a-z0-9-]+)\/?$/);
   if (p !== "/air/" && !m) return p.startsWith("/air/") ? notFound() : null;
   if (m && !p.endsWith("/")) return Response.redirect(`${url.origin}${p}/${url.search}`, 301);

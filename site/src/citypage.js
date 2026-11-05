@@ -615,3 +615,70 @@ export function cityBody(c, l, a) {
   h += `  <p class="muted">${ct.dataLine(`/api/city?id=${c.id}`)}</p>\n  </div>\n`;
   return h;
 }
+
+// ---------- The "Breathe again" share link (/air/<city>/breathe/?d=&n=&p=&k=&lang=) ----------
+// WhatsApp and the others preview a link by fetching it (without the #fragment), so the widget's share link
+// has its own path, and its preview says what the widget said. The link carries only numbers (start day,
+// days, per cent less smoke, smoke-forecast or weather-only, or none/light), never text, so nobody can put
+// their own words under the site's name. The preview text is rebuilt here from those numbers, against the
+// city's own date: a link opened after its break has passed falls back to the bare question.
+const WD = {
+  en: "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" "),
+  ur: "اتوار پیر منگل بدھ جمعرات جمعہ ہفتہ".split(" "),
+  hi: "रविवार सोमवार मंगलवार बुधवार गुरुवार शुक्रवार शनिवार".split(" "),
+};
+const MON = {
+  en: "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "),
+  ur: "جنوری فروری مارچ اپریل مئی جون جولائی اگست ستمبر اکتوبر نومبر دسمبر".split(" "),
+  hi: "जनवरी फ़रवरी मार्च अप्रैल मई जून जुलाई अगस्त सितंबर अक्टूबर नवंबर दिसंबर".split(" "),
+};
+const BT = {
+  en: { q: (N) => `When can ${N} breathe again?`, today: "Today", tmw: "tomorrow", Tmw: "Tomorrow",
+    and: (a, b) => `${a} and ${b}`, to: (a, b) => `${a} to ${b}`, day: (w, d, m) => `${w} ${d} ${m}`,
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "about half the smog of the past 7 days" : `about ${p}% less smog than the past 7 days`}.`,
+    maybe: (s) => `${s} could bring lighter air.`, none: "Not in the next 10 days.", light: "The air has been fairly light this past week.",
+    desc: "The next days of lighter smog, from the CAMS PM2.5 forecast and three weather models (ECMWF, GFS, ICON): rain, wind and still air, day by day.",
+    alt: "Breathe again: when the smog should next lift" },
+  ur: { q: (N) => `${N} میں سکھ کا سانس کب ملے گا؟`, today: "آج", tmw: "کل", Tmw: "کل",
+    and: (a, b) => `${a} اور ${b}`, to: (a, b) => `${a} سے ${b} تک`, day: (w, d, m) => `${w}، ${d} ${m}`,
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھی سموگ" : `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم سموگ`}۔`,
+    maybe: (s) => `${s} کو ہوا کچھ ہلکی ہو سکتی ہے۔`, none: "اگلے 10 دن میں نہیں۔", light: "پچھلے ہفتے ہوا کافی ہلکی رہی ہے۔",
+    desc: "سموگ کب کم ہو گی: CAMS کی PM2.5 کی پیش گوئی اور تین موسمی ماڈل (ECMWF، GFS، ICON)، بارش، ہوا اور تھمی ہوا، دن بہ دن۔",
+    alt: "سکھ کا سانس: سموگ کب چھٹے گی" },
+  hi: { q: (N) => `${N} में चैन की साँस कब मिलेगी?`, today: "आज", tmw: "कल", Tmw: "कल",
+    and: (a, b) => `${a} और ${b}`, to: (a, b) => `${a} से ${b} तक`, day: (w, d, m) => `${w}, ${d} ${m}`,
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "पिछले 7 दिनों के मुक़ाबले लगभग आधा स्मॉग" : `पिछले 7 दिनों से लगभग ${p}% कम स्मॉग`}।`,
+    maybe: (s) => `${s} को हवा कुछ हल्की हो सकती है।`, none: "अगले 10 दिन में नहीं।", light: "पिछले हफ़्ते हवा काफ़ी हल्की रही है।",
+    desc: "स्मॉग कब छँटेगा: CAMS का PM2.5 अनुमान और तीन मौसम मॉडल (ECMWF, GFS, ICON), बारिश, हवा और थमी हवा, दिन-ब-दिन।",
+    alt: "चैन की साँस: स्मॉग कब छँटेगा" },
+};
+const ZONE_MIN = { PK: 300, IN: 330 };
+
+// The preview's title and description for a share link's query, in its language; null fields mean "bare question".
+export function breatheMeta(c, q, now = Date.now()) {
+  const l = ["en", "ur", "hi"].includes(q.get("lang")) ? q.get("lang") : "en", t = BT[l], N = c.name[l] || c.name.en;
+  const today = new Date(now + (ZONE_MIN[c.cc] ?? 300) * 60000).toISOString().slice(0, 10);
+  const dayN = (k) => Math.round((Date.parse(k + "T00:00:00Z") - Date.parse(today + "T00:00:00Z")) / 864e5);
+  const name = (i, first) => {
+    if (i === 0) return t.today;
+    if (i === 1) return first ? t.Tmw : t.tmw;
+    const d = new Date(Date.parse(today + "T00:00:00Z") + i * 864e5);
+    return t.day(WD[l][d.getUTCDay()], d.getUTCDate(), MON[l][d.getUTCMonth()]);
+  };
+  const k = q.get("k"), d = q.get("d") || "";
+  let line = "";
+  if (k === "x") line = t.none;
+  else if (k === "l") line = t.light;
+  else if ((k === "a" || k === "w") && /^\d{4}-\d\d-\d\d$/.test(d)) {
+    const n = Math.min(10, Math.max(1, parseInt(q.get("n"), 10) || 1)), p = Math.min(90, Math.max(10, Math.round((parseInt(q.get("p"), 10) || 0) / 10) * 10));
+    let a = dayN(d), z = a + n - 1;
+    if (z >= 0 && a <= 9) {
+      a = Math.max(0, a); z = Math.min(9, z);
+      const span = a === z ? name(a, true) : z === a + 1 ? t.and(name(a, true), name(z)) : t.to(name(a, true), name(z));
+      line = k === "a" ? t.less(span, p) : t.maybe(span);
+    }
+  }
+  // A "none" or "light" link only holds for the day it was made.
+  if ((k === "x" || k === "l") && d && dayN(d) !== 0) line = "";
+  return { l, title: line ? `${t.q(N)} ${line}` : t.q(N), desc: t.desc, alt: t.alt, image: `${SITE}/og/breathe-${l}.png` };
+}
