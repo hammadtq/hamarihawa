@@ -636,22 +636,22 @@ const MON = {
 const BT = {
   en: { q: (N) => `When can ${N} breathe again?`, today: "Today", tmw: "tomorrow", Tmw: "Tomorrow",
     and: (a, b) => `${a} and ${b}`, to: (a, b) => `${a} to ${b}`, day: (w, d, m) => `${w} ${d} ${m}`,
-    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "about half the smoke of the past 7 days" : `about ${p}% less smoke than the past 7 days`}.`,
-    maybe: (s) => `${s} could bring lighter air.`, none: "Not in the next 10 days.", light: "The air has been fairly light this past week.",
-    desc: "The next days of lighter smoke, from the CAMS smoke forecast and three weather models (ECMWF, GFS, ICON): rain, wind and still air, day by day.",
-    alt: "Breathe again: when the smoke should next lift" },
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "about half the pollution of the past 7 days" : `about ${p}% less pollution than the past 7 days`}.`,
+    maybe: (s) => `${s} could bring lighter air.`, none: "Not in the next 10 days.", light: "Pollution has been fairly low this past week.",
+    desc: "The next days of cleaner air, from the CAMS air-quality forecast and three weather models (ECMWF, GFS, ICON): rain, wind and still air, day by day.",
+    alt: "Breathe again: when the air should next clear" },
   ur: { q: (N) => `${N} میں سکھ کا سانس کب ملے گا؟`, today: "آج", tmw: "کل", Tmw: "کل",
     and: (a, b) => `${a} اور ${b}`, to: (a, b) => `${a} سے ${b} تک`, day: (w, d, m) => `${w}، ${d} ${m}`,
-    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھا دھواں" : `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم دھواں`}۔`,
-    maybe: (s) => `${s} کو ہوا کچھ ہلکی ہو سکتی ہے۔`, none: "اگلے 10 دن میں نہیں۔", light: "پچھلے ہفتے ہوا کافی ہلکی رہی ہے۔",
-    desc: "دھواں کب کم ہو گا: CAMS کی دھوئیں کی پیش گوئی اور تین موسمی ماڈل (ECMWF، GFS، ICON)، بارش، ہوا اور تھمی ہوا، دن بہ دن۔",
-    alt: "سکھ کا سانس: دھواں کب چھٹے گا" },
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھی آلودگی" : `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم آلودگی`}۔`,
+    maybe: (s) => `${s} کو ہوا کچھ ہلکی ہو سکتی ہے۔`, none: "اگلے 10 دن میں نہیں۔", light: "پچھلے ہفتے آلودگی کافی کم رہی ہے۔",
+    desc: "ہوا کب صاف ہو گی: CAMS کی فضائی معیار کی پیش گوئی اور تین موسمی ماڈل (ECMWF، GFS، ICON)، بارش، ہوا اور تھمی ہوا، دن بہ دن۔",
+    alt: "سکھ کا سانس: ہوا کب صاف ہو گی" },
   hi: { q: (N) => `${N} में चैन की साँस कब मिलेगी?`, today: "आज", tmw: "कल", Tmw: "कल",
     and: (a, b) => `${a} और ${b}`, to: (a, b) => `${a} से ${b} तक`, day: (w, d, m) => `${w}, ${d} ${m}`,
-    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "पिछले 7 दिनों के मुक़ाबले लगभग आधा धुआँ" : `पिछले 7 दिनों से लगभग ${p}% कम धुआँ`}।`,
-    maybe: (s) => `${s} को हवा कुछ हल्की हो सकती है।`, none: "अगले 10 दिन में नहीं।", light: "पिछले हफ़्ते हवा काफ़ी हल्की रही है।",
-    desc: "धुआँ कब छँटेगा: CAMS का धुएँ का अनुमान और तीन मौसम मॉडल (ECMWF, GFS, ICON), बारिश, हवा और थमी हवा, दिन-ब-दिन।",
-    alt: "चैन की साँस: धुआँ कब छँटेगा" },
+    less: (s, p) => `${s}: ${p >= 45 && p <= 55 ? "पिछले 7 दिनों के मुक़ाबले लगभग आधा प्रदूषण" : `पिछले 7 दिनों से लगभग ${p}% कम प्रदूषण`}।`,
+    maybe: (s) => `${s} को हवा कुछ हल्की हो सकती है।`, none: "अगले 10 दिन में नहीं।", light: "पिछले हफ़्ते प्रदूषण काफ़ी कम रहा है।",
+    desc: "हवा कब साफ़ होगी: CAMS का वायु गुणवत्ता अनुमान और तीन मौसम मॉडल (ECMWF, GFS, ICON), बारिश, हवा और थमी हवा, दिन-ब-दिन।",
+    alt: "चैन की साँस: हवा कब साफ़ होगी" },
 };
 const ZONE_MIN = { PK: 300, IN: 330 };
 
@@ -681,5 +681,5 @@ export function breatheMeta(c, q, now = Date.now()) {
   }
   // A "none" or "light" link only holds for the day it was made.
   if ((k === "x" || k === "l") && d && dayN(d) !== 0) line = "";
-  return { l, title: line ? `${t.q(N)} ${line}` : t.q(N), desc: t.desc, alt: t.alt, image: `${SITE}/og/breathe-${l}.png?v=2` };
+  return { l, title: line ? `${t.q(N)} ${line}` : t.q(N), desc: t.desc, alt: t.alt, image: `${SITE}/og/breathe-${l}.png?v=3` };
 }

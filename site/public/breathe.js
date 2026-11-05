@@ -1,7 +1,8 @@
 // "Breathe again" on a city page (/air/<city>/; markup in site/src/citypage.js): when the air should next get
 // lighter, for the next 10 days. Smog cities rarely reach safe air, but rain, strong wind and a deep, breezy
-// afternoon mixing layer give them a day or two of lighter smoke; this finds the next such break. "Smoke" in the wording is the whole of CAMS's PM2.5
-// (fires, traffic, industry, kilns, dust), so it keeps working after the burning season, all winter.
+// afternoon mixing layer give them a day or two of cleaner air; this finds the next such break. It reads like a weather forecast for air quality, so its
+// words are neutral (pollution, air quality), right for every city and season: the page above it answers
+// where the smoke comes from. The numbers are all of CAMS's PM2.5 (fires, traffic, industry, kilns, dust).
 //
 // Two sources, both requested from the visitor's browser (the Worker never calls Open-Meteo):
 // - Smoke: the Copernicus CAMS PM2.5 forecast (about 4 days ahead). CAMS reads low in winter, so a day is
@@ -35,69 +36,69 @@
   const T = {
     en: {
       wait: "Reading the weather models…", fail: "The forecast could not be loaded just now.",
-      now: "Today", tomorrow: "Tomorrow", inDays: (d) => `In ${d} days`, maybe: (d) => (d === 1 ? "Maybe tomorrow" : `Maybe in ${d} days`), none: "Not in the next 10 days", light: "Already light",
+      now: "Today", tomorrow: "Tomorrow", inDays: (d) => `In ${d} days`, maybe: (d) => (d === 1 ? "Maybe tomorrow" : `Maybe in ${d} days`), none: "Not in the next 10 days", light: "Already fairly clean",
       today: "Today", tmw: "Tomorrow", and: (a, b) => `${a} and ${b.replace(/^Tomorrow/, "tomorrow")}`, to: (a, b) => `${a} to ${b.replace(/^Tomorrow/, "tomorrow")}`,
-      less: (p) => `about ${p}% less smoke than the past 7 days`, half: "about half the smoke of the past 7 days",
+      less: (p) => `about ${p}% less pollution than the past 7 days`, half: "about half the pollution of the past 7 days",
       spanLess: (s, x) => `${s}: ${x}.`, spanMaybe: (s) => `${s} could bring lighter air.`,
-      why: { rain: (m, n, mm) => `Rain in ${m} of ${n} weather models, about ${mm} mm.`, wind: (k) => `Wind up to ${k} km/h.`, mix: "Breezy afternoons lift and spread the smoke.", none: "The smoke model expects it; the weather shows no single clear cause." },
-      back: (d) => `Smoke starts building up again from ${d}.`, still: (d) => `Still air from ${d} may trap smoke near the ground.`,
-      maybeNote: "This is past the smoke forecast's 4 days, so it comes from the weather alone and is less certain.",
-      noneWhy: "No weather model shows rain or strong wind for the next 10 days.", lighterOnly: (d) => `${d} should be a little lighter, but not a real break.`, noneStill: (d) => `Still air from ${d} may trap smoke near the ground.`,
-      lightTxt: (N) => `The smoke model has kept ${N}'s air fairly light this past week.`,
-      legend: { brk: "break", lighter: "a little lighter", same: "about the same", worse: "smokier", base: "past 7 days" },
-      airLbl: "Smoke forecast", wxLbl: "Weather only",
-      outlook: (parts) => `After that, from the weather alone: ${parts.join("; ")}.`, outlook0: (parts) => `Past the smoke forecast, from the weather alone: ${parts.join("; ")}.`, later: (list) => `Another possible break: ${list}.`,
-      ol: { dust: (s) => `${s}, strong dry wind may raise dust`, build: (s) => `${s}, still air, so smoke likely builds up`, flat: (s) => `${s}, about the same`, maybe: (s, c) => `${s}, ${c} may bring lighter air` },
+      why: { rain: (m, n, mm) => `Rain in ${m} of ${n} weather models, about ${mm} mm.`, wind: (k) => `Wind up to ${k} km/h.`, mix: "Breezy afternoons lift and spread the pollution.", none: "The air-quality model expects it; the weather shows no single clear cause." },
+      back: (d) => `Pollution starts building up again from ${d}.`, still: (d) => `Still air from ${d} may trap pollution near the ground.`,
+      maybeNote: "This is past the air-quality forecast's 4 days, so it comes from the weather alone and is less certain.",
+      noneWhy: "No weather model shows rain or strong wind for the next 10 days.", lighterOnly: (d) => `${d} should be a little lighter, but not a real break.`, noneStill: (d) => `Still air from ${d} may trap pollution near the ground.`,
+      lightTxt: (N) => `The air-quality model has kept ${N}'s pollution fairly low this past week.`,
+      legend: { brk: "break", lighter: "a little lighter", same: "about the same", worse: "more polluted", base: "past 7 days" },
+      airLbl: "Air-quality forecast", wxLbl: "Weather only",
+      outlook: (parts) => `After that, from the weather alone: ${parts.join("; ")}.`, outlook0: (parts) => `Past the air-quality forecast, from the weather alone: ${parts.join("; ")}.`, later: (list) => `Another possible break: ${list}.`,
+      ol: { dust: (s) => `${s}, strong dry wind may raise dust`, build: (s) => `${s}, still air, so pollution likely builds up`, flat: (s) => `${s}, about the same`, maybe: (s, c) => `${s}, ${c} may bring lighter air` },
       olCause: { rain: "rain", wind: "strong wind", mix: "breezy afternoons" }, olKey: "outlook from the weather",
       icon: { rain: "rain", wind: "strong wind", mix: "breezy, well mixed", still: "still air", dust: "dusty wind" },
       share: "Share picture", wa: "WhatsApp", copy: "Copy link", copied: "Link copied", saved: "Picture saved",
       q: (N) => `When can ${N} breathe again?`,
-      src: "Smoke: Copernicus CAMS model via Open-Meteo, compared with its own past 7 days (it reads low in winter, so this shows the change, not the level). Weather: ECMWF, GFS and ICON models via Open-Meteo; mixing layer from GFS.",
-      imgSrc: "Smoke: CAMS forecast vs its past 7 days. Weather: ECMWF, GFS, ICON.",
+      src: "Air quality: PM2.5 from the Copernicus CAMS model via Open-Meteo, compared with its own past 7 days (it reads low in winter, so this shows the change, not the level). Weather: ECMWF, GFS and ICON models via Open-Meteo; mixing layer from GFS.",
+      imgSrc: "Air quality (PM2.5): CAMS forecast vs its past 7 days. Weather: ECMWF, GFS, ICON.",
     },
     ur: {
       wait: "موسمی ماڈل دیکھے جا رہے ہیں…", fail: "پیش گوئی اس وقت نہیں مل سکی۔",
-      now: "آج", tomorrow: "کل", inDays: (d) => `${d} دن میں`, maybe: (d) => (d === 1 ? "شاید کل" : `شاید ${d} دن میں`), none: "اگلے 10 دن میں نہیں", light: "ہوا پہلے ہی ہلکی",
+      now: "آج", tomorrow: "کل", inDays: (d) => `${d} دن میں`, maybe: (d) => (d === 1 ? "شاید کل" : `شاید ${d} دن میں`), none: "اگلے 10 دن میں نہیں", light: "ہوا پہلے ہی کافی صاف",
       today: "آج", tmw: "کل", and: (a, b) => `${a} اور ${b}`, to: (a, b) => `${a} سے ${b} تک`,
-      less: (p) => `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم دھواں`, half: "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھا دھواں",
+      less: (p) => `پچھلے 7 دنوں سے لگ بھگ ${p} فیصد کم آلودگی`, half: "پچھلے 7 دنوں کے مقابلے میں لگ بھگ آدھی آلودگی",
       spanLess: (s, x) => `${s}: ${x}۔`, spanMaybe: (s) => `${s} کو ہوا کچھ ہلکی ہو سکتی ہے۔`,
-      why: { rain: (m, n, mm) => `${n} میں سے ${m} موسمی ماڈل بارش دکھا رہے ہیں، لگ بھگ ${mm} ملی میٹر۔`, wind: (k) => `ہوا ${k} کلومیٹر فی گھنٹہ تک چلے گی۔`, mix: "دوپہر کی ہوا دھوئیں کو اوپر اٹھا کر بکھیر دے گی۔", none: "دھوئیں کا ماڈل یہی بتاتا ہے، اگرچہ موسم میں کوئی ایک واضح وجہ نظر نہیں آتی۔" },
-      back: (d) => `${d} سے دھواں پھر بڑھنے لگے گا۔`, still: (d) => `${d} سے تھمی ہوا دھوئیں کو زمین کے قریب روک سکتی ہے۔`,
-      maybeNote: "یہ دھوئیں کی 4 دن کی پیش گوئی سے آگے ہے، اس لیے صرف موسم کی بنیاد پر ہے اور اتنا یقینی نہیں۔",
-      noneWhy: "اگلے 10 دنوں میں کسی موسمی ماڈل میں نہ بارش ہے نہ تیز ہوا۔", lighterOnly: (d) => `${d} ہوا کچھ ہلکی رہے گی، مگر کوئی خاص مہلت نہیں۔`, noneStill: (d) => `${d} سے تھمی ہوا دھوئیں کو زمین کے قریب روک سکتی ہے۔`,
-      lightTxt: (N) => `دھوئیں کے ماڈل کے مطابق پچھلے ہفتے ${N} کی ہوا کافی ہلکی رہی ہے۔`,
-      legend: { brk: "مہلت", lighter: "کچھ ہلکی", same: "تقریباً ویسی ہی", worse: "زیادہ دھواں", base: "پچھلے 7 دن" },
-      airLbl: "دھوئیں کی پیش گوئی", wxLbl: "صرف موسم",
-      outlook: (parts) => `اس کے بعد، صرف موسم کی بنیاد پر: ${parts.join("؛ ")}۔`, outlook0: (parts) => `دھوئیں کی پیش گوئی سے آگے، صرف موسم کی بنیاد پر: ${parts.join("؛ ")}۔`, later: (list) => `ایک اور ممکنہ مہلت: ${list}۔`,
-      ol: { dust: (s) => `${s} تیز خشک ہوا سے گرد اڑنے کا امکان`, build: (s) => `${s} تھمی ہوا، دھواں بڑھنے کا امکان`, flat: (s) => `${s} تقریباً ویسا ہی`, maybe: (s, c) => `${s} ${c} سے ہوا کچھ ہلکی ہو سکتی ہے` },
+      why: { rain: (m, n, mm) => `${n} میں سے ${m} موسمی ماڈل بارش دکھا رہے ہیں، لگ بھگ ${mm} ملی میٹر۔`, wind: (k) => `ہوا ${k} کلومیٹر فی گھنٹہ تک چلے گی۔`, mix: "دوپہر کی ہوا آلودگی کو اوپر اٹھا کر بکھیر دے گی۔", none: "فضائی معیار کا ماڈل یہی بتاتا ہے، اگرچہ موسم میں کوئی ایک واضح وجہ نظر نہیں آتی۔" },
+      back: (d) => `${d} سے آلودگی پھر بڑھنے لگے گی۔`, still: (d) => `${d} سے تھمی ہوا آلودگی کو زمین کے قریب روک سکتی ہے۔`,
+      maybeNote: "یہ فضائی معیار کی 4 دن کی پیش گوئی سے آگے ہے، اس لیے صرف موسم کی بنیاد پر ہے اور اتنا یقینی نہیں۔",
+      noneWhy: "اگلے 10 دنوں میں کسی موسمی ماڈل میں نہ بارش ہے نہ تیز ہوا۔", lighterOnly: (d) => `${d} ہوا کچھ ہلکی رہے گی، مگر کوئی خاص مہلت نہیں۔`, noneStill: (d) => `${d} سے تھمی ہوا آلودگی کو زمین کے قریب روک سکتی ہے۔`,
+      lightTxt: (N) => `فضائی معیار کے ماڈل کے مطابق پچھلے ہفتے ${N} میں آلودگی کافی کم رہی ہے۔`,
+      legend: { brk: "مہلت", lighter: "کچھ ہلکی", same: "تقریباً ویسی ہی", worse: "زیادہ آلودگی", base: "پچھلے 7 دن" },
+      airLbl: "فضائی معیار کی پیش گوئی", wxLbl: "صرف موسم",
+      outlook: (parts) => `اس کے بعد، صرف موسم کی بنیاد پر: ${parts.join("؛ ")}۔`, outlook0: (parts) => `فضائی معیار کی پیش گوئی سے آگے، صرف موسم کی بنیاد پر: ${parts.join("؛ ")}۔`, later: (list) => `ایک اور ممکنہ مہلت: ${list}۔`,
+      ol: { dust: (s) => `${s} تیز خشک ہوا سے گرد اڑنے کا امکان`, build: (s) => `${s} تھمی ہوا، آلودگی بڑھنے کا امکان`, flat: (s) => `${s} تقریباً ویسا ہی`, maybe: (s, c) => `${s} ${c} سے ہوا کچھ ہلکی ہو سکتی ہے` },
       olCause: { rain: "بارش", wind: "تیز ہوا", mix: "ہوا دار دوپہر" }, olKey: "موسم کی بنیاد پر اندازہ",
       icon: { rain: "بارش", wind: "تیز ہوا", mix: "ہوا دار دوپہر", still: "تھمی ہوا", dust: "گرد آلود ہوا" },
       share: "تصویر شیئر کریں", wa: "واٹس ایپ", copy: "لنک کاپی کریں", copied: "لنک کاپی ہو گیا", saved: "تصویر محفوظ ہو گئی",
       q: (N) => `${N} میں سکھ کا سانس کب ملے گا؟`,
-      src: "دھواں: کوپرنیکس CAMS ماڈل، اوپن میٹیو کے ذریعے، اپنے ہی پچھلے 7 دنوں سے موازنہ (سردیوں میں یہ کم بتاتا ہے، اس لیے یہاں سطح نہیں، تبدیلی دکھائی گئی ہے)۔ موسم: ECMWF، GFS اور ICON ماڈل، اوپن میٹیو کے ذریعے؛ ہوا کی ملاوٹ کی تہہ GFS سے۔",
-      imgSrc: "دھواں: CAMS پیش گوئی، پچھلے 7 دنوں کے مقابلے میں۔ موسم: ECMWF، GFS، ICON۔",
+      src: "فضائی معیار: PM2.5، کوپرنیکس CAMS ماڈل، اوپن میٹیو کے ذریعے، اپنے ہی پچھلے 7 دنوں سے موازنہ (سردیوں میں یہ کم بتاتا ہے، اس لیے یہاں سطح نہیں، تبدیلی دکھائی گئی ہے)۔ موسم: ECMWF، GFS اور ICON ماڈل، اوپن میٹیو کے ذریعے؛ ہوا کی ملاوٹ کی تہہ GFS سے۔",
+      imgSrc: "فضائی معیار (PM2.5): CAMS پیش گوئی، پچھلے 7 دنوں کے مقابلے میں۔ موسم: ECMWF، GFS، ICON۔",
     },
     hi: {
       wait: "मौसम के मॉडल पढ़े जा रहे हैं…", fail: "अनुमान अभी नहीं मिल सका।",
-      now: "आज", tomorrow: "कल", inDays: (d) => `${d} दिन में`, maybe: (d) => (d === 1 ? "शायद कल" : `शायद ${d} दिन में`), none: "अगले 10 दिन में नहीं", light: "हवा पहले से हल्की",
+      now: "आज", tomorrow: "कल", inDays: (d) => `${d} दिन में`, maybe: (d) => (d === 1 ? "शायद कल" : `शायद ${d} दिन में`), none: "अगले 10 दिन में नहीं", light: "हवा पहले से काफ़ी साफ़",
       today: "आज", tmw: "कल", and: (a, b) => `${a} और ${b}`, to: (a, b) => `${a} से ${b} तक`,
-      less: (p) => `पिछले 7 दिनों से लगभग ${p}% कम धुआँ`, half: "पिछले 7 दिनों के मुक़ाबले लगभग आधा धुआँ",
+      less: (p) => `पिछले 7 दिनों से लगभग ${p}% कम प्रदूषण`, half: "पिछले 7 दिनों के मुक़ाबले लगभग आधा प्रदूषण",
       spanLess: (s, x) => `${s}: ${x}।`, spanMaybe: (s) => `${s} को हवा कुछ हल्की हो सकती है।`,
-      why: { rain: (m, n, mm) => `${n} में से ${m} मौसम मॉडल बारिश दिखा रहे हैं, लगभग ${mm} मिमी।`, wind: (k) => `हवा ${k} किमी/घंटा तक चलेगी।`, mix: "दोपहर की हवा धुएँ को ऊपर उठाकर बिखेर देगी।", none: "धुएँ का मॉडल यही बताता है, हालाँकि मौसम में कोई एक साफ़ वजह नहीं दिखती।" },
-      back: (d) => `${d} से धुआँ फिर बढ़ने लगेगा।`, still: (d) => `${d} से थमी हवा धुएँ को ज़मीन के पास रोक सकती है।`,
-      maybeNote: "यह धुएँ के 4 दिन के अनुमान से आगे है, इसलिए सिर्फ़ मौसम पर आधारित है और उतना पक्का नहीं।",
-      noneWhy: "अगले 10 दिनों में किसी मौसम मॉडल में न बारिश है न तेज़ हवा।", lighterOnly: (d) => `${d} हवा कुछ हल्की रहेगी, पर कोई ख़ास राहत नहीं।`, noneStill: (d) => `${d} से थमी हवा धुएँ को ज़मीन के पास रोक सकती है।`,
-      lightTxt: (N) => `धुएँ के मॉडल के मुताबिक़ पिछले हफ़्ते ${N} की हवा काफ़ी हल्की रही है।`,
-      legend: { brk: "राहत", lighter: "कुछ हल्की", same: "लगभग वैसी ही", worse: "ज़्यादा धुआँ", base: "पिछले 7 दिन" },
-      airLbl: "धुएँ का अनुमान", wxLbl: "सिर्फ़ मौसम",
-      outlook: (parts) => `उसके बाद, सिर्फ़ मौसम के आधार पर: ${parts.join("; ")}।`, outlook0: (parts) => `धुएँ के अनुमान से आगे, सिर्फ़ मौसम के आधार पर: ${parts.join("; ")}।`, later: (list) => `एक और संभावित राहत: ${list}।`,
-      ol: { dust: (s) => `${s} तेज़ सूखी हवा से धूल उड़ने की आशंका`, build: (s) => `${s} थमी हवा, धुआँ बढ़ने की आशंका`, flat: (s) => `${s} लगभग वैसा ही`, maybe: (s, c) => `${s} ${c} से हवा कुछ हल्की हो सकती है` },
+      why: { rain: (m, n, mm) => `${n} में से ${m} मौसम मॉडल बारिश दिखा रहे हैं, लगभग ${mm} मिमी।`, wind: (k) => `हवा ${k} किमी/घंटा तक चलेगी।`, mix: "दोपहर की हवा प्रदूषण को ऊपर उठाकर बिखेर देगी।", none: "वायु गुणवत्ता का मॉडल यही बताता है, हालाँकि मौसम में कोई एक साफ़ वजह नहीं दिखती।" },
+      back: (d) => `${d} से प्रदूषण फिर बढ़ने लगेगा।`, still: (d) => `${d} से थमी हवा प्रदूषण को ज़मीन के पास रोक सकती है।`,
+      maybeNote: "यह वायु गुणवत्ता के 4 दिन के अनुमान से आगे है, इसलिए सिर्फ़ मौसम पर आधारित है और उतना पक्का नहीं।",
+      noneWhy: "अगले 10 दिनों में किसी मौसम मॉडल में न बारिश है न तेज़ हवा।", lighterOnly: (d) => `${d} हवा कुछ हल्की रहेगी, पर कोई ख़ास राहत नहीं।`, noneStill: (d) => `${d} से थमी हवा प्रदूषण को ज़मीन के पास रोक सकती है।`,
+      lightTxt: (N) => `वायु गुणवत्ता के मॉडल के मुताबिक़ पिछले हफ़्ते ${N} में प्रदूषण काफ़ी कम रहा है।`,
+      legend: { brk: "राहत", lighter: "कुछ हल्की", same: "लगभग वैसी ही", worse: "ज़्यादा प्रदूषण", base: "पिछले 7 दिन" },
+      airLbl: "वायु गुणवत्ता का अनुमान", wxLbl: "सिर्फ़ मौसम",
+      outlook: (parts) => `उसके बाद, सिर्फ़ मौसम के आधार पर: ${parts.join("; ")}।`, outlook0: (parts) => `वायु गुणवत्ता के अनुमान से आगे, सिर्फ़ मौसम के आधार पर: ${parts.join("; ")}।`, later: (list) => `एक और संभावित राहत: ${list}।`,
+      ol: { dust: (s) => `${s} तेज़ सूखी हवा से धूल उड़ने की आशंका`, build: (s) => `${s} थमी हवा, प्रदूषण बढ़ने की आशंका`, flat: (s) => `${s} लगभग वैसा ही`, maybe: (s, c) => `${s} ${c} से हवा कुछ हल्की हो सकती है` },
       olCause: { rain: "बारिश", wind: "तेज़ हवा", mix: "हवादार दोपहर" }, olKey: "मौसम के आधार पर अंदाज़ा",
       icon: { rain: "बारिश", wind: "तेज़ हवा", mix: "हवादार दोपहर", still: "थमी हवा", dust: "धूल भरी हवा" },
       share: "तस्वीर शेयर करें", wa: "व्हाट्सऐप", copy: "लिंक कॉपी करें", copied: "लिंक कॉपी हो गया", saved: "तस्वीर सेव हो गई",
       q: (N) => `${N} में चैन की साँस कब मिलेगी?`,
-      src: "धुआँ: कोपरनिकस CAMS मॉडल, ओपन-मेटियो से, अपने ही पिछले 7 दिनों से तुलना (सर्दियों में यह कम बताता है, इसलिए यहाँ स्तर नहीं, बदलाव दिखाया गया है)। मौसम: ECMWF, GFS और ICON मॉडल, ओपन-मेटियो से; मिक्सिंग लेयर GFS से।",
-      imgSrc: "धुआँ: CAMS अनुमान, पिछले 7 दिनों के मुक़ाबले। मौसम: ECMWF, GFS, ICON।",
+      src: "वायु गुणवत्ता: PM2.5, कोपरनिकस CAMS मॉडल, ओपन-मेटियो से, अपने ही पिछले 7 दिनों से तुलना (सर्दियों में यह कम बताता है, इसलिए यहाँ स्तर नहीं, बदलाव दिखाया गया है)। मौसम: ECMWF, GFS और ICON मॉडल, ओपन-मेटियो से; मिक्सिंग लेयर GFS से।",
+      imgSrc: "वायु गुणवत्ता (PM2.5): CAMS अनुमान, पिछले 7 दिनों के मुक़ाबले। मौसम: ECMWF, GFS, ICON।",
     },
   };
 
@@ -272,7 +273,7 @@
     const used = [...new Set(f.days.map((d) => d.wx.cause).filter(Boolean))];
     const stUsed = ["brk", "lighter", "same", "worse"].filter((s) => f.days.some((d) => d.air && d.st === s));
     // The share link has its own path, so its preview says the same as this (see breatheMeta in citypage.js):
-    // only numbers go in it, the start day, days, per cent less smoke, and smoke forecast or weather only.
+    // only numbers go in it, the start day, days, per cent less pollution, and air-quality forecast or weather only.
     const run = f.run, qs = new URLSearchParams();
     if (f.light || !run.length) { qs.set("k", f.light ? "l" : "x"); qs.set("d", f.days[0].k); }
     else { qs.set("d", run[0].k); qs.set("n", run.length); if (run[0].air) qs.set("p", ans.p); qs.set("k", run[0].air ? "a" : "w"); }
