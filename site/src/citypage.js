@@ -12,6 +12,7 @@ import { RANK_T as CT, fireChart, no2Chart, fires30, no2Of, cityRows, liveRows, 
 const T = {
   en: {
     kicker: (N) => `${N}'s smoke report`,
+    brKicker: "Breathe again", brQ: (N) => `When can ${N} breathe again?`, brWait: "Reading the weather models…",
     aqiUnit: "US AQI", aqiWait: "Loading today's air reading…",
     aqiSub: "PM2.5 has averaged {pm} µg/m³ over 24 hours, {who} times the WHO limit: like smoking {cigs} cigarettes a day.",
     aqiSrc: "Copernicus CAMS model estimate via Open-Meteo, which reads low in winter.",
@@ -21,7 +22,7 @@ const T = {
       kilns: "brick kilns within 50 km", fossil: "fossil-fuel power plants within 50 km", ch4: "landfill methane measured within 50 km", industry: "industrial areas within 50 km" },
     wa: "Share on WhatsApp", x: "Post on X", copy: "Copy link", copied: "Link copied",
     shareText: (N) => `${N}'s air today: where the smoke is coming from`,
-    jump: { today: "Today's smoke", causes: "Around the city", map: "Sources map", season: "This season", compare: "Against other cities", details: "All the numbers" },
+    jump: { today: "Today's smoke", breathe: "Breathe again", causes: "Around the city", map: "Sources map", season: "This season", compare: "Against other cities", details: "All the numbers" },
     jumpLabel: "On this page",
     roseLabel: "Fires within 250 km in the last 24 hours, by the direction they lie in",
     roseUp: (d) => `Fires within 250 km in the last 24 hours, by direction. Red: the side the wind is coming from (the ${d}). Tap a direction to pick out its fires on the map.`,
@@ -79,6 +80,7 @@ const T = {
   },
   ur: {
     kicker: (N) => `${N} کے دھوئیں کی رپورٹ`,
+    brKicker: "سکھ کا سانس", brQ: (N) => `${N} میں سکھ کا سانس کب ملے گا؟`, brWait: "موسمی ماڈل دیکھے جا رہے ہیں…",
     aqiUnit: "امریکی AQI", aqiWait: "آج کی ہوا کی پیمائش لوڈ ہو رہی ہے…",
     aqiSub: "PM2.5 کا 24 گھنٹے کا اوسط {pm} µg/m³ رہا، عالمی ادارۂ صحت کی حد کا {who} گنا: روزانہ {cigs} سگریٹ پینے جتنا۔",
     aqiSrc: "Open-Meteo کے ذریعے Copernicus CAMS کا ماڈل اندازہ، جو سردیوں میں کم بتاتا ہے۔",
@@ -88,7 +90,7 @@ const T = {
       kilns: "50 کلومیٹر کے اندر اینٹوں کے بھٹے", fossil: "50 کلومیٹر کے اندر ایندھن سے چلنے والے بجلی گھر", ch4: "50 کلومیٹر کے اندر ناپی گئی کچرا کنڈی میتھین", industry: "50 کلومیٹر کے اندر صنعتی علاقے" },
     wa: "واٹس ایپ پر بھیجیں", x: "X پر پوسٹ کریں", copy: "لنک کاپی کریں", copied: "لنک کاپی ہو گیا",
     shareText: (N) => `${N} کی ہوا آج: دھواں کہاں سے آ رہا ہے`,
-    jump: { today: "آج کا دھواں", causes: "شہر کے آس پاس", map: "ذرائع کا نقشہ", season: "یہ موسم", compare: "دوسرے شہروں سے موازنہ", details: "تمام اعداد" },
+    jump: { today: "آج کا دھواں", breathe: "سکھ کا سانس", causes: "شہر کے آس پاس", map: "ذرائع کا نقشہ", season: "یہ موسم", compare: "دوسرے شہروں سے موازنہ", details: "تمام اعداد" },
     jumpLabel: "اس صفحے پر",
     roseLabel: "پچھلے 24 گھنٹوں میں 250 کلومیٹر کے اندر آگ، سمت کے لحاظ سے",
     roseUp: (d) => `پچھلے 24 گھنٹوں میں 250 کلومیٹر کے اندر آگ، سمت کے لحاظ سے۔ سرخ: وہ طرف جدھر سے ہوا آ رہی ہے (${d})۔ نقشے پر کسی سمت کی آگ دیکھنے کے لیے اس پر ٹیپ کریں۔`,
@@ -146,6 +148,7 @@ const T = {
   },
   hi: {
     kicker: (N) => `${N} के धुएँ की रिपोर्ट`,
+    brKicker: "चैन की साँस", brQ: (N) => `${N} में चैन की साँस कब मिलेगी?`, brWait: "मौसम के मॉडल पढ़े जा रहे हैं…",
     aqiUnit: "अमेरिकी AQI", aqiWait: "आज की हवा की माप लोड हो रही है…",
     aqiSub: "PM2.5 का 24 घंटे का औसत {pm} µg/m³ रहा, विश्व स्वास्थ्य संगठन की सीमा का {who} गुना: रोज़ {cigs} सिगरेट पीने जितना।",
     aqiSrc: "Open-Meteo के ज़रिए Copernicus CAMS का मॉडल अनुमान, जो सर्दियों में कम बताता है।",
@@ -155,7 +158,7 @@ const T = {
       kilns: "50 किमी के भीतर ईंट भट्ठे", fossil: "50 किमी के भीतर जीवाश्म ईंधन वाले बिजलीघर", ch4: "50 किमी के भीतर मापी गई लैंडफ़िल मीथेन", industry: "50 किमी के भीतर औद्योगिक इलाक़े" },
     wa: "व्हाट्सऐप पर भेजें", x: "X पर पोस्ट करें", copy: "लिंक कॉपी करें", copied: "लिंक कॉपी हो गया",
     shareText: (N) => `${N} की हवा आज: धुआँ कहाँ से आ रहा है`,
-    jump: { today: "आज का धुआँ", causes: "शहर के आसपास", map: "स्रोतों का नक़्शा", season: "यह मौसम", compare: "दूसरे शहरों से तुलना", details: "सारे आँकड़े" },
+    jump: { today: "आज का धुआँ", breathe: "चैन की साँस", causes: "शहर के आसपास", map: "स्रोतों का नक़्शा", season: "यह मौसम", compare: "दूसरे शहरों से तुलना", details: "सारे आँकड़े" },
     jumpLabel: "इस पन्ने पर",
     roseLabel: "पिछले 24 घंटों में 250 किमी के भीतर आग, दिशा के हिसाब से",
     roseUp: (d) => `पिछले 24 घंटों में 250 किमी के भीतर आग, दिशा के हिसाब से। लाल: वह तरफ़ जिधर से हवा आ रही है (${d})। नक़्शे पर किसी दिशा की आग देखने के लिए उस पर टैप करें।`,
@@ -229,26 +232,45 @@ export const CITY_STYLE = `<style>
   html[lang="ur"] .cp-aqi-band { font-family: var(--urdu); font-size: 22px; line-height: 1.8; }
   .cp-cigs { display: inline-flex; gap: 3px; vertical-align: -1px; margin-inline-start: 6px; flex-wrap: wrap; }
   .cp-cig { width: 20px; height: 7px; border-radius: 2px; background: linear-gradient(90deg, #fff 0 72%, #e9a15c 72% 100%); border: 1px solid #9a9a9a; }
-  .cp-wk { border-top: 1px dashed var(--hair); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
-  .cp-wk[hidden] { display: none; }
-  .cp-wk-h { display: flex; align-items: center; gap: 8px; font: 700 21px/1.2 var(--hand); }
-  html[lang="ur"] .cp-wk-h { font-family: var(--urdu); font-size: 19px; line-height: 1.8; }
-  .doc .cp-wk p { margin: 0; }
-  .cp-wk svg { vertical-align: -2px; flex: none; }
-  .cp-wk-row, .cp-wk-lbl { display: grid; grid-template-columns: repeat(8, 1fr); max-width: 440px; text-align: center; }
-  .cp-wk-d { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; color: var(--ink-3); white-space: nowrap; overflow: hidden; }
-  .cp-wk-d .dot { display: block; width: var(--s, 22px); height: var(--s, 22px); border-radius: 50%; background: var(--c); }
-  .cp-wk-d .dw { height: 32px; display: flex; align-items: center; justify-content: center; }
-  .cp-wk-d.past .dot { opacity: .5; }
-  .cp-wk-d.today { color: var(--ink); font-weight: 700; }
-  .cp-wk-d.today .dot { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--ink); }
-  .cp-wk-d.next .dot { background: repeating-linear-gradient(135deg, var(--c) 0 4px, color-mix(in srgb, var(--c) 55%, #fff) 4px 7px); }
-  .cp-wk-d .wx { height: 15px; }
-  .cp-wk-lbl { font-size: 11.5px; color: var(--ink-3); margin-top: -2px; }
-  .cp-wk-lbl span:first-child { grid-column: 1 / 4; border-top: 1px solid var(--hair); padding-top: 2px; }
-  .cp-wk-lbl span:last-child { grid-column: 5 / 9; border-top: 1px dashed var(--ink-3); padding-top: 2px; }
-  .cp-wk-next { font-weight: 600; }
-  .doc .cp-wk .cp-wk-key, .doc .cp-wk .cp-wk-src { font-size: 12px; line-height: 1.4; color: var(--ink-3); }
+  .doc .cp-br { border: 2px solid #2f8f46; border-radius: 14px; padding: 16px 18px 14px; margin: 26px 0 6px; background: linear-gradient(180deg, #eef7ec, var(--paper) 60%); box-shadow: 3px 4px 0 #cfe6cb; display: flex; flex-direction: column; gap: 10px; scroll-margin-top: 60px; }
+  .doc .cp-br h2 { margin: 0; font-size: clamp(24px, 4vw, 30px); }
+  .doc .cp-br .cp-kicker { color: #2f8f46; font-weight: 700; margin: 0; }
+  .doc a.cp-br-tease { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; border-top: 1px dashed var(--hair); padding-top: 10px; text-decoration: none; color: var(--ink); }
+  .doc a.cp-br-tease[hidden] { display: none; }
+  .cp-br-tease .k { font-size: 13px; font-weight: 700; color: #2f8f46; letter-spacing: .04em; text-transform: uppercase; }
+  html[lang="ur"] .cp-br-tease .k { text-transform: none; letter-spacing: 0; }
+  .cp-br-tease b { font: 700 22px/1.2 var(--hand); color: #2f8f46; }
+  .cp-br-tease b.none { color: #8a8580; }
+  html[lang="ur"] .cp-br-tease b { font-family: var(--urdu); font-size: 18px; line-height: 1.9; }
+  .cp-br-tease span.m { color: var(--ink-2); font-size: 14.5px; } .cp-br-tease span.m::after { content: " ↓"; }
+  .cp-br-a b { display: block; font: 700 clamp(40px, 9vw, 60px)/1.05 var(--hand); color: #8a8580; }
+  .cp-br-a.brk b { color: #2f8f46; } .cp-br-a.maybe b { color: #5d8f5a; }
+  html[lang="ur"] .cp-br-a b { font-family: var(--urdu); font-size: clamp(32px, 7vw, 46px); line-height: 1.9; }
+  .cp-br-lines { display: flex; flex-direction: column; gap: 4px; }
+  .doc .cp-br-lines p { margin: 0; }
+  .doc .cp-br-lines p.lead { font-size: 17.5px; font-weight: 600; }
+  .cp-br-strip, .cp-br-lbl { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; }
+  .cp-br-d { display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 13px; color: var(--ink-3); border-radius: 8px; padding: 4px 0 3px; min-width: 0; }
+  .cp-br-d.brk { background: #e3f2e1; color: var(--ink); }
+  .cp-br-d:first-child { color: var(--ink); font-weight: 700; }
+  .cp-br-d .wd, .cp-br-d .dm { white-space: nowrap; overflow: hidden; max-width: 100%; }
+  .cp-br-d .dm { font-size: 11px; }
+  .cp-br-d .wd .short { display: none; }
+  @media (max-width: 480px) { .cp-br-d .wd .full { display: none; } .cp-br-d .wd .short { display: inline; } .cp-br-d { font-size: 12px; } }
+  .cp-br-d .plot { position: relative; width: 100%; height: 80px; display: flex; align-items: flex-end; justify-content: center; margin: 3px 0; }
+  .cp-br-d.air .plot::after { content: ""; position: absolute; inset-inline: 0; bottom: var(--b); border-top: 1.5px dashed var(--ink-2); }
+  .cp-br-d .bar { display: block; width: 62%; max-width: 34px; border-radius: 4px 4px 2px 2px; }
+  .cp-br-d .bar.maybe { height: 44px; border: 2px dashed #2f8f46; background: transparent; }
+  .cp-br-d .wx { height: 16px; }
+  .cp-br-lbl { font-size: 11.5px; color: var(--ink-3); margin-top: -4px; }
+  .cp-br-lbl span { border-top: 1px solid var(--hair); padding-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cp-br-lbl span:last-child { border-top-style: dashed; }
+  .doc p.cp-br-key { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; color: var(--ink-3); margin: 0; }
+  .cp-br-key span { display: inline-flex; align-items: center; gap: 5px; }
+  .cp-br-key i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+  .cp-br-key i.base { width: 16px; height: 0; border-top: 1.5px dashed var(--ink-2); border-radius: 0; }
+  .cp-br .cp-share button.wa { background: #1f9d55; border-color: #1f9d55; color: #fff; }
+  .doc .cp-br-src { font-size: 12px; line-height: 1.4; color: var(--ink-3); margin: 0; }
   .doc .cp-card .lede { margin: 0; border-top: 1px dashed var(--hair); padding-top: 12px; }
   .cp-badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
   .doc a.cp-badge { display: flex; flex-direction: column; gap: 1px; border: 1px solid var(--hair); border-radius: 10px; padding: 8px 11px; background: var(--bg); text-decoration: none; }
@@ -436,13 +458,18 @@ export function cityBody(c, l, a) {
   // 1. The card.
   h += `  <div class="cp-card">\n   <p class="cp-kicker">${t.kicker(N)}</p>\n` +
     `   <div class="cp-aqi" data-air data-card data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-unit="${esc(t.aqiUnit)}" data-line="${esc(t.aqiSub)}" data-src="${esc(t.aqiSrc)}" data-bands="${esc(a.bands.join("|"))}">${t.aqiWait}</div>\n` +
-    `   <div class="cp-wk" data-week data-lang="${l}" data-bands="${esc(a.bands.join("|"))}" hidden></div>\n` +
+    `   <a class="cp-br-tease" href="#${ID("breathe", l)}" data-breathe-tease hidden></a>\n` +
     `   <p class="lede">${a.ledeHtml}</p>\n   ${badges(c, l, t, { s, cf, n2, ranks, f30rank })}\n   ${shareRow(c, l, t, N)}\n  </div>\n`;
-  const jumps = ["today", "causes", "map", "season", "compare", "details"];
+  const jumps = ["today", "breathe", "causes", "map", "season", "compare", "details"];
   h += `  <nav class="cp-jump" aria-label="${esc(t.jumpLabel)}">${jumps.map((k) => `<a href="#${ID(k, l)}">${t.jump[k]}</a>`).join("")}</nav>\n`;
 
   // 2. Today's smoke: the live map and the rose.
   h += `  <div class="cp">\n  <h2 id="${ID("today", l)}">${a.hMap}</h2>\n  <p class="muted">${a.mapNote}</p>\n  <div class="cp-smoke">${a.mapHtml}${rose(s, l, t, a.dirs)}</div>\n`;
+  // 2b. Breathe again: when the next break in the smoke should come (filled in by /breathe.js), after the map,
+  // so the map stays near the top; the card carries a one-line teaser that links here.
+  const brUrl = `${SITE}/air/${c.id}/${l === "en" ? "" : `?lang=${l}`}#${ID("breathe", l)}`;
+  h += `  <section class="cp-br" id="${ID("breathe", l)}" data-breathe data-lat="${c.lat}" data-lon="${c.lon}" data-lang="${l}" data-city="${c.id}" data-name="${esc(N)}" data-url="${esc(brUrl)}">\n` +
+    `   <p class="cp-kicker">${t.brKicker}</p>\n   <h2>${t.brQ(N)}</h2>\n   <div data-breathe-body aria-live="polite"><p class="muted">${t.brWait}</p></div>\n  </section>\n`;
 
   // 3. What's in the air: the tiles, then a story for each.
   const tiles = [], stories = [];
