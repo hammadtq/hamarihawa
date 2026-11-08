@@ -476,7 +476,7 @@ export function cityBody(c, l, a) {
       .map(([k, r, m]) => t.lk[k](n(r), n(m)));
     if (loc.length) ledeHtml += t.local(N, loc.length === 2 ? t.localAnd(loc[0], loc[1]) : loc[0]);
   }
-  let h = `  <h1>${a.h1}</h1>\n`;
+  let h = `  <div class="cp-find" data-city-search></div>\n  <h1>${a.h1}</h1>\n`;
 
   // 1. The card.
   h += `  <div class="cp-card">\n   <p class="cp-kicker">${t.kicker(N)}</p>\n` +
