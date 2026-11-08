@@ -301,7 +301,7 @@ function indexPage(data, wind) {
   const body = {};
   for (const l of LANGS) {
     const t = T[l], n = (v) => nf(v, l);
-    body[l] = `  <h1>${t.idxH1}</h1>\n  <p class="lede">${t.idxLede(n(CITIES.length))}</p>\n` +
+    body[l] = `  <div class="cp-find" data-city-search></div>\n  <h1>${t.idxH1}</h1>\n  <p class="lede">${t.idxLede(n(CITIES.length))}</p>\n` +
       `  <div class="table-wrap"><table><thead><tr><th>${t.thCity}</th><th>${t.thCountry}</th><th>${t.thWind}</th><th class="n">${t.thUp}</th><th class="n">${t.thWeek}</th></tr></thead><tbody>\n` +
       rows.map(({ c, s }) => `   <tr><td><a href="/air/${c.id}/">${esc(c.name[l])}</a></td><td>${COUNTRY[l][c.cc]}</td>` +
         `<td>${!s.w ? "" : s.calm ? t.calmCell : compass(s.w[1], l)}</td><td class="n">${s.w && !s.calm ? n(s.upN) : "–"}</td><td class="n">${n(s.n7)}</td></tr>`).join("\n") +

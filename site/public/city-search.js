@@ -14,6 +14,7 @@
 .cs input::-webkit-search-cancel-button { cursor: pointer; }
 html[lang="ur"] .cs input { font-family: var(--urdu); font-size: 14px; line-height: 1.9; padding-top: 3px; padding-bottom: 3px; }
 .cs-list { position: absolute; top: calc(100% + 4px); inset-inline: 0; z-index: 1001; margin: 0; padding: 4px; list-style: none; background: var(--bg, #fff); border: 1.3px solid var(--line, #2b2b2b); border-radius: 10px; box-shadow: 3px 4px 0 var(--hair, #e6e3dc); max-height: min(360px, 60vh); overflow-y: auto; }
+.cs .cs-list { padding: 4px; } .cs .cs-list li { margin: 0; color: inherit; }
 .cs-list li a { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 7px 10px; border-radius: 7px; text-decoration: none; }
 .cs-list li[aria-selected="true"] a { background: #f4f2ec; }
 .cs-list li b { font-weight: 600; }
@@ -24,8 +25,8 @@ html[lang="ur"] .cs input { font-family: var(--urdu); font-size: 14px; line-heig
 .cs-btn[aria-expanded="true"] { background: var(--ink, #1d1d1f); color: #fff; }
 .cs-pop { position: absolute; top: calc(100% + 8px); inset-inline-end: 0; z-index: 1000; width: min(320px, calc(100vw - 32px)); }
 .cs-pop[hidden] { display: none; }
-.cp-find { max-width: 300px; margin: 0 0 10px; margin-inline-start: auto; }
-@media (max-width: 860px) { .cp-find { max-width: none; } .cs-pop { position: fixed; top: 56px; inset-inline: 16px; width: auto; } }
+.cp-find { margin: 0 0 14px; }
+@media (max-width: 860px) { .cs-pop { position: fixed; top: 56px; inset-inline: 16px; width: auto; } }
 `;
   const st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
   const lang = () => (T[document.documentElement.lang] ? document.documentElement.lang : "en");
