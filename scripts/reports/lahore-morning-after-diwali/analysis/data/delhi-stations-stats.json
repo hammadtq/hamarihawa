@@ -1,0 +1,408 @@
+{
+ "by_station": {
+  "dr-karni-singh-shooting-range-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 195,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 165,
+   "sat_night_max": 266
+  },
+  "dwarka-sector-8-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 195,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 174,
+   "sat_night_max": 266
+  },
+  "anand-vihar-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "bawana-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "chandni-chowk-delhi-iitm": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 157,
+   "sat_night_max": 203
+  },
+  "jahangirpuri-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "jawaharlal-nehru-stadium-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 195,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 174,
+   "sat_night_max": 266
+  },
+  "major-dhyan-chand-national-stadium-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "najafgarh-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 198,
+   "sun_night_max_at_IST": "Sun 20:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 177,
+   "sat_night_max": 219
+  },
+  "mundka-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "narela-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "nehru-nagar-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 195,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 174,
+   "sat_night_max": 266
+  },
+  "patparganj-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "rohini-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "sonia-vihar-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "vivek-vihar-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 192,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 160,
+   "sat_night_max": 203
+  },
+  "punjabi-bagh-delhi-dpcc": {
+   "group": "CPCB",
+   "attribution": "Central Pollution Control Board",
+   "sun_night_max": 195,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 174,
+   "sat_night_max": 266
+  },
+  "vv-block-c-station": {
+   "group": "private",
+   "attribution": "Luca",
+   "sun_night_max": 2089,
+   "sun_night_max_at_IST": "Mon 04:30",
+   "night_hours_with_data": 10,
+   "sun_12_30": 211,
+   "sat_night_max": 511
+  },
+  "vivek-vihar": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 1591,
+   "sun_night_max_at_IST": "Mon 00:30",
+   "night_hours_with_data": 12,
+   "sun_12_30": 720,
+   "sat_night_max": 587
+  },
+  "anand-vihar": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 1380,
+   "sun_night_max_at_IST": "Sun 22:30",
+   "night_hours_with_data": 10,
+   "sun_12_30": 210,
+   "sat_night_max": 806
+  },
+  "safdarjung-enclave": {
+   "group": "private",
+   "attribution": "TL",
+   "sun_night_max": 1565,
+   "sun_night_max_at_IST": "Mon 03:30",
+   "night_hours_with_data": 12,
+   "sun_12_30": 209,
+   "sat_night_max": 302
+  },
+  "poorvi-marg-d-block-market": {
+   "group": "private",
+   "attribution": "Daniel I",
+   "sun_night_max": 1410,
+   "sun_night_max_at_IST": "Mon 03:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": 222,
+   "sat_night_max": 368
+  },
+  "sonia-vihar": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 1085,
+   "sun_night_max_at_IST": "Mon 01:30",
+   "night_hours_with_data": 10,
+   "sun_12_30": 551,
+   "sat_night_max": 1230
+  },
+  "pooth-khurd-bawana": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 989,
+   "sun_night_max_at_IST": "Sun 23:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": null,
+   "sat_night_max": 1097
+  },
+  "rohini": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 908,
+   "sun_night_max_at_IST": "Mon 00:30",
+   "night_hours_with_data": 12,
+   "sun_12_30": 471,
+   "sat_night_max": 1047
+  },
+  "dwarka-sec-8": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 778,
+   "sun_night_max_at_IST": "Sun 20:30",
+   "night_hours_with_data": 4,
+   "sun_12_30": 188,
+   "sat_night_max": 1007
+  },
+  "punjabi-bagh": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 788,
+   "sun_night_max_at_IST": "Mon 05:30",
+   "night_hours_with_data": 7,
+   "sun_12_30": 256,
+   "sat_night_max": 408
+  },
+  "narela": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 372,
+   "sun_night_max_at_IST": "Sun 22:30",
+   "night_hours_with_data": 13,
+   "sun_12_30": null,
+   "sat_night_max": 416
+  },
+  "mundka": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 340,
+   "sun_night_max_at_IST": "Sun 18:30",
+   "night_hours_with_data": 2,
+   "sun_12_30": 290,
+   "sat_night_max": 416
+  },
+  "najafgarh": {
+   "group": "DPCC",
+   "attribution": "Delhi Pollution Control Committee",
+   "sun_night_max": 184,
+   "sun_night_max_at_IST": "Sun 19:30",
+   "night_hours_with_data": 3,
+   "sun_12_30": null,
+   "sat_night_max": 414
+  }
+ },
+ "groups": {
+  "CPCB": {
+   "n": 17,
+   "passed_1000_sun_night": [],
+   "passed_1000_sat_night": [],
+   "sun_night_max_range": [
+    192,
+    198
+   ],
+   "sun_12_30_range": [
+    157,
+    177
+   ]
+  },
+  "DPCC": {
+   "n": 10,
+   "passed_1000_sun_night": [
+    "anand-vihar",
+    "sonia-vihar",
+    "vivek-vihar"
+   ],
+   "passed_1000_sat_night": [
+    "dwarka-sec-8",
+    "pooth-khurd-bawana",
+    "rohini",
+    "sonia-vihar"
+   ],
+   "sun_night_max_range": [
+    184,
+    1591
+   ],
+   "sun_12_30_range": [
+    188,
+    720
+   ]
+  },
+  "private": {
+   "n": 3,
+   "passed_1000_sun_night": [
+    "poorvi-marg-d-block-market",
+    "safdarjung-enclave",
+    "vv-block-c-station"
+   ],
+   "passed_1000_sat_night": [],
+   "sun_night_max_range": [
+    1410,
+    2089
+   ],
+   "sun_12_30_range": [
+    209,
+    222
+   ]
+  }
+ },
+ "cpcb_similarity": {
+  "feeds": 17,
+  "distinct_full_series": 16,
+  "pairs_identical_in_at_least_90pct_of_hours": 44,
+  "pairs_total": 136,
+  "largest_cluster_identical_90pct": null,
+  "clusters_90pct": [
+   [
+    "anand-vihar-delhi-dpcc",
+    "bawana-delhi-dpcc",
+    "chandni-chowk-delhi-iitm",
+    "jahangirpuri-delhi-dpcc",
+    "major-dhyan-chand-national-stadium-delhi-dpcc",
+    "mundka-delhi-dpcc",
+    "narela-delhi-dpcc",
+    "patparganj-delhi-dpcc",
+    "rohini-delhi-dpcc",
+    "sonia-vihar-delhi-dpcc",
+    "vivek-vihar-delhi-dpcc"
+   ],
+   [
+    "dr-karni-singh-shooting-range-delhi-dpcc",
+    "dwarka-sector-8-delhi-dpcc",
+    "jawaharlal-nehru-stadium-delhi-dpcc",
+    "nehru-nagar-delhi-dpcc",
+    "punjabi-bagh-delhi-dpcc"
+   ],
+   [
+    "najafgarh-delhi-dpcc"
+   ]
+  ]
+ },
+ "cpcb_sun_19_30_to_23_30_range": [
+  178,
+  198
+ ],
+ "cpcb_groups_direct": {
+  "window_overnight_IST": "2026-11-08 18:30 to 2026-11-09 06:30 (13 hourly readings)",
+  "groups": [
+   {
+    "feeds": [
+     "anand-vihar-delhi-dpcc",
+     "bawana-delhi-dpcc",
+     "chandni-chowk-delhi-iitm",
+     "jahangirpuri-delhi-dpcc",
+     "major-dhyan-chand-national-stadium-delhi-dpcc",
+     "mundka-delhi-dpcc",
+     "narela-delhi-dpcc",
+     "patparganj-delhi-dpcc",
+     "rohini-delhi-dpcc",
+     "sonia-vihar-delhi-dpcc",
+     "vivek-vihar-delhi-dpcc"
+    ],
+    "n": 11,
+    "overnight_same_value": "12/13",
+    "full_capture_same_value": "37/46"
+   },
+   {
+    "feeds": [
+     "dr-karni-singh-shooting-range-delhi-dpcc",
+     "dwarka-sector-8-delhi-dpcc",
+     "jawaharlal-nehru-stadium-delhi-dpcc",
+     "nehru-nagar-delhi-dpcc",
+     "punjabi-bagh-delhi-dpcc"
+    ],
+    "n": 5,
+    "overnight_same_value": "13/13",
+    "full_capture_same_value": "41/47"
+   },
+   {
+    "feeds": [
+     "najafgarh-delhi-dpcc"
+    ],
+    "n": 1,
+    "overnight_same_value": "13/13",
+    "full_capture_same_value": "47/47"
+   }
+  ],
+  "note": "groups are the connected components of a >=90% pairwise-agreement graph; the counts here are direct simultaneous agreement"
+ }
+}

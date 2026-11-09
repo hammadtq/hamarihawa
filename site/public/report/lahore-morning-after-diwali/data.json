@@ -1,0 +1,2570 @@
+{
+ "report": "This year, the highest fire count so far and Diwali fell on the same day",
+ "published": "2026-11-09",
+ "version": "2026-11-09f",
+ "centre": {
+  "lat": 31.5497,
+  "lon": 74.3436,
+  "name": "central Lahore"
+ },
+ "inputs": {
+  "note": "Raw captures and scripts in the repository under scripts/reports/lahore-morning-after-diwali/analysis/; draft 6 frozen in analysis/frozen-draft6/"
+ },
+ "evidence": [
+  {
+   "id": "fires_table",
+   "claim": "Fire spots per PKT day, Pakistani and Indian Punjab, all satellites and NOAA-20 only",
+   "value": {
+    "2026-11-06": {
+     "PK_Punjab": 1050,
+     "IN_Punjab": 635,
+     "two_Punjabs": 1685,
+     "two_Punjabs_NOAA20": 412,
+     "PK_Punjab_NOAA20": 289,
+     "IN_Punjab_NOAA20": 123,
+     "all_Pakistan": 1136,
+     "all_India": 2459
+    },
+    "2026-11-07": {
+     "PK_Punjab": 1029,
+     "IN_Punjab": 501,
+     "two_Punjabs": 1530,
+     "two_Punjabs_NOAA20": 659,
+     "PK_Punjab_NOAA20": 451,
+     "IN_Punjab_NOAA20": 208,
+     "all_Pakistan": 1110,
+     "all_India": 3261
+    },
+    "2026-11-08": {
+     "PK_Punjab": 1143,
+     "IN_Punjab": 1716,
+     "two_Punjabs": 2859,
+     "two_Punjabs_NOAA20": 931,
+     "PK_Punjab_NOAA20": 585,
+     "IN_Punjab_NOAA20": 346,
+     "all_Pakistan": 1255,
+     "all_India": 4164
+    }
+   },
+   "source": "NASA FIRMS VIIRS (NOAA-20, NOAA-21; Suomi NPP until 2 Nov 2026) and MODIS: 2019-2025 from standard/final processing (SP), 2026 from near real time (NRT); merged into spots by HamariHawa's daily archive (scripts/build-feed.py distinct(): VIIRS detections falling in the same ~0.004 deg (~400 m) grid cell on the same PKT day count once; MODIS near a VIIRS spot dropped); /api/day?d=, fetched 9 Nov 2026",
+   "geography": "Punjab (Pakistan), Punjab (India) as assigned by geo.py district/state lookup",
+   "interval_tz": "Pakistan-time calendar days 6-8 Nov 2026",
+   "units": "spots",
+   "method": "summary.states[country|state] = [spots, night, NOAA-20 spots, NOAA-20 night]",
+   "status": "reproduced from HamariHawa archive (consistent with own archive; not independently checked against NASA raw rows)",
+   "files": "analysis/data/day-summaries/2026-11-0{6,7,8}.json"
+  },
+  {
+   "id": "season_max_2026",
+   "claim": "8 Nov 2026 was the busiest recorded day of 1 Oct-8 Nov 2026 in the two Punjabs (all satellites 2,859; NOAA-20 931), and also for the whole countries (all satellites 5,419; NOAA-20 1,974) and the northern-plains box (NOAA-20 1,276)",
+   "value": {
+    "all_satellites": {
+     "max_day": "2026-11-08",
+     "max": 2859,
+     "second_day": "2026-11-01",
+     "second": 2292
+    },
+    "NOAA20": {
+     "max_day": "2026-11-08",
+     "max": 931,
+     "second_day": "2026-11-04",
+     "second": 850
+    },
+    "whole_countries_all_satellites": {
+     "max_day": "2026-11-08",
+     "max": 5419
+    },
+    "whole_countries_NOAA20": {
+     "max_day": "2026-11-08",
+     "max": 1974
+    },
+    "northern_plains_box_NOAA20": {
+     "max_day": "2026-11-08",
+     "max": 1276,
+     "box": "geo.COMPARE_BOX 25-35.5N 66-88.5E"
+    }
+   },
+   "source": "NASA FIRMS VIIRS (NOAA-20, NOAA-21; Suomi NPP until 2 Nov 2026) and MODIS: 2019-2025 from standard/final processing (SP), 2026 from near real time (NRT); merged into spots by HamariHawa's daily archive (scripts/build-feed.py distinct(): VIIRS detections falling in the same ~0.004 deg (~400 m) grid cell on the same PKT day count once; MODIS near a VIIRS spot dropped); /api/day?d=, fetched 9 Nov 2026",
+   "geography": "Pakistani + Indian Punjab; whole countries (all Pakistan and India in the archive); northern-plains box",
+   "interval_tz": "1 Oct-8 Nov 2026, PKT days",
+   "units": "spots",
+   "method": "max over days",
+   "status": "reproduced from archive; season incomplete",
+   "files": "analysis/data/day-summaries/"
+  },
+  {
+   "id": "diwali_vs_peak",
+   "claim": "Busiest recorded Oct-Nov day in the two Punjabs vs Diwali, 2019-2026 (2026 to 8 Nov). Diwali was the busiest day only in 2026, on both series; four historical peak dates differ between the series. Known NOAA-20 data gaps (e.g. 1 Oct 2023: 0 NOAA-20 spots vs 640 all-satellite) are missing data, not zero fires; they do not change these maxima",
+   "value": {
+    "2019": {
+     "diwali": "2019-10-27",
+     "all_satellites": {
+      "max_day": "2019-11-05",
+      "max": 9128,
+      "diwali_count": 4992,
+      "diwali_minus_max_days": -9,
+      "ties": 0
+     },
+     "NOAA20": {
+      "max_day": "2019-11-05",
+      "max": 5285,
+      "diwali_count": 2207,
+      "diwali_minus_max_days": -9,
+      "ties": 0
+     }
+    },
+    "2020": {
+     "diwali": "2020-11-14",
+     "all_satellites": {
+      "max_day": "2020-11-05",
+      "max": 9353,
+      "diwali_count": 1451,
+      "diwali_minus_max_days": 9,
+      "ties": 0
+     },
+     "NOAA20": {
+      "max_day": "2020-11-07",
+      "max": 5094,
+      "diwali_count": 374,
+      "diwali_minus_max_days": 7,
+      "ties": 0
+     }
+    },
+    "2021": {
+     "diwali": "2021-11-04",
+     "all_satellites": {
+      "max_day": "2021-11-05",
+      "max": 11491,
+      "diwali_count": 6420,
+      "diwali_minus_max_days": -1,
+      "ties": 0
+     },
+     "NOAA20": {
+      "max_day": "2021-11-07",
+      "max": 6483,
+      "diwali_count": 2532,
+      "diwali_minus_max_days": -3,
+      "ties": 0
+     }
+    },
+    "2022": {
+     "diwali": "2022-10-24",
+     "all_satellites": {
+      "max_day": "2022-11-05",
+      "max": 6869,
+      "diwali_count": 1957,
+      "diwali_minus_max_days": -12,
+      "ties": 0
+     },
+     "NOAA20": {
+      "max_day": "2022-11-05",
+      "max": 4268,
+      "diwali_count": 982,
+      "diwali_minus_max_days": -12,
+      "ties": 0
+     }
+    },
+    "2023": {
+     "diwali": "2023-11-12",
+     "all_satellites": {
+      "max_day": "2023-11-05",
+      "max": 7490,
+      "diwali_count": 3905,
+      "diwali_minus_max_days": 7,
+      "ties": 0
+     },
+     "NOAA20": {
+      "max_day": "2023-11-08",
+      "max": 2485,
+      "diwali_count": 1542,
+      "diwali_minus_max_days": 4,
+      "ties": 0
+     }
+    },
+    "2024": {
+     "diwali": "2024-10-31",
+     "all_satellites": {
+      "max_day": "2024-11-17",
+      "max": 3623,
+      "diwali_count": 1925,
+      "diwali_minus_max_days": -17,
+      "ties": 0
+     },
+     "NOAA20": {
+      "max_day": "2024-11-17",
+      "max": 1189,
+      "diwali_count": 562,
+      "diwali_minus_max_days": -17,
+      "ties": 0
+     }
+    },
+    "2025": {
+     "diwali": "2025-10-20",
+     "all_satellites": {
+      "max_day": "2025-11-09",
+      "max": 2410,
+      "diwali_count": 966,
+      "diwali_minus_max_days": -20,
+      "ties": 0
+     },
+     "NOAA20": {
+      "max_day": "2025-11-01",
+      "max": 911,
+      "diwali_count": 316,
+      "diwali_minus_max_days": -12,
+      "ties": 0
+     }
+    },
+    "2026": {
+     "diwali": "2026-11-08",
+     "all_satellites": {
+      "max_day": "2026-11-08",
+      "max": 2859,
+      "diwali_count": 2859,
+      "diwali_minus_max_days": 0,
+      "ties": 0
+     },
+     "NOAA20": {
+      "max_day": "2026-11-08",
+      "max": 931,
+      "diwali_count": 931,
+      "diwali_minus_max_days": 0,
+      "ties": 0
+     }
+    }
+   },
+   "source": "NASA FIRMS VIIRS (NOAA-20, NOAA-21; Suomi NPP until 2 Nov 2026) and MODIS: 2019-2025 from standard/final processing (SP), 2026 from near real time (NRT); merged into spots by HamariHawa's daily archive (scripts/build-feed.py distinct(): VIIRS detections falling in the same ~0.004 deg (~400 m) grid cell on the same PKT day count once; MODIS near a VIIRS spot dropped); /api/day?d=, fetched 9 Nov 2026",
+   "geography": "Pakistani + Indian Punjab",
+   "interval_tz": "1 Oct-30 Nov each year (2026: to 8 Nov), PKT days",
+   "units": "spots",
+   "method": "max over days; Diwali = main Lakshmi Puja day",
+   "status": "reproduced from archive",
+   "files": "analysis/data/day-summaries/"
+  },
+  {
+   "id": "noaa20_season_peaks",
+   "claim": "NOAA-20 busiest recorded day, two Punjabs: 2019-2022 range 4,268-6,483; 2025 911 (SP); 2026 to 8 Nov 931 (NRT). 931 vs 911 differs by 20 spots (2.2%) across different processing stages: provisional",
+   "value": {
+    "2019": 5285,
+    "2020": 5094,
+    "2021": 6483,
+    "2022": 4268,
+    "2023": 2485,
+    "2024": 1189,
+    "2025": 911,
+    "2026": 931
+   },
+   "source": "NASA FIRMS VIIRS (NOAA-20, NOAA-21; Suomi NPP until 2 Nov 2026) and MODIS: 2019-2025 from standard/final processing (SP), 2026 from near real time (NRT); merged into spots by HamariHawa's daily archive (scripts/build-feed.py distinct(): VIIRS detections falling in the same ~0.004 deg (~400 m) grid cell on the same PKT day count once; MODIS near a VIIRS spot dropped); /api/day?d=, fetched 9 Nov 2026",
+   "geography": "Pakistani + Indian Punjab",
+   "interval_tz": "Oct-Nov",
+   "units": "NOAA-20 spots",
+   "method": "max over days",
+   "status": "reproduced from archive",
+   "files": "analysis/data/day-summaries/"
+  },
+  {
+   "id": "districts_8nov",
+   "claim": "Busiest districts on 8 Nov: Jhang (PK) 287, Sangrur 245, Bathinda 213, Firozpur 207, Hafizabad (PK) 193",
+   "value": {
+    "Jhang (PK)": 287,
+    "Sangrur (IN)": 245,
+    "Bathinda (IN)": 213,
+    "Firozpur (IN)": 207,
+    "Hafizabad (PK)": 193,
+    "Patiala (IN)": 145,
+    "Barnala (IN)": 128,
+    "Ludhiana (IN)": 119
+   },
+   "source": "NASA FIRMS VIIRS (NOAA-20, NOAA-21; Suomi NPP until 2 Nov 2026) and MODIS: 2019-2025 from standard/final processing (SP), 2026 from near real time (NRT); merged into spots by HamariHawa's daily archive (scripts/build-feed.py distinct(): VIIRS detections falling in the same ~0.004 deg (~400 m) grid cell on the same PKT day count once; MODIS near a VIIRS spot dropped); /api/day?d=, fetched 9 Nov 2026",
+   "geography": "districts",
+   "interval_tz": "8 Nov 2026 PKT",
+   "units": "spots",
+   "method": "count of day-file spots by district",
+   "status": "reproduced from archive",
+   "files": "analysis/data/day-2026-11-08.json"
+  },
+  {
+   "id": "pk_punjab_max",
+   "claim": "Pakistani Punjab's busiest day of 2026 so far: 1 Nov, 1,719 spots (all of Pakistan that day: 1,849)",
+   "value": {
+    "PK_Punjab": 1719,
+    "all_Pakistan": 1849,
+    "max_day": "2026-11-01"
+   },
+   "source": "NASA FIRMS VIIRS (NOAA-20, NOAA-21; Suomi NPP until 2 Nov 2026) and MODIS: 2019-2025 from standard/final processing (SP), 2026 from near real time (NRT); merged into spots by HamariHawa's daily archive (scripts/build-feed.py distinct(): VIIRS detections falling in the same ~0.004 deg (~400 m) grid cell on the same PKT day count once; MODIS near a VIIRS spot dropped); /api/day?d=, fetched 9 Nov 2026",
+   "geography": "Pakistani Punjab",
+   "interval_tz": "1 Oct-8 Nov 2026",
+   "units": "spots",
+   "method": "max over days",
+   "status": "reproduced from archive",
+   "files": "analysis/data/day-summaries/"
+  },
+  {
+   "id": "snpp",
+   "claim": "Suomi NPP data delivery ceased 2 Nov 2026 15:40 UTC; HamariHawa's reference satellite is NOAA-20 (legacy keys snpp/sn/snc now hold NOAA-20 counts)",
+   "value": null,
+   "source": "NOAA NESDIS notice 2 Nov 2026; scripts/build-feed.py comments at REF_SI",
+   "geography": "",
+   "interval_tz": "",
+   "units": "",
+   "method": "",
+   "status": "documented",
+   "files": "scripts/build-feed.py"
+  },
+  {
+   "id": "lahore_city_hourly",
+   "claim": "IQAir Lahore city figure (median of station hourly concentrations): Sun 00-09 200-223; Sun 14:00 137; Sun 21:00 212; Mon 00:00 233, 04:00 313, 09:00 398.5 (AQI 646), 11:00 280, 12:00 185.5, 15:00 97.4; Sun 09:00 219 (AQI 294)",
+   "value": {
+    "2026-11-07 18:00": [
+     110.1,
+     189
+    ],
+    "2026-11-07 19:00": [
+     139.5,
+     215
+    ],
+    "2026-11-07 20:00": [
+     152,
+     227
+    ],
+    "2026-11-07 21:00": [
+     173,
+     248
+    ],
+    "2026-11-07 22:00": [
+     180,
+     255
+    ],
+    "2026-11-07 23:00": [
+     194,
+     269
+    ],
+    "2026-11-08 00:00": [
+     201.6,
+     276
+    ],
+    "2026-11-08 01:00": [
+     202.6,
+     277
+    ],
+    "2026-11-08 02:00": [
+     207.8,
+     283
+    ],
+    "2026-11-08 03:00": [
+     213,
+     288
+    ],
+    "2026-11-08 04:00": [
+     219.4,
+     294
+    ],
+    "2026-11-08 05:00": [
+     219.5,
+     294
+    ],
+    "2026-11-08 06:00": [
+     217,
+     292
+    ],
+    "2026-11-08 07:00": [
+     218.5,
+     293
+    ],
+    "2026-11-08 08:00": [
+     222.5,
+     297
+    ],
+    "2026-11-08 09:00": [
+     219,
+     294
+    ],
+    "2026-11-08 10:00": [
+     211,
+     286
+    ],
+    "2026-11-08 11:00": [
+     182,
+     257
+    ],
+    "2026-11-08 12:00": [
+     158,
+     233
+    ],
+    "2026-11-08 13:00": [
+     142,
+     217
+    ],
+    "2026-11-08 14:00": [
+     137,
+     212
+    ],
+    "2026-11-08 15:00": [
+     137.7,
+     213
+    ],
+    "2026-11-08 16:00": [
+     144.7,
+     220
+    ],
+    "2026-11-08 17:00": [
+     160,
+     235
+    ],
+    "2026-11-08 18:00": [
+     173.6,
+     249
+    ],
+    "2026-11-08 19:00": [
+     194,
+     269
+    ],
+    "2026-11-08 20:00": [
+     215,
+     290
+    ],
+    "2026-11-08 21:00": [
+     212,
+     287
+    ],
+    "2026-11-08 22:00": [
+     217,
+     292
+    ],
+    "2026-11-08 23:00": [
+     217,
+     292
+    ],
+    "2026-11-09 00:00": [
+     233,
+     316
+    ],
+    "2026-11-09 01:00": [
+     251,
+     352
+    ],
+    "2026-11-09 02:00": [
+     265,
+     380
+    ],
+    "2026-11-09 03:00": [
+     292,
+     433
+    ],
+    "2026-11-09 04:00": [
+     313,
+     475
+    ],
+    "2026-11-09 05:00": [
+     328,
+     505
+    ],
+    "2026-11-09 06:00": [
+     336,
+     521
+    ],
+    "2026-11-09 07:00": [
+     360,
+     569
+    ],
+    "2026-11-09 08:00": [
+     376,
+     601
+    ],
+    "2026-11-09 09:00": [
+     398.5,
+     646
+    ],
+    "2026-11-09 10:00": [
+     379,
+     607
+    ],
+    "2026-11-09 11:00": [
+     280,
+     410
+    ],
+    "2026-11-09 12:00": [
+     185.5,
+     260
+    ],
+    "2026-11-09 13:00": [
+     143,
+     218
+    ],
+    "2026-11-09 14:00": [
+     124.5,
+     199
+    ],
+    "2026-11-09 15:00": [
+     97.4,
+     180
+    ],
+    "2026-11-09 16:00": [
+     103.6,
+     185
+    ]
+   },
+   "source": "IQAir Lahore city page, History > Hourly (https://www.iqair.com/air-quality/pakistan/punjab/lahore)",
+   "geography": "Lahore city",
+   "interval_tz": "hours labelled by start, PKT (UTC+5), Sat 7 Nov 18:00-Mon 9 Nov 16:00; captured ~17:00 PKT 9 Nov",
+   "units": "PM2.5 µg/m³ and US AQI+",
+   "method": "displayed values; city = median per IQAir docs",
+   "status": "as displayed; IQAir later revised some hours (9 am shown as AQI 648 at 21:30 PKT)",
+   "files": "analysis/data/iqair-lahore-hourly.json"
+  },
+  {
+   "id": "aqi_check",
+   "claim": "US AQI from PM2.5 with EPA 2024 breakpoints: 398.5 -> 646; 219 -> 294; AQI 500 = 325.4 µg/m³",
+   "value": {
+    "398.5": 646,
+    "219": 294
+   },
+   "source": "US EPA Technical Assistance Document (2024 PM2.5 breakpoints)",
+   "geography": "",
+   "interval_tz": "",
+   "units": "",
+   "method": "linear interpolation within breakpoints",
+   "status": "computed",
+   "files": ""
+  },
+  {
+   "id": "lahore_stations",
+   "claim": "52 Lahore station feeds read; 49 with 9 am values both days; 48 higher Mon; 26 with AQI+ at least twice as high (index ratio, not a concentration ratio); median AQI+ 294 -> 645; 39 above 500; Ravi Road 265 -> 257 (peak 457 in the hour starting 04:00, preceded by 436); above 1,000: Allama Iqbal Town 1,063 (10:00), QIE Indus Plus 1,012 (09:00); hourly station median Sun 19:00-23:00 = 267-292",
+   "value": {
+    "stations_captured": 52,
+    "with_both_9am": 49,
+    "rose": 48,
+    "at_least_doubled": 26,
+    "median_sun_9am": 294,
+    "median_mon_9am": 645,
+    "mon_9am_above_500": 39,
+    "mon_9am_values_n": 49,
+    "mon_9am_above_500_all": 39,
+    "median_of_station_max_sun_19_23": 311.0,
+    "median_sun_9am_all": 294.0,
+    "median_hour_by_hour": {
+     "Sat 22:00": 254,
+     "Sat 23:00": 266,
+     "Sun 00:00": 275,
+     "Sun 01:00": 276,
+     "Sun 02:00": 278.0,
+     "Sun 03:00": 287,
+     "Sun 04:00": 293.0,
+     "Sun 05:00": 290.5,
+     "Sun 06:00": 287.5,
+     "Sun 07:00": 292.0,
+     "Sun 08:00": 295,
+     "Sun 09:00": 294.0,
+     "Sun 10:00": 282.5,
+     "Sun 11:00": 257.5,
+     "Sun 12:00": 230.5,
+     "Sun 13:00": 219.5,
+     "Sun 14:00": 212,
+     "Sun 15:00": 211.5,
+     "Sun 16:00": 219.5,
+     "Sun 17:00": 235.0,
+     "Sun 18:00": 248.5,
+     "Sun 19:00": 267.0,
+     "Sun 20:00": 290,
+     "Sun 21:00": 286.0,
+     "Sun 22:00": 291.5,
+     "Sun 23:00": 291,
+     "Mon 00:00": 310,
+     "Mon 01:00": 348,
+     "Mon 02:00": 380,
+     "Mon 03:00": 427,
+     "Mon 04:00": 461,
+     "Mon 05:00": 505,
+     "Mon 06:00": 519,
+     "Mon 07:00": 569,
+     "Mon 08:00": 597.0,
+     "Mon 09:00": 645,
+     "Mon 10:00": 576.0,
+     "Mon 11:00": 384,
+     "Mon 12:00": 260,
+     "Mon 13:00": 218.5,
+     "Mon 14:00": 194,
+     "Mon 15:00": 180.5,
+     "Mon 16:00": 186.0,
+     "Mon 17:00": 198,
+     "Mon 18:00": 219,
+     "Mon 19:00": 237,
+     "Mon 20:00": 256
+    },
+    "night_max_above_1000": {
+     "allama-iqbal-town-b-lhe": 1063,
+     "qie-indus-plus-pvt-ltd": 1012
+    },
+    "night_max_top": [
+     [
+      "allama-iqbal-town-b-lhe",
+      1063,
+      "10:00"
+     ],
+     [
+      "qie-indus-plus-pvt-ltd",
+      1012,
+      "09:00"
+     ],
+     [
+      "model-town-link-rd-b-lhe",
+      991,
+      "09:00"
+     ],
+     [
+      "qie-emergency-service-center",
+      963,
+      "09:00"
+     ],
+     [
+      "samanabad",
+      922,
+      "08:00"
+     ],
+     [
+      "burki-rd-paragon-b-lhe",
+      916,
+      "05:00"
+     ]
+    ]
+   },
+   "source": "IQAir station pages linked from the Lahore city page, History > Hourly US AQI+",
+   "geography": "Lahore",
+   "interval_tz": "hours by start, PKT; captured 16:40-16:42 UTC 9 Nov",
+   "units": "US AQI+",
+   "method": "per-station comparison of the 09:00 hour Sun vs Mon; medians over stations with data",
+   "status": "reproduced from retained re-capture; differs slightly from the first capture (48/48 rose, 29 doubled, median 651, 41 > 500), which was summarised in-browser and not retained",
+   "files": "analysis/data/iqair-lahore-stations-recapture.json, analysis/stations_lahore.py"
+  },
+  {
+   "id": "pk_cities",
+   "claim": "Multan >600 from 00:00 to 10:00 Mon, peak 700 at 02:00; Faisalabad >500 08:00-13:00, peak 612 at 11:00; Gujranwala peak 298 (Sat night 288); Islamabad max 181",
+   "value": {
+    "multan": [
+     [
+      "2026-11-07 19:00",
+      427
+     ],
+     [
+      "2026-11-07 20:00",
+      420
+     ],
+     [
+      "2026-11-07 21:00",
+      415
+     ],
+     [
+      "2026-11-07 22:00",
+      391
+     ],
+     [
+      "2026-11-07 23:00",
+      419
+     ],
+     [
+      "2026-11-08 00:00",
+      400
+     ],
+     [
+      "2026-11-08 01:00",
+      361
+     ],
+     [
+      "2026-11-08 02:00",
+      351
+     ],
+     [
+      "2026-11-08 03:00",
+      315
+     ],
+     [
+      "2026-11-08 04:00",
+      334
+     ],
+     [
+      "2026-11-08 05:00",
+      335
+     ],
+     [
+      "2026-11-08 06:00",
+      373
+     ],
+     [
+      "2026-11-08 07:00",
+      352
+     ],
+     [
+      "2026-11-08 08:00",
+      297
+     ],
+     [
+      "2026-11-08 09:00",
+      264
+     ],
+     [
+      "2026-11-08 10:00",
+      252
+     ],
+     [
+      "2026-11-08 11:00",
+      237
+     ],
+     [
+      "2026-11-08 12:00",
+      233
+     ],
+     [
+      "2026-11-08 13:00",
+      213
+     ],
+     [
+      "2026-11-08 14:00",
+      214
+     ],
+     [
+      "2026-11-08 15:00",
+      219
+     ],
+     [
+      "2026-11-08 16:00",
+      254
+     ],
+     [
+      "2026-11-08 17:00",
+      346
+     ],
+     [
+      "2026-11-08 18:00",
+      440
+     ],
+     [
+      "2026-11-08 19:00",
+      473
+     ],
+     [
+      "2026-11-08 20:00",
+      507
+     ],
+     [
+      "2026-11-08 21:00",
+      522
+     ],
+     [
+      "2026-11-08 22:00",
+      520
+     ],
+     [
+      "2026-11-08 23:00",
+      545
+     ],
+     [
+      "2026-11-09 00:00",
+      619
+     ],
+     [
+      "2026-11-09 01:00",
+      656
+     ],
+     [
+      "2026-11-09 02:00",
+      700
+     ],
+     [
+      "2026-11-09 03:00",
+      687
+     ],
+     [
+      "2026-11-09 04:00",
+      682
+     ],
+     [
+      "2026-11-09 05:00",
+      670
+     ],
+     [
+      "2026-11-09 06:00",
+      676
+     ],
+     [
+      "2026-11-09 07:00",
+      655
+     ],
+     [
+      "2026-11-09 08:00",
+      680
+     ],
+     [
+      "2026-11-09 09:00",
+      676
+     ],
+     [
+      "2026-11-09 10:00",
+      651
+     ],
+     [
+      "2026-11-09 11:00",
+      555
+     ],
+     [
+      "2026-11-09 12:00",
+      513
+     ],
+     [
+      "2026-11-09 13:00",
+      380
+     ],
+     [
+      "2026-11-09 14:00",
+      363
+     ],
+     [
+      "2026-11-09 15:00",
+      394
+     ],
+     [
+      "2026-11-09 16:00",
+      469
+     ]
+    ],
+    "faisalabad": [
+     [
+      "2026-11-07 19:00",
+      229
+     ],
+     [
+      "2026-11-07 20:00",
+      270
+     ],
+     [
+      "2026-11-07 21:00",
+      309
+     ],
+     [
+      "2026-11-07 22:00",
+      330
+     ],
+     [
+      "2026-11-07 23:00",
+      315
+     ],
+     [
+      "2026-11-08 00:00",
+      332
+     ],
+     [
+      "2026-11-08 01:00",
+      322
+     ],
+     [
+      "2026-11-08 02:00",
+      344
+     ],
+     [
+      "2026-11-08 03:00",
+      299
+     ],
+     [
+      "2026-11-08 04:00",
+      311
+     ],
+     [
+      "2026-11-08 05:00",
+      328
+     ],
+     [
+      "2026-11-08 06:00",
+      339
+     ],
+     [
+      "2026-11-08 07:00",
+      366
+     ],
+     [
+      "2026-11-08 08:00",
+      358
+     ],
+     [
+      "2026-11-08 09:00",
+      260
+     ],
+     [
+      "2026-11-08 10:00",
+      200
+     ],
+     [
+      "2026-11-08 11:00",
+      177
+     ],
+     [
+      "2026-11-08 12:00",
+      181
+     ],
+     [
+      "2026-11-08 13:00",
+      171
+     ],
+     [
+      "2026-11-08 14:00",
+      167
+     ],
+     [
+      "2026-11-08 15:00",
+      173
+     ],
+     [
+      "2026-11-08 16:00",
+      180
+     ],
+     [
+      "2026-11-08 17:00",
+      212
+     ],
+     [
+      "2026-11-08 18:00",
+      218
+     ],
+     [
+      "2026-11-08 19:00",
+      240
+     ],
+     [
+      "2026-11-08 20:00",
+      267
+     ],
+     [
+      "2026-11-08 21:00",
+      286
+     ],
+     [
+      "2026-11-08 22:00",
+      275
+     ],
+     [
+      "2026-11-08 23:00",
+      274
+     ],
+     [
+      "2026-11-09 00:00",
+      284
+     ],
+     [
+      "2026-11-09 01:00",
+      291
+     ],
+     [
+      "2026-11-09 02:00",
+      284
+     ],
+     [
+      "2026-11-09 03:00",
+      314
+     ],
+     [
+      "2026-11-09 04:00",
+      334
+     ],
+     [
+      "2026-11-09 05:00",
+      368
+     ],
+     [
+      "2026-11-09 06:00",
+      408
+     ],
+     [
+      "2026-11-09 07:00",
+      443
+     ],
+     [
+      "2026-11-09 08:00",
+      501
+     ],
+     [
+      "2026-11-09 09:00",
+      537
+     ],
+     [
+      "2026-11-09 10:00",
+      567
+     ],
+     [
+      "2026-11-09 11:00",
+      612
+     ],
+     [
+      "2026-11-09 12:00",
+      562
+     ],
+     [
+      "2026-11-09 13:00",
+      502
+     ],
+     [
+      "2026-11-09 14:00",
+      452
+     ],
+     [
+      "2026-11-09 15:00",
+      475
+     ],
+     [
+      "2026-11-09 16:00",
+      426
+     ]
+    ],
+    "gujranwala": [
+     [
+      "2026-11-07 19:00",
+      229
+     ],
+     [
+      "2026-11-07 20:00",
+      234
+     ],
+     [
+      "2026-11-07 21:00",
+      252
+     ],
+     [
+      "2026-11-07 22:00",
+      257
+     ],
+     [
+      "2026-11-07 23:00",
+      259
+     ],
+     [
+      "2026-11-08 00:00",
+      259
+     ],
+     [
+      "2026-11-08 01:00",
+      280
+     ],
+     [
+      "2026-11-08 02:00",
+      273
+     ],
+     [
+      "2026-11-08 03:00",
+      285
+     ],
+     [
+      "2026-11-08 04:00",
+      288
+     ],
+     [
+      "2026-11-08 05:00",
+      277
+     ],
+     [
+      "2026-11-08 06:00",
+      268
+     ],
+     [
+      "2026-11-08 07:00",
+      277
+     ],
+     [
+      "2026-11-08 08:00",
+      274
+     ],
+     [
+      "2026-11-08 09:00",
+      231
+     ],
+     [
+      "2026-11-08 10:00",
+      193
+     ],
+     [
+      "2026-11-08 11:00",
+      189
+     ],
+     [
+      "2026-11-08 12:00",
+      188
+     ],
+     [
+      "2026-11-08 13:00",
+      180
+     ],
+     [
+      "2026-11-08 14:00",
+      179
+     ],
+     [
+      "2026-11-08 15:00",
+      187
+     ],
+     [
+      "2026-11-08 16:00",
+      196
+     ],
+     [
+      "2026-11-08 17:00",
+      210
+     ],
+     [
+      "2026-11-08 18:00",
+      256
+     ],
+     [
+      "2026-11-08 19:00",
+      271
+     ],
+     [
+      "2026-11-08 20:00",
+      276
+     ],
+     [
+      "2026-11-08 21:00",
+      280
+     ],
+     [
+      "2026-11-08 22:00",
+      273
+     ],
+     [
+      "2026-11-08 23:00",
+      284
+     ],
+     [
+      "2026-11-09 00:00",
+      298
+     ],
+     [
+      "2026-11-09 01:00",
+      297
+     ],
+     [
+      "2026-11-09 02:00",
+      288
+     ],
+     [
+      "2026-11-09 03:00",
+      292
+     ],
+     [
+      "2026-11-09 04:00",
+      280
+     ],
+     [
+      "2026-11-09 05:00",
+      260
+     ],
+     [
+      "2026-11-09 06:00",
+      260
+     ],
+     [
+      "2026-11-09 07:00",
+      238
+     ],
+     [
+      "2026-11-09 08:00",
+      207
+     ],
+     [
+      "2026-11-09 09:00",
+      194
+     ],
+     [
+      "2026-11-09 10:00",
+      190
+     ],
+     [
+      "2026-11-09 11:00",
+      195
+     ],
+     [
+      "2026-11-09 12:00",
+      182
+     ],
+     [
+      "2026-11-09 13:00",
+      180
+     ],
+     [
+      "2026-11-09 14:00",
+      186
+     ],
+     [
+      "2026-11-09 15:00",
+      180
+     ],
+     [
+      "2026-11-09 16:00",
+      186
+     ]
+    ],
+    "islamabad": [
+     [
+      "2026-11-07 19:00",
+      164
+     ],
+     [
+      "2026-11-07 20:00",
+      167
+     ],
+     [
+      "2026-11-07 21:00",
+      165
+     ],
+     [
+      "2026-11-07 22:00",
+      154
+     ],
+     [
+      "2026-11-07 23:00",
+      142
+     ],
+     [
+      "2026-11-08 00:00",
+      139
+     ],
+     [
+      "2026-11-08 01:00",
+      132
+     ],
+     [
+      "2026-11-08 02:00",
+      154
+     ],
+     [
+      "2026-11-08 03:00",
+      134
+     ],
+     [
+      "2026-11-08 04:00",
+      122
+     ],
+     [
+      "2026-11-08 05:00",
+      124
+     ],
+     [
+      "2026-11-08 06:00",
+      123
+     ],
+     [
+      "2026-11-08 07:00",
+      132
+     ],
+     [
+      "2026-11-08 08:00",
+      132
+     ],
+     [
+      "2026-11-08 09:00",
+      124
+     ],
+     [
+      "2026-11-08 10:00",
+      124
+     ],
+     [
+      "2026-11-08 11:00",
+      134
+     ],
+     [
+      "2026-11-08 12:00",
+      152
+     ],
+     [
+      "2026-11-08 13:00",
+      151
+     ],
+     [
+      "2026-11-08 14:00",
+      143
+     ],
+     [
+      "2026-11-08 15:00",
+      134
+     ],
+     [
+      "2026-11-08 16:00",
+      152
+     ],
+     [
+      "2026-11-08 17:00",
+      160
+     ],
+     [
+      "2026-11-08 18:00",
+      159
+     ],
+     [
+      "2026-11-08 19:00",
+      166
+     ],
+     [
+      "2026-11-08 20:00",
+      162
+     ],
+     [
+      "2026-11-08 21:00",
+      162
+     ],
+     [
+      "2026-11-08 22:00",
+      163
+     ],
+     [
+      "2026-11-08 23:00",
+      164
+     ],
+     [
+      "2026-11-09 00:00",
+      161
+     ],
+     [
+      "2026-11-09 01:00",
+      157
+     ],
+     [
+      "2026-11-09 02:00",
+      158
+     ],
+     [
+      "2026-11-09 03:00",
+      152
+     ],
+     [
+      "2026-11-09 04:00",
+      152
+     ],
+     [
+      "2026-11-09 05:00",
+      149
+     ],
+     [
+      "2026-11-09 06:00",
+      152
+     ],
+     [
+      "2026-11-09 07:00",
+      156
+     ],
+     [
+      "2026-11-09 08:00",
+      163
+     ],
+     [
+      "2026-11-09 09:00",
+      162
+     ],
+     [
+      "2026-11-09 10:00",
+      161
+     ],
+     [
+      "2026-11-09 11:00",
+      170
+     ],
+     [
+      "2026-11-09 12:00",
+      178
+     ],
+     [
+      "2026-11-09 13:00",
+      181
+     ],
+     [
+      "2026-11-09 14:00",
+      181
+     ],
+     [
+      "2026-11-09 15:00",
+      178
+     ],
+     [
+      "2026-11-09 16:00",
+      179
+     ]
+    ]
+   },
+   "source": "IQAir city pages, History > Hourly",
+   "geography": "city figures",
+   "interval_tz": "hours by start, PKT; captured ~17:00 PKT 9 Nov",
+   "units": "US AQI+",
+   "method": "displayed values",
+   "status": "as displayed; not read station by station",
+   "files": "analysis/data/iqair-others-hourly.json"
+  },
+  {
+   "id": "cams",
+   "claim": "CAMS series retrieved 9 Nov: Lahore 148.1 at 21:00 Sun, 84.8 at 09:00 Mon; city figure / model 1.5-2.0 Sat 18:00-Sun 08:00; 4.7 at 09:00 Mon",
+   "value": {
+    "cams_sun_21": 148.1,
+    "cams_mon_09": 84.8,
+    "ratio_range_sat_night": [
+     1.53,
+     1.99
+    ],
+    "ratio_mon_09": 4.7
+   },
+   "source": "CAMS global via Open-Meteo air-quality API (hourly=pm2_5,us_aqi&past_days=5&timezone=Asia/Karachi), retrieved 9 Nov 2026",
+   "geography": "grid point nearest 31.55N 74.34E (~0.4 deg grid)",
+   "interval_tz": "PKT; series as served on 9 Nov (rolling, not the run available 8 Nov)",
+   "units": "PM2.5 µg/m³",
+   "method": "model value vs IQAir city median: different spatial samples",
+   "status": "computed; forecast vintage NOT recovered",
+   "files": "analysis/data/dw-lahore.json"
+  },
+  {
+   "id": "epd_warning",
+   "claim": "Punjab EPD special report (via Dunya News, 8 Nov 16:50 PKT): pollution could reach dangerous levels Sun night-Mon morning, worst until ~10 am Mon; cites Diwali fireworks, winds from Indian Punjab, crop burning, still night air; comparison report promised 10 Nov",
+   "value": null,
+   "source": "https://urdu.dunyanews.tv/index.php/ur/SpecialReport/981841 (read 9 Nov 2026)",
+   "geography": "Lahore, Kasur, border areas",
+   "interval_tz": "8 Nov 2026",
+   "units": "",
+   "method": "news report",
+   "status": "attributed to news report; original EPD bulletin not found",
+   "files": ""
+  },
+  {
+   "id": "weather",
+   "claim": "GFS at Lahore: Sat night mean wind 4.6 km/h, mixing 28 m; Sun night 7.3 km/h, 51 m; RH max 37-38%; inversion most hours both nights; wind turned from NW to E at 18:00 PKT Sat",
+   "value": {
+    "sat_night": {
+     "wind_kmh": 4.6,
+     "mixing_m": 28,
+     "rh_max": 37,
+     "inversion_hours": 10,
+     "hours": 15
+    },
+    "sun_night": {
+     "wind_kmh": 7.3,
+     "mixing_m": 51,
+     "rh_max": 38,
+     "inversion_hours": 10,
+     "hours": 15
+    }
+   },
+   "source": "GFS via Open-Meteo forecast API (gfs_seamless), retrieved 9 Nov",
+   "geography": "Lahore grid point",
+   "interval_tz": "PKT, 18:00-08:00",
+   "units": "km/h, m, %",
+   "method": "means of hourly model values",
+   "status": "computed from model output (not measurement)",
+   "files": "analysis/data/wx-cities.json"
+  },
+  {
+   "id": "paths",
+   "claim": "Modelled back-paths to Lahore (arrivals 00/03/06/09 PKT Mon, 10 m and 925 hPa) all approach from the east; with the map's country polygons, the first backward 15-min sample inside India is 3-4.75 h before arrival (9 am 925 hPa: 04:45); midnight-arrival air near Amritsar at 18:00 Sun; 9 am-arrival air 93-115 km E at 18:00, near Tarn Taran at 00:00; spots within 10/20/40 km of the 9 am paths: 22/47/146 (10 m) and 19/42/146 (925 hPa); each 40 km total = 126 IN + 20 PK. Proximity screen on retained detection times, not a count of contributing fires",
+   "value": {
+    "2026-11-09 00:00|10m": {
+     "arrival_PKT": "2026-11-09 00:00",
+     "level": "10m",
+     "at_18_PKT_Sun": [
+      31.666,
+      74.798
+     ],
+     "at_00_PKT_Mon": [
+      31.55,
+      74.344
+     ],
+     "first_backward_sample_in_India_PKT": "Sun 21:00",
+     "hours_before_arrival": 3.0,
+     "fires_10km": {
+      "PK": 0,
+      "IN": 19
+     },
+     "fires_20km": {
+      "PK": 2,
+      "IN": 49
+     },
+     "fires_40km": {
+      "PK": 56,
+      "IN": 102
+     },
+     "top_districts_20km": [
+      [
+       "Amritsar(IN)",
+       36
+      ],
+      [
+       "Gurdaspur(IN)",
+       8
+      ],
+      [
+       "Tarn Taran(IN)",
+       3
+      ],
+      [
+       "Hoshiarpur(IN)",
+       2
+      ],
+      [
+       "Narowal(PK)",
+       2
+      ]
+     ]
+    },
+    "2026-11-09 00:00|925hPa": {
+     "arrival_PKT": "2026-11-09 00:00",
+     "level": "925hPa",
+     "at_18_PKT_Sun": [
+      31.657,
+      74.762
+     ],
+     "at_00_PKT_Mon": [
+      31.55,
+      74.344
+     ],
+     "first_backward_sample_in_India_PKT": "Sun 21:00",
+     "hours_before_arrival": 3.0,
+     "fires_10km": {
+      "PK": 18,
+      "IN": 21
+     },
+     "fires_20km": {
+      "PK": 32,
+      "IN": 44
+     },
+     "fires_40km": {
+      "PK": 100,
+      "IN": 95
+     },
+     "top_districts_20km": [
+      [
+       "Amritsar(IN)",
+       40
+      ],
+      [
+       "Shekhupura(PK)",
+       25
+      ],
+      [
+       "Gujranwala(PK)",
+       6
+      ],
+      [
+       "Tarn Taran(IN)",
+       4
+      ],
+      [
+       "Narowal(PK)",
+       1
+      ]
+     ]
+    },
+    "2026-11-09 03:00|10m": {
+     "arrival_PKT": "2026-11-09 03:00",
+     "level": "10m",
+     "at_18_PKT_Sun": [
+      31.637,
+      75.048
+     ],
+     "at_00_PKT_Mon": [
+      31.541,
+      74.607
+     ],
+     "first_backward_sample_in_India_PKT": "Sun 23:45",
+     "hours_before_arrival": 3.25,
+     "fires_10km": {
+      "PK": 2,
+      "IN": 9
+     },
+     "fires_20km": {
+      "PK": 2,
+      "IN": 36
+     },
+     "fires_40km": {
+      "PK": 27,
+      "IN": 110
+     },
+     "top_districts_20km": [
+      [
+       "Amritsar(IN)",
+       17
+      ],
+      [
+       "Tarn Taran(IN)",
+       10
+      ],
+      [
+       "Gurdaspur(IN)",
+       6
+      ],
+      [
+       "Hoshiarpur(IN)",
+       3
+      ],
+      [
+       "Lahore(PK)",
+       2
+      ]
+     ]
+    },
+    "2026-11-09 03:00|925hPa": {
+     "arrival_PKT": "2026-11-09 03:00",
+     "level": "925hPa",
+     "at_18_PKT_Sun": [
+      31.618,
+      74.962
+     ],
+     "at_00_PKT_Mon": [
+      31.533,
+      74.543
+     ],
+     "first_backward_sample_in_India_PKT": "Sun 23:15",
+     "hours_before_arrival": 3.75,
+     "fires_10km": {
+      "PK": 2,
+      "IN": 13
+     },
+     "fires_20km": {
+      "PK": 4,
+      "IN": 38
+     },
+     "fires_40km": {
+      "PK": 51,
+      "IN": 114
+     },
+     "top_districts_20km": [
+      [
+       "Amritsar(IN)",
+       24
+      ],
+      [
+       "Tarn Taran(IN)",
+       10
+      ],
+      [
+       "Gurdaspur(IN)",
+       4
+      ],
+      [
+       "Narowal(PK)",
+       2
+      ],
+      [
+       "Lahore(PK)",
+       2
+      ]
+     ]
+    },
+    "2026-11-09 06:00|10m": {
+     "arrival_PKT": "2026-11-09 06:00",
+     "level": "10m",
+     "at_18_PKT_Sun": [
+      31.627,
+      75.291
+     ],
+     "at_00_PKT_Mon": [
+      31.53,
+      74.861
+     ],
+     "first_backward_sample_in_India_PKT": "Mon 02:45",
+     "hours_before_arrival": 3.25,
+     "fires_10km": {
+      "PK": 2,
+      "IN": 12
+     },
+     "fires_20km": {
+      "PK": 2,
+      "IN": 38
+     },
+     "fires_40km": {
+      "PK": 21,
+      "IN": 106
+     },
+     "top_districts_20km": [
+      [
+       "Tarn Taran(IN)",
+       14
+      ],
+      [
+       "Amritsar(IN)",
+       14
+      ],
+      [
+       "Kapurthala(IN)",
+       5
+      ],
+      [
+       "Jalandhar(IN)",
+       4
+      ],
+      [
+       "Lahore(PK)",
+       2
+      ]
+     ]
+    },
+    "2026-11-09 06:00|925hPa": {
+     "arrival_PKT": "2026-11-09 06:00",
+     "level": "925hPa",
+     "at_18_PKT_Sun": [
+      31.585,
+      75.119
+     ],
+     "at_00_PKT_Mon": [
+      31.522,
+      74.715
+     ],
+     "first_backward_sample_in_India_PKT": "Mon 01:15",
+     "hours_before_arrival": 4.75,
+     "fires_10km": {
+      "PK": 2,
+      "IN": 13
+     },
+     "fires_20km": {
+      "PK": 2,
+      "IN": 35
+     },
+     "fires_40km": {
+      "PK": 23,
+      "IN": 119
+     },
+     "top_districts_20km": [
+      [
+       "Amritsar(IN)",
+       16
+      ],
+      [
+       "Tarn Taran(IN)",
+       14
+      ],
+      [
+       "Gurdaspur(IN)",
+       5
+      ],
+      [
+       "Lahore(PK)",
+       2
+      ]
+     ]
+    },
+    "2026-11-09 09:00|10m": {
+     "arrival_PKT": "2026-11-09 09:00",
+     "level": "10m",
+     "at_18_PKT_Sun": [
+      31.526,
+      75.557
+     ],
+     "at_00_PKT_Mon": [
+      31.455,
+      75.106
+     ],
+     "first_backward_sample_in_India_PKT": "Mon 06:00",
+     "hours_before_arrival": 3.0,
+     "fires_10km": {
+      "PK": 1,
+      "IN": 21
+     },
+     "fires_20km": {
+      "PK": 2,
+      "IN": 45
+     },
+     "fires_40km": {
+      "PK": 20,
+      "IN": 126
+     },
+     "top_districts_20km": [
+      [
+       "Tarn Taran(IN)",
+       18
+      ],
+      [
+       "Kapurthala(IN)",
+       9
+      ],
+      [
+       "Amritsar(IN)",
+       8
+      ],
+      [
+       "Jalandhar(IN)",
+       5
+      ],
+      [
+       "Hoshiarpur(IN)",
+       5
+      ]
+     ]
+    },
+    "2026-11-09 09:00|925hPa": {
+     "arrival_PKT": "2026-11-09 09:00",
+     "level": "925hPa",
+     "at_18_PKT_Sun": [
+      31.508,
+      75.328
+     ],
+     "at_00_PKT_Mon": [
+      31.435,
+      74.967
+     ],
+     "first_backward_sample_in_India_PKT": "Mon 04:45",
+     "hours_before_arrival": 4.25,
+     "fires_10km": {
+      "PK": 1,
+      "IN": 18
+     },
+     "fires_20km": {
+      "PK": 3,
+      "IN": 39
+     },
+     "fires_40km": {
+      "PK": 20,
+      "IN": 126
+     },
+     "top_districts_20km": [
+      [
+       "Tarn Taran(IN)",
+       23
+      ],
+      [
+       "Kapurthala(IN)",
+       9
+      ],
+      [
+       "Amritsar(IN)",
+       7
+      ],
+      [
+       "Lahore(PK)",
+       2
+      ],
+      [
+       "Kasur(PK)",
+       1
+      ]
+     ]
+    },
+    "2026-11-08 09:00|10m": {
+     "arrival_PKT": "2026-11-08 09:00",
+     "level": "10m",
+     "at_18_PKT_Sun": null,
+     "at_00_PKT_Mon": null,
+     "first_backward_sample_in_India_PKT": "Sun 04:30",
+     "hours_before_arrival": 4.5,
+     "fires_10km": {
+      "PK": 7,
+      "IN": 18
+     },
+     "fires_20km": {
+      "PK": 32,
+      "IN": 39
+     },
+     "fires_40km": {
+      "PK": 101,
+      "IN": 92
+     },
+     "top_districts_20km": [
+      [
+       "Amritsar(IN)",
+       22
+      ],
+      [
+       "Tarn Taran(IN)",
+       11
+      ],
+      [
+       "Shekhupura(PK)",
+       9
+      ],
+      [
+       "Gujranwala(PK)",
+       9
+      ],
+      [
+       "Gurdaspur(IN)",
+       6
+      ]
+     ]
+    },
+    "2026-11-08 09:00|925hPa": {
+     "arrival_PKT": "2026-11-08 09:00",
+     "level": "925hPa",
+     "at_18_PKT_Sun": null,
+     "at_00_PKT_Mon": null,
+     "first_backward_sample_in_India_PKT": null,
+     "hours_before_arrival": null,
+     "fires_10km": {
+      "PK": 120,
+      "IN": 0
+     },
+     "fires_20km": {
+      "PK": 301,
+      "IN": 0
+     },
+     "fires_40km": {
+      "PK": 612,
+      "IN": 19
+     },
+     "top_districts_20km": [
+      [
+       "Hafizabad(PK)",
+       168
+      ],
+      [
+       "Nankana Sahib(PK)",
+       87
+      ],
+      [
+       "Shekhupura(PK)",
+       28
+      ],
+      [
+       "Chiniot(PK)",
+       9
+      ],
+      [
+       "Sargodha(PK)",
+       7
+      ]
+     ]
+    }
+   },
+   "source": "traj.py, traj_sensitivity.py on GFS winds (data/wind-grid.json: Open-Meteo gfs_seamless, 0.5 deg request grid 28-34N 69-78E, timezone GMT, retrieved 9 Nov)",
+   "geography": "Punjab",
+   "interval_tz": "24 h back from each arrival",
+   "units": "km; spots",
+   "method": "u/v bilinear in space, linear in time, 15-min steps, horizontal only; fire screen samples every second step (30 min), bounding box derived from R then haversine test (draft 7 had a fixed 0.25/0.3 deg box that truncated the 40 km search); archive keeps one time per merged spot",
+   "status": "computed; approximate; 925 hPa is several hundred m above ground and may be decoupled from surface at night",
+   "files": "analysis/data/traj-sensitivity.json, analysis/data/traj.json"
+  },
+  {
+   "id": "paths_other_cities",
+   "claim": "Faisalabad 9 am-arrival air over Lahore 12:00-18:00 Sun; Multan near-ground air near Pakpattan Sun evening, across Vehari overnight; Multan 925 hPa path from Ganganagar",
+   "value": {
+    "Faisalabad|2026-11-09T09|10m": {
+     "pk": 76,
+     "in": 10,
+     "top": [
+      [
+       "Nankana Sahib(PK)",
+       42
+      ],
+      [
+       "Faisalabad(PK)",
+       21
+      ],
+      [
+       "Shekhupura(PK)",
+       6
+      ],
+      [
+       "Lahore(PK)",
+       5
+      ]
+     ]
+    },
+    "Faisalabad|2026-11-09T09|925hPa": {
+     "pk": 71,
+     "in": 6,
+     "top": [
+      [
+       "Nankana Sahib(PK)",
+       39
+      ],
+      [
+       "Faisalabad(PK)",
+       21
+      ],
+      [
+       "Lahore(PK)",
+       5
+      ],
+      [
+       "Kasur(PK)",
+       5
+      ]
+     ]
+    },
+    "Multan|2026-11-09T09|10m": {
+     "pk": 70,
+     "in": 4,
+     "top": [
+      [
+       "Bahawalnagar(PK)",
+       31
+      ],
+      [
+       "Pakpattan(PK)",
+       13
+      ],
+      [
+       "Okara(PK)",
+       10
+      ],
+      [
+       "Vehari(PK)",
+       9
+      ]
+     ]
+    },
+    "Multan|2026-11-09T09|925hPa": {
+     "pk": 8,
+     "in": 17,
+     "top": [
+      [
+       "Ganganagar(IN)",
+       17
+      ],
+      [
+       "Multan(PK)",
+       3
+      ],
+      [
+       "Bahawalpur(PK)",
+       2
+      ],
+      [
+       "Vehari(PK)",
+       2
+      ]
+     ]
+    },
+    "Faisalabad|2026-11-08T09|10m": {
+     "pk": 68,
+     "in": 0,
+     "top": [
+      [
+       "Nankana Sahib(PK)",
+       45
+      ],
+      [
+       "Faisalabad(PK)",
+       17
+      ],
+      [
+       "Shekhupura(PK)",
+       4
+      ],
+      [
+       "Chiniot(PK)",
+       2
+      ]
+     ]
+    },
+    "Faisalabad|2026-11-08T09|925hPa": {
+     "pk": 28,
+     "in": 0,
+     "top": [
+      [
+       "Chiniot(PK)",
+       10
+      ],
+      [
+       "Jhang(PK)",
+       8
+      ],
+      [
+       "Faisalabad(PK)",
+       7
+      ],
+      [
+       "Nankana Sahib(PK)",
+       3
+      ]
+     ]
+    },
+    "Multan|2026-11-08T09|10m": {
+     "pk": 45,
+     "in": 0,
+     "top": [
+      [
+       "Bahawalnagar(PK)",
+       21
+      ],
+      [
+       "Vehari(PK)",
+       9
+      ],
+      [
+       "Khanewal(PK)",
+       5
+      ],
+      [
+       "Pakpattan(PK)",
+       4
+      ]
+     ]
+    },
+    "Multan|2026-11-08T09|925hPa": {
+     "pk": 11,
+     "in": 0,
+     "top": [
+      [
+       "Multan(PK)",
+       4
+      ],
+      [
+       "Lodhran(PK)",
+       4
+      ],
+      [
+       "Rahimyar Khan(PK)",
+       3
+      ]
+     ]
+    }
+   },
+   "source": "traj.py",
+   "geography": "",
+   "interval_tz": "",
+   "units": "",
+   "method": "as above",
+   "status": "computed; approximate",
+   "files": "analysis/data/traj.json"
+  },
+  {
+   "id": "delhi_feeds",
+   "claim": "IQAir Delhi: 30 feeds = 17 attributed to CPCB, 10 to DPCC, 3 private. Private (Luca VV Block C 2,089 at 04:30; TL Safdarjung 1,565; Daniel I Poorvi Marg 1,410) all > 1,000 Sun night, midday 209-222; DPCC > 1,000 Sun night: Vivek Vihar 1,591, Anand Vihar 1,380, Sonia Vihar 1,085; DPCC > 1,000 Sat night: 4 feeds; CPCB night max 192-198; 16 of the 17 CPCB-attributed feeds form two groups: 11 feeds showed the same value in 12 of 13 overnight readings (18:30 Sun-06:30 Mon IST) and 5 feeds in 13 of 13 (whole capture: 37/46 and 41/47); the 17th feed has a different series; Anand Vihar DPCC 1,380 vs CPCB-attributed 178 at 23:30 IST Sun",
+   "value": {
+    "by_station": {
+     "dr-karni-singh-shooting-range-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 195,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 165,
+      "sat_night_max": 266
+     },
+     "dwarka-sector-8-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 195,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 174,
+      "sat_night_max": 266
+     },
+     "anand-vihar-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "bawana-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "chandni-chowk-delhi-iitm": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 157,
+      "sat_night_max": 203
+     },
+     "jahangirpuri-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "jawaharlal-nehru-stadium-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 195,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 174,
+      "sat_night_max": 266
+     },
+     "major-dhyan-chand-national-stadium-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "najafgarh-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 198,
+      "sun_night_max_at_IST": "Sun 20:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 177,
+      "sat_night_max": 219
+     },
+     "mundka-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "narela-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "nehru-nagar-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 195,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 174,
+      "sat_night_max": 266
+     },
+     "patparganj-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "rohini-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "sonia-vihar-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "vivek-vihar-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 192,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 160,
+      "sat_night_max": 203
+     },
+     "punjabi-bagh-delhi-dpcc": {
+      "group": "CPCB",
+      "attribution": "Central Pollution Control Board",
+      "sun_night_max": 195,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 174,
+      "sat_night_max": 266
+     },
+     "vv-block-c-station": {
+      "group": "private",
+      "attribution": "Luca",
+      "sun_night_max": 2089,
+      "sun_night_max_at_IST": "Mon 04:30",
+      "night_hours_with_data": 10,
+      "sun_12_30": 211,
+      "sat_night_max": 511
+     },
+     "vivek-vihar": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 1591,
+      "sun_night_max_at_IST": "Mon 00:30",
+      "night_hours_with_data": 12,
+      "sun_12_30": 720,
+      "sat_night_max": 587
+     },
+     "anand-vihar": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 1380,
+      "sun_night_max_at_IST": "Sun 22:30",
+      "night_hours_with_data": 10,
+      "sun_12_30": 210,
+      "sat_night_max": 806
+     },
+     "safdarjung-enclave": {
+      "group": "private",
+      "attribution": "TL",
+      "sun_night_max": 1565,
+      "sun_night_max_at_IST": "Mon 03:30",
+      "night_hours_with_data": 12,
+      "sun_12_30": 209,
+      "sat_night_max": 302
+     },
+     "poorvi-marg-d-block-market": {
+      "group": "private",
+      "attribution": "Daniel I",
+      "sun_night_max": 1410,
+      "sun_night_max_at_IST": "Mon 03:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": 222,
+      "sat_night_max": 368
+     },
+     "sonia-vihar": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 1085,
+      "sun_night_max_at_IST": "Mon 01:30",
+      "night_hours_with_data": 10,
+      "sun_12_30": 551,
+      "sat_night_max": 1230
+     },
+     "pooth-khurd-bawana": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 989,
+      "sun_night_max_at_IST": "Sun 23:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": null,
+      "sat_night_max": 1097
+     },
+     "rohini": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 908,
+      "sun_night_max_at_IST": "Mon 00:30",
+      "night_hours_with_data": 12,
+      "sun_12_30": 471,
+      "sat_night_max": 1047
+     },
+     "dwarka-sec-8": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 778,
+      "sun_night_max_at_IST": "Sun 20:30",
+      "night_hours_with_data": 4,
+      "sun_12_30": 188,
+      "sat_night_max": 1007
+     },
+     "punjabi-bagh": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 788,
+      "sun_night_max_at_IST": "Mon 05:30",
+      "night_hours_with_data": 7,
+      "sun_12_30": 256,
+      "sat_night_max": 408
+     },
+     "narela": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 372,
+      "sun_night_max_at_IST": "Sun 22:30",
+      "night_hours_with_data": 13,
+      "sun_12_30": null,
+      "sat_night_max": 416
+     },
+     "mundka": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 340,
+      "sun_night_max_at_IST": "Sun 18:30",
+      "night_hours_with_data": 2,
+      "sun_12_30": 290,
+      "sat_night_max": 416
+     },
+     "najafgarh": {
+      "group": "DPCC",
+      "attribution": "Delhi Pollution Control Committee",
+      "sun_night_max": 184,
+      "sun_night_max_at_IST": "Sun 19:30",
+      "night_hours_with_data": 3,
+      "sun_12_30": null,
+      "sat_night_max": 414
+     }
+    },
+    "groups": {
+     "CPCB": {
+      "n": 17,
+      "passed_1000_sun_night": [],
+      "passed_1000_sat_night": [],
+      "sun_night_max_range": [
+       192,
+       198
+      ],
+      "sun_12_30_range": [
+       157,
+       177
+      ]
+     },
+     "DPCC": {
+      "n": 10,
+      "passed_1000_sun_night": [
+       "anand-vihar",
+       "sonia-vihar",
+       "vivek-vihar"
+      ],
+      "passed_1000_sat_night": [
+       "dwarka-sec-8",
+       "pooth-khurd-bawana",
+       "rohini",
+       "sonia-vihar"
+      ],
+      "sun_night_max_range": [
+       184,
+       1591
+      ],
+      "sun_12_30_range": [
+       188,
+       720
+      ]
+     },
+     "private": {
+      "n": 3,
+      "passed_1000_sun_night": [
+       "poorvi-marg-d-block-market",
+       "safdarjung-enclave",
+       "vv-block-c-station"
+      ],
+      "passed_1000_sat_night": [],
+      "sun_night_max_range": [
+       1410,
+       2089
+      ],
+      "sun_12_30_range": [
+       209,
+       222
+      ]
+     }
+    },
+    "cpcb_similarity": {
+     "feeds": 17,
+     "distinct_full_series": 16,
+     "pairs_identical_in_at_least_90pct_of_hours": 44,
+     "pairs_total": 136,
+     "largest_cluster_identical_90pct": null,
+     "clusters_90pct": [
+      [
+       "anand-vihar-delhi-dpcc",
+       "bawana-delhi-dpcc",
+       "chandni-chowk-delhi-iitm",
+       "jahangirpuri-delhi-dpcc",
+       "major-dhyan-chand-national-stadium-delhi-dpcc",
+       "mundka-delhi-dpcc",
+       "narela-delhi-dpcc",
+       "patparganj-delhi-dpcc",
+       "rohini-delhi-dpcc",
+       "sonia-vihar-delhi-dpcc",
+       "vivek-vihar-delhi-dpcc"
+      ],
+      [
+       "dr-karni-singh-shooting-range-delhi-dpcc",
+       "dwarka-sector-8-delhi-dpcc",
+       "jawaharlal-nehru-stadium-delhi-dpcc",
+       "nehru-nagar-delhi-dpcc",
+       "punjabi-bagh-delhi-dpcc"
+      ],
+      [
+       "najafgarh-delhi-dpcc"
+      ]
+     ]
+    },
+    "cpcb_sun_19_30_to_23_30_range": [
+     178,
+     198
+    ],
+    "cpcb_groups_direct": {
+     "window_overnight_IST": "2026-11-08 18:30 to 2026-11-09 06:30 (13 hourly readings)",
+     "groups": [
+      {
+       "feeds": [
+        "anand-vihar-delhi-dpcc",
+        "bawana-delhi-dpcc",
+        "chandni-chowk-delhi-iitm",
+        "jahangirpuri-delhi-dpcc",
+        "major-dhyan-chand-national-stadium-delhi-dpcc",
+        "mundka-delhi-dpcc",
+        "narela-delhi-dpcc",
+        "patparganj-delhi-dpcc",
+        "rohini-delhi-dpcc",
+        "sonia-vihar-delhi-dpcc",
+        "vivek-vihar-delhi-dpcc"
+       ],
+       "n": 11,
+       "overnight_same_value": "12/13",
+       "full_capture_same_value": "37/46"
+      },
+      {
+       "feeds": [
+        "dr-karni-singh-shooting-range-delhi-dpcc",
+        "dwarka-sector-8-delhi-dpcc",
+        "jawaharlal-nehru-stadium-delhi-dpcc",
+        "nehru-nagar-delhi-dpcc",
+        "punjabi-bagh-delhi-dpcc"
+       ],
+       "n": 5,
+       "overnight_same_value": "13/13",
+       "full_capture_same_value": "41/47"
+      },
+      {
+       "feeds": [
+        "najafgarh-delhi-dpcc"
+       ],
+       "n": 1,
+       "overnight_same_value": "13/13",
+       "full_capture_same_value": "47/47"
+      }
+     ],
+     "note": "groups are the connected components of a >=90% pairwise-agreement graph; the counts here are direct simultaneous agreement"
+    }
+   },
+   "source": "IQAir station pages (https://www.iqair.com/air-quality/india/delhi/delhi/<slug>), 'Station from' attribution and History > Hourly US AQI+",
+   "geography": "Delhi",
+   "interval_tz": "hours by start, IST (UTC+5:30); Sun night = 18:30 Sun-06:30 Mon; captured 16:43-16:44 UTC 9 Nov",
+   "units": "US AQI+",
+   "method": "max/median per feed; groups from a >=90% pairwise-agreement graph, then direct simultaneous agreement within each group over the stated window",
+   "status": "reproduced from retained re-capture; NOT checked against CPCB/DPCC records; cause of CPCB-feed similarity unresolved",
+   "files": "analysis/data/iqair-delhi-stations-recapture.json, analysis/data/iqair-delhi-inventory.json, analysis/stations_delhi.py"
+  },
+  {
+   "id": "diwali_date",
+   "claim": "Diwali 8 Nov 2026",
+   "value": null,
+   "source": "India Post holiday list (indiapost.gov.in/holidays-list): 'Diwali (Deepavali) 08-November-2026 Sunday'",
+   "geography": "",
+   "interval_tz": "",
+   "units": "",
+   "method": "",
+   "status": "verified",
+   "files": ""
+  },
+  {
+   "id": "diwali_past",
+   "claim": "Past Diwali (Lakshmi Puja) dates 2019-2025",
+   "value": {
+    "2019": "2019-10-27",
+    "2020": "2020-11-14",
+    "2021": "2021-11-04",
+    "2022": "2022-10-24",
+    "2023": "2023-11-12",
+    "2024": "2024-10-31",
+    "2025": "2025-10-20",
+    "2026": "2026-11-08"
+   },
+   "source": "Standard Hindu calendar dates; not checked against official notices for each year",
+   "geography": "",
+   "interval_tz": "",
+   "units": "",
+   "method": "",
+   "status": "not independently re-verified (2024 and 2025 observed by some on 1 Nov / 21 Oct)",
+   "files": ""
+  }
+ ]
+}

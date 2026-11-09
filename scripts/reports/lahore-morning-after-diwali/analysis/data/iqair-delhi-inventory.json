@@ -1,0 +1,392 @@
+{
+ "captured_utc": "2026-11-09T16:33:20Z",
+ "method": "Each IQAir station page fetched in a logged-out Chrome session; text of its 'Data attribution' block ('Station from ...'). Coordinates and instrument type were not shown in the page payload and were not captured. Readings (US AQI+, hourly) from the 9 Nov ~18:30 IST capture in iqair-delhi-stations.json.",
+ "stations": {
+  "dr-karni-singh-shooting-range-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/dr-karni-singh-shooting-range-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    195,
+    194,
+    191,
+    188,
+    185
+   ]
+  },
+  "dwarka-sector-8-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/dwarka-sector-8-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    195,
+    194,
+    191,
+    188,
+    185
+   ]
+  },
+  "anand-vihar-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/anand-vihar-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    191,
+    188,
+    186,
+    181,
+    178
+   ]
+  },
+  "bawana-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/bawana-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    186,
+    181,
+    178,
+    176,
+    174
+   ]
+  },
+  "chandni-chowk-delhi-iitm": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/chandni-chowk-delhi-iitm",
+   "sun_19_30_to_23_30": [
+    191,
+    188,
+    186,
+    181,
+    178
+   ]
+  },
+  "jahangirpuri-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/jahangirpuri-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    185,
+    188,
+    186,
+    181,
+    178
+   ]
+  },
+  "jawaharlal-nehru-stadium-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/jawaharlal-nehru-stadium-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    195,
+    194,
+    191,
+    188,
+    185
+   ]
+  },
+  "major-dhyan-chand-national-stadium-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/major-dhyan-chand-national-stadium-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    186,
+    181,
+    178,
+    176,
+    174
+   ]
+  },
+  "najafgarh-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/najafgarh-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    198,
+    196,
+    194,
+    192,
+    189
+   ]
+  },
+  "mundka-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/mundka-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    186,
+    181,
+    178,
+    176,
+    174
+   ]
+  },
+  "narela-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/narela-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    186,
+    181,
+    178,
+    176,
+    174
+   ]
+  },
+  "nehru-nagar-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/nehru-nagar-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    191,
+    188,
+    185,
+    183,
+    180
+   ]
+  },
+  "patparganj-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/patparganj-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    186,
+    181,
+    178,
+    176,
+    174
+   ]
+  },
+  "rohini-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/rohini-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    186,
+    181,
+    178,
+    176,
+    174
+   ]
+  },
+  "sonia-vihar-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/sonia-vihar-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    186,
+    181,
+    178,
+    176,
+    174
+   ]
+  },
+  "vivek-vihar-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/vivek-vihar-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    186,
+    181,
+    178,
+    176,
+    174
+   ]
+  },
+  "punjabi-bagh-delhi-dpcc": {
+   "attribution": "Central Pollution Control Board",
+   "group": "CPCB-attributed feed (name ends '- DPCC'/'- IITM')",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/punjabi-bagh-delhi-dpcc",
+   "sun_19_30_to_23_30": [
+    195,
+    194,
+    191,
+    188,
+    185
+   ]
+  },
+  "vv-block-c-station": {
+   "attribution": "Luca",
+   "group": "private contributor",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/vv-block-c-station",
+   "night_max": 2089,
+   "sun_noon": 211,
+   "sun_19_30_to_23_30": [
+    667,
+    475,
+    734,
+    1206,
+    1682
+   ]
+  },
+  "vivek-vihar": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/vivek-vihar",
+   "night_max": 1591,
+   "sun_noon": 274,
+   "sun_19_30_to_23_30": [
+    595,
+    993,
+    993,
+    1591,
+    null
+   ]
+  },
+  "anand-vihar": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/anand-vihar",
+   "night_max": 1380,
+   "sun_noon": 210,
+   "sun_19_30_to_23_30": [
+    349,
+    388,
+    479,
+    1380,
+    1380
+   ]
+  },
+  "safdarjung-enclave": {
+   "attribution": "TL",
+   "group": "private contributor",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/safdarjung-enclave",
+   "night_max": 1565,
+   "sun_noon": 209,
+   "sun_19_30_to_23_30": [
+    457,
+    559,
+    null,
+    1328,
+    912
+   ]
+  },
+  "poorvi-marg-d-block-market": {
+   "attribution": "Daniel I",
+   "group": "private contributor",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/poorvi-marg-d-block-market",
+   "night_max": 1410,
+   "sun_noon": 222,
+   "sun_19_30_to_23_30": [
+    280,
+    661,
+    593,
+    882,
+    1055
+   ]
+  },
+  "sonia-vihar": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/sonia-vihar",
+   "night_max": 1085,
+   "sun_noon": 332,
+   "sun_19_30_to_23_30": [
+    742,
+    981,
+    null,
+    null,
+    null
+   ]
+  },
+  "pooth-khurd-bawana": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/pooth-khurd-bawana",
+   "night_max": 989,
+   "sun_noon": null,
+   "sun_19_30_to_23_30": [
+    619,
+    894,
+    989,
+    908,
+    908
+   ]
+  },
+  "rohini": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/rohini",
+   "night_max": 908,
+   "sun_noon": 233,
+   "sun_19_30_to_23_30": [
+    null,
+    872,
+    872,
+    908,
+    908
+   ]
+  },
+  "dwarka-sec-8": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/dwarka-sec-8",
+   "night_max": 778,
+   "sun_noon": 208,
+   "sun_19_30_to_23_30": [
+    778,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "punjabi-bagh": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/punjabi-bagh",
+   "night_max": 788,
+   "sun_noon": 208,
+   "sun_19_30_to_23_30": [
+    535,
+    535,
+    null,
+    null,
+    null
+   ]
+  },
+  "narela": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/narela",
+   "night_max": 372,
+   "sun_noon": 272,
+   "sun_19_30_to_23_30": [
+    340,
+    372,
+    362,
+    332,
+    294
+   ]
+  },
+  "mundka": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/mundka",
+   "night_max": 340,
+   "sun_noon": 215,
+   "sun_19_30_to_23_30": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "najafgarh": {
+   "attribution": "Delhi Pollution Control Committee",
+   "group": "DPCC-attributed feed (unsuffixed name)",
+   "url": "https://www.iqair.com/air-quality/india/delhi/delhi/najafgarh",
+   "night_max": 184,
+   "sun_noon": 167,
+   "sun_19_30_to_23_30": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ }
+}

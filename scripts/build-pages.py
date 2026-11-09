@@ -229,6 +229,7 @@ def page(path, title, desc, articles, jsonld, extra_head="", scripts="", wide=Fa
   apply();
 }})();
 </script>
+<script src="/city-search.js?v=2" defer></script>
 {scripts}</body>
 </html>
 """
@@ -312,6 +313,10 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
+    ("/report/lahore-morning-after-diwali/", "2026-11-09", "This year, the highest fire count so far and Diwali fell on the same day", {
+        "en": "On Diwali, 8 November, satellites picked up 2,859 fire spots in the two Punjabs, the season's highest so far, a coincidence not seen since at least 2019. Private sensors in Delhi passed AQI 1,000 that night, and Lahore's air rose after midnight to 398.5 µg/m³ of PM2.5 by 9 am Monday. The data cannot separate fireworks, crop fires and the cities' own pollution.",
+        "ur": "دیوالی، 8 نومبر کو سیٹلائٹ نے دونوں پنجابوں میں آگ کے 2,859 مقامات دیکھے، جو اس سیزن میں اب تک سب سے زیادہ ہیں؛ 2019 کے بعد ایسا پہلی بار ہوا۔ اسی رات دہلی کے نجی سینسر AQI 1,000 سے اوپر گئے، اور لاہور کی فضا آدھی رات کے بعد بگڑ کر پیر صبح 9 بجے PM2.5 کے 398.5 µg/m³ تک پہنچ گئی۔ یہ اعداد و شمار آتش بازی، فصلوں کی آگ اور شہروں کی اپنی آلودگی کا حصہ الگ نہیں کر سکتے۔",
+        "hi": "दिवाली, 8 नवंबर को सैटेलाइटों ने दोनों पंजाबों में आग के 2,859 निशान पकड़े, जो इस सीज़न में अब तक सबसे ज़्यादा हैं; 2019 के बाद ऐसा पहली बार हुआ। उसी रात दिल्ली के निजी सेंसर AQI 1,000 के पार गए, और लाहौर की हवा आधी रात के बाद बिगड़कर सोमवार सुबह 9 बजे PM2.5 के 398.5 µg/m³ तक पहुँच गई। ये आंकड़े आतिशबाज़ी, पराली की आग और शहरों के अपने प्रदूषण का हिस्सा अलग नहीं कर सकते।"}),
     ("/report/lahore-smog-sources/", "2026-11-02", "Lahore's smog: the year-round baseline, and what changes in October", {
         "en": "Lahore's fine-particle pollution was above Pakistan's 24-hour standard in every month of the past year. In October and November the air it mixes into gets shallower, and crop fires break out around the city, on top of that year-round baseline.",
         "ur": "گزشتہ ایک سال میں لاہور میں باریک ذرات کی آلودگی ہر مہینے پاکستان کی 24 گھنٹے کی مقررہ حد سے اوپر رہی۔ اکتوبر اور نومبر میں سال بھر کی اس آلودگی پر مزید دو چیزیں آ جاتی ہیں: ہوا کی جس تہہ میں دھواں پھیلتا ہے وہ پتلی ہو جاتی ہے، اور شہر کے ارد گرد فصلوں کو آگ لگنے لگتی ہے۔",
@@ -341,7 +346,7 @@ def reports_page():
     jsonld = {"@context": "https://schema.org", "@type": "CollectionPage", "@id": f"{SITE}/reports/#page", "name": "HamariHawa reports",
               "url": f"{SITE}/reports/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG,
               "hasPart": [{"@type": "Report", "name": t, "url": f"{SITE}{p}", "datePublished": d} for p, d, t, _ in REPORTS]}
-    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: Lahore's smog source by source (2026), Madhya Pradesh overtakes Indian Punjab (October fire spots 2019-2026), Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
+    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: the highest fire count so far and Diwali on the same day (Lahore and Delhi, 8-9 Nov 2026), Lahore's smog source by source (2026), Madhya Pradesh overtakes Indian Punjab (October fire spots 2019-2026), Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
                arts, jsonld)
     os.makedirs(os.path.join(PUB, "reports"), exist_ok=True)
     open(os.path.join(PUB, "reports", "index.html"), "w", encoding="utf-8").write(out)
@@ -567,6 +572,7 @@ SITEMAP = [  # (path, source files whose last commit dates the page, changefreq,
     ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
     ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
     ("/trends/", ["scripts/pages/trends-en.html", "site/public/trends/trends.js"], "daily", "0.8", True),
+    ("/report/lahore-morning-after-diwali/", ["scripts/reports/lahore-morning-after-diwali/article.en.html", "site/public/report/lahore-morning-after-diwali/data.json"], "monthly", "0.8", True),
     ("/report/lahore-smog-sources/", ["scripts/reports/lahore-smog-sources/article.en.html", "site/public/report/lahore-smog-sources/data.json"], "monthly", "0.8", True),
     ("/report/madhya-pradesh-indian-punjab-fire-spots/", ["scripts/reports/madhya-pradesh-indian-punjab-fire-spots/article.en.html", "site/public/report/madhya-pradesh-indian-punjab-fire-spots/data.json"], "monthly", "0.8", True),
     ("/report/two-punjabs/", ["scripts/build-report-punjabs.py", "site/public/report/two-punjabs/seasons.json"], "monthly", "0.8", True),

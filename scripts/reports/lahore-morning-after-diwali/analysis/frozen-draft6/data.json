@@ -1,0 +1,181 @@
+{
+ "report": "Lahore's worst morning after Diwali was not in the forecast",
+ "published": "2026-11-09",
+ "version": "2026-11-09d",
+ "centre": {
+  "lat": 31.5497,
+  "lon": 74.3436,
+  "name": "central Lahore"
+ },
+ "inputs": {
+  "note": "Extracts in the repository under scripts/reports/lahore-morning-after-diwali/analysis/data/"
+ },
+ "evidence": [
+  {
+   "id": "lahore_peak",
+   "claim": "Lahore city average PM2.5 398.5 µg/m³ (US AQI 646) in the hour starting 09:00 PKT, 9 Nov 2026",
+   "value": {
+    "pkt": "2026-11-09 09:00",
+    "us_aqi": 646,
+    "pm25": 398.5
+   },
+   "source": "IQAir Lahore, History > Hourly (PM2.5 and US AQI), 53 stations from 35 contributors",
+   "file": "analysis/data/iqair-lahore-hourly.json",
+   "status": "read from source page 9 Nov 2026"
+  },
+  {
+   "id": "lahore_sunday_9am",
+   "claim": "Lahore 219 µg/m³ at 09:00 PKT Sunday 8 Nov; ratio 398.5/219 = 1.82",
+   "value": {
+    "pkt": "2026-11-08 09:00",
+    "us_aqi": 294,
+    "pm25": 219
+   },
+   "file": "analysis/data/iqair-lahore-hourly.json",
+   "status": "read from source page; arithmetic checked"
+  },
+  {
+   "id": "lahore_night",
+   "claim": "Sunday night climb: 174 (18:00), 233 (00:00), 313 (04:00), 398.5 (09:00); fall: 280 (11:00), 186 (12:00), 97 (15:00)",
+   "value": [
+    {
+     "pkt": "2026-11-08 18:00",
+     "us_aqi": 249,
+     "pm25": 173.6
+    },
+    {
+     "pkt": "2026-11-09 00:00",
+     "us_aqi": 316,
+     "pm25": 233
+    },
+    {
+     "pkt": "2026-11-09 04:00",
+     "us_aqi": 475,
+     "pm25": 313
+    },
+    {
+     "pkt": "2026-11-09 09:00",
+     "us_aqi": 646,
+     "pm25": 398.5
+    },
+    {
+     "pkt": "2026-11-09 11:00",
+     "us_aqi": 410,
+     "pm25": 280
+    },
+    {
+     "pkt": "2026-11-09 12:00",
+     "us_aqi": 260,
+     "pm25": 185.5
+    },
+    {
+     "pkt": "2026-11-09 15:00",
+     "us_aqi": 180,
+     "pm25": 97.4
+    }
+   ],
+   "file": "analysis/data/iqair-lahore-hourly.json",
+   "status": "read from source page"
+  },
+  {
+   "id": "pk_cities",
+   "claim": "Highest hourly US AQI Sat 19:00-Mon 16:00 PKT: Multan 700 (02:00 Mon; >600 00:00-10:00), Lahore 646, Faisalabad 612 (11:00 Mon; >500 08:00-13:00), Gujranwala 298 (Saturday night 288), Islamabad 181",
+   "file": "analysis/data/iqair-others-hourly.json",
+   "status": "IQAir city averages read 9 Nov 2026; only Lahore checked station by station"
+  },
+  {
+   "id": "lahore_stations",
+   "claim": "51 Lahore station pages read; 48 with values at 09:00 PKT on both days, all 48 higher on Monday, 29 at least doubled; median 294 (Sun 09:00) -> 651 (Mon 09:00); 41 above 500 at 09:00 Mon; night maxima above 1,000 at Allama Iqbal Town (1,063) and QIE Indus Plus (1,012); median of per-station maxima 19:00-23:00 Sun = 314",
+   "file": "analysis/data/iqair-stations-lahore-amritsar-ludhiana.json",
+   "status": "read from IQAir station pages 9 Nov 2026"
+  },
+  {
+   "id": "delhi_sensors",
+   "claim": "Independent Delhi sensors, US AQI, Sunday night IST: VV Block C 1,206 (22:30), 1,682 (23:30), 2,089 (04:30 Mon); Anand Vihar 1,380; Safdarjung Enclave 1,328 (22:30), 1,565 (03:30); Vivek Vihar 1,591 (22:30); Poorvi Marg 1,055 (23:30), 1,410 (03:30); midday Sunday 209-332. Of 13 non-government sensors, 6 passed 1,000 overnight (VV Block C 2,089, Vivek Vihar 1,591, Safdarjung Enclave 1,565, Poorvi Marg 1,410, Anand Vihar 1,380, Sonia Vihar 1,085); Narela 372, Mundka 340, Najafgarh 184 stayed below 400",
+   "file": "analysis/data/iqair-delhi-stations.json, analysis/data/iqair-delhi-sensors-hourly.json",
+   "status": "read from IQAir station pages 9 Nov 2026"
+  },
+  {
+   "id": "delhi_gov",
+   "claim": "All 17 DPCC/IITM stations on IQAir read 174-198 from 19:30 to 23:30 IST Sunday; Mundka, Narela, Patparganj, Rohini, Sonia Vihar, Vivek Vihar (DPCC) and others identical hour by hour (186,181,178,176,174); IQAir's Delhi city average fell from 119 to 91 µg/m³ overnight",
+   "file": "analysis/data/iqair-delhi-stations.json, iqair-delhi-hourly.json",
+   "status": "read from IQAir; not checked against CPCB portal"
+  },
+  {
+   "id": "punjab_india_stations",
+   "claim": "Amritsar and Ludhiana each have one government (PPCB) station on IQAir; neither shows a spike; series shapes similar to each other",
+   "file": "analysis/data/iqair-stations-lahore-amritsar-ludhiana.json",
+   "status": "read from IQAir; reliability unknown"
+  },
+  {
+   "id": "lahore_daily",
+   "claim": "IQAir daily US AQI: 2 Nov 416, 7 Nov 227, 8 Nov 281, 9 Nov 380 (partial day)",
+   "file": "analysis/data/iqair-lahore-daily.json",
+   "status": "tooltip values read from source page; other days estimated from bar heights and not used in text"
+  },
+  {
+   "id": "season_collision",
+   "claim": "8 Nov 2026 (Diwali) had 5,419 detections, the highest day of the 2026 season to date (1 Oct-8 Nov): Pakistan 1,255, India (area covered) 4,164. Next highest 7 Nov 4,371 and 1 Nov 3,930. 9 Nov was partial when read",
+   "file": "analysis/data/days.json",
+   "source": "HamariHawa /api/days, read 9 Nov 2026",
+   "status": "from archive index; 'so far' because the season continues"
+  },
+  {
+   "id": "diwali_past",
+   "claim": "Busiest Oct-Nov day vs Diwali: 2019 5 Nov vs 27 Oct (9 days before); 2020 7 Nov vs 14 Nov (7 after); 2021 5 Nov vs 4 Nov (1 before); 2022 11 Nov vs 24 Oct (18 before); 2023 5 Nov vs 12 Nov (7 after); 2024 17 Nov vs 31 Oct (17 before); 2025 16 Nov vs 20 Oct (27 before); 2026 8 Nov vs 8 Nov (same day, season to date)",
+   "file": "analysis/data/days.json, analysis/charts.py",
+   "source": "HamariHawa /api/days; Diwali dates are the main Lakshmi Puja day (2024 observed by some on 1 Nov, 2025 by some on 21 Oct)",
+   "status": "computed"
+  },
+  {
+   "id": "fires_daily",
+   "claim": "Fire detections per PKT day, Pakistani Punjab / Indian Punjab: 6 Nov 1,050/635; 7 Nov 1,029/501; 8 Nov 1,143/1,716. Region totals 3,595; 4,371; 5,419",
+   "file": "analysis/data/day-2026-11-0{6,7,8}.json",
+   "source": "NASA FIRMS NRT via HamariHawa daily archive (/api/day)",
+   "status": "recomputed from archived day files"
+  },
+  {
+   "id": "fires_districts",
+   "claim": "8 Nov busiest districts: Jhang (PK) 287, Sangrur 245, Bathinda 213, Firozpur 207, Hafizabad (PK) 193",
+   "file": "analysis/data/day-2026-11-08.json",
+   "status": "from archived day file"
+  },
+  {
+   "id": "season_peaks",
+   "claim": "Busiest day of each Oct-Nov season, region total: 2019 10,878; 2020 12,383; 2021 13,775; 2022 9,459; 2023 10,869; 2024 8,163; 2025 7,881; 2026 so far 5,419 (8 Nov)",
+   "source": "HamariHawa /api/days",
+   "status": "from archive index; satellite mix changes over the years (NOAA-21 from 2023)"
+  },
+  {
+   "id": "pk_biggest_day",
+   "claim": "Pakistan's biggest day of detections this season so far: 1,849 on 1 Nov 2026",
+   "source": "HamariHawa /api/days",
+   "status": "from archive index"
+  },
+  {
+   "id": "paths",
+   "claim": "Back-paths ending 09:00 PKT 9 Nov. Lahore: 18:00 Sun 93-115 km E, 00:00 60-73 km E near Tarn Taran; crossed the border about 06:00; 47 (10 m: 45 IN, 2 PK) and 42 (925 hPa: 39 IN, 3 PK) fires within 20 km. Faisalabad: over Lahore 12:00-18:00 Sun; 86 and 77 fires, about 90% Pakistani. Multan (10 m): 74 fires, 70 Pakistani; 925 hPa path from Ganganagar. Lahore Sunday 09:00 arrival, 925 hPa: 301 Pakistani fires",
+   "file": "analysis/traj.py, analysis/data/traj.json, analysis/data/traj.txt",
+   "method": "GFS (Open-Meteo) 0.5° hourly winds, bilinear in space, linear in time, 15-minute steps back for 24 h, horizontal only; fires within 20 km of the path detected 0-24 h before the air passed",
+   "status": "computed; approximate, not a dispersion model"
+  },
+  {
+   "id": "weather",
+   "claim": "Lahore GFS: Sun 18:00-Mon 09:00 mean wind 7.3 km/h, mixing height 51 m; Sat 18:00-Sun 09:00 4.6 km/h, 28 m; inversion both nights (T925-T2 up to 2.0 and 2.3 °C); RH below 40% both nights; wind turned from 288-315° to about 90° at 18:00 Sat",
+   "file": "analysis/data/wx-cities.json",
+   "status": "computed from model output"
+  },
+  {
+   "id": "cams",
+   "claim": "CAMS Lahore PM2.5: 148.1 at 21:00 Sun, 84.8 at 09:00 Mon; sensor/model ratio 1.5-2.0 from 18:00 Sat to 08:00 Sun, 4.7 at 09:00 Monday",
+   "file": "analysis/data/dw-lahore.json",
+   "source": "CAMS global via Open-Meteo air-quality API, past_days=5, fetched 9 Nov 2026",
+   "status": "computed"
+  },
+  {
+   "id": "diwali",
+   "claim": "Diwali (Lakshmi Puja) on Sunday 8 November 2026",
+   "status": "confirmed by the author"
+  }
+ ]
+}

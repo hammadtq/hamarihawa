@@ -15,7 +15,7 @@
     "run_worker_first": [
       "/api/*", "/og/live/*", "/air", "/air/*", "/near-me", "/near-me/", "/rankings", "/rankings/", "/fires", "/fires/", "/fires/2*", "/district", "/district/*", "/sitemap-daily.xml",
       "/fires.kml", "/kml/air.kml", "/kml/traffic.kml", "/kml/satellite.kml",
-      "/", "/index.html", "/about/", "/data/", "/sites/", "/trends/", "/reports/", "/report/", "/report/two-punjabs/", "/report/lahore-smog-sources/", "/report/madhya-pradesh-indian-punjab-fire-spots/", "/updates/"
+      "/", "/index.html", "/about/", "/data/", "/sites/", "/trends/", "/reports/", "/report/", "/report/two-punjabs/", "/report/lahore-smog-sources/", "/report/lahore-morning-after-diwali/", "/report/madhya-pradesh-indian-punjab-fire-spots/", "/updates/"
     ]
   },
   "routes": [

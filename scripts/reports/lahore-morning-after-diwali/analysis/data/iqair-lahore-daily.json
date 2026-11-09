@@ -1,0 +1,155 @@
+{
+"source": "IQAir Lahore History > Daily, 9 Nov 2026; estimates read from bar heights (\u00b15 AQI), tooltip values exact; 9 Nov is a partial day",
+"rows": [
+{
+"date": "2026-10-11",
+"us_aqi_px_estimate": 111,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-12",
+"us_aqi_px_estimate": 154,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-13",
+"us_aqi_px_estimate": 163,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-14",
+"us_aqi_px_estimate": 163,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-15",
+"us_aqi_px_estimate": 129,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-16",
+"us_aqi_px_estimate": 167,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-17",
+"us_aqi_px_estimate": 171,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-18",
+"us_aqi_px_estimate": 184,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-19",
+"us_aqi_px_estimate": 180,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-20",
+"us_aqi_px_estimate": 214,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-21",
+"us_aqi_px_estimate": 283,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-22",
+"us_aqi_px_estimate": 270,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-23",
+"us_aqi_px_estimate": 219,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-24",
+"us_aqi_px_estimate": 163,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-25",
+"us_aqi_px_estimate": 184,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-26",
+"us_aqi_px_estimate": 189,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-27",
+"us_aqi_px_estimate": 214,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-28",
+"us_aqi_px_estimate": 219,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-29",
+"us_aqi_px_estimate": 206,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-30",
+"us_aqi_px_estimate": 171,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-10-31",
+"us_aqi_px_estimate": 261,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-11-01",
+"us_aqi_px_estimate": 291,
+"us_aqi_tooltip": 295
+},
+{
+"date": "2026-11-02",
+"us_aqi_px_estimate": 411,
+"us_aqi_tooltip": 416
+},
+{
+"date": "2026-11-03",
+"us_aqi_px_estimate": 274,
+"us_aqi_tooltip": 276
+},
+{
+"date": "2026-11-04",
+"us_aqi_px_estimate": 266,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-11-05",
+"us_aqi_px_estimate": 291,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-11-06",
+"us_aqi_px_estimate": 231,
+"us_aqi_tooltip": null
+},
+{
+"date": "2026-11-07",
+"us_aqi_px_estimate": 223,
+"us_aqi_tooltip": 227
+},
+{
+"date": "2026-11-08",
+"us_aqi_px_estimate": 279,
+"us_aqi_tooltip": 281
+},
+{
+"date": "2026-11-09",
+"us_aqi_px_estimate": 377,
+"us_aqi_tooltip": 380
+}
+]
+}

@@ -1,0 +1,98 @@
+{
+ "stations_captured": 52,
+ "with_both_9am": 49,
+ "rose": 48,
+ "at_least_doubled": 26,
+ "median_sun_9am": 294,
+ "median_mon_9am": 645,
+ "mon_9am_above_500": 39,
+ "mon_9am_values_n": 49,
+ "mon_9am_above_500_all": 39,
+ "median_of_station_max_sun_19_23": 311.0,
+ "median_sun_9am_all": 294.0,
+ "median_hour_by_hour": {
+  "Sat 22:00": 254,
+  "Sat 23:00": 266,
+  "Sun 00:00": 275,
+  "Sun 01:00": 276,
+  "Sun 02:00": 278.0,
+  "Sun 03:00": 287,
+  "Sun 04:00": 293.0,
+  "Sun 05:00": 290.5,
+  "Sun 06:00": 287.5,
+  "Sun 07:00": 292.0,
+  "Sun 08:00": 295,
+  "Sun 09:00": 294.0,
+  "Sun 10:00": 282.5,
+  "Sun 11:00": 257.5,
+  "Sun 12:00": 230.5,
+  "Sun 13:00": 219.5,
+  "Sun 14:00": 212,
+  "Sun 15:00": 211.5,
+  "Sun 16:00": 219.5,
+  "Sun 17:00": 235.0,
+  "Sun 18:00": 248.5,
+  "Sun 19:00": 267.0,
+  "Sun 20:00": 290,
+  "Sun 21:00": 286.0,
+  "Sun 22:00": 291.5,
+  "Sun 23:00": 291,
+  "Mon 00:00": 310,
+  "Mon 01:00": 348,
+  "Mon 02:00": 380,
+  "Mon 03:00": 427,
+  "Mon 04:00": 461,
+  "Mon 05:00": 505,
+  "Mon 06:00": 519,
+  "Mon 07:00": 569,
+  "Mon 08:00": 597.0,
+  "Mon 09:00": 645,
+  "Mon 10:00": 576.0,
+  "Mon 11:00": 384,
+  "Mon 12:00": 260,
+  "Mon 13:00": 218.5,
+  "Mon 14:00": 194,
+  "Mon 15:00": 180.5,
+  "Mon 16:00": 186.0,
+  "Mon 17:00": 198,
+  "Mon 18:00": 219,
+  "Mon 19:00": 237,
+  "Mon 20:00": 256
+ },
+ "night_max_above_1000": {
+  "allama-iqbal-town-b-lhe": 1063,
+  "qie-indus-plus-pvt-ltd": 1012
+ },
+ "night_max_top": [
+  [
+   "allama-iqbal-town-b-lhe",
+   1063,
+   "10:00"
+  ],
+  [
+   "qie-indus-plus-pvt-ltd",
+   1012,
+   "09:00"
+  ],
+  [
+   "model-town-link-rd-b-lhe",
+   991,
+   "09:00"
+  ],
+  [
+   "qie-emergency-service-center",
+   963,
+   "09:00"
+  ],
+  [
+   "samanabad",
+   922,
+   "08:00"
+  ],
+  [
+   "burki-rd-paragon-b-lhe",
+   916,
+   "05:00"
+  ]
+ ]
+}

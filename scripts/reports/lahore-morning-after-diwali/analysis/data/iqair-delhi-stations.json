@@ -1,0 +1,277 @@
+{
+ "source": "IQAir Delhi station pages, History > Hourly US AQI, read 9 Nov 2026 ~18:30 IST",
+ "hours_IST": [
+  "19:30",
+  "20:30",
+  "21:30",
+  "22:30",
+  "23:30"
+ ],
+ "note": "hour labels are hour start, Sunday 8 Nov; night max = 18:30 Sun to 06:30 Mon; noon = 12:30 Sun",
+ "government_DPCC_IITM": {
+  "dr-karni-singh-shooting-range-delhi-dpcc": [
+   195,
+   194,
+   191,
+   188,
+   185
+  ],
+  "dwarka-sector-8-delhi-dpcc": [
+   195,
+   194,
+   191,
+   188,
+   185
+  ],
+  "anand-vihar-delhi-dpcc": [
+   191,
+   188,
+   186,
+   181,
+   178
+  ],
+  "bawana-delhi-dpcc": [
+   186,
+   181,
+   178,
+   176,
+   174
+  ],
+  "chandni-chowk-delhi-iitm": [
+   191,
+   188,
+   186,
+   181,
+   178
+  ],
+  "jahangirpuri-delhi-dpcc": [
+   185,
+   188,
+   186,
+   181,
+   178
+  ],
+  "jawaharlal-nehru-stadium-delhi-dpcc": [
+   195,
+   194,
+   191,
+   188,
+   185
+  ],
+  "major-dhyan-chand-national-stadium-delhi-dpcc": [
+   186,
+   181,
+   178,
+   176,
+   174
+  ],
+  "najafgarh-delhi-dpcc": [
+   198,
+   196,
+   194,
+   192,
+   189
+  ],
+  "mundka-delhi-dpcc": [
+   186,
+   181,
+   178,
+   176,
+   174
+  ],
+  "narela-delhi-dpcc": [
+   186,
+   181,
+   178,
+   176,
+   174
+  ],
+  "nehru-nagar-delhi-dpcc": [
+   191,
+   188,
+   185,
+   183,
+   180
+  ],
+  "patparganj-delhi-dpcc": [
+   186,
+   181,
+   178,
+   176,
+   174
+  ],
+  "rohini-delhi-dpcc": [
+   186,
+   181,
+   178,
+   176,
+   174
+  ],
+  "sonia-vihar-delhi-dpcc": [
+   186,
+   181,
+   178,
+   176,
+   174
+  ],
+  "vivek-vihar-delhi-dpcc": [
+   186,
+   181,
+   178,
+   176,
+   174
+  ],
+  "punjabi-bagh-delhi-dpcc": [
+   195,
+   194,
+   191,
+   188,
+   185
+  ]
+ },
+ "other_sensors": {
+  "vv-block-c-station": {
+   "sun_19_30_to_23_30": [
+    667,
+    475,
+    734,
+    1206,
+    1682
+   ],
+   "night_max": 2089,
+   "sun_noon": 211
+  },
+  "vivek-vihar": {
+   "sun_19_30_to_23_30": [
+    595,
+    993,
+    993,
+    1591,
+    null
+   ],
+   "night_max": 1591,
+   "sun_noon": 274
+  },
+  "anand-vihar": {
+   "sun_19_30_to_23_30": [
+    349,
+    388,
+    479,
+    1380,
+    1380
+   ],
+   "night_max": 1380,
+   "sun_noon": 210
+  },
+  "safdarjung-enclave": {
+   "sun_19_30_to_23_30": [
+    457,
+    559,
+    null,
+    1328,
+    912
+   ],
+   "night_max": 1565,
+   "sun_noon": 209
+  },
+  "poorvi-marg-d-block-market": {
+   "sun_19_30_to_23_30": [
+    280,
+    661,
+    593,
+    882,
+    1055
+   ],
+   "night_max": 1410,
+   "sun_noon": 222
+  },
+  "sonia-vihar": {
+   "sun_19_30_to_23_30": [
+    742,
+    981,
+    null,
+    null,
+    null
+   ],
+   "night_max": 1085,
+   "sun_noon": 332
+  },
+  "pooth-khurd-bawana": {
+   "sun_19_30_to_23_30": [
+    619,
+    894,
+    989,
+    908,
+    908
+   ],
+   "night_max": 989,
+   "sun_noon": null
+  },
+  "rohini": {
+   "sun_19_30_to_23_30": [
+    null,
+    872,
+    872,
+    908,
+    908
+   ],
+   "night_max": 908,
+   "sun_noon": 233
+  },
+  "dwarka-sec-8": {
+   "sun_19_30_to_23_30": [
+    778,
+    null,
+    null,
+    null,
+    null
+   ],
+   "night_max": 778,
+   "sun_noon": 208
+  },
+  "punjabi-bagh": {
+   "sun_19_30_to_23_30": [
+    535,
+    535,
+    null,
+    null,
+    null
+   ],
+   "night_max": 788,
+   "sun_noon": 208
+  },
+  "narela": {
+   "sun_19_30_to_23_30": [
+    340,
+    372,
+    362,
+    332,
+    294
+   ],
+   "night_max": 372,
+   "sun_noon": 272
+  },
+  "mundka": {
+   "sun_19_30_to_23_30": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "night_max": 340,
+   "sun_noon": 215
+  },
+  "najafgarh": {
+   "sun_19_30_to_23_30": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "night_max": 184,
+   "sun_noon": 167
+  }
+ }
+}
