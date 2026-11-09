@@ -313,7 +313,7 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
-    ("/report/lahore-morning-after-diwali/", "2026-11-09", "This year, the highest fire count so far and Diwali fell on the same day", {
+    ("/report/lahore-morning-after-diwali/", "2026-11-09", "Satellites saw the season's biggest fire day so far, and Diwali fireworks added to the smoke", {
         "en": "On Diwali, 8 November, satellites picked up 2,859 fire spots in the two Punjabs, the season's highest so far, a coincidence not seen since at least 2019. Private sensors in Delhi passed AQI 1,000 that night, and Lahore's air rose after midnight to 398.5 µg/m³ of PM2.5 by 9 am Monday. The data cannot separate fireworks, crop fires and the cities' own pollution.",
         "ur": "دیوالی، 8 نومبر کو سیٹلائٹ نے دونوں پنجابوں میں آگ کے 2,859 مقامات دیکھے، جو اس سیزن میں اب تک سب سے زیادہ ہیں؛ 2019 کے بعد ایسا پہلی بار ہوا۔ اسی رات دہلی کے نجی سینسر AQI 1,000 سے اوپر گئے، اور لاہور کی فضا آدھی رات کے بعد بگڑ کر پیر صبح 9 بجے PM2.5 کے 398.5 µg/m³ تک پہنچ گئی۔ یہ اعداد و شمار آتش بازی، فصلوں کی آگ اور شہروں کی اپنی آلودگی کا حصہ الگ نہیں کر سکتے۔",
         "hi": "दिवाली, 8 नवंबर को सैटेलाइटों ने दोनों पंजाबों में आग के 2,859 निशान पकड़े, जो इस सीज़न में अब तक सबसे ज़्यादा हैं; 2019 के बाद ऐसा पहली बार हुआ। उसी रात दिल्ली के निजी सेंसर AQI 1,000 के पार गए, और लाहौर की हवा आधी रात के बाद बिगड़कर सोमवार सुबह 9 बजे PM2.5 के 398.5 µg/m³ तक पहुँच गई। ये आंकड़े आतिशबाज़ी, पराली की आग और शहरों के अपने प्रदूषण का हिस्सा अलग नहीं कर सकते।"}),
@@ -346,7 +346,7 @@ def reports_page():
     jsonld = {"@context": "https://schema.org", "@type": "CollectionPage", "@id": f"{SITE}/reports/#page", "name": "HamariHawa reports",
               "url": f"{SITE}/reports/", "inLanguage": ["en", "ur", "hi"], "publisher": ORG,
               "hasPart": [{"@type": "Report", "name": t, "url": f"{SITE}{p}", "datePublished": d} for p, d, t, _ in REPORTS]}
-    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: the highest fire count so far and Diwali on the same day (Lahore and Delhi, 8-9 Nov 2026), Lahore's smog source by source (2026), Madhya Pradesh overtakes Indian Punjab (October fire spots 2019-2026), Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
+    out = page("/reports/", "Reports", "HamariHawa's reports on air pollution and crop fires in Pakistan and India: the season's biggest fire day so far and Diwali fireworks (Lahore and Delhi, 8-9 Nov 2026), Lahore's smog source by source (2026), Madhya Pradesh overtakes Indian Punjab (October fire spots 2019-2026), Two Punjabs (crop fires 2019-2025) and the Lahore & Islamabad Air Ledger.",
                arts, jsonld)
     os.makedirs(os.path.join(PUB, "reports"), exist_ok=True)
     open(os.path.join(PUB, "reports", "index.html"), "w", encoding="utf-8").write(out)
