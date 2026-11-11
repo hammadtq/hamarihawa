@@ -1,0 +1,190 @@
+# Recompute every number in the report from data/*.csv (written by the analysis scripts) and write
+# site/public/report/delhi-smog-fires/data.json. Run: python3 build_evidence.py
+import csv, json, os, glob, statistics as st, datetime as dt, collections
+HERE = os.path.dirname(os.path.abspath(__file__)); D = os.path.join(HERE, 'data')
+OUT = os.path.join(HERE, '..', '..', '..', '..', 'site', 'public', 'report', 'delhi-smog-fires', 'data.json')
+rd = lambda n: list(csv.DictReader(open(os.path.join(D, n))))
+pm = {r['date']: (float(r['median']), int(r['stations'])) for r in rd('pm25_daily.csv')}
+date = dt.date.fromisoformat
+E = []
+def ev(id, claim, value, source, period, method, status='computed', place='Delhi'):
+    E.append(dict(id=id, claim=claim, value=value, source=source, place=place, period=period, units_method=method, status=status))
+S_PM = 'OpenAQ v3 daily values for government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of 28.61N 77.21E, retrieved 11 Nov 2026'
+M_PM = 'µg/m³. Station-day kept if >=18 hourly values and 0 < value <= 1500. City value = median of stations, days with >=5 stations only. Monthly value = mean of daily city values.'
+S_F = 'NASA FIRMS MODIS (Terra and Aqua) active-fire detections: standard product 2001-2025, near real time 2026; confidence >= 30, type 0; box 73.0-79.5E, 27.0-32.6N'
+S_E = 'ERA5 reanalysis via Open-Meteo archive API, grid point nearest 28.61N 77.21E, hourly, local time (IST)'
+def mean_between(a, b):
+    v = [x[0] for d, x in pm.items() if a <= date(d) <= b]; return (round(st.mean(v)) if v else None, len(v))
+# 1 coverage
+days = sorted(pm); gaps = []
+for a, b in zip(days, days[1:]):
+    if (date(b) - date(a)).days > 60: gaps.append([a, b])
+ev('pm_coverage', 'Days with a Delhi city value, first and last day, gaps longer than 60 days', dict(days=len(days), first=days[0], last=days[-1], gaps=gaps,
+   stations_median_last_365=st.median(x[1] for d, x in pm.items() if d >= '2025-11-10')), S_PM, '2016-11-04 to 2026-11-09', M_PM)
+# 2 monthly, last 12 full months
+mon = collections.OrderedDict()
+for ym in ['2025-11', '2025-12'] + [f'2026-{m:02d}' for m in range(1, 11)]:
+    v = [x[0] for d, x in pm.items() if d.startswith(ym)]; mon[ym] = dict(mean=round(st.mean(v)), days=len(v))
+ev('pm_monthly_12', 'Monthly mean PM2.5, November 2025 to October 2026', mon, S_PM, 'Nov 2025-Oct 2026', M_PM)
+allv = [x[0] for d, x in pm.items() if '2025-11-01' <= d <= '2026-10-31']
+ev('pm_12_month_mean', 'Mean of daily city values over the 12 months', dict(mean=round(st.mean(allv)), days=len(allv)), S_PM, '1 Nov 2025-31 Oct 2026', M_PM + ' 12-month figure = mean of all daily values with data (not a full-year average: missing days are not filled).')
+fs_ = [x[0] for d, x in pm.items() if '2026-02-01' <= d <= '2026-09-30']; ms_ = [x[0] for d, x in pm.items() if '2026-06-01' <= d <= '2026-09-30']
+ev('pm_outside_season', 'Mean of daily city values February-September 2026 (no rice-residue burning; includes the April-May wheat-residue season) and June-September 2026 (monsoon)',
+   dict(feb_sep=round(st.mean(fs_)), feb_sep_days=len(fs_), jun_sep=round(st.mean(ms_)), jun_sep_days=len(ms_)), S_PM, 'Feb-Sep 2026', M_PM)
+ev('standards', "India's national standards for PM2.5 (NAAQS 2009): 60 µg/m³ over 24 hours, 40 over a year. WHO 2021 guideline: 15 over 24 hours, 5 over a year", dict(india_24h=60, india_annual=40, who_24h=15, who_annual=5),
+   'CPCB National Ambient Air Quality Standards notification, 18 Nov 2009; WHO global air quality guidelines 2021', 'n/a', 'quoted, not computed', status='quoted from memory of the published standards: verify against source before publication', place='India')
+# 3 season windows
+sw = {}
+for y in range(2016, 2026):
+    a = mean_between(dt.date(y, 10, 15), dt.date(y, 11, 30)); b = mean_between(dt.date(y, 12, 1), dt.date(y + 1, 1, 31))
+    if a[1] >= 25 and b[1] >= 30: sw[f'{y}-{(y + 1) % 100:02d}'] = dict(oct15_nov30=a[0], oct15_nov30_days=a[1], dec_jan=b[0], dec_jan_days=b[1])
+ev('season_vs_winter', 'Mean PM2.5 in the crop-fire window (15 Oct-30 Nov) and in December-January, seasons with >=25 and >=30 days of data', sw, S_PM, 'seasons 2016-17 to 2025-26', M_PM)
+# 4 fires per year
+fc = {r['year']: r for r in rd('firms_season_counts.csv')}
+fy = {y: int(r['Punjab']) + int(r['Haryana']) for y, r in fc.items()}
+nov = {}
+for y in range(2016, 2027):
+    v = [x[0] for d, x in pm.items() if d.startswith(f'{y}-11')]
+    w = mean_between(dt.date(y, 10, 15), dt.date(y, 11, 30))
+    nov[str(y)] = dict(fires_punjab_haryana=fy[str(y)], fires_punjab=int(fc[str(y)]['Punjab']), fires_haryana=int(fc[str(y)]['Haryana']), partial=fc[str(y)]['partial'],
+                       delhi_nov_mean=round(st.mean(v)) if len(v) >= 15 else None, nov_days=len(v), delhi_oct15_nov30_mean=w[0] if w[1] >= 25 else None, window_days=w[1])
+ev('fires_vs_delhi_by_year', 'MODIS fire detections in Indian Punjab + Haryana, 1 Oct-30 Nov (2026: to 10 Nov), against Delhi mean PM2.5 for November and for 15 Oct-30 Nov', nov,
+   S_F + '; ' + S_PM, '2016-2026', 'Counts are detections, not fires or burnt area. State = nearest mapped settlement. November mean shown only with >=15 days of data, window mean with >=25.')
+ev('fires_all_years', 'MODIS detections, Indian Punjab + Haryana, 1 Oct-30 Nov, every year', {y: fy[y] for y in sorted(fy)}, S_F, '2001-2026 (2001 incomplete: Terra only from late 2000, Aqua from 2002; 2026 to 10 Nov)', 'count')
+ev('fires_change_2021_2025', 'Change in Punjab + Haryana detections, 2021 to 2025, and in Delhi November mean PM2.5 (29 days of data each)',
+   dict(fires_2021=fy['2021'], fires_2025=fy['2025'], fires_change_pct=round(100 * (fy['2025'] / fy['2021'] - 1)), pm_2021=nov['2021']['delhi_nov_mean'], pm_2025=nov['2025']['delhi_nov_mean'],
+        pm_change_pct=round(100 * (nov['2025']['delhi_nov_mean'] / nov['2021']['delhi_nov_mean'] - 1))), S_F + '; ' + S_PM, 'Nov 2021, Nov 2025', 'percent change')
+# 5 second sensor
+ss = collections.defaultdict(lambda: [0, 0, 0])
+for f in glob.glob(os.path.join(HERE, '..', '..', 'lahore-morning-after-diwali', 'analysis', 'data', 'day-summaries', '20*.json')):
+    d = json.load(open(f)); Dd = date(d['date'])
+    if not (dt.date(Dd.year, 10, 1) <= Dd <= dt.date(Dd.year, 11, 10)): continue
+    s = d['summary'].get('states', {})
+    for k in ('IN|Punjab', 'IN|Haryana'): ss[Dd.year][0] += s.get(k, [0, 0, 0, 0])[0]; ss[Dd.year][1] += s.get(k, [0, 0, 0, 0])[2]
+    ss[Dd.year][2] += 1
+ev('fires_second_sensor', 'Fire spots in Indian Punjab + Haryana, 1 Oct-10 Nov, from HamariHawa daily summaries: all satellites merged, and one VIIRS satellite only',
+   {str(y): dict(all_satellites=v[0], single_viirs=v[1], days=v[2]) for y, v in sorted(ss.items())}, 'HamariHawa daily fire summaries (NASA FIRMS VIIRS and MODIS, merged into spots), https://hamarihawa.org/api/day',
+   '1 Oct-10 Nov, 2019-2026', 'All-satellite totals are not comparable across years (satellites were added). The single-satellite column is the comparable one.', place='Indian Punjab + Haryana')
+# 6 distance
+tot = sum(int(r['Punjab']) + int(r['Haryana']) for y, r in fc.items() if 2016 <= int(y) <= 2025)
+b100 = sum(int(r['IN_0-100km']) for y, r in fc.items() if 2016 <= int(y) <= 2025); ball = sum(sum(int(r[k]) for k in r if k.startswith('IN_')) for y, r in fc.items() if 2016 <= int(y) <= 2025)
+ev('fire_distance', 'Median distance from central Delhi of Punjab and Haryana detections (range of yearly medians 2016-2025); share of all Indian detections in the box within 100 km of Delhi',
+   dict(punjab_median_km=[min(int(fc[str(y)]['Punjab_median_km']) for y in range(2016, 2026)), max(int(fc[str(y)]['Punjab_median_km']) for y in range(2016, 2026))],
+        haryana_median_km=[min(int(fc[str(y)]['Haryana_median_km']) for y in range(2016, 2026)), max(int(fc[str(y)]['Haryana_median_km']) for y in range(2016, 2026))],
+        within_100km_pct=round(100 * b100 / ball, 1)), S_F, '1 Oct-30 Nov, 2016-2025', 'great-circle km from 28.61N 77.21E')
+# 7 daily comparison
+J = rd('join_daily.csv')
+for r in J:
+    for k in ('pm', 'fires2', 'blh', 'ws', 'nw'): r[k] = float(r[k])
+    r['d'] = date(r['date']); r['vent'] = r['blh'] * r['ws']
+DIWALI = {2016: '2016-10-30', 2017: '2017-10-19', 2018: '2018-11-07', 2019: '2019-10-27', 2020: '2020-11-14', 2021: '2021-11-04', 2022: '2022-10-24', 2025: '2025-10-20', 2026: '2026-11-08'}
+def near_diwali(r):
+    dd = date(DIWALI[r['d'].year]); return 0 <= (r['d'] - dd).days <= 2
+fs = sorted(r['fires2'] for r in J); q1, q2 = fs[len(fs) // 3], fs[2 * len(fs) // 3]
+def med(x): return dict(median=round(st.median(x)), days=len(x)) if x else dict(median=None, days=0)
+parts = {'15-31 Oct': lambda r: r['d'].month == 10, '1-15 Nov': lambda r: r['d'].month == 11 and r['d'].day <= 15, '16-30 Nov': lambda r: r['d'].month == 11 and r['d'].day >= 16}
+tab = {}; tab_nd = {}
+for name, c in parts.items():
+    tab[name] = {k: med([r['pm'] for r in J if c(r) and f(r)]) for k, f in (('low', lambda r: r['fires2'] <= q1), ('mid', lambda r: q1 < r['fires2'] <= q2), ('high', lambda r: r['fires2'] > q2))}
+    tab_nd[name] = {k: med([r['pm'] for r in J if c(r) and f(r) and not near_diwali(r)]) for k, f in (('low', lambda r: r['fires2'] <= q1), ('mid', lambda r: q1 < r['fires2'] <= q2), ('high', lambda r: r['fires2'] > q2))}
+ev('daily_join', 'Days in the join, by year', dict(days=len(J), by_year=dict(sorted(collections.Counter(r['d'].year for r in J).items())), fire_tercile_low_max=q1, fire_tercile_high_min=q2),
+   S_PM + '; ' + S_F + '; ' + S_E, '15 Oct-30 Nov; 2016-2022, 2025, 2026 to 5 Nov', 'fires2 = Punjab + Haryana detections on the day and the day before. Terciles of fires2 over all joined days.')
+ev('pm_by_fire_tercile_all', 'Median Delhi PM2.5 by fire tercile, whole window (not controlled for time of season)',
+   {k: med([r['pm'] for r in J if f(r)]) for k, f in (('low', lambda r: r['fires2'] <= q1), ('mid', lambda r: q1 < r['fires2'] <= q2), ('high', lambda r: r['fires2'] > q2))}, S_PM + '; ' + S_F, '15 Oct-30 Nov', 'median of daily city values')
+ev('pm_by_fire_tercile_by_part', 'Median Delhi PM2.5 by fire tercile within each part of the season', tab, S_PM + '; ' + S_F, '15 Oct-30 Nov', 'median of daily city values; same terciles as above')
+ev('pm_by_fire_tercile_by_part_no_diwali', 'Same, leaving out Diwali day and the two days after', dict(table=tab_nd, diwali_dates=DIWALI), S_PM + '; ' + S_F, '15 Oct-30 Nov',
+   'Diwali dates from memory of the calendar (2026 confirmed by the editor): verify before publication', status='computed; Diwali dates to verify')
+novJ = [r for r in J if r['d'].month == 11]; vs = sorted(r['vent'] for r in novJ); v1, v2 = vs[len(vs) // 3], vs[2 * len(vs) // 3]
+ev('pm_by_ventilation_nov', 'Median Delhi PM2.5 in November by ventilation tercile (mixing height x 100 m wind, 24 hours to noon)',
+   dict(poor=med([r['pm'] for r in novJ if r['vent'] <= v1]), middle=med([r['pm'] for r in novJ if v1 < r['vent'] <= v2]), good=med([r['pm'] for r in novJ if r['vent'] > v2]), tercile_bounds_m2_s=[round(v1), round(v2)]),
+   S_PM + '; ' + S_E, 'November days in the join', 'median of daily city values')
+ev('pm_by_wind_and_fire', 'Median Delhi PM2.5 on high-fire and low-fire days, split by whether the 100 m wind came from the west-to-north quarter for at least half of the 24 hours to noon',
+   {lab: {k: med([r['pm'] for r in J if c(r) and f(r)]) for k, f in (('low_fire', lambda r: r['fires2'] <= q1), ('high_fire', lambda r: r['fires2'] > q2))} for lab, c in (('from_nw', lambda r: r['nw'] >= 0.5), ('not_from_nw', lambda r: r['nw'] < 0.5))},
+   S_PM + '; ' + S_F + '; ' + S_E, '15 Oct-30 Nov', 'not controlled for time of season')
+# 8 weather
+em = rd('era5_monthly.csv'); clim = {}
+for m in range(1, 13):
+    sel = [r for r in em if int(r['month']) == m and 2016 <= int(r['year']) <= 2025]
+    clim[m] = dict(blh=round(st.mean(float(r['blh']) for r in sel)), blh_night=round(st.mean(float(r['blh_night']) for r in sel)), blh_daily_max=round(st.mean(float(r['blh_dmax']) for r in sel)),
+                   wind_100m=round(st.mean(float(r['ws100']) for r in sel), 2), from_nw_pct=round(st.mean(float(r['nw_pct']) for r in sel)))
+ev('weather_climatology', 'Monthly mixing height (all hours, night 20-06h, daily maximum), 100 m wind speed and share of hours with 100 m wind from 270-360 degrees', clim, S_E, '2016-2025 average', 'metres; m/s; percent of hours')
+# 9 visibility
+vis = collections.defaultdict(lambda: collections.defaultdict(lambda: [0, 0, 0]))
+for r in rd('gsod_split_octnov_decjan.csv'):
+    if r['station'] not in ('42182099999', '42181099999'): continue
+    y = int(r['season_start_year']); dec = '1973-79' if y < 1980 else f'{y // 10 * 10}s' if y < 2020 else '2020-25'
+    if int(r['octnov_valid']) >= 0.7 * 61:
+        a = vis[r['station']][dec]; a[0] += int(r['octnov_valid']); a[1] += int(r['octnov_lt2km']); a[2] += 1
+ev('visibility_octnov', 'Share of October-November days with daily-mean visibility under 2 km, by decade', {('Safdarjung' if s.startswith('42182') else 'Palam'): {d: dict(pct=round(100 * a[1] / a[0]), seasons=a[2]) for d, a in sorted(v.items())} for s, v in vis.items()},
+   'NOAA Global Summary of the Day, stations 42182 (New Delhi Safdarjung) and 42181 (New Delhi Palam)', '1973-2025', 'seasons with >=70% of days reported; daily mean of reported visibility; reporting practice may have changed over time', place='Delhi (two stations)')
+# 10 year-round base: days over the standards in the 12 months
+ev('pm_days_over_standard', "Days in the 12 months with a city value above India's 24-hour standard (60), above the annual-standard figure (40) and above the WHO 24-hour guideline (15)",
+   dict(days=len(allv), over_60=sum(v > 60 for v in allv), over_40=sum(v > 40 for v in allv), over_15=sum(v > 15 for v in allv), lowest_day=round(min(allv)), highest_day=round(max(allv))), S_PM, '1 Nov 2025-31 Oct 2026', M_PM)
+# 11 like-for-like: peak fire weeks against weather-matched days of the same season
+MW = rd('match_weather.csv'); S_MW = S_PM + '; ' + S_E
+M_MW = 'Each day of 25 Oct-20 Nov is compared with up to 5 days of the same season (at least 3) whose ventilation (ERA5 mixing height x 100 m wind, mean of the 24 h to noon) is within a factor of 1.25. Difference = fire-week day minus the mean of its matched days. µg/m³.'
+def mw_tab(name):
+    out = {}
+    for y in sorted({r['season'] for r in MW if r['control'] == name}) + ['all']:
+        s = [r for r in MW if r['control'] == name and (y == 'all' or r['season'] == y)]
+        a = st.mean(float(r['pm']) for r in s); c = st.mean(float(r['control_pm']) for r in s)
+        out[y] = dict(days=len(s), fire_weeks_mean=round(a), matched_mean=round(c), difference=round(a - c), share_of_fire_weeks_pct=round(100 * (a - c) / a))
+    return out
+ev('fire_weeks_vs_matched_winter', 'Mean PM2.5 on days of the peak fire weeks (25 Oct-20 Nov) and on December-January days of the same season with similar ventilation', mw_tab('dec_jan'), S_MW, 'seasons 2016, 2017, 2019, 2020, 2021, 2025', M_MW +
+   ' December-January is colder (more heating, more particles forming in damp air), so this difference is more likely to understate than overstate what the fire weeks add.')
+ev('fire_weeks_vs_matched_early_october', 'Same comparison against 1-14 October of the same season', mw_tab('early_oct'), S_MW, 'seasons with enough early-October data', M_MW +
+   ' Early October is warmer and partly still monsoon air, so this difference overstates what fires add. Not used in the text as an estimate.')
+# 12 fires on the path of the air
+A = rd('answer_daily.csv')
+for r in A: r['pm'] = float(r['pm']); r['upwind'] = int(r['upwind']); r['ex'] = float(r['excess_vs_dec_jan']) if r['excess_vs_dec_jan'] != '' else None
+us = sorted(r['upwind'] for r in A); u1, u2 = us[len(us) // 3], us[2 * len(us) // 3]
+grp = lambda r: 'few' if r['upwind'] <= u1 else 'many' if r['upwind'] > u2 else 'some'
+S_T = S_PM + '; ' + S_F + '; ERA5 100 m wind on a 0.5-degree grid (27.5-33N, 72.5-78.5E) via Open-Meteo archive API'
+M_T = ('Back-paths: air arriving over central Delhi at 4 times a day is traced back 48 hours in hourly steps with the ERA5 100 m wind (horizontal only, no dispersion or vertical motion). '
+       'A detection counts if it lies within 25 km of an hourly path point and was made on the date the air passed or the day before, in any state of India or in Pakistan inside the box. Daily count = distinct detections over the 4 paths. Groups are thirds of all days in the window.')
+ev('path_fires_days', 'Days with a Delhi value and back-paths, and the limits of the three groups by fires on the path', dict(days=len(A), by_year=dict(sorted(collections.Counter(r['year'] for r in A).items())), few_max=u1, many_min_exclusive=u2), S_T, '15 Oct-30 Nov; 2016-2021, 2025, 2026 to 9 Nov', M_T)
+_t = sum(r['upwind'] for r in A)
+ev('path_fires_where', 'Where the detections on the paths were, share of all path detections', {k: round(100 * sum(int(r[c]) for r in A) / _t) for k, c in (('indian_punjab_pct', 'upwind_punjab'), ('haryana_pct', 'upwind_haryana'))} | {'pakistan_pct': round(100 * sum(int(r['upwind_pk']) for r in rd('traj_daily.csv') if r['date'] in {x['date'] for x in A}) / _t)}, S_T, '15 Oct-30 Nov', 'percent of distinct detections; the rest are in other Indian states')
+ev('pm_by_path_fires_by_part', 'Median Delhi PM2.5 by fires on the path of the air, within each part of the season',
+   {p: {k: med([r['pm'] for r in A if r['part'] == p and grp(r) == k]) for k in ('few', 'some', 'many')} for p in ('15-31 Oct', '1-15 Nov', '16-30 Nov')}, S_T, '15 Oct-30 Nov', M_T + ' Median of daily city values.')
+Bx = [r for r in A if r['ex'] is not None]
+def gsum(s): return dict(days=len(s), mean_pm=round(st.mean(r['pm'] for r in s)), matched_winter_mean=round(st.mean(r['pm'] - r['ex'] for r in s)), excess=round(st.mean(r['ex'] for r in s)))
+G = {k: gsum([r for r in Bx if grp(r) == k]) for k in ('few', 'some', 'many')}; G['all'] = gsum(Bx)
+ev('excess_by_path_fires', 'Peak fire weeks (25 Oct-20 Nov): mean PM2.5, mean of the weather-matched December-January days and the difference (excess), by fires on the path of the air', G, S_T, '25 Oct-20 Nov; 2016, 2017, 2019, 2020, 2021, 2025', M_T + ' ' + M_MW)
+import random
+def linked(s):
+    few = [r['ex'] for r in s if grp(r) == 'few']; many = [r for r in s if grp(r) == 'many']
+    if len(few) < 5 or len(many) < 5: return None
+    b = st.mean(few); allx = st.mean(r['ex'] for r in s) - b; allp = st.mean(r['pm'] for r in s); mx = st.mean(r['ex'] for r in many) - b; mp = st.mean(r['pm'] for r in many)
+    return allx, 100 * allx / allp, mx, 100 * mx / mp
+random.seed(11); bs = [x for x in (linked(random.choices(Bx, k=len(Bx))) for _ in range(4000)) if x]
+pc = lambda i, q: sorted(b[i] for b in bs)[int(q * len(bs))]
+L0 = linked(Bx)
+ev('fire_linked_estimate', 'Estimate of the part of Delhi PM2.5 in the peak fire weeks that is linked to fires on the path of the air: excess over weather-matched winter days, minus the excess on days whose air crossed few fires',
+   dict(all_days=dict(ug_m3=round(L0[0]), share_pct=round(L0[1]), ug_m3_range_90=[round(pc(0, .05)), round(pc(0, .95))], share_pct_range_90=[round(pc(1, .05)), round(pc(1, .95))]),
+        many_fire_days=dict(ug_m3=round(L0[2]), share_pct=round(L0[3]), ug_m3_range_90=[round(pc(2, .05)), round(pc(2, .95))], share_pct_range_90=[round(pc(3, .05)), round(pc(3, .95))]),
+        upper_reading_whole_excess_share_pct=round(100 * G['all']['excess'] / G['all']['mean_pm'])), S_T, '25 Oct-20 Nov; 2016, 2017, 2019, 2020, 2021, 2025',
+   'An estimate from a comparison of days, not a measurement of particles. Range = 5th to 95th percentile of 4,000 resamples of the days (sampling spread only; it does not cover the limits of MODIS detection, of the paths or of the choice of baseline). '
+   'The upper reading attributes the whole excess over matched winter days to fires, including Diwali and anything else particular to these weeks.', status='estimate')
+def _nd(r):
+    dd = date(DIWALI[int(r['year'])]); return 0 <= (date(r['date']) - dd).days <= 2
+Bn = [r for r in Bx if not _nd(r)]; Ln = linked(Bn)
+ev('fire_linked_estimate_no_diwali', 'Same estimate leaving out Diwali day and the two days after', dict(days_left_out={k: sum(_nd(r) and grp(r) == k for r in Bx) for k in ('few', 'some', 'many')},
+   excess={k: round(st.mean(r['ex'] for r in Bn if grp(r) == k)) for k in ('few', 'some', 'many')}, all_days=dict(ug_m3=round(Ln[0]), share_pct=round(Ln[1])), many_fire_days=dict(ug_m3=round(Ln[2]), share_pct=round(Ln[3]))),
+   S_T, '25 Oct-20 Nov; 2016, 2017, 2019, 2020, 2021, 2025', 'Diwali dates from memory of the calendar: verify before publication', status='estimate; Diwali dates to verify')
+by = {}
+for y in sorted({r['year'] for r in Bx}):
+    a = [r for r in Bx if r['year'] == y and grp(r) != 'many']; b = [r for r in Bx if r['year'] == y and grp(r) == 'many']
+    by[y] = dict(few_or_some=dict(days=len(a), excess=round(st.mean(r['ex'] for r in a)) if a else None), many=dict(days=len(b), excess=round(st.mean(r['ex'] for r in b)) if b else None),
+                 mean_fires_on_path=round(st.mean(r['upwind'] for r in a + b)))
+ev('excess_by_path_fires_by_year', 'Same excess by year: days with many fires on the path against the rest', by, S_T, '25 Oct-20 Nov', M_T + ' Few days per cell: read the direction, not the size.')
+tr_ = {}
+for k in ('few', 'some', 'many'):
+    s = [r for r in A if grp(r) == k]; co = [float(r['co_rel']) for r in s if r['co_rel'] != '']; ao = [float(r['aod_delhi']) for r in s if r['aod_delhi'] != '']
+    tr_[k] = dict(co_relative_median=round(st.median(co), 2), co_days=len(co), aod_delhi_median=round(st.median(ao), 2), aod_days=len(ao))
+ev('tracers_no_signal', 'Two independent tracers by fires on the path: carbon monoxide at Delhi monitors (each sensor relative to its own median) and satellite aerosol optical depth over Delhi. Neither separates the groups clearly', tr_,
+   'OpenAQ v3 CO sensors within 25 km of central Delhi; NASA GIBS MODIS MAIAC aerosol optical depth tiles (colour-decoded), box around Delhi', '15 Oct-30 Nov',
+   'CO units differ between sensors, so only relative values are used. AOD is decoded from image colours, with at least 30% of the box covered. A negative result: reported so that it is not hidden.', status='computed; negative result')
+json.dump(dict(report='Delhi smog and the crop fires', status='DRAFT 2, not published', version='2026-11-11b', centre=dict(lat=28.61, lon=77.21, name='central Delhi'),
+               inputs=dict(note='Scripts and extracts in scripts/reports/delhi-smog-fires/analysis/ (data/*.csv); raw downloads listed in analysis/README.md'), evidence=E), open(OUT, 'w'), indent=1, ensure_ascii=False)
+for e in E: print(e['id'], '=>', json.dumps(e['value'], ensure_ascii=False)[:1400], '\n')

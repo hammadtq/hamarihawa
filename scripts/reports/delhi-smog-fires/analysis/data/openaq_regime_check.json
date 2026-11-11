@@ -1,0 +1,46 @@
+{
+ "hourly_records_2016_2022": {
+  "bins_ending_on_the_hour": 218278,
+  "bins_ending_on_the_half_hour": 266875,
+  "other": 0,
+  "most_bins_in_one_station_day": 48,
+  "station_days_with_more_than_24_bins": 10585,
+  "station_days": 16225,
+  "expected_measurements_per_bin": {
+   "4": 401324,
+   "1": 83829
+  }
+ },
+ "daily_records_from_2025": {
+  "station_days": 28480,
+  "largest_observedCount": 24,
+  "expectedCount_not_24": 0,
+  "percentCoverage_by_quarter": {
+   "0": 514,
+   "25": 947,
+   "50": 2116,
+   "75": 8768,
+   "100": 16135
+  }
+ },
+ "daily_records_before_2025": {
+  "station_days_with_observedCount_above_24": 25799
+ },
+ "probe_2025_11_12_bawana": {
+  "hour_bins": 24,
+  "all_end_on_the_hour": true,
+  "mean_of_hour_bins": 447.62
+ },
+ "probe_2019_11_13_shadipur": {
+  "hour_bins": 48,
+  "quarter_hour_measurements": 95
+ },
+ "probe_2020_11_04_shadipur": {
+  "hour_bins": 19,
+  "bins_ending_on_the_hour": 4,
+  "bins_ending_on_the_half_hour": 15,
+  "first_bin_start": "05:00",
+  "last_bin_end": "23:30",
+  "note": "Counts on two overlapping grids of hourly aggregates. Not a count of hours with measurements: the raw measurements for this date were not fetched."
+ }
+}

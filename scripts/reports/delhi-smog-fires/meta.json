@@ -1,0 +1,26 @@
+{
+ "title": "Delhi's air is polluted all year. Autumn crop fires add to it",
+ "slug": "delhi-smog-fires",
+ "path": "/report/delhi-smog-fires/",
+ "description": "Delhi's government monitors show fine-particle pollution at more than twice India's annual standard over the past 12 months, and December–January is about as polluted as the crop-burning weeks. In the available late-October and early-November records, Delhi's PM2.5 was higher on days with some or many fire detections upwind than on days with few. The data cannot say what percentage of Delhi's pollution comes from the fires.",
+ "date_published": "2026-11-11",
+ "abstract": "Delhi's fine-particle pollution (PM2.5), measured by about 44 government monitors, averaged 92 µg/m³ on the 332 days with data in the 12 months to October 2026, against India's annual standard of 40; 179 of those days were above the 24-hour standard of 60. December–January, after the main rice-residue burning season, averaged 167–192 µg/m³ in the three seasons with enough data. We traced the air arriving in Delhi back 48 hours along the wind and counted MODIS fire detections near its path (an estimated upstream fire-detection index; 161 days, mainly 2019, 2021 and 2025). In 15–31 October and 1–15 November, median PM2.5 was higher in the groups of days with some or many upstream detections than in the group with few; in 16–30 November it was not. The size of the differences depends on the period and on how the older data are selected. This is an association between days. It does not determine what percentage of Delhi's pollution came from crop burning, and the report gives no such percentage.",
+ "inLanguage": [
+  "en",
+  "ur",
+  "hi"
+ ],
+ "translations": {
+  "ur": {
+   "title": "دہلی کی ہوا سارا سال آلودہ رہتی ہے، خزاں میں فصلوں کی آگ اسے اور بڑھا دیتی ہے",
+   "description": "دہلی کے سرکاری مانیٹروں کے مطابق پچھلے بارہ مہینوں میں باریک ذرات کی آلودگی ہندوستان کے سالانہ معیار کے دگنے سے بھی زیادہ رہی، اور دسمبر–جنوری تقریباً اتنے ہی آلودہ رہے جتنے فصلیں جلانے والے ہفتے۔ اکتوبر کے آخر اور نومبر کے شروع کے دستیاب ریکارڈ میں، جن دنوں ہوا کے راستے میں آگ کے مقامات درمیانے یا زیادہ تھے، دہلی کا PM2.5 ان دنوں سے زیادہ رہا جب یہ کم تھے۔ یہ ڈیٹا یہ نہیں بتا سکتا کہ دہلی کی آلودگی کا کتنے فیصد حصہ ان آگوں سے آتا ہے۔",
+   "abstract": "دہلی میں باریک ذرات (PM2.5) کی آلودگی، جو تقریباً 44 سرکاری مانیٹروں سے ناپی گئی، اکتوبر 2026 تک کے بارہ مہینوں کے ڈیٹا والے 332 دنوں میں اوسطاً 92 µg/m³ رہی، جبکہ ہندوستان کا سالانہ معیار 40 ہے؛ ان میں سے 179 دن 24 گھنٹے کے معیار 60 سے اوپر رہے۔ دھان کی باقیات جلانے کا بڑا موسم گزرنے کے بعد، دسمبر–جنوری کی اوسط ان تین موسموں میں 167 سے 192 µg/m³ رہی جن کا کافی ڈیٹا موجود ہے۔ ہم نے دہلی پہنچنے والی ہوا کا راستہ 48 گھنٹے پیچھے تک نکالا اور اس کے قریب MODIS کے آگ کے مقامات گنے (ہوا کے راستے میں آگ کے مقامات کا تخمینی اشاریہ؛ 161 دن، زیادہ تر 2019، 2021 اور 2025 کے)۔ 15–31 اکتوبر اور 1–15 نومبر میں وسطانی PM2.5 ان دنوں میں زیادہ رہا جن میں راستے کے مقامات درمیانے یا زیادہ تھے، بہ نسبت ان دنوں کے جن میں یہ کم تھے؛ 16–30 نومبر میں ایسا نہیں تھا۔ فرق کی مقدار مدت پر اور اس پر منحصر ہے کہ پرانا ڈیٹا کیسے چنا جائے۔ یہ دنوں کا آپس میں موازنہ ہے۔ اس سے یہ طے نہیں ہوتا کہ دہلی کی آلودگی کا کتنے فیصد حصہ فصلیں جلانے سے آیا، اور رپورٹ ایسا کوئی فیصد نہیں دیتی۔"
+  },
+  "hi": {
+   "title": "दिल्ली की हवा साल भर प्रदूषित रहती है, पतझड़ में पराली की आग इसे और बढ़ा देती है",
+   "description": "दिल्ली के सरकारी मॉनिटरों के मुताबिक़ पिछले बारह महीनों में महीन कणों का प्रदूषण भारत के सालाना मानक के दोगुने से भी ज़्यादा रहा, और दिसंबर–जनवरी लगभग उतने ही प्रदूषित रहे जितने पराली जलाने वाले हफ़्ते। अक्टूबर के आख़िर और नवंबर की शुरुआत के उपलब्ध रिकॉर्ड में, जिन दिनों हवा के रास्ते में आग के निशान मध्यम या ज़्यादा थे, दिल्ली का PM2.5 उन दिनों से ज़्यादा रहा जब ये कम थे। यह डेटा यह नहीं बता सकता कि दिल्ली के प्रदूषण का कितने प्रतिशत हिस्सा इन आगों से आता है।",
+   "abstract": "दिल्ली में महीन कणों (PM2.5) का प्रदूषण, जो लगभग 44 सरकारी मॉनिटरों से नापा गया, अक्टूबर 2026 तक के बारह महीनों के डेटा वाले 332 दिनों में औसतन 92 µg/m³ रहा, जबकि भारत का सालाना मानक 40 है; इनमें से 179 दिन 24 घंटे के मानक 60 से ऊपर रहे। धान की पराली जलाने का मुख्य सीज़न बीतने के बाद, दिसंबर–जनवरी का औसत उन तीन सीज़नों में 167 से 192 µg/m³ रहा जिनका पर्याप्त डेटा है। हमने दिल्ली पहुँचने वाली हवा का रास्ता 48 घंटे पीछे तक निकाला और उसके पास MODIS के आग के निशान गिने (हवा के रास्ते में आग के निशानों का अनुमानित सूचकांक; 161 दिन, ज़्यादातर 2019, 2021 और 2025 के)। 15–31 अक्टूबर और 1–15 नवंबर में माध्यिका PM2.5 उन दिनों में ज़्यादा रहा जिनमें रास्ते के निशान मध्यम या ज़्यादा थे, उन दिनों के मुक़ाबले जिनमें ये कम थे; 16–30 नवंबर में ऐसा नहीं था। अंतर का आकार अवधि पर और इस पर निर्भर है कि पुराना डेटा कैसे चुना जाए। यह दिनों की आपस में तुलना है। इससे यह तय नहीं होता कि दिल्ली के प्रदूषण का कितने प्रतिशत हिस्सा पराली जलाने से आया, और रिपोर्ट ऐसा कोई प्रतिशत नहीं देती।"
+  }
+ },
+ "og_image": "/report/delhi-smog-fires/share.jpg"
+}

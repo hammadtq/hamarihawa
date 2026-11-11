@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 392" font-family="'Noto Sans Devanagari', 'Kohinoor Devanagari', Mangal, Nirmala UI, Arial, sans-serif" role="img" aria-label="आग के चरम हफ़्तों और हवा की निकासी में मिलते-जुलते सर्दियों के दिनों में दिल्ली का PM2.5, आग के निशानों के समूह के हिसाब से">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="46" y="18" font-size="14" font-weight="700" fill="#1d1d1b">आग वाले हफ़्तों के दिन और मिलती-जुलती हवा की निकासी वाले सर्दियों के दिन: दिल्ली का PM2.5, µg/m³</text>
+<text x="46" y="33" font-size="10.5" fill="#7c7c80">57 दिनों (25 अक्टूबर–20 नवंबर) और उनकी जोड़ी के दिसंबर–जनवरी के दिनों का औसत, सूचकांक के समूह के हिसाब से</text>
+<line x1="46" x2="706" y1="218.8" y2="218.8" stroke="#eee"/><text x="40" y="221.8" font-size="9.5" text-anchor="end" fill="#7c7c80">100</text>
+<line x1="46" x2="706" y1="147.5" y2="147.5" stroke="#eee"/><text x="40" y="150.5" font-size="9.5" text-anchor="end" fill="#7c7c80">200</text>
+<line x1="46" x2="706" y1="76.2" y2="76.2" stroke="#eee"/><text x="40" y="79.2" font-size="9.5" text-anchor="end" fill="#7c7c80">300</text>
+<rect x="80.0" y="171.0" width="72.0" height="119.0" fill="#d62d20" rx="2"/><text x="116.0" y="166.0" font-size="11" font-weight="700" text-anchor="middle" fill="#3a3935">167</text>
+<rect x="160.0" y="171.7" width="72.0" height="118.3" fill="#c9c9c4" rx="2"/><text x="196.0" y="166.7" font-size="11" font-weight="700" text-anchor="middle" fill="#3a3935">166</text>
+<text x="156.0" y="305" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1d1d1b">रास्ते के पास कम निशान</text><text x="156.0" y="319" font-size="9.5" text-anchor="middle" fill="#7c7c80">10 दिन</text>
+<rect x="300.0" y="153.2" width="72.0" height="136.8" fill="#d62d20" rx="2"/><text x="336.0" y="148.2" font-size="11" font-weight="700" text-anchor="middle" fill="#3a3935">192</text>
+<rect x="380.0" y="176.0" width="72.0" height="114.0" fill="#c9c9c4" rx="2"/><text x="416.0" y="171.0" font-size="11" font-weight="700" text-anchor="middle" fill="#3a3935">160</text>
+<text x="376.0" y="305" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1d1d1b">मध्यम</text><text x="376.0" y="319" font-size="9.5" text-anchor="middle" fill="#7c7c80">17 दिन</text>
+<rect x="520.0" y="109.7" width="72.0" height="180.3" fill="#d62d20" rx="2"/><text x="556.0" y="104.7" font-size="11" font-weight="700" text-anchor="middle" fill="#3a3935">253</text>
+<rect x="600.0" y="176.7" width="72.0" height="113.3" fill="#c9c9c4" rx="2"/><text x="636.0" y="171.7" font-size="11" font-weight="700" text-anchor="middle" fill="#3a3935">159</text>
+<text x="596.0" y="305" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1d1d1b">रास्ते के पास ज़्यादा निशान</text><text x="596.0" y="319" font-size="9.5" text-anchor="middle" fill="#7c7c80">30 दिन</text>
+<rect x="46" y="340" width="10" height="10" fill="#d62d20"/><text x="61" y="349" font-size="10" fill="#3a3935">25 अक्टूबर–20 नवंबर के दिन</text>
+<rect x="216" y="340" width="10" height="10" fill="#c9c9c4"/><text x="231" y="349" font-size="10" fill="#3a3935">उसी सीज़न के दिसंबर–जनवरी के दिन जिनमें हवा की निकासी मिलती-जुलती थी</text>
+<text x="46" y="372" font-size="9" fill="#7c7c80">सिर्फ़ एक पैमाने (मिक्सिंग हाइट × हवा की रफ़्तार) पर मिलाया गया है। दोनों बार का अंतर वह मात्रा नहीं है जो आग की वजह से है:</text>
+<text x="46" y="384" font-size="9" fill="#7c7c80">तापमान, नमी, पटाख़े और प्रदूषण के स्रोत भी इन हफ़्तों और बीच सर्दियों में अलग होते हैं। हमारी हवा।</text></svg>

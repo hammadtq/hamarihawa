@@ -1,0 +1,383 @@
+{
+ "days": 161,
+ "days_by_year": {
+  "2016": 4,
+  "2017": 3,
+  "2018": 19,
+  "2019": 30,
+  "2020": 1,
+  "2021": 45,
+  "2025": 45,
+  "2026": 14
+ },
+ "not_used": {
+  "no PM2.5 value": 189,
+  "back-paths incomplete (no wind data)": 1
+ },
+ "last_day": "2026-11-02",
+ "cut_few_max": 3,
+ "cut_many_above": 82,
+ "four_complete_paths_days": 157,
+ "where_pct": {
+  "indian_punjab": 83,
+  "haryana": 11,
+  "pakistan": 5
+ },
+ "median_by_part": {
+  "15-31 Oct": {
+   "few": {
+    "median": 105,
+    "days": 32
+   },
+   "some": {
+    "median": 140,
+    "days": 22
+   },
+   "many": {
+    "median": 133,
+    "days": 16
+   }
+  },
+  "1-15 Nov": {
+   "few": {
+    "median": 200,
+    "days": 5
+   },
+   "some": {
+    "median": 250,
+    "days": 12
+   },
+   "many": {
+    "median": 262,
+    "days": 28
+   }
+  },
+  "16-30 Nov": {
+   "few": {
+    "median": 219,
+    "days": 17
+   },
+   "some": {
+    "median": 191,
+    "days": 20
+   },
+   "many": {
+    "median": 216,
+    "days": 9
+   }
+  }
+ },
+ "median_by_part_within_year_thirds": {
+  "15-31 Oct": {
+   "few": {
+    "median": 105,
+    "days": 35
+   },
+   "some": {
+    "median": 139,
+    "days": 20
+   },
+   "many": {
+    "median": 121,
+    "days": 15
+   }
+  },
+  "1-15 Nov": {
+   "few": {
+    "median": 212,
+    "days": 10
+   },
+   "some": {
+    "median": 257,
+    "days": 5
+   },
+   "many": {
+    "median": 262,
+    "days": 30
+   }
+  },
+  "16-30 Nov": {
+   "few": {
+    "median": 210,
+    "days": 20
+   },
+   "some": {
+    "median": 194,
+    "days": 23
+   },
+   "many": {
+    "median": 216,
+    "days": 3
+   }
+  }
+ },
+ "matched_days": {
+  "days": 57,
+  "by_year": {
+   "2019": 8,
+   "2021": 24,
+   "2025": 25
+  }
+ },
+ "exploratory_contrast": {
+  "main": {
+   "days": 57,
+   "days_few": 10,
+   "days_some": 17,
+   "days_many": 30,
+   "mean_pm": 219.4,
+   "mean_matched_winter": 160.7,
+   "excess_all": 58.7,
+   "excess_few": 0.6,
+   "excess_some": 31.4,
+   "excess_many": 93.5,
+   "pm_few": 167.1,
+   "pm_some": 191.6,
+   "pm_many": 252.6,
+   "winter_few": 166.4,
+   "winter_some": 160.2,
+   "winter_many": 159.1,
+   "all_minus_few": 58.1,
+   "all_minus_few_pct_of_pm": 26.5,
+   "many_minus_few": 92.9,
+   "many_minus_few_pct_of_pm": 36.8
+  },
+  "timing_strict_no_detections_after_passage": {
+   "days": 57,
+   "days_few": 10,
+   "days_some": 17,
+   "days_many": 30,
+   "mean_pm": 219.4,
+   "mean_matched_winter": 160.7,
+   "excess_all": 58.7,
+   "excess_few": 0.6,
+   "excess_some": 31.4,
+   "excess_many": 93.5,
+   "pm_few": 167.1,
+   "pm_some": 191.6,
+   "pm_many": 252.6,
+   "winter_few": 166.4,
+   "winter_some": 160.2,
+   "winter_many": 159.1,
+   "all_minus_few": 58.1,
+   "all_minus_few_pct_of_pm": 26.5,
+   "many_minus_few": 92.9,
+   "many_minus_few_pct_of_pm": 36.8
+  },
+  "timing_calendar_day_rule_of_draft_2": {
+   "days": 57,
+   "days_few": 9,
+   "days_some": 17,
+   "days_many": 31,
+   "mean_pm": 219.4,
+   "mean_matched_winter": 160.7,
+   "excess_all": 58.7,
+   "excess_few": -28.1,
+   "excess_some": 42.9,
+   "excess_many": 92.6,
+   "pm_few": 149.3,
+   "pm_some": 200.0,
+   "pm_many": 250.4,
+   "winter_few": 177.5,
+   "winter_some": 157.1,
+   "winter_many": 157.8,
+   "all_minus_few": 86.8,
+   "all_minus_few_pct_of_pm": 39.6,
+   "many_minus_few": 120.7,
+   "many_minus_few_pct_of_pm": 48.2
+  },
+  "only_days_with_four_complete_paths": {
+   "days": 57,
+   "days_few": 10,
+   "days_some": 17,
+   "days_many": 30,
+   "mean_pm": 219.4,
+   "mean_matched_winter": 160.7,
+   "excess_all": 58.7,
+   "excess_few": 0.6,
+   "excess_some": 31.4,
+   "excess_many": 93.5,
+   "pm_few": 167.1,
+   "pm_some": 191.6,
+   "pm_many": 252.6,
+   "winter_few": 166.4,
+   "winter_some": 160.2,
+   "winter_many": 159.1,
+   "all_minus_few": 58.1,
+   "all_minus_few_pct_of_pm": 26.5,
+   "many_minus_few": 92.9,
+   "many_minus_few_pct_of_pm": 36.8
+  },
+  "thirds_within_each_year": {
+   "days": 57,
+   "days_few": 12,
+   "days_some": 16,
+   "days_many": 29,
+   "mean_pm": 219.4,
+   "mean_matched_winter": 160.7,
+   "excess_all": 58.7,
+   "excess_few": -2.6,
+   "excess_some": 15.5,
+   "excess_many": 107.9,
+   "pm_few": 157.0,
+   "pm_some": 184.3,
+   "pm_many": 264.6,
+   "winter_few": 159.6,
+   "winter_some": 168.8,
+   "winter_many": 156.7,
+   "all_minus_few": 61.3,
+   "all_minus_few_pct_of_pm": 28.0,
+   "many_minus_few": 110.5,
+   "many_minus_few_pct_of_pm": 41.8
+  },
+  "without_diwali_day_and_two_days_after": {
+   "days": 55,
+   "days_few": 10,
+   "days_some": 17,
+   "days_many": 28,
+   "mean_pm": 212.9,
+   "mean_matched_winter": 161.1,
+   "excess_all": 51.9,
+   "excess_few": 0.6,
+   "excess_some": 31.4,
+   "excess_many": 82.6,
+   "pm_few": 167.1,
+   "pm_some": 191.6,
+   "pm_many": 242.3,
+   "winter_few": 166.4,
+   "winter_some": 160.2,
+   "winter_many": 159.7,
+   "all_minus_few": 51.2,
+   "all_minus_few_pct_of_pm": 24.1,
+   "many_minus_few": 81.9,
+   "many_minus_few_pct_of_pm": 33.8
+  }
+ },
+ "diwali_days_removed": [
+  "2021-11-05",
+  "2021-11-06"
+ ],
+ "matched_days_by_year_and_category": {
+  "2019": {
+   "few": 4,
+   "some": 3,
+   "many": 1
+  },
+  "2021": {
+   "few": 0,
+   "some": 6,
+   "many": 18
+  },
+  "2025": {
+   "few": 6,
+   "some": 8,
+   "many": 11
+  }
+ },
+ "leave_one_season_out": {
+  "2019": {
+   "all_minus_few_pct_of_pm": 35.2,
+   "many_minus_few_pct_of_pm": 44.2
+  },
+  "2021": {
+   "all_minus_few_pct_of_pm": 25.6,
+   "many_minus_few_pct_of_pm": 40.1
+  },
+  "2025": "not reported: 4 few-category and 19 many-category days remain, below the chosen minimum of 5 in each"
+ },
+ "by_year": {
+  "2019": {
+   "days": 8,
+   "mean_pm": 255,
+   "matched_winter": 167,
+   "excess": 88,
+   "many_days": 1,
+   "excess_many": 252,
+   "excess_not_many": 65
+  },
+  "2021": {
+   "days": 24,
+   "mean_pm": 217,
+   "matched_winter": 156,
+   "excess": 61,
+   "many_days": 18,
+   "excess_many": 87,
+   "excess_not_many": -20
+  },
+  "2025": {
+   "days": 25,
+   "mean_pm": 210,
+   "matched_winter": 163,
+   "excess": 48,
+   "many_days": 11,
+   "excess_many": 89,
+   "excess_not_many": 15
+  }
+ },
+ "resampling": {
+  "days_resampled_independently": {
+   "all_minus_few_pct_of_pm": [
+    7.9,
+    42.7
+   ],
+   "many_minus_few_pct_of_pm": [
+    16.8,
+    52.0
+   ],
+   "resamples": 3924,
+   "draws": 4000,
+   "draws_rejected": 76
+  },
+  "whole_seasons_resampled": {
+   "all_minus_few_pct_of_pm": [
+    16.4,
+    36.0
+   ],
+   "many_minus_few_pct_of_pm": [
+    26.3,
+    44.7
+   ],
+   "resamples": 3290,
+   "draws": 4000,
+   "draws_rejected": 710
+  },
+  "note": "Percentiles are over ACCEPTED draws only: a draw is rejected when the few or the many category has under 5 days. With 3 seasons there are only 27 ordered season combinations; 5 fail that rule and the rest give 7 distinct values. This is limited cluster support, not a comprehensive uncertainty assessment.",
+  "season_combinations": {
+   "ordered_combinations": 27,
+   "rejected": 5,
+   "distinct_values": 7
+  }
+ },
+ "control_reuse": {
+  "target_days": 57,
+  "control_slots": 268,
+  "distinct_control_days": 93,
+  "control_days_used_more_than_once": 64,
+  "most_uses_of_one_day": 9
+ },
+ "tracers_exploratory": {
+  "few": {
+   "co_relative_median": 1.5,
+   "co_days": 26,
+   "aod_delhi_median": 1.11,
+   "aod_days": 43
+  },
+  "some": {
+   "co_relative_median": 1.67,
+   "co_days": 19,
+   "aod_delhi_median": 0.96,
+   "aod_days": 49
+  },
+  "many": {
+   "co_relative_median": 1.55,
+   "co_days": 14,
+   "aod_delhi_median": 1.18,
+   "aod_days": 52
+  }
+ },
+ "seeds": {
+  "days": 11,
+  "seasons": 12,
+  "resamples": 4000
+ }
+}

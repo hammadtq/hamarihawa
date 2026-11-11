@@ -1,0 +1,220 @@
+{
+ "what": "Historical (2016-2022) city days built from the hourly aggregates ending on :00 (main) or on :30 (alternative). Everything else is unchanged.",
+ "caution": "The :30 series shifts the historical averaging window by half an hour and is a diagnostic only. Neither grid was chosen for its results; :00 stays the main series because it is the clock-hour grid the 2025-26 records use.",
+ "historical_city_days": {
+  "main_00": 239,
+  "alternative_30": 424
+ },
+ "main_00": {
+  "days_with_pm_and_index": 161,
+  "matched_days": 57,
+  "matched_days_by_season": {
+   "2019": 8,
+   "2021": 24,
+   "2025": 25
+  },
+  "cut_few_max": 3,
+  "cut_many_above": 82,
+  "median_pm_by_period": {
+   "15-31 Oct": {
+    "few": {
+     "median": 104.7,
+     "days": 32
+    },
+    "some": {
+     "median": 139.8,
+     "days": 22
+    },
+    "many": {
+     "median": 133.0,
+     "days": 16
+    }
+   },
+   "1-15 Nov": {
+    "few": {
+     "median": 199.8,
+     "days": 5
+    },
+    "some": {
+     "median": 249.6,
+     "days": 12
+    },
+    "many": {
+     "median": 261.9,
+     "days": 28
+    }
+   },
+   "16-30 Nov": {
+    "few": {
+     "median": 219.0,
+     "days": 17
+    },
+    "some": {
+     "median": 191.2,
+     "days": 20
+    },
+    "many": {
+     "median": 216.2,
+     "days": 9
+    }
+   }
+  },
+  "mean_difference_from_matched_winter": {
+   "few": {
+    "mean": 0.64,
+    "days": 10
+   },
+   "some": {
+    "mean": 31.38,
+    "days": 17
+   },
+   "many": {
+    "mean": 93.53,
+    "days": 30
+   }
+  },
+  "exploratory_all_minus_few_pct_of_pm": 26.5
+ },
+ "alternative_30_thirds_re_estimated": {
+  "days_with_pm_and_index": 238,
+  "matched_days": 81,
+  "matched_days_by_season": {
+   "2017": 21,
+   "2019": 11,
+   "2021": 24,
+   "2025": 25
+  },
+  "cut_few_max": 6,
+  "cut_many_above": 104,
+  "median_pm_by_period": {
+   "15-31 Oct": {
+    "few": {
+     "median": 105.2,
+     "days": 38
+    },
+    "some": {
+     "median": 153.0,
+     "days": 33
+    },
+    "many": {
+     "median": 184.7,
+     "days": 26
+    }
+   },
+   "1-15 Nov": {
+    "few": {
+     "median": 236.4,
+     "days": 17
+    },
+    "some": {
+     "median": 238.3,
+     "days": 22
+    },
+    "many": {
+     "median": 285.5,
+     "days": 37
+    }
+   },
+   "16-30 Nov": {
+    "few": {
+     "median": 189.0,
+     "days": 25
+    },
+    "some": {
+     "median": 171.4,
+     "days": 24
+    },
+    "many": {
+     "median": 172.2,
+     "days": 16
+    }
+   }
+  },
+  "mean_difference_from_matched_winter": {
+   "few": {
+    "mean": 32.92,
+    "days": 23
+   },
+   "some": {
+    "mean": 65.39,
+    "days": 25
+   },
+   "many": {
+    "mean": 107.75,
+    "days": 33
+   }
+  },
+  "exploratory_all_minus_few_pct_of_pm": 17.2
+ },
+ "alternative_30_main_cutoffs_kept": {
+  "days_with_pm_and_index": 238,
+  "matched_days": 81,
+  "matched_days_by_season": {
+   "2017": 21,
+   "2019": 11,
+   "2021": 24,
+   "2025": 25
+  },
+  "cut_few_max": 3,
+  "cut_many_above": 82,
+  "median_pm_by_period": {
+   "15-31 Oct": {
+    "few": {
+     "median": 104.5,
+     "days": 33
+    },
+    "some": {
+     "median": 153.0,
+     "days": 35
+    },
+    "many": {
+     "median": 184.0,
+     "days": 29
+    }
+   },
+   "1-15 Nov": {
+    "few": {
+     "median": 195.0,
+     "days": 13
+    },
+    "some": {
+     "median": 255.5,
+     "days": 21
+    },
+    "many": {
+     "median": 279.5,
+     "days": 42
+    }
+   },
+   "16-30 Nov": {
+    "few": {
+     "median": 184.8,
+     "days": 18
+    },
+    "some": {
+     "median": 173.4,
+     "days": 29
+    },
+    "many": {
+     "median": 172.2,
+     "days": 18
+    }
+   }
+  },
+  "mean_difference_from_matched_winter": {
+   "few": {
+    "mean": 36.33,
+    "days": 18
+   },
+   "some": {
+    "mean": 60.09,
+    "days": 28
+   },
+   "many": {
+    "mean": 103.18,
+    "days": 35
+   }
+  },
+  "exploratory_all_minus_few_pct_of_pm": 15.8
+ }
+}

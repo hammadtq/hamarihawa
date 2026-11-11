@@ -1,0 +1,408 @@
+{
+ "days": 238,
+ "days_by_year": {
+  "2016": 10,
+  "2017": 41,
+  "2018": 33,
+  "2019": 34,
+  "2020": 16,
+  "2021": 45,
+  "2025": 45,
+  "2026": 14
+ },
+ "not_used": {
+  "no PM2.5 value": 112,
+  "back-paths incomplete (no wind data)": 1
+ },
+ "last_day": "2026-11-02",
+ "cut_few_max": 6,
+ "cut_many_above": 104,
+ "four_complete_paths_days": 234,
+ "where_pct": {
+  "indian_punjab": 84,
+  "haryana": 11,
+  "pakistan": 4
+ },
+ "median_by_part": {
+  "15-31 Oct": {
+   "few": {
+    "median": 105,
+    "days": 38
+   },
+   "some": {
+    "median": 153,
+    "days": 33
+   },
+   "many": {
+    "median": 185,
+    "days": 26
+   }
+  },
+  "1-15 Nov": {
+   "few": {
+    "median": 236,
+    "days": 17
+   },
+   "some": {
+    "median": 238,
+    "days": 22
+   },
+   "many": {
+    "median": 286,
+    "days": 37
+   }
+  },
+  "16-30 Nov": {
+   "few": {
+    "median": 189,
+    "days": 25
+   },
+   "some": {
+    "median": 171,
+    "days": 24
+   },
+   "many": {
+    "median": 172,
+    "days": 16
+   }
+  }
+ },
+ "median_by_part_within_year_thirds": {
+  "15-31 Oct": {
+   "few": {
+    "median": 122,
+    "days": 42
+   },
+   "some": {
+    "median": 148,
+    "days": 33
+   },
+   "many": {
+    "median": 185,
+    "days": 22
+   }
+  },
+  "1-15 Nov": {
+   "few": {
+    "median": 236,
+    "days": 23
+   },
+   "some": {
+    "median": 286,
+    "days": 14
+   },
+   "many": {
+    "median": 263,
+    "days": 39
+   }
+  },
+  "16-30 Nov": {
+   "few": {
+    "median": 174,
+    "days": 24
+   },
+   "some": {
+    "median": 188,
+    "days": 28
+   },
+   "many": {
+    "median": 167,
+    "days": 13
+   }
+  }
+ },
+ "matched_days": {
+  "days": 81,
+  "by_year": {
+   "2017": 21,
+   "2019": 11,
+   "2021": 24,
+   "2025": 25
+  }
+ },
+ "exploratory_contrast": {
+  "main": {
+   "days": 81,
+   "days_few": 23,
+   "days_some": 25,
+   "days_many": 33,
+   "mean_pm": 234.8,
+   "mean_matched_winter": 161.4,
+   "excess_all": 73.4,
+   "excess_few": 32.9,
+   "excess_some": 65.4,
+   "excess_many": 107.8,
+   "pm_few": 200.6,
+   "pm_some": 225.2,
+   "pm_many": 265.9,
+   "winter_few": 167.7,
+   "winter_some": 159.9,
+   "winter_many": 158.2,
+   "all_minus_few": 40.5,
+   "all_minus_few_pct_of_pm": 17.2,
+   "many_minus_few": 74.8,
+   "many_minus_few_pct_of_pm": 28.1
+  },
+  "timing_strict_no_detections_after_passage": {
+   "days": 81,
+   "days_few": 24,
+   "days_some": 23,
+   "days_many": 34,
+   "mean_pm": 234.8,
+   "mean_matched_winter": 161.4,
+   "excess_all": 73.4,
+   "excess_few": 33.4,
+   "excess_some": 65.6,
+   "excess_many": 107.0,
+   "pm_few": 203.4,
+   "pm_some": 224.5,
+   "pm_many": 264.1,
+   "winter_few": 170.0,
+   "winter_some": 158.9,
+   "winter_many": 157.0,
+   "all_minus_few": 40.1,
+   "all_minus_few_pct_of_pm": 17.1,
+   "many_minus_few": 73.7,
+   "many_minus_few_pct_of_pm": 27.9
+  },
+  "timing_calendar_day_rule_of_draft_2": {
+   "days": 81,
+   "days_few": 23,
+   "days_some": 25,
+   "days_many": 33,
+   "mean_pm": 234.8,
+   "mean_matched_winter": 161.4,
+   "excess_all": 73.4,
+   "excess_few": 37.3,
+   "excess_some": 52.5,
+   "excess_many": 114.5,
+   "pm_few": 208.2,
+   "pm_some": 214.5,
+   "pm_many": 268.8,
+   "winter_few": 170.9,
+   "winter_some": 162.0,
+   "winter_many": 154.4,
+   "all_minus_few": 36.2,
+   "all_minus_few_pct_of_pm": 15.4,
+   "many_minus_few": 77.2,
+   "many_minus_few_pct_of_pm": 28.7
+  },
+  "only_days_with_four_complete_paths": {
+   "days": 81,
+   "days_few": 23,
+   "days_some": 25,
+   "days_many": 33,
+   "mean_pm": 234.8,
+   "mean_matched_winter": 161.4,
+   "excess_all": 73.4,
+   "excess_few": 32.9,
+   "excess_some": 65.4,
+   "excess_many": 107.8,
+   "pm_few": 200.6,
+   "pm_some": 225.2,
+   "pm_many": 265.9,
+   "winter_few": 167.7,
+   "winter_some": 159.9,
+   "winter_many": 158.2,
+   "all_minus_few": 40.5,
+   "all_minus_few_pct_of_pm": 17.2,
+   "many_minus_few": 74.8,
+   "many_minus_few_pct_of_pm": 28.1
+  },
+  "thirds_within_each_year": {
+   "days": 81,
+   "days_few": 23,
+   "days_some": 23,
+   "days_many": 35,
+   "mean_pm": 234.8,
+   "mean_matched_winter": 161.4,
+   "excess_all": 73.4,
+   "excess_few": 40.7,
+   "excess_some": 41.0,
+   "excess_many": 116.2,
+   "pm_few": 207.0,
+   "pm_some": 207.1,
+   "pm_many": 271.4,
+   "winter_few": 166.3,
+   "winter_some": 166.1,
+   "winter_many": 155.1,
+   "all_minus_few": 32.7,
+   "all_minus_few_pct_of_pm": 13.9,
+   "many_minus_few": 75.5,
+   "many_minus_few_pct_of_pm": 27.8
+  },
+  "without_diwali_day_and_two_days_after": {
+   "days": 76,
+   "days_few": 23,
+   "days_some": 24,
+   "days_many": 29,
+   "mean_pm": 228.5,
+   "mean_matched_winter": 162.7,
+   "excess_all": 65.8,
+   "excess_few": 32.9,
+   "excess_some": 62.1,
+   "excess_many": 95.1,
+   "pm_few": 200.6,
+   "pm_some": 222.2,
+   "pm_many": 255.9,
+   "winter_few": 167.7,
+   "winter_some": 160.1,
+   "winter_many": 160.8,
+   "all_minus_few": 32.9,
+   "all_minus_few_pct_of_pm": 14.4,
+   "many_minus_few": 62.1,
+   "many_minus_few_pct_of_pm": 24.3
+  }
+ },
+ "diwali_days_removed": [
+  "2019-10-27",
+  "2019-10-28",
+  "2019-10-29",
+  "2021-11-05",
+  "2021-11-06"
+ ],
+ "matched_days_by_year_and_category": {
+  "2017": {
+   "few": 9,
+   "some": 9,
+   "many": 3
+  },
+  "2019": {
+   "few": 5,
+   "some": 3,
+   "many": 3
+  },
+  "2021": {
+   "few": 1,
+   "some": 6,
+   "many": 17
+  },
+  "2025": {
+   "few": 8,
+   "some": 7,
+   "many": 10
+  }
+ },
+ "leave_one_season_out": {
+  "2017": {
+   "all_minus_few_pct_of_pm": 31.2,
+   "many_minus_few_pct_of_pm": 41.3
+  },
+  "2019": {
+   "all_minus_few_pct_of_pm": 14.9,
+   "many_minus_few_pct_of_pm": 25.8
+  },
+  "2021": {
+   "all_minus_few_pct_of_pm": 17.3,
+   "many_minus_few_pct_of_pm": 30.5
+  },
+  "2025": {
+   "all_minus_few_pct_of_pm": 8.9,
+   "many_minus_few_pct_of_pm": 19.1
+  }
+ },
+ "by_year": {
+  "2017": {
+   "days": 21,
+   "mean_pm": 270,
+   "matched_winter": 172,
+   "excess": 98,
+   "many_days": 3,
+   "excess_many": 162,
+   "excess_not_many": 87
+  },
+  "2019": {
+   "days": 11,
+   "mean_pm": 260,
+   "matched_winter": 154,
+   "excess": 106,
+   "many_days": 3,
+   "excess_many": 171,
+   "excess_not_many": 81
+  },
+  "2021": {
+   "days": 24,
+   "mean_pm": 218,
+   "matched_winter": 154,
+   "excess": 64,
+   "many_days": 17,
+   "excess_many": 97,
+   "excess_not_many": -17
+  },
+  "2025": {
+   "days": 25,
+   "mean_pm": 210,
+   "matched_winter": 163,
+   "excess": 48,
+   "many_days": 10,
+   "excess_many": 90,
+   "excess_not_many": 19
+  }
+ },
+ "resampling": {
+  "days_resampled_independently": {
+   "all_minus_few_pct_of_pm": [
+    3.5,
+    30.6
+   ],
+   "many_minus_few_pct_of_pm": [
+    10.4,
+    43.2
+   ],
+   "resamples": 4000,
+   "draws": 4000,
+   "draws_rejected": 0
+  },
+  "whole_seasons_resampled": {
+   "all_minus_few_pct_of_pm": [
+    3.9,
+    33.8
+   ],
+   "many_minus_few_pct_of_pm": [
+    14.5,
+    46.3
+   ],
+   "resamples": 3982,
+   "draws": 4000,
+   "draws_rejected": 18
+  },
+  "note": "Percentiles are over ACCEPTED draws only: a draw is rejected when the few or the many category has under 5 days. With 4 seasons there are only 256 ordered season combinations; 1 fail that rule and the rest give 33 distinct values. This is limited cluster support, not a comprehensive uncertainty assessment.",
+  "season_combinations": {
+   "ordered_combinations": 256,
+   "rejected": 1,
+   "distinct_values": 33
+  }
+ },
+ "control_reuse": {
+  "target_days": 81,
+  "control_slots": 392,
+  "distinct_control_days": 130,
+  "control_days_used_more_than_once": 92,
+  "most_uses_of_one_day": 9
+ },
+ "tracers_exploratory": {
+  "few": {
+   "co_relative_median": 1.51,
+   "co_days": 31,
+   "aod_delhi_median": 1.21,
+   "aod_days": 67
+  },
+  "some": {
+   "co_relative_median": 1.62,
+   "co_days": 17,
+   "aod_delhi_median": 0.97,
+   "aod_days": 70
+  },
+  "many": {
+   "co_relative_median": 1.5,
+   "co_days": 11,
+   "aod_delhi_median": 1.22,
+   "aod_days": 77
+  }
+ },
+ "seeds": {
+  "days": 11,
+  "seasons": 12,
+  "resamples": 4000
+ }
+}

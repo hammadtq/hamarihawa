@@ -1,0 +1,1678 @@
+{
+ "report": "Delhi's air and the crop fires",
+ "status": "published 11 November 2026",
+ "version": "2026-11-11f",
+ "centre": {
+  "lat": 28.61,
+  "lon": 77.21,
+  "name": "central Delhi"
+ },
+ "inputs": {
+  "note": "Scripts and extracts in scripts/reports/delhi-smog-fires/analysis/ (data/, inputs/); raw downloads and how to refetch them are listed in analysis/README.md and analysis/MANIFEST.json"
+ },
+ "retired_analyses": [
+  "Median PM2.5 by same-day fire-count tercile (draft 1 chart fire-days.svg) and by ventilation or wind-direction tercile: retired, replaced by the upstream index.",
+  "The \"22% / 35% fire-linked share\" of draft 2 and its 13-30% range: retired as a finding; the arithmetic survives only as the exploratory contrast.",
+  "Visibility at Safdarjung and Palam since 1973 (draft 1-2 section): retired; unhomogenised records, fog and humidity confounding, last decade mislabelled.",
+  "Early-October control and the regression in join_daily.py: retired, never used in the text.",
+  "The numerical values of the exploratory contrast (draft 3 text: 26.5%, 39.6%, ranges) are no longer printed in the article; they stay in the entry exploratory_contrast."
+ ],
+ "evidence": [
+  {
+   "id": "pm_series",
+   "claim": "Days with a Delhi city value, first and last day, and the longest stretch with no eligible day",
+   "value": {
+    "days": 822,
+    "first": "2016-11-09",
+    "last": "2026-11-10",
+    "days_from_hourly_records_2016_2022": 239,
+    "days_from_daily_records_2025_2026": 583,
+    "no_eligible_day_from": "2022-10-17",
+    "no_eligible_day_to": "2025-02-18",
+    "typical_stations_last_12_months": 44,
+    "typical_stations_in_november": {
+     "2017": 7,
+     "2019": 30,
+     "2021": 37,
+     "2025": 45
+    }
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026",
+   "source_url": "https://api.openaq.org/v3/ (sensors/{id}/hours, sensors/{id}/days); definitions: https://docs.openaq.org/resources/measurements",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "2016-2026",
+   "units_method": "µg/m³. A station-day counts if it has at least 18 valid hourly aggregates on one regular non-overlapping grid (aggregates ending on the hour, India time) and 0 < value <= 1500. Historical daily counts can include overlapping hourly aggregates; choosing the :00 grid is a conservative restriction that excludes some available offset-hour (:30) observations (see entry sensitivity_hourly_grid). City value = median across stations, days with >= 5 stations. It is a median of monitors (some just outside Delhi), not a regulatory station average and not weighted by population. Period figures = mean of the daily city values that exist; missing days are not filled. The series covers 1 Oct-31 Jan of seasons 2016-17 to 2022-23 and every day from 2025. Other months of 2016-2022 were not processed. \"No eligible day\" means no day passed the rules; OpenAQ holds some incomplete station rows inside the gap.",
+   "inputs": [
+    "data/pm25_daily.csv",
+    "data/pm25_station_days.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "pm_monthly_12",
+   "claim": "Monthly mean PM2.5, November 2025 to October 2026, with the number of days that have a city value",
+   "value": {
+    "2025-11": {
+     "mean": 222,
+     "days": 29,
+     "days_in_month": 30,
+     "typical_stations": 45
+    },
+    "2025-12": {
+     "mean": 217,
+     "days": 31,
+     "days_in_month": 31,
+     "typical_stations": 45
+    },
+    "2026-01": {
+     "mean": 146,
+     "days": 21,
+     "days_in_month": 31,
+     "typical_stations": 44
+    },
+    "2026-02": {
+     "mean": 107,
+     "days": 21,
+     "days_in_month": 28,
+     "typical_stations": 44
+    },
+    "2026-03": {
+     "mean": 77,
+     "days": 30,
+     "days_in_month": 31,
+     "typical_stations": 43
+    },
+    "2026-04": {
+     "mean": 66,
+     "days": 29,
+     "days_in_month": 30,
+     "typical_stations": 44
+    },
+    "2026-05": {
+     "mean": 51,
+     "days": 30,
+     "days_in_month": 31,
+     "typical_stations": 43
+    },
+    "2026-06": {
+     "mean": 42,
+     "days": 27,
+     "days_in_month": 30,
+     "typical_stations": 44
+    },
+    "2026-07": {
+     "mean": 38,
+     "days": 31,
+     "days_in_month": 31,
+     "typical_stations": 43
+    },
+    "2026-08": {
+     "mean": 34,
+     "days": 28,
+     "days_in_month": 31,
+     "typical_stations": 41
+    },
+    "2026-09": {
+     "mean": 39,
+     "days": 30,
+     "days_in_month": 30,
+     "typical_stations": 44
+    },
+    "2026-10": {
+     "mean": 75,
+     "days": 25,
+     "days_in_month": 31,
+     "typical_stations": 45
+    }
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026",
+   "source_url": "https://api.openaq.org/v3/ (sensors/{id}/hours, sensors/{id}/days); definitions: https://docs.openaq.org/resources/measurements",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "Nov 2025-Oct 2026",
+   "units_method": "µg/m³. A station-day counts if it has at least 18 valid hourly aggregates on one regular non-overlapping grid (aggregates ending on the hour, India time) and 0 < value <= 1500. Historical daily counts can include overlapping hourly aggregates; choosing the :00 grid is a conservative restriction that excludes some available offset-hour (:30) observations (see entry sensitivity_hourly_grid). City value = median across stations, days with >= 5 stations. It is a median of monitors (some just outside Delhi), not a regulatory station average and not weighted by population. Period figures = mean of the daily city values that exist; missing days are not filled.",
+   "inputs": [
+    "data/pm25_daily.csv",
+    "data/pm25_station_days.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "pm_12_months",
+   "claim": "Mean of the daily city values available in the 12 months, and days above benchmark values",
+   "value": {
+    "mean": 92,
+    "mean_exact": 91.98,
+    "days_with_value": 332,
+    "calendar_days": 365,
+    "days_over_60": 179,
+    "days_over_15": 329,
+    "lowest_day": 11,
+    "highest_day": 375,
+    "times_annual_standard": 2.3
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026",
+   "source_url": "https://api.openaq.org/v3/ (sensors/{id}/hours, sensors/{id}/days); definitions: https://docs.openaq.org/resources/measurements",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "1 Nov 2025-31 Oct 2026",
+   "units_method": "µg/m³. A station-day counts if it has at least 18 valid hourly aggregates on one regular non-overlapping grid (aggregates ending on the hour, India time) and 0 < value <= 1500. Historical daily counts can include overlapping hourly aggregates; choosing the :00 grid is a conservative restriction that excludes some available offset-hour (:30) observations (see entry sensitivity_hourly_grid). City value = median across stations, days with >= 5 stations. It is a median of monitors (some just outside Delhi), not a regulatory station average and not weighted by population. Period figures = mean of the daily city values that exist; missing days are not filled. Not a complete 365-day annual mean. The 60 and 15 are 24-hour benchmark values (India NAAQS, WHO guideline) applied to a city median, not a regulatory compliance test.",
+   "inputs": [
+    "data/pm25_daily.csv",
+    "data/pm25_station_days.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "pm_outside_autumn",
+   "claim": "Mean of daily city values February-September 2026 and June-September 2026",
+   "value": {
+    "feb_sep": 55,
+    "feb_sep_days": 226,
+    "jun_sep": 38,
+    "jun_sep_days": 116
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026",
+   "source_url": "https://api.openaq.org/v3/ (sensors/{id}/hours, sensors/{id}/days); definitions: https://docs.openaq.org/resources/measurements",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "Feb-Sep 2026",
+   "units_method": "µg/m³. A station-day counts if it has at least 18 valid hourly aggregates on one regular non-overlapping grid (aggregates ending on the hour, India time) and 0 < value <= 1500. Historical daily counts can include overlapping hourly aggregates; choosing the :00 grid is a conservative restriction that excludes some available offset-hour (:30) observations (see entry sensitivity_hourly_grid). City value = median across stations, days with >= 5 stations. It is a median of monitors (some just outside Delhi), not a regulatory station average and not weighted by population. Period figures = mean of the daily city values that exist; missing days are not filled. February-September is outside the main autumn rice-residue burning weeks; it includes late winter and the April-May wheat-residue burning season.",
+   "inputs": [
+    "data/pm25_daily.csv",
+    "data/pm25_station_days.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "standards",
+   "claim": "India's National Ambient Air Quality Standards (2009) for PM2.5: 40 µg/m³ annual, 60 µg/m³ 24-hour. WHO 2021 guideline: 5 annual, 15 24-hour",
+   "value": {
+    "india_annual": 40,
+    "india_24h": 60,
+    "who_annual": 5,
+    "who_24h": 15
+   },
+   "source": "Government of India, Press Information Bureau release of 23 Aug 2011 reproducing the NAAQS notified in November 2009 (Annexure I); WHO, Types of pollutants page (2021 guideline values)",
+   "source_url": "https://www.pib.gov.in/newsite/PrintRelease.aspx?lang=2&reg=48&relid=74889 ; https://www.who.int/teams/environment-climate-change-and-health/air-quality-and-health/health-impacts/types-of-pollutants",
+   "place": "India; global",
+   "period": "n/a",
+   "units_method": "Quoted. The Indian annual standard is defined as the mean of at least 104 measurements a year at one site, and the 24-hour value must be met 98% of the time; they are used here only as benchmarks.",
+   "inputs": [],
+   "status": "quoted; both pages read on 11 Nov 2026"
+  },
+  {
+   "id": "season_vs_winter",
+   "claim": "Mean PM2.5 in 15 Oct-30 Nov and in the December-January after it, seasons with at least 25 and 30 days of data",
+   "value": {
+    "seasons": {
+     "2019-20": {
+      "oct15_nov30": 157,
+      "oct15_nov30_days": 30,
+      "dec_jan": 192,
+      "dec_jan_days": 47
+     },
+     "2021-22": {
+      "oct15_nov30": 188,
+      "oct15_nov30_days": 45,
+      "dec_jan": 167,
+      "dec_jan_days": 30
+     },
+     "2025-26": {
+      "oct15_nov30": 197,
+      "oct15_nov30_days": 45,
+      "dec_jan": 189,
+      "dec_jan_days": 52
+     }
+    },
+    "dec_jan_min": 167,
+    "dec_jan_max": 192,
+    "n": 3
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026",
+   "source_url": "https://api.openaq.org/v3/ (sensors/{id}/hours, sensors/{id}/days); definitions: https://docs.openaq.org/resources/measurements",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "seasons 2016-17 to 2025-26",
+   "units_method": "µg/m³. A station-day counts if it has at least 18 valid hourly aggregates on one regular non-overlapping grid (aggregates ending on the hour, India time) and 0 < value <= 1500. Historical daily counts can include overlapping hourly aggregates; choosing the :00 grid is a conservative restriction that excludes some available offset-hour (:30) observations (see entry sensitivity_hourly_grid). City value = median across stations, days with >= 5 stations. It is a median of monitors (some just outside Delhi), not a regulatory station average and not weighted by population. Period figures = mean of the daily city values that exist; missing days are not filled. December-January is after the main rice-residue burning weeks. The fire archive used here stops on 30 November, so this does not show that no crop residue burns in those months.",
+   "inputs": [
+    "data/pm25_daily.csv",
+    "data/pm25_station_days.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "fires_by_year",
+   "claim": "MODIS detections in Indian Punjab + Haryana, 1 Oct-30 Nov (2026: to 10 Nov), by satellite, with Delhi mean PM2.5 for November where at least 15 days have a value",
+   "value": {
+    "2016": {
+     "punjab_haryana": 18991,
+     "punjab": 16470,
+     "haryana": 2521,
+     "terra": 1468,
+     "aqua": 17523,
+     "partial": "",
+     "delhi_nov_mean": null,
+     "delhi_nov_days": 4
+    },
+    "2017": {
+     "punjab_haryana": 12567,
+     "punjab": 10513,
+     "haryana": 2054,
+     "terra": 593,
+     "aqua": 11974,
+     "partial": "",
+     "delhi_nov_mean": null,
+     "delhi_nov_days": 3
+    },
+    "2018": {
+     "punjab_haryana": 14316,
+     "punjab": 12591,
+     "haryana": 1725,
+     "terra": 1079,
+     "aqua": 13237,
+     "partial": "",
+     "delhi_nov_mean": null,
+     "delhi_nov_days": 5
+    },
+    "2019": {
+     "punjab_haryana": 10965,
+     "punjab": 9764,
+     "haryana": 1201,
+     "terra": 756,
+     "aqua": 10209,
+     "partial": "",
+     "delhi_nov_mean": 180,
+     "delhi_nov_days": 18
+    },
+    "2020": {
+     "punjab_haryana": 17419,
+     "punjab": 16237,
+     "haryana": 1182,
+     "terra": 1169,
+     "aqua": 16250,
+     "partial": "",
+     "delhi_nov_mean": null,
+     "delhi_nov_days": 1
+    },
+    "2021": {
+     "punjab_haryana": 19178,
+     "punjab": 17197,
+     "haryana": 1981,
+     "terra": 1725,
+     "aqua": 17453,
+     "partial": "",
+     "delhi_nov_mean": 241,
+     "delhi_nov_days": 29
+    },
+    "2022": {
+     "punjab_haryana": 11254,
+     "punjab": 10425,
+     "haryana": 829,
+     "terra": 469,
+     "aqua": 10785,
+     "partial": "",
+     "delhi_nov_mean": null,
+     "delhi_nov_days": 0
+    },
+    "2023": {
+     "punjab_haryana": 8802,
+     "punjab": 8251,
+     "haryana": 551,
+     "terra": 122,
+     "aqua": 8680,
+     "partial": "",
+     "delhi_nov_mean": null,
+     "delhi_nov_days": 0
+    },
+    "2024": {
+     "punjab_haryana": 4122,
+     "punjab": 3786,
+     "haryana": 336,
+     "terra": 51,
+     "aqua": 4071,
+     "partial": "",
+     "delhi_nov_mean": null,
+     "delhi_nov_days": 0
+    },
+    "2025": {
+     "punjab_haryana": 3314,
+     "punjab": 2969,
+     "haryana": 345,
+     "terra": 37,
+     "aqua": 3277,
+     "partial": "",
+     "delhi_nov_mean": 222,
+     "delhi_nov_days": 29
+    },
+    "2026": {
+     "punjab_haryana": 4466,
+     "punjab": 4255,
+     "haryana": 211,
+     "terra": 60,
+     "aqua": 4406,
+     "partial": "to 10 Nov (NRT)",
+     "delhi_nov_mean": null,
+     "delhi_nov_days": 8
+    }
+   },
+   "source": "NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N; OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026",
+   "source_url": "https://firms.modaps.eosdis.nasa.gov/api/area/ ; fields: https://firms.modaps.eosdis.nasa.gov/content/descriptions/FIRMS_MODIS_Firehotspots.html",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "2016-2026",
+   "units_method": "Counts are satellite detections of heat, by local (IST) date. They are not confirmed crop fires, not distinct fires, not burnt area and not emissions. State = geoBoundaries gbOpen IND ADM1 polygon (IND-ADM1-1811400). Terra and Aqua have drifted in orbit (NASA quality notice of 8 Jan 2026: effects significant from late 2024), and burning has moved later in the afternoon, so counts of different years are not sampled alike.",
+   "inputs": [
+    "data/firms_season_counts.csv",
+    "data/pm25_daily.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "fires_range",
+   "claim": "Range of yearly MODIS detections in Punjab + Haryana 2016-2021, and the 2021 and 2025 totals",
+   "value": {
+    "min_2016_2021": 10965,
+    "max_2016_2021": 19178,
+    "y2021": 19178,
+    "y2025": 3314,
+    "delhi_nov_2021": 241,
+    "delhi_nov_2021_days": 29,
+    "delhi_nov_2025": 222,
+    "delhi_nov_2025_days": 29
+   },
+   "source": "NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N; OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026",
+   "source_url": "https://firms.modaps.eosdis.nasa.gov/api/area/ ; fields: https://firms.modaps.eosdis.nasa.gov/content/descriptions/FIRMS_MODIS_Firehotspots.html",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "1 Oct-30 Nov",
+   "units_method": "Counts are satellite detections of heat, by local (IST) date. They are not confirmed crop fires, not distinct fires, not burnt area and not emissions. State = geoBoundaries gbOpen IND ADM1 polygon (IND-ADM1-1811400). Terra and Aqua have drifted in orbit (NASA quality notice of 8 Jan 2026: effects significant from late 2024), and burning has moved later in the afternoon, so counts of different years are not sampled alike.",
+   "inputs": [
+    "data/firms_season_counts.csv",
+    "data/pm25_daily.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "fires_second_sensor",
+   "claim": "Fire spots in Indian Punjab + Haryana seen by the VIIRS instrument on NOAA-20, 1 Oct-10 Nov",
+   "value": {
+    "2019": 41620,
+    "2020": 61877,
+    "2021": 55868,
+    "2022": 38666,
+    "2023": 22951,
+    "2024": 7273,
+    "2025": 3839,
+    "2026": 3851
+   },
+   "source": "HamariHawa daily fire summaries built from NASA FIRMS VIIRS data",
+   "source_url": "https://hamarihawa.org/api/day?d=YYYY-MM-DD ; https://hamarihawa.org/data/",
+   "place": "Indian Punjab + Haryana",
+   "period": "1 Oct-10 Nov, 2019-2026",
+   "units_method": "Fire spots (merged detections), not detections. The summaries store this count under the legacy key \"snpp\", which has carried NOAA-20 since the archive was rebuilt on 2 Nov 2026 (inputs/day-summaries/SCHEMA.md). NOAA-20 passes in the early afternoon like Aqua, so it shares the blind spot for late-afternoon burning: agreement with MODIS shows both detection series fell, not how much burning fell.",
+   "inputs": [
+    "inputs/day-summaries/*.json"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "fire_distance",
+   "claim": "Median distance from central Delhi of Punjab and Haryana detections (range of the yearly medians, 2016-2025) and share of Indian detections in the box within 100 km of Delhi",
+   "value": {
+    "punjab_km_min": 297,
+    "punjab_km_max": 308,
+    "haryana_km_min": 149,
+    "haryana_km_max": 185,
+    "within_100km_pct": 1.1
+   },
+   "source": "NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N",
+   "source_url": "https://firms.modaps.eosdis.nasa.gov/api/area/ ; fields: https://firms.modaps.eosdis.nasa.gov/content/descriptions/FIRMS_MODIS_Firehotspots.html",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "1 Oct-30 Nov, 2016-2025",
+   "units_method": "great-circle km from 28.61N 77.21E. Counts are satellite detections of heat, by local (IST) date. They are not confirmed crop fires, not distinct fires, not burnt area and not emissions. State = geoBoundaries gbOpen IND ADM1 polygon (IND-ADM1-1811400). Terra and Aqua have drifted in orbit (NASA quality notice of 8 Jan 2026: effects significant from late 2024), and burning has moved later in the afternoon, so counts of different years are not sampled alike.",
+   "inputs": [
+    "data/firms_season_counts.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "weather_climatology",
+   "claim": "Average mixing height by month (all hours; night 20-06h) and share of hours with the 100 m wind from the west-to-north quarter (270-360 degrees)",
+   "value": {
+    "1": {
+     "blh": 276,
+     "blh_night": 84,
+     "from_nw_pct": 64
+    },
+    "2": {
+     "blh": 347,
+     "blh_night": 88,
+     "from_nw_pct": 62
+    },
+    "3": {
+     "blh": 490,
+     "blh_night": 85,
+     "from_nw_pct": 61
+    },
+    "4": {
+     "blh": 823,
+     "blh_night": 102,
+     "from_nw_pct": 55
+    },
+    "5": {
+     "blh": 830,
+     "blh_night": 149,
+     "from_nw_pct": 34
+    },
+    "6": {
+     "blh": 789,
+     "blh_night": 203,
+     "from_nw_pct": 34
+    },
+    "7": {
+     "blh": 510,
+     "blh_night": 226,
+     "from_nw_pct": 17
+    },
+    "8": {
+     "blh": 472,
+     "blh_night": 229,
+     "from_nw_pct": 23
+    },
+    "9": {
+     "blh": 447,
+     "blh_night": 161,
+     "from_nw_pct": 34
+    },
+    "10": {
+     "blh": 403,
+     "blh_night": 54,
+     "from_nw_pct": 51
+    },
+    "11": {
+     "blh": 340,
+     "blh_night": 60,
+     "from_nw_pct": 61
+    },
+    "12": {
+     "blh": 258,
+     "blh_night": 66,
+     "from_nw_pct": 72
+    },
+    "night_oct_dec_min": 54,
+    "night_oct_dec_max": 66,
+    "nw_monsoon_min": 17,
+    "nw_monsoon_max": 34
+   },
+   "source": "ERA5 reanalysis (Copernicus Climate Change Service / ECMWF) via the Open-Meteo archive API, grid point nearest 28.61N 77.21E, hourly, local time (IST)",
+   "source_url": "https://archive-api.open-meteo.com/v1/archive",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "average of 2016-2025 (a climatology, not the weather of 2025-26)",
+   "units_method": "metres; percent of hours",
+   "inputs": [
+    "data/era5_monthly.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "path_index_days",
+   "claim": "Days with a Delhi value and a valid index; limits of the three categories; where the counted detections were",
+   "value": {
+    "days": 161,
+    "by_year": {
+     "2016": 4,
+     "2017": 3,
+     "2018": 19,
+     "2019": 30,
+     "2020": 1,
+     "2021": 45,
+     "2025": 45,
+     "2026": 14
+    },
+    "seasons_with_20_days_or_more": [
+     "2019",
+     "2021",
+     "2025"
+    ],
+    "days_in_2016_2017_2020": 8,
+    "not_used": {
+     "no PM2.5 value": 189,
+     "back-paths incomplete (no wind data)": 1
+    },
+    "last_day": "2026-11-02",
+    "few_max": 3,
+    "many_above": 82,
+    "days_with_four_complete_paths": 157,
+    "where_pct": {
+     "indian_punjab": 83,
+     "haryana": 11,
+     "pakistan": 5
+    }
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026; NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N; ERA5 100 m wind via the Open-Meteo archive API on a 0.5 degree grid (27.5-33N, 72.5-78.5E) inside a 1 degree grid (24-35N, 69-83E)",
+   "source_url": "https://firms.modaps.eosdis.nasa.gov/api/area/ ; fields: https://firms.modaps.eosdis.nasa.gov/content/descriptions/FIRMS_MODIS_Firehotspots.html ; https://archive-api.open-meteo.com/v1/archive",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "15 Oct-30 Nov; 2016-2021, 2025, 2026",
+   "units_method": "Upstream fire-detection index: air arriving over central Delhi at 03, 09, 15 and 21 IST is traced back 48 hours along the ERA5 100 m wind (horizontal only; no dispersion or vertical motion). The index is the number of distinct MODIS detections within 25 km of an hourly path point that were acquired between 24 hours before and 3 hours after the air passed. A day is used only if no path stopped for lack of wind data. Categories are thirds of all usable days. Detection time is the overpass, not ignition: the index does not show that the air crossed a burning field.",
+   "inputs": [
+    "data/answer_daily.csv",
+    "data/traj_daily.csv",
+    "data/traj_paths.csv",
+    "data/contrast.json"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "pm_by_path_index",
+   "claim": "Median Delhi PM2.5 by upstream fire-detection category within each part of the season; the same with thirds taken within each year",
+   "value": {
+    "pooled_thirds": {
+     "15-31 Oct": {
+      "few": {
+       "median": 105,
+       "days": 32
+      },
+      "some": {
+       "median": 140,
+       "days": 22
+      },
+      "many": {
+       "median": 133,
+       "days": 16
+      }
+     },
+     "1-15 Nov": {
+      "few": {
+       "median": 200,
+       "days": 5
+      },
+      "some": {
+       "median": 250,
+       "days": 12
+      },
+      "many": {
+       "median": 262,
+       "days": 28
+      }
+     },
+     "16-30 Nov": {
+      "few": {
+       "median": 219,
+       "days": 17
+      },
+      "some": {
+       "median": 191,
+       "days": 20
+      },
+      "many": {
+       "median": 216,
+       "days": 9
+      }
+     }
+    },
+    "thirds_within_each_year": {
+     "15-31 Oct": {
+      "few": {
+       "median": 105,
+       "days": 35
+      },
+      "some": {
+       "median": 139,
+       "days": 20
+      },
+      "many": {
+       "median": 121,
+       "days": 15
+      }
+     },
+     "1-15 Nov": {
+      "few": {
+       "median": 212,
+       "days": 10
+      },
+      "some": {
+       "median": 257,
+       "days": 5
+      },
+      "many": {
+       "median": 262,
+       "days": 30
+      }
+     },
+     "16-30 Nov": {
+      "few": {
+       "median": 210,
+       "days": 20
+      },
+      "some": {
+       "median": 194,
+       "days": 23
+      },
+      "many": {
+       "median": 216,
+       "days": 3
+      }
+     }
+    }
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026; NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N; ERA5 100 m wind via the Open-Meteo archive API on a 0.5 degree grid (27.5-33N, 72.5-78.5E) inside a 1 degree grid (24-35N, 69-83E)",
+   "source_url": "https://firms.modaps.eosdis.nasa.gov/api/area/ ; fields: https://firms.modaps.eosdis.nasa.gov/content/descriptions/FIRMS_MODIS_Firehotspots.html",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "15 Oct-30 Nov",
+   "units_method": "Upstream fire-detection index: air arriving over central Delhi at 03, 09, 15 and 21 IST is traced back 48 hours along the ERA5 100 m wind (horizontal only; no dispersion or vertical motion). The index is the number of distinct MODIS detections within 25 km of an hourly path point that were acquired between 24 hours before and 3 hours after the air passed. A day is used only if no path stopped for lack of wind data. Categories are thirds of all usable days. Detection time is the overpass, not ignition: the index does not show that the air crossed a burning field. Median of daily city values. An association between categories of days, not a measured contribution.",
+   "inputs": [
+    "data/answer_daily.csv",
+    "data/traj_daily.csv",
+    "data/traj_paths.csv",
+    "data/contrast.json"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "matched_comparison",
+   "claim": "Peak fire weeks (25 Oct-20 Nov) against ventilation-matched December-January days: mean PM2.5, mean of matched days and the difference, all days and by upstream fire-detection category",
+   "value": {
+    "days": 57,
+    "by_year": {
+     "2019": 8,
+     "2021": 24,
+     "2025": 25
+    },
+    "mean_pm": 219,
+    "matched_winter": 161,
+    "difference": 59,
+    "few": {
+     "days": 10,
+     "mean_pm": 167,
+     "matched_winter": 166,
+     "difference": 1
+    },
+    "some": {
+     "days": 17,
+     "mean_pm": 192,
+     "matched_winter": 160,
+     "difference": 31
+    },
+    "many": {
+     "days": 30,
+     "mean_pm": 253,
+     "matched_winter": 159,
+     "difference": 94
+    },
+    "by_season": {
+     "2019": {
+      "days": 8,
+      "mean_pm": 255,
+      "matched_winter": 167,
+      "excess": 88,
+      "many_days": 1,
+      "excess_many": 252,
+      "excess_not_many": 65
+     },
+     "2021": {
+      "days": 24,
+      "mean_pm": 217,
+      "matched_winter": 156,
+      "excess": 61,
+      "many_days": 18,
+      "excess_many": 87,
+      "excess_not_many": -20
+     },
+     "2025": {
+      "days": 25,
+      "mean_pm": 210,
+      "matched_winter": 163,
+      "excess": 48,
+      "many_days": 11,
+      "excess_many": 89,
+      "excess_not_many": 15
+     }
+    },
+    "days_by_season_and_category": {
+     "2019": {
+      "few": 4,
+      "some": 3,
+      "many": 1
+     },
+     "2021": {
+      "few": 0,
+      "some": 6,
+      "many": 18
+     },
+     "2025": {
+      "few": 6,
+      "some": 8,
+      "many": 11
+     }
+    },
+    "control_reuse": {
+     "target_days": 57,
+     "control_slots": 268,
+     "distinct_control_days": 93,
+     "control_days_used_more_than_once": 64,
+     "most_uses_of_one_day": 9
+    }
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026; NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N; ERA5 100 m wind via the Open-Meteo archive API on a 0.5 degree grid (27.5-33N, 72.5-78.5E) inside a 1 degree grid (24-35N, 69-83E); ERA5 reanalysis (Copernicus Climate Change Service / ECMWF) via the Open-Meteo archive API, grid point nearest 28.61N 77.21E, hourly, local time (IST)",
+   "source_url": "https://archive-api.open-meteo.com/v1/archive",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "25 Oct-20 Nov and the following Dec-Jan; seasons 2019, 2021, 2025",
+   "units_method": "Upstream fire-detection index: air arriving over central Delhi at 03, 09, 15 and 21 IST is traced back 48 hours along the ERA5 100 m wind (horizontal only; no dispersion or vertical motion). The index is the number of distinct MODIS detections within 25 km of an hourly path point that were acquired between 24 hours before and 3 hours after the air passed. A day is used only if no path stopped for lack of wind data. Categories are thirds of all usable days. Detection time is the overpass, not ignition: the index does not show that the air crossed a burning field. Each day of 25 Oct-20 Nov is paired with up to 5 December-January days of the same season (at least 3) whose ventilation is within a factor of 1.25. Ventilation = mean over the same local calendar day of ERA5 mixing height x 100 m wind speed. This matches ONE scalar; temperature, humidity, rain, wind direction, chemistry and the mix of sources are not held constant. The December-January level is not a no-fire counterfactual and the difference is not a fire contribution.",
+   "inputs": [
+    "data/answer_daily.csv",
+    "data/traj_daily.csv",
+    "data/traj_paths.csv",
+    "data/contrast.json",
+    "data/match_weather.csv",
+    "data/match_controls.csv"
+   ],
+   "status": "computed; observational comparison"
+  },
+  {
+   "id": "exploratory_contrast",
+   "claim": "EXPLORATORY: the difference from matched winter days in each category minus the difference in the few-detections category, as a share of mean PM2.5, under alternative choices. Not a source share",
+   "value": {
+    "all_minus_few_pct_lowest": 24.1,
+    "all_minus_few_pct_highest": 39.6,
+    "variants_computed": 6,
+    "variants": {
+     "main": {
+      "days": 57,
+      "days_few": 10,
+      "days_some": 17,
+      "days_many": 30,
+      "mean_pm": 219.4,
+      "mean_matched_winter": 160.7,
+      "excess_all": 58.7,
+      "excess_few": 0.6,
+      "excess_some": 31.4,
+      "excess_many": 93.5,
+      "pm_few": 167.1,
+      "pm_some": 191.6,
+      "pm_many": 252.6,
+      "winter_few": 166.4,
+      "winter_some": 160.2,
+      "winter_many": 159.1,
+      "all_minus_few": 58.1,
+      "all_minus_few_pct_of_pm": 26.5,
+      "many_minus_few": 92.9,
+      "many_minus_few_pct_of_pm": 36.8
+     },
+     "timing_strict_no_detections_after_passage": {
+      "days": 57,
+      "days_few": 10,
+      "days_some": 17,
+      "days_many": 30,
+      "mean_pm": 219.4,
+      "mean_matched_winter": 160.7,
+      "excess_all": 58.7,
+      "excess_few": 0.6,
+      "excess_some": 31.4,
+      "excess_many": 93.5,
+      "pm_few": 167.1,
+      "pm_some": 191.6,
+      "pm_many": 252.6,
+      "winter_few": 166.4,
+      "winter_some": 160.2,
+      "winter_many": 159.1,
+      "all_minus_few": 58.1,
+      "all_minus_few_pct_of_pm": 26.5,
+      "many_minus_few": 92.9,
+      "many_minus_few_pct_of_pm": 36.8
+     },
+     "timing_calendar_day_rule_of_draft_2": {
+      "days": 57,
+      "days_few": 9,
+      "days_some": 17,
+      "days_many": 31,
+      "mean_pm": 219.4,
+      "mean_matched_winter": 160.7,
+      "excess_all": 58.7,
+      "excess_few": -28.1,
+      "excess_some": 42.9,
+      "excess_many": 92.6,
+      "pm_few": 149.3,
+      "pm_some": 200.0,
+      "pm_many": 250.4,
+      "winter_few": 177.5,
+      "winter_some": 157.1,
+      "winter_many": 157.8,
+      "all_minus_few": 86.8,
+      "all_minus_few_pct_of_pm": 39.6,
+      "many_minus_few": 120.7,
+      "many_minus_few_pct_of_pm": 48.2
+     },
+     "only_days_with_four_complete_paths": {
+      "days": 57,
+      "days_few": 10,
+      "days_some": 17,
+      "days_many": 30,
+      "mean_pm": 219.4,
+      "mean_matched_winter": 160.7,
+      "excess_all": 58.7,
+      "excess_few": 0.6,
+      "excess_some": 31.4,
+      "excess_many": 93.5,
+      "pm_few": 167.1,
+      "pm_some": 191.6,
+      "pm_many": 252.6,
+      "winter_few": 166.4,
+      "winter_some": 160.2,
+      "winter_many": 159.1,
+      "all_minus_few": 58.1,
+      "all_minus_few_pct_of_pm": 26.5,
+      "many_minus_few": 92.9,
+      "many_minus_few_pct_of_pm": 36.8
+     },
+     "thirds_within_each_year": {
+      "days": 57,
+      "days_few": 12,
+      "days_some": 16,
+      "days_many": 29,
+      "mean_pm": 219.4,
+      "mean_matched_winter": 160.7,
+      "excess_all": 58.7,
+      "excess_few": -2.6,
+      "excess_some": 15.5,
+      "excess_many": 107.9,
+      "pm_few": 157.0,
+      "pm_some": 184.3,
+      "pm_many": 264.6,
+      "winter_few": 159.6,
+      "winter_some": 168.8,
+      "winter_many": 156.7,
+      "all_minus_few": 61.3,
+      "all_minus_few_pct_of_pm": 28.0,
+      "many_minus_few": 110.5,
+      "many_minus_few_pct_of_pm": 41.8
+     },
+     "without_diwali_day_and_two_days_after": {
+      "days": 55,
+      "days_few": 10,
+      "days_some": 17,
+      "days_many": 28,
+      "mean_pm": 212.9,
+      "mean_matched_winter": 161.1,
+      "excess_all": 51.9,
+      "excess_few": 0.6,
+      "excess_some": 31.4,
+      "excess_many": 82.6,
+      "pm_few": 167.1,
+      "pm_some": 191.6,
+      "pm_many": 242.3,
+      "winter_few": 166.4,
+      "winter_some": 160.2,
+      "winter_many": 159.7,
+      "all_minus_few": 51.2,
+      "all_minus_few_pct_of_pm": 24.1,
+      "many_minus_few": 81.9,
+      "many_minus_few_pct_of_pm": 33.8
+     }
+    },
+    "leave_one_season_out": {
+     "2019": {
+      "all_minus_few_pct_of_pm": 35.2,
+      "many_minus_few_pct_of_pm": 44.2
+     },
+     "2021": {
+      "all_minus_few_pct_of_pm": 25.6,
+      "many_minus_few_pct_of_pm": 40.1
+     },
+     "2025": "not reported: 4 few-category and 19 many-category days remain, below the chosen minimum of 5 in each"
+    },
+    "resampling_5th_95th_percentile": {
+     "days_resampled_independently": {
+      "all_minus_few_pct_of_pm": [
+       7.9,
+       42.7
+      ],
+      "many_minus_few_pct_of_pm": [
+       16.8,
+       52.0
+      ],
+      "resamples": 3924,
+      "draws": 4000,
+      "draws_rejected": 76
+     },
+     "whole_seasons_resampled": {
+      "all_minus_few_pct_of_pm": [
+       16.4,
+       36.0
+      ],
+      "many_minus_few_pct_of_pm": [
+       26.3,
+       44.7
+      ],
+      "resamples": 3290,
+      "draws": 4000,
+      "draws_rejected": 710
+     },
+     "note": "Percentiles are over ACCEPTED draws only: a draw is rejected when the few or the many category has under 5 days. With 3 seasons there are only 27 ordered season combinations; 5 fail that rule and the rest give 7 distinct values. This is limited cluster support, not a comprehensive uncertainty assessment.",
+     "season_combinations": {
+      "ordered_combinations": 27,
+      "rejected": 5,
+      "distinct_values": 7
+     }
+    },
+    "diwali_days_removed": [
+     "2021-11-05",
+     "2021-11-06"
+    ],
+    "seeds": {
+     "days": 11,
+     "seasons": 12,
+     "resamples": 4000
+    }
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026; NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N; ERA5 100 m wind via the Open-Meteo archive API on a 0.5 degree grid (27.5-33N, 72.5-78.5E) inside a 1 degree grid (24-35N, 69-83E); ERA5 reanalysis (Copernicus Climate Change Service / ECMWF) via the Open-Meteo archive API, grid point nearest 28.61N 77.21E, hourly, local time (IST)",
+   "source_url": "",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "25 Oct-20 Nov",
+   "units_method": "all_minus_few = mean difference over all days minus mean difference on few-detection days; many_minus_few likewise for many-detection days; _pct_of_pm divides by the mean PM2.5 of those days. This equals a crop-fire contribution only if the few-detection days carry no crop smoke, the non-fire background is the same in every category, ventilation matching removes confounding and the categories are right. None of these is established. Resampling intervals hold the inputs, the matching and the categories fixed and are not uncertainty bounds on a source share. Control days are shared between target days (see control_reuse in matched_comparison). The percentiles are conditional on accepted draws (see resampling note). The variants are not an exhaustive robustness envelope: the hourly-grid sensitivity gives about 17% and 16% (entry sensitivity_hourly_grid). None of these numbers is printed in the article.",
+   "inputs": [
+    "data/answer_daily.csv",
+    "data/traj_daily.csv",
+    "data/traj_paths.csv",
+    "data/contrast.json",
+    "data/match_weather.csv",
+    "data/match_controls.csv"
+   ],
+   "status": "exploratory; not used as a finding"
+  },
+  {
+   "id": "november_2025_frames",
+   "claim": "For each day of November 2025: MODIS detections in the whole fire box (the number shown on each frame), in Punjab + Haryana, and Delhi PM2.5; summary of 21-30 November",
+   "value": {
+    "days": {
+     "2025-11-01": {
+      "whole_map_box": 588,
+      "punjab_haryana": 433,
+      "delhi_pm25": 202
+     },
+     "2025-11-02": {
+      "whole_map_box": 37,
+      "punjab_haryana": 22,
+      "delhi_pm25": 192
+     },
+     "2025-11-03": {
+      "whole_map_box": 243,
+      "punjab_haryana": 179,
+      "delhi_pm25": 140
+     },
+     "2025-11-04": {
+      "whole_map_box": 226,
+      "punjab_haryana": 171,
+      "delhi_pm25": null
+     },
+     "2025-11-05": {
+      "whole_map_box": 33,
+      "punjab_haryana": 11,
+      "delhi_pm25": 107
+     },
+     "2025-11-06": {
+      "whole_map_box": 448,
+      "punjab_haryana": 314,
+      "delhi_pm25": 182
+     },
+     "2025-11-07": {
+      "whole_map_box": 21,
+      "punjab_haryana": 16,
+      "delhi_pm25": 223
+     },
+     "2025-11-08": {
+      "whole_map_box": 216,
+      "punjab_haryana": 162,
+      "delhi_pm25": 262
+     },
+     "2025-11-09": {
+      "whole_map_box": 487,
+      "punjab_haryana": 408,
+      "delhi_pm25": 214
+     },
+     "2025-11-10": {
+      "whole_map_box": 9,
+      "punjab_haryana": 4,
+      "delhi_pm25": 286
+     },
+     "2025-11-11": {
+      "whole_map_box": 437,
+      "punjab_haryana": 330,
+      "delhi_pm25": 296
+     },
+     "2025-11-12": {
+      "whole_map_box": 104,
+      "punjab_haryana": 100,
+      "delhi_pm25": 324
+     },
+     "2025-11-13": {
+      "whole_map_box": 65,
+      "punjab_haryana": 30,
+      "delhi_pm25": 286
+     },
+     "2025-11-14": {
+      "whole_map_box": 154,
+      "punjab_haryana": 99,
+      "delhi_pm25": 229
+     },
+     "2025-11-15": {
+      "whole_map_box": 1,
+      "punjab_haryana": 0,
+      "delhi_pm25": 242
+     },
+     "2025-11-16": {
+      "whole_map_box": 142,
+      "punjab_haryana": 82,
+      "delhi_pm25": 223
+     },
+     "2025-11-17": {
+      "whole_map_box": 33,
+      "punjab_haryana": 20,
+      "delhi_pm25": 206
+     },
+     "2025-11-18": {
+      "whole_map_box": 11,
+      "punjab_haryana": 1,
+      "delhi_pm25": 242
+     },
+     "2025-11-19": {
+      "whole_map_box": 46,
+      "punjab_haryana": 24,
+      "delhi_pm25": 267
+     },
+     "2025-11-20": {
+      "whole_map_box": 7,
+      "punjab_haryana": 6,
+      "delhi_pm25": 241
+     },
+     "2025-11-21": {
+      "whole_map_box": 36,
+      "punjab_haryana": 16,
+      "delhi_pm25": 219
+     },
+     "2025-11-22": {
+      "whole_map_box": 14,
+      "punjab_haryana": 6,
+      "delhi_pm25": 234
+     },
+     "2025-11-23": {
+      "whole_map_box": 1,
+      "punjab_haryana": 0,
+      "delhi_pm25": 269
+     },
+     "2025-11-24": {
+      "whole_map_box": 33,
+      "punjab_haryana": 11,
+      "delhi_pm25": 227
+     },
+     "2025-11-25": {
+      "whole_map_box": 2,
+      "punjab_haryana": 0,
+      "delhi_pm25": 194
+     },
+     "2025-11-26": {
+      "whole_map_box": 12,
+      "punjab_haryana": 4,
+      "delhi_pm25": 189
+     },
+     "2025-11-27": {
+      "whole_map_box": 7,
+      "punjab_haryana": 3,
+      "delhi_pm25": 248
+     },
+     "2025-11-28": {
+      "whole_map_box": 2,
+      "punjab_haryana": 1,
+      "delhi_pm25": 210
+     },
+     "2025-11-29": {
+      "whole_map_box": 18,
+      "punjab_haryana": 4,
+      "delhi_pm25": 142
+     },
+     "2025-11-30": {
+      "whole_map_box": 2,
+      "punjab_haryana": 2,
+      "delhi_pm25": 148
+     }
+    },
+    "last_ten_days": {
+     "max_whole_box": 36,
+     "max_punjab_haryana": 16,
+     "pm_min": 142,
+     "pm_max": 269
+    }
+   },
+   "source": "NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N; OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026; images: NASA GIBS, VIIRS (NOAA-20) corrected reflectance true colour",
+   "source_url": "https://worldview.earthdata.nasa.gov/",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "November 2025",
+   "units_method": "Counts by local (IST) date. The frames in the published figure print the count by UTC acquisition date as drawn when the animation was made; the two can differ by a few detections. True-colour images are visual context, not an identification of what the haze is made of.",
+   "inputs": [
+    "data/firms_daily.csv",
+    "data/pm25_daily.csv"
+   ],
+   "status": "computed"
+  },
+  {
+   "id": "tracers_exploratory",
+   "claim": "EXPLORATORY and inconclusive: carbon monoxide at Delhi monitors (each sensor relative to its own median) and aerosol optical depth over Delhi, by upstream fire-detection category",
+   "value": {
+    "few": {
+     "co_relative_median": 1.5,
+     "co_days": 26,
+     "aod_delhi_median": 1.11,
+     "aod_days": 43
+    },
+    "some": {
+     "co_relative_median": 1.67,
+     "co_days": 19,
+     "aod_delhi_median": 0.96,
+     "aod_days": 49
+    },
+    "many": {
+     "co_relative_median": 1.55,
+     "co_days": 14,
+     "aod_delhi_median": 1.18,
+     "aod_days": 52
+    }
+   },
+   "source": "OpenAQ v3 CO sensors within 25 km of central Delhi; NASA GIBS rendered image tiles of MODIS MAIAC aerosol optical depth, decoded through the layer colour map",
+   "source_url": "https://nasa-gibs.github.io/gibs-api-docs/python-usage/",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "15 Oct-30 Nov",
+   "units_method": "Neither separates the categories clearly, and neither is a sound test. CO: before 2023 the daily records count overlapping half-hour bins, so the completeness filter is not reliable; CO was not refetched hourly. AOD: values are colour bins of rendered images, which NASA advises against using for quantitative analysis; no quality flags; AOD is the whole air column and is not specific to crop smoke.",
+   "inputs": [
+    "data/answer_daily.csv",
+    "data/traj_daily.csv",
+    "data/traj_paths.csv",
+    "data/contrast.json"
+   ],
+   "status": "exploratory; inconclusive"
+  },
+  {
+   "id": "published_iforest",
+   "claim": "iFOREST, Stubble Burning Status Report 2025 (summary): share of large farm fires in Punjab detected after 3 pm by a geostationary sensor; Sentinel-2 burnt area; decline in MODIS/VIIRS active-fire counts",
+   "value": {
+    "punjab_large_fires_after_3pm_2024_2025_pct_more_than": 90,
+    "punjab_large_fires_after_3pm_2021_pct": 3,
+    "punjab_burnt_area_km2_2022_peak": 31447,
+    "punjab_burnt_area_km2_2025_about": 20000,
+    "punjab_burnt_area_change_pct": -37,
+    "haryana_burnt_area_km2_2019_peak": 11633,
+    "haryana_burnt_area_km2_2025": 8812,
+    "haryana_burnt_area_change_pct": -25,
+    "active_fire_counts_change_2021_to_2025_pct": {
+     "punjab": -92,
+     "haryana": -90
+    }
+   },
+   "source": "International Forum for Environment, Sustainability and Technology (iFOREST), December 2025",
+   "source_url": "https://iforest.global/wp-content/uploads/2025/12/Summary-English.pdf",
+   "place": "Punjab and Haryana",
+   "period": "kharif seasons 2019-2025",
+   "units_method": "Quoted from the two-page summary. Burnt area is compared with each state's own peak year (Punjab 2022, Haryana 2019), fire counts with 2021, so the two falls have different base years and are not a like-for-like pair. Large fires seen by SEVIRI; not all fires.",
+   "inputs": [],
+   "status": "quoted; summary PDF read on 11 Nov 2026"
+  },
+  {
+   "id": "published_jethva_2026",
+   "claim": "\"Timing the Flames: Geostationary Satellite Detection of Diurnally Shifting Stubble Burning in Northwestern India\", Remote Sensing 18(10), 1506 (2026): peak burning moved from about 1-2 pm to 4-5 pm local time; hotspots detected over Punjab by a geostationary sensor; drift of Aqua's overpass time",
+   "value": {
+    "aqua_modis_vs_2016_2021_avg_pct": {
+     "2022": -20,
+     "2023": -39,
+     "2024": -67,
+     "2025": -71
+    },
+    "geostationary_punjab_2024_vs_2021_pct": -49,
+    "geostationary_punjab_2025_vs_2024_pct": 45,
+    "geostationary_pixel_km": 4,
+    "aqua_mean_overpass_local_time": {
+     "2021": "1:44 pm",
+     "2022": "1:53 pm",
+     "2023": "2:05 pm",
+     "2024": "2:32 pm",
+     "2025": "3:12 pm"
+    },
+    "aqua_overpass_projected_august_2026": "about 3:50 pm",
+    "author": "Hiren Jethva"
+   },
+   "source": "Remote Sensing (MDPI), 2026",
+   "source_url": "https://www.mdpi.com/2072-4292/18/10/1506",
+   "place": "Punjab and Haryana",
+   "period": "2019-2025",
+   "units_method": "Quoted from the abstract and sections 3.1, 4.4, 4.5. SCOPE: the -49% and +45% are hotspots detected over PUNJAB by the geostationary sensor; the Aqua-MODIS percentages are for the wider north-west India study region against its 2016-2021 average and are NOT used in the text. Overpass times are Aqua's seasonal means over the study region. The geostationary counts are at about 4 km resolution and, by the paper's own account, under-represent fires and cannot be compared directly with MODIS or VIIRS counts.",
+   "inputs": [],
+   "status": "quoted; article read on 11 Nov 2026"
+  },
+  {
+   "id": "published_nasa_drift",
+   "claim": "NASA quality notice \"MODIS - Terra/Aqua Drift\" (8 Jan 2026): orbit drift has changed diurnal sampling and widened scan gaps, with significant effects in late 2024; effects on the fire products under investigation",
+   "value": {
+    "notice_date": "2026-01-08"
+   },
+   "source": "NASA LANCE/MODAPS land product quality notice 1254",
+   "source_url": "https://landweb.modaps.eosdis.nasa.gov/displayissue?id=1254",
+   "place": "global",
+   "period": "from late 2024",
+   "units_method": "Quoted.",
+   "inputs": [],
+   "status": "quoted; notice read on 11 Nov 2026"
+  },
+  {
+   "id": "published_cse_safar",
+   "claim": "Centre for Science and Environment (30 Mar 2022), from SAFAR's daily modelled estimates for 10 Oct-30 Nov 2021: stubble smoke's daily share of Delhi's PM2.5",
+   "value": {
+    "days": 52,
+    "daily_share_min_pct": 1,
+    "daily_share_max_pct": 48,
+    "peak_date": "2021-11-07",
+    "days_above_40pct": 2,
+    "mean_concentration_ug_m3": 28,
+    "non_stubble_share_of_daily_pm25_more_than_pct": 80
+   },
+   "source": "CSE analysis of winter 2021-22; underlying model: SAFAR (Ministry of Earth Sciences), which provided daily model estimates for that season",
+   "source_url": "https://www.cseindia.org/cse-releases-analysis-of-winter-air-pollution-trends-for-delhi-ncr-11208",
+   "place": "Delhi, as defined by SAFAR and CSE (not this report's 25 km monitor selection)",
+   "period": "10 Oct-30 Nov 2021",
+   "units_method": "Quoted. A model result for one season. iFOREST argues such models understate the share in 2024-25 because they take in MODIS/VIIRS fire counts. Shown for context only; it does not validate, and is not validated by, anything computed here.",
+   "inputs": [],
+   "status": "quoted; CSE release read on 11 Nov 2026"
+  },
+  {
+   "id": "published_moefcc_2024",
+   "claim": "Ministry of Environment, Forest and Climate Change, written reply in Parliament (PIB release, 25 Nov 2024): air pollution in Delhi and NCR comes from many sectors (vehicles, industry, construction and demolition dust, road and open-area dust, biomass burning, municipal solid waste burning, landfill fires, dispersed sources); in post-monsoon and winter months weather traps pollutants; episodic events such as stubble burning and firecrackers aggravate this; paddy stubble burning affects NCR air quality particularly in October and November",
+   "value": {
+    "release_date": "2024-11-25"
+   },
+   "source": "Press Information Bureau, Government of India",
+   "source_url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2076918&lang=2&reg=48",
+   "place": "Delhi and NCR",
+   "period": "n/a",
+   "units_method": "Quoted; no number from it is used. It is the source for the list of year-round sources and for the general statement that autumn crop fires add to the region's pollution.",
+   "inputs": [],
+   "status": "quoted; release read on 11 Nov 2026"
+  },
+  {
+   "id": "published_caqm_2026",
+   "claim": "Commission for Air Quality Management, statutory direction on wheat stubble burning (PIB release, 16 Feb 2026): the wheat harvesting season is 1 April to 31 May; fire events were recorded in Punjab, Haryana and NCR districts of Uttar Pradesh in that season of 2025",
+   "value": {
+    "release_date": "2026-02-16",
+    "wheat_season": "1 April-31 May"
+   },
+   "source": "Press Information Bureau, Government of India",
+   "source_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228743&lang=1&reg=1",
+   "place": "Punjab, Haryana, NCR districts of Uttar Pradesh",
+   "period": "April-May",
+   "units_method": "Quoted; source for the statement that crop residue is also burnt in April and May. This report does not analyse that season.",
+   "inputs": [],
+   "status": "quoted; release read on 11 Nov 2026"
+  },
+  {
+   "id": "sensitivity_hourly_grid",
+   "claim": "SENSITIVITY: the same comparisons with the 2016-2022 city days built from the other regular hourly grid (aggregates ending on :30 instead of :00). Days available, median PM2.5 by category and period, and mean difference from paired winter days",
+   "value": {
+    "historical_city_days_main": 239,
+    "historical_city_days_alternative": 424,
+    "days_with_index_alternative": 238,
+    "matched_days_alternative": 81,
+    "matched_days_by_season_alternative": {
+     "2017": 21,
+     "2019": 11,
+     "2021": 24,
+     "2025": 25
+    },
+    "seasons_alternative": 4,
+    "thirds_re_estimated": {
+     "few_max": 6,
+     "many_above": 104,
+     "median_pm": {
+      "15-31 Oct": {
+       "few": {
+        "median": 105,
+        "days": 38
+       },
+       "some": {
+        "median": 153,
+        "days": 33
+       },
+       "many": {
+        "median": 185,
+        "days": 26
+       }
+      },
+      "1-15 Nov": {
+       "few": {
+        "median": 236,
+        "days": 17
+       },
+       "some": {
+        "median": 238,
+        "days": 22
+       },
+       "many": {
+        "median": 286,
+        "days": 37
+       }
+      },
+      "16-30 Nov": {
+       "few": {
+        "median": 189,
+        "days": 25
+       },
+       "some": {
+        "median": 171,
+        "days": 24
+       },
+       "many": {
+        "median": 172,
+        "days": 16
+       }
+      }
+     },
+     "difference_from_winter": {
+      "few": {
+       "mean": 33,
+       "days": 23
+      },
+      "some": {
+       "mean": 65,
+       "days": 25
+      },
+      "many": {
+       "mean": 108,
+       "days": 33
+      }
+     }
+    },
+    "main_cutoffs_kept": {
+     "few_max": 3,
+     "many_above": 82,
+     "median_pm": {
+      "15-31 Oct": {
+       "few": {
+        "median": 104,
+        "days": 33
+       },
+       "some": {
+        "median": 153,
+        "days": 35
+       },
+       "many": {
+        "median": 184,
+        "days": 29
+       }
+      },
+      "1-15 Nov": {
+       "few": {
+        "median": 195,
+        "days": 13
+       },
+       "some": {
+        "median": 256,
+        "days": 21
+       },
+       "many": {
+        "median": 280,
+        "days": 42
+       }
+      },
+      "16-30 Nov": {
+       "few": {
+        "median": 185,
+        "days": 18
+       },
+       "some": {
+        "median": 173,
+        "days": 29
+       },
+       "many": {
+        "median": 172,
+        "days": 18
+       }
+      }
+     },
+     "difference_from_winter": {
+      "few": {
+       "mean": 36,
+       "days": 18
+      },
+      "some": {
+       "mean": 60,
+       "days": 28
+      },
+      "many": {
+       "mean": 103,
+       "days": 35
+      }
+     }
+    },
+    "unrounded": {
+     "what": "Historical (2016-2022) city days built from the hourly aggregates ending on :00 (main) or on :30 (alternative). Everything else is unchanged.",
+     "caution": "The :30 series shifts the historical averaging window by half an hour and is a diagnostic only. Neither grid was chosen for its results; :00 stays the main series because it is the clock-hour grid the 2025-26 records use.",
+     "historical_city_days": {
+      "main_00": 239,
+      "alternative_30": 424
+     },
+     "main_00": {
+      "days_with_pm_and_index": 161,
+      "matched_days": 57,
+      "matched_days_by_season": {
+       "2019": 8,
+       "2021": 24,
+       "2025": 25
+      },
+      "cut_few_max": 3,
+      "cut_many_above": 82,
+      "median_pm_by_period": {
+       "15-31 Oct": {
+        "few": {
+         "median": 104.7,
+         "days": 32
+        },
+        "some": {
+         "median": 139.8,
+         "days": 22
+        },
+        "many": {
+         "median": 133.0,
+         "days": 16
+        }
+       },
+       "1-15 Nov": {
+        "few": {
+         "median": 199.8,
+         "days": 5
+        },
+        "some": {
+         "median": 249.6,
+         "days": 12
+        },
+        "many": {
+         "median": 261.9,
+         "days": 28
+        }
+       },
+       "16-30 Nov": {
+        "few": {
+         "median": 219.0,
+         "days": 17
+        },
+        "some": {
+         "median": 191.2,
+         "days": 20
+        },
+        "many": {
+         "median": 216.2,
+         "days": 9
+        }
+       }
+      },
+      "mean_difference_from_matched_winter": {
+       "few": {
+        "mean": 0.64,
+        "days": 10
+       },
+       "some": {
+        "mean": 31.38,
+        "days": 17
+       },
+       "many": {
+        "mean": 93.53,
+        "days": 30
+       }
+      },
+      "exploratory_all_minus_few_pct_of_pm": 26.5
+     },
+     "alternative_30_thirds_re_estimated": {
+      "days_with_pm_and_index": 238,
+      "matched_days": 81,
+      "matched_days_by_season": {
+       "2017": 21,
+       "2019": 11,
+       "2021": 24,
+       "2025": 25
+      },
+      "cut_few_max": 6,
+      "cut_many_above": 104,
+      "median_pm_by_period": {
+       "15-31 Oct": {
+        "few": {
+         "median": 105.2,
+         "days": 38
+        },
+        "some": {
+         "median": 153.0,
+         "days": 33
+        },
+        "many": {
+         "median": 184.7,
+         "days": 26
+        }
+       },
+       "1-15 Nov": {
+        "few": {
+         "median": 236.4,
+         "days": 17
+        },
+        "some": {
+         "median": 238.3,
+         "days": 22
+        },
+        "many": {
+         "median": 285.5,
+         "days": 37
+        }
+       },
+       "16-30 Nov": {
+        "few": {
+         "median": 189.0,
+         "days": 25
+        },
+        "some": {
+         "median": 171.4,
+         "days": 24
+        },
+        "many": {
+         "median": 172.2,
+         "days": 16
+        }
+       }
+      },
+      "mean_difference_from_matched_winter": {
+       "few": {
+        "mean": 32.92,
+        "days": 23
+       },
+       "some": {
+        "mean": 65.39,
+        "days": 25
+       },
+       "many": {
+        "mean": 107.75,
+        "days": 33
+       }
+      },
+      "exploratory_all_minus_few_pct_of_pm": 17.2
+     },
+     "alternative_30_main_cutoffs_kept": {
+      "days_with_pm_and_index": 238,
+      "matched_days": 81,
+      "matched_days_by_season": {
+       "2017": 21,
+       "2019": 11,
+       "2021": 24,
+       "2025": 25
+      },
+      "cut_few_max": 3,
+      "cut_many_above": 82,
+      "median_pm_by_period": {
+       "15-31 Oct": {
+        "few": {
+         "median": 104.5,
+         "days": 33
+        },
+        "some": {
+         "median": 153.0,
+         "days": 35
+        },
+        "many": {
+         "median": 184.0,
+         "days": 29
+        }
+       },
+       "1-15 Nov": {
+        "few": {
+         "median": 195.0,
+         "days": 13
+        },
+        "some": {
+         "median": 255.5,
+         "days": 21
+        },
+        "many": {
+         "median": 279.5,
+         "days": 42
+        }
+       },
+       "16-30 Nov": {
+        "few": {
+         "median": 184.8,
+         "days": 18
+        },
+        "some": {
+         "median": 173.4,
+         "days": 29
+        },
+        "many": {
+         "median": 172.2,
+         "days": 18
+        }
+       }
+      },
+      "mean_difference_from_matched_winter": {
+       "few": {
+        "mean": 36.33,
+        "days": 18
+       },
+       "some": {
+        "mean": 60.09,
+        "days": 28
+       },
+       "many": {
+        "mean": 103.18,
+        "days": 35
+       }
+      },
+      "exploratory_all_minus_few_pct_of_pm": 15.8
+     }
+    }
+   },
+   "source": "OpenAQ API v3, PM2.5 sensors of government reference monitors (CPCB CAAQMS network: DPCC, IMD, CPCB, IITM, UPPCB, HSPCB) within 25 km of central Delhi; hourly records for 2016-2022, daily records for 2025-2026; retrieved 11 Nov 2026; NASA FIRMS MODIS Collection 6.1 active-fire detections (Terra and Aqua): standard product to 2025, near real time for 2026; confidence >= 30, type 0 (presumed vegetation fire); box 73.0-79.5E, 27.0-32.6N; ERA5 100 m wind via the Open-Meteo archive API on a 0.5 degree grid (27.5-33N, 72.5-78.5E) inside a 1 degree grid (24-35N, 69-83E); ERA5 reanalysis (Copernicus Climate Change Service / ECMWF) via the Open-Meteo archive API, grid point nearest 28.61N 77.21E, hourly, local time (IST)",
+   "source_url": "https://api.openaq.org/v3/ (sensors/{id}/hours, sensors/{id}/days); definitions: https://docs.openaq.org/resources/measurements",
+   "place": "Delhi (monitors within 25 km of 28.61N 77.21E)",
+   "period": "15 Oct-30 Nov; seasons 2016-17 to 2022-23 recomputed, 2025-26 unchanged",
+   "units_method": "Historical (2016-2022) city days built from the hourly aggregates ending on :00 (main) or on :30 (alternative). Everything else is unchanged. The :30 series shifts the historical averaging window by half an hour and is a diagnostic only. Neither grid was chosen for its results; :00 stays the main series because it is the clock-hour grid the 2025-26 records use. Upstream fire-detection index: air arriving over central Delhi at 03, 09, 15 and 21 IST is traced back 48 hours along the ERA5 100 m wind (horizontal only; no dispersion or vertical motion). The index is the number of distinct MODIS detections within 25 km of an hourly path point that were acquired between 24 hours before and 3 hours after the air passed. A day is used only if no path stopped for lack of wind data. Categories are thirds of all usable days. Detection time is the overpass, not ignition: the index does not show that the air crossed a burning field. Each day of 25 Oct-20 Nov is paired with up to 5 December-January days of the same season (at least 3) whose ventilation is within a factor of 1.25. Ventilation = mean over the same local calendar day of ERA5 mixing height x 100 m wind speed. This matches ONE scalar; temperature, humidity, rain, wind direction, chemistry and the mix of sources are not held constant. The December-January level is not a no-fire counterfactual and the difference is not a fire contribution.",
+   "inputs": [
+    "data/sensitivity_hourly_grid.json",
+    "data/pm25_daily_alt30.csv"
+   ],
+   "status": "sensitivity check; diagnostic only"
+  }
+ ]
+}

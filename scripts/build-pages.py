@@ -313,6 +313,10 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
+    ("/report/delhi-smog-fires/", "2026-11-11", "Delhi's air is polluted all year. Autumn crop fires add to it", {
+        "en": "Delhi's government monitors averaged 92 µg/m³ of PM2.5 over the past 12 months, more than twice India's annual standard, and December–January was about as polluted as the crop-burning weeks. In late October and early November, days with more fire detections upwind had higher PM2.5. The data cannot say what percentage of Delhi's pollution comes from the fires.",
+        "ur": "دہلی کے سرکاری مانیٹروں پر پچھلے بارہ مہینوں میں PM2.5 کی اوسط 92 µg/m³ رہی، جو ہندوستان کے سالانہ معیار کے دگنے سے بھی زیادہ ہے، اور دسمبر–جنوری تقریباً اتنے ہی آلودہ رہے جتنے فصلیں جلانے والے ہفتے۔ اکتوبر کے آخر اور نومبر کے شروع میں، جن دنوں ہوا کے راستے میں آگ کے مقامات زیادہ تھے، PM2.5 بھی زیادہ رہا۔ یہ ڈیٹا یہ نہیں بتا سکتا کہ دہلی کی آلودگی کا کتنے فیصد حصہ ان آگوں سے آتا ہے۔",
+        "hi": "दिल्ली के सरकारी मॉनिटरों पर पिछले बारह महीनों में PM2.5 का औसत 92 µg/m³ रहा, जो भारत के सालाना मानक के दोगुने से भी ज़्यादा है, और दिसंबर–जनवरी लगभग उतने ही प्रदूषित रहे जितने पराली जलाने वाले हफ़्ते। अक्टूबर के आख़िर और नवंबर की शुरुआत में, जिन दिनों हवा के रास्ते में आग के निशान ज़्यादा थे, PM2.5 भी ज़्यादा रहा। यह डेटा यह नहीं बता सकता कि दिल्ली के प्रदूषण का कितने प्रतिशत हिस्सा इन आगों से आता है।"}),
     ("/report/lahore-morning-after-diwali/", "2026-11-09", "Satellites saw the season's biggest fire day so far, and Diwali fireworks added to the smoke", {
         "en": "On Diwali, 8 November, satellites picked up 2,859 fire spots in the two Punjabs, the season's highest so far, a coincidence not seen since at least 2019. Private sensors in Delhi passed AQI 1,000 that night, and Lahore's air rose after midnight to 398.5 µg/m³ of PM2.5 by 9 am Monday. The data cannot separate fireworks, crop fires and the cities' own pollution.",
         "ur": "دیوالی، 8 نومبر کو سیٹلائٹ نے دونوں پنجابوں میں آگ کے 2,859 مقامات دیکھے، جو اس سیزن میں اب تک سب سے زیادہ ہیں؛ 2019 کے بعد ایسا پہلی بار ہوا۔ اسی رات دہلی کے نجی سینسر AQI 1,000 سے اوپر گئے، اور لاہور کی فضا آدھی رات کے بعد بگڑ کر پیر صبح 9 بجے PM2.5 کے 398.5 µg/m³ تک پہنچ گئی۔ یہ اعداد و شمار آتش بازی، فصلوں کی آگ اور شہروں کی اپنی آلودگی کا حصہ الگ نہیں کر سکتے۔",
@@ -572,6 +576,7 @@ SITEMAP = [  # (path, source files whose last commit dates the page, changefreq,
     ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
     ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
     ("/trends/", ["scripts/pages/trends-en.html", "site/public/trends/trends.js"], "daily", "0.8", True),
+    ("/report/delhi-smog-fires/", ["scripts/reports/delhi-smog-fires/article.en.html", "site/public/report/delhi-smog-fires/data.json"], "monthly", "0.8", True),
     ("/report/lahore-morning-after-diwali/", ["scripts/reports/lahore-morning-after-diwali/article.en.html", "site/public/report/lahore-morning-after-diwali/data.json"], "monthly", "0.8", True),
     ("/report/lahore-smog-sources/", ["scripts/reports/lahore-smog-sources/article.en.html", "site/public/report/lahore-smog-sources/data.json"], "monthly", "0.8", True),
     ("/report/madhya-pradesh-indian-punjab-fire-spots/", ["scripts/reports/madhya-pradesh-indian-punjab-fire-spots/article.en.html", "site/public/report/madhya-pradesh-indian-punjab-fire-spots/data.json"], "monthly", "0.8", True),

@@ -1,0 +1,110 @@
+{
+ "made": "2026-11-11T14:45:42Z",
+ "python": "3.12.15",
+ "platform": "macOS-27.0.1-arm64-arm-64bit",
+ "retrieval_date": "2026-11-11 (day summaries: 2026-11-09)",
+ "random_seeds": {
+  "day_resampling": 11,
+  "season_resampling": 12
+ },
+ "raw": {
+  "raw/openaq": {
+   "source": "OpenAQ API v3 /locations and /sensors/{id}/days, PM2.5 and CO, stripped to [date, value, observedCount] (draft 1 extract; kept for the station list and CO)",
+   "fetched_by": "fetch_openaq.py, fetch_openaq_co.py",
+   "needs": "OpenAQ key",
+   "files": 233,
+   "bytes": 3972895,
+   "sha256_of_file_hashes": "ac43f441d0729678d934d79ff37770a5a1c8416ec3bf970073085344d5c5298f"
+  },
+  "raw/openaq_hours": {
+   "source": "OpenAQ API v3 /sensors/{id}/hours, 1 Oct-31 Jan of seasons 2016-17 to 2022-23, as [from, to, value, observedCount, expectedCount]",
+   "fetched_by": "fetch_openaq_hours.py",
+   "needs": "OpenAQ key",
+   "files": 208,
+   "bytes": 35297539,
+   "sha256_of_file_hashes": "d228d2399dab200100955d5397568bb88279b27331ff67edb0e45545525a0c86"
+  },
+  "raw/openaq_days_full": {
+   "source": "OpenAQ API v3 /sensors/{id}/days, complete records (period, coverage, summary, flags), gzip",
+   "fetched_by": "fetch_openaq_hours.py",
+   "needs": "OpenAQ key",
+   "files": 118,
+   "bytes": 5958157,
+   "sha256_of_file_hashes": "d969291929cdc69a35dba4fa336c3207fd99de1c59fd6a648bd77d61327c5e1e"
+  },
+  "raw/openaq_probe": {
+   "source": "OpenAQ API v3 complete responses for three sample station-days (days, hours, measurements)",
+   "fetched_by": "see check_openaq_regime.py header",
+   "needs": "OpenAQ key",
+   "files": 5,
+   "bytes": 977326,
+   "sha256_of_file_hashes": "1145f8171c57e1fa1043a4b0801d74cb6237fec3dde03f0f67bae3ee5ea29c77"
+  },
+  "raw/firms": {
+   "source": "NASA FIRMS area API, MODIS_SP (2001-2025) and MODIS_NRT (2026), box 73.0,27.0,79.5,32.6, 1 Oct-30 Nov",
+   "fetched_by": "fetch_firms.py",
+   "needs": "FIRMS map key",
+   "files": 334,
+   "bytes": 29196907,
+   "sha256_of_file_hashes": "b6ac4edc5bb7dfb07a155bf3f4508fc666d110b68b2fe958e0413013d0826db4"
+  },
+  "raw/era5": {
+   "source": "Open-Meteo archive API, ERA5, 28.61N 77.21E, hourly, 1980-2026, Asia/Kolkata",
+   "fetched_by": "fetch_era5.py",
+   "needs": "no key",
+   "files": 47,
+   "bytes": 17854381,
+   "sha256_of_file_hashes": "86b28c633b9d5b3af581d919709048fca4c4fb688ef7ef37a0b2568a64f112a0"
+  },
+  "raw/windgrid": {
+   "source": "Open-Meteo archive API, ERA5 100 m wind, 0.5 degree grid 27.5-33N 72.5-78.5E, UTC",
+   "fetched_by": "fetch_wind_grid.py",
+   "needs": "no key",
+   "files": 96,
+   "bytes": 16446491,
+   "sha256_of_file_hashes": "5e3e0d14b0dd5e8bf4139bb94962e6624b4890f0f81bfcb7b49b65b78eee3947"
+  },
+  "raw/windouter": {
+   "source": "Open-Meteo archive API, ERA5 100 m wind, 1 degree grid 24-35N 69-83E, UTC",
+   "fetched_by": "fetch_wind_outer.py",
+   "needs": "no key",
+   "files": 96,
+   "bytes": 18914781,
+   "sha256_of_file_hashes": "afce5286495c87007711cc4acdd798a073c813a5ba3eb6f1680c3863b71f1a5f"
+  },
+  "raw/sat": {
+   "source": "NASA GIBS WMS image tiles: VIIRS NOAA-20 true colour and MODIS MAIAC AOD with its colour map (NOT in the ZIP: 16 MB; only the exploratory AOD check and the animation need them)",
+   "fetched_by": "fetch_sat.py",
+   "needs": "no key",
+   "files": 427,
+   "bytes": 15581754,
+   "sha256_of_file_hashes": "6b5230a99d72639c7ed1f63b6d36986e344ba7d3a14976a8c96cb3ebcc5d8ac5"
+  }
+ },
+ "inputs": {
+  "files": 332,
+  "bytes": 6647573,
+  "sha256_of_file_hashes": "886813bdda05c4ff591ae1908e42fb6e9f9a97b5904f2bc14f63e0fed29f2594"
+ },
+ "extracts": {
+  "files": 20,
+  "bytes": 46772283,
+  "sha256_of_file_hashes": "af9112c26fcbc3a3be560e7f6d58701c235017eef94d2b007fb6d2ea8307521d"
+ },
+ "boundaries": {
+  "source": "geoBoundaries gbOpen IND ADM1",
+  "boundaryID": "IND-ADM1-1811400",
+  "commit": "9469f09",
+  "represents": 2011,
+  "licence": "CC BY 2.5 IN (DataMeet India community, Election Commission of India)",
+  "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/IND/ADM1/geoBoundaries-IND-ADM1.geojson",
+  "sha256": "47aa0acb6f69868daee49143276f3ce323f18905ba7d38d0a86816b405028736",
+  "box": [
+   73.0,
+   27.0,
+   79.5,
+   32.6
+  ]
+ },
+ "offline": "Everything from pm25_daily.py onward runs offline from raw/ and inputs/ (see README). Only the fetch_*.py scripts and make_review_pdf.py (Google Chrome) need anything else."
+}

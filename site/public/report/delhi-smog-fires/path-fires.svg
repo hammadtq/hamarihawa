@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 388" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="Delhi PM2.5 by upstream fire-detection category within each part of the season">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="46" y="18" font-size="14" font-weight="700" fill="#1d1d1b">Delhi’s PM2.5 by fire detections near the path of the arriving air, µg/m³</text>
+<text x="46" y="33" font-size="10.5" fill="#7c7c80">Median of daily city values, 161 days in 15 Oct–30 Nov of 2016–2021, 2025 and 2026, within each part of the season</text>
+<line x1="46" x2="706" y1="230.0" y2="230.0" stroke="#eee"/><text x="40" y="233.0" font-size="9.5" text-anchor="end" fill="#7c7c80">100</text>
+<line x1="46" x2="706" y1="170.0" y2="170.0" stroke="#eee"/><text x="40" y="173.0" font-size="9.5" text-anchor="end" fill="#7c7c80">200</text>
+<line x1="46" x2="706" y1="110.0" y2="110.0" stroke="#eee"/><text x="40" y="113.0" font-size="9.5" text-anchor="end" fill="#7c7c80">300</text>
+<line x1="46" x2="706" y1="50.0" y2="50.0" stroke="#eee"/><text x="40" y="53.0" font-size="9.5" text-anchor="end" fill="#7c7c80">400</text>
+<rect x="66.0" y="227.0" width="54.0" height="63.0" fill="#c9c9c4" rx="2"/><text x="93.0" y="223.0" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">105</text>
+<text x="93.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">32 days</text>
+<rect x="126.0" y="206.0" width="54.0" height="84.0" fill="#e8a29b" rx="2"/><text x="153.0" y="202.0" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">140</text>
+<text x="153.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">22 days</text>
+<rect x="186.0" y="210.2" width="54.0" height="79.8" fill="#d62d20" rx="2"/><text x="213.0" y="206.2" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">133</text>
+<text x="213.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">16 days</text>
+<text x="156.0" y="320" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1d1d1b">15-31 Oct</text>
+<rect x="286.0" y="170.0" width="54.0" height="120.0" fill="#c9c9c4" rx="2"/><text x="313.0" y="166.0" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">200</text>
+<text x="313.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">5 days</text>
+<rect x="346.0" y="140.0" width="54.0" height="150.0" fill="#e8a29b" rx="2"/><text x="373.0" y="136.0" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">250</text>
+<text x="373.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">12 days</text>
+<rect x="406.0" y="132.8" width="54.0" height="157.2" fill="#d62d20" rx="2"/><text x="433.0" y="128.8" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">262</text>
+<text x="433.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">28 days</text>
+<text x="376.0" y="320" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1d1d1b">1-15 Nov</text>
+<rect x="506.0" y="158.6" width="54.0" height="131.4" fill="#c9c9c4" rx="2"/><text x="533.0" y="154.6" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">219</text>
+<text x="533.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">17 days</text>
+<rect x="566.0" y="175.4" width="54.0" height="114.6" fill="#e8a29b" rx="2"/><text x="593.0" y="171.4" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">191</text>
+<text x="593.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">20 days</text>
+<rect x="626.0" y="160.4" width="54.0" height="129.6" fill="#d62d20" rx="2"/><text x="653.0" y="156.4" font-size="10" font-weight="700" text-anchor="middle" fill="#3a3935">216</text>
+<text x="653.0" y="303" font-size="9" text-anchor="middle" fill="#7c7c80">9 days</text>
+<text x="596.0" y="320" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1d1d1b">16-30 Nov</text>
+<rect x="46" y="338" width="10" height="10" fill="#c9c9c4" rx="2"/><text x="61" y="347" font-size="10" fill="#3a3935">Few detections near the path</text>
+<rect x="246" y="338" width="10" height="10" fill="#e8a29b" rx="2"/><text x="261" y="347" font-size="10" fill="#3a3935">Some</text>
+<rect x="446" y="338" width="10" height="10" fill="#d62d20" rx="2"/><text x="461" y="347" font-size="10" fill="#3a3935">Many detections near the path</text>
+<text x="46" y="368" font-size="9" fill="#7c7c80">Categories are thirds of all days by the number of MODIS detections within 25 km of the 48-hour back-path, around the time the air passed.</text>
+<text x="46" y="380" font-size="9" fill="#7c7c80">An association between groups of days. It does not measure how much of the pollution came from fires. HamariHawa.</text></svg>
