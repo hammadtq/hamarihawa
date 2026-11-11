@@ -130,6 +130,23 @@
     });
   }
 
+  // Chart columns marked .ff-hit carry their text in data-tip: show it at once on hover, and on tap for touch screens.
+  let tip = null, on = null;
+  function showTip(el, x, y) {
+    if (!tip) { tip = document.createElement("div"); tip.className = "ff-tip"; tip.setAttribute("role", "status"); document.body.appendChild(tip); }
+    const t = el.querySelector("title"); if (t) t.remove(); // or the browser's own slow tooltip shows as well
+    if (on && on !== el) on.classList.remove("on");
+    on = el; el.classList.add("on");
+    tip.textContent = el.getAttribute("data-tip"); tip.dir = document.documentElement.dir || "ltr"; tip.hidden = false;
+    const w = tip.offsetWidth, h = tip.offsetHeight;
+    tip.style.left = Math.max(6, Math.min(innerWidth - w - 6, x - w / 2)) + "px";
+    tip.style.top = (y - h - 14 < 6 ? y + 18 : y - h - 14) + "px";
+  }
+  function hideTip() { if (tip) tip.hidden = true; if (on) { on.classList.remove("on"); on = null; } }
+  document.addEventListener("pointermove", (e) => { const el = e.target.closest && e.target.closest(".ff-hit"); if (el) showTip(el, e.clientX, e.clientY); else if (on && e.pointerType === "mouse") hideTip(); });
+  document.addEventListener("click", (e) => { const el = e.target.closest && e.target.closest(".ff-hit"); if (el) showTip(el, e.clientX, e.clientY); else hideTip(); });
+  addEventListener("scroll", hideTip, { passive: true });
+
   function watch() {
     document.querySelectorAll("figure[data-sat]").forEach((f) => whenNear(f, satView));
     document.querySelectorAll(".ff-map[data-srcmap]").forEach((m) => whenNear(m, srcMap));

@@ -190,6 +190,8 @@ const ORG = { "@type": "Organization", "@id": `${SITE}/#org`, name: "HamariHawa"
 const page = (html, status = 200, maxAge = 300) => new Response(html, { status, headers: { "content-type": "text/html; charset=utf-8", "cache-control": `public, max-age=${maxAge}` } });
 const STYLE = `<style>
   .ff-bars { width: 100%; height: auto; display: block; margin: 8px 0 4px; }
+  .ff-hit { cursor: crosshair; } .ff-hit:hover, .ff-hit.on { fill: rgba(0,0,0,.08); }
+  .ff-tip { position: fixed; z-index: 50; pointer-events: none; background: #1d1d1b; color: #fff; font-size: 13px; line-height: 1.35; padding: 5px 9px; border-radius: 6px; max-width: 280px; white-space: normal; }
   .ff-jump { font-size: 14px; line-height: 1.8; }
   .doc h3 small { font-weight: 400; font-size: 13px; }
   .ff-key { font-size: 13px; color: var(--ink-3); }

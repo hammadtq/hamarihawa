@@ -253,14 +253,18 @@ function fireChart(cf, id, l, N) {
   const W = 720, H = 180, pad = 24, n = cf.dates.length, bw = (W - 8) / n;
   const max = Math.max(1, ...rows.map((r) => (r ? r[1] : 0)));
   const y = (v) => ((H - pad - 20) * v) / max; // headroom for the max label
-  let g = "", line = [];
+  let g = "", line = [], hit = "";
   cf.dates.forEach((d, i) => {
     const r = rows[i], x = 4 + i * bw, w = Math.max(1, bw - 3);
+    // One full-height strip per day on top of the bars and the line: hovering or tapping anywhere in a day's column
+    // shows its date and both counts at once (city-page.js); the <title> is the fallback without scripts.
+    const tip = r ? `${date(d, l)}: ${nf(r[1], l)} ${T[l].key250} · ${nf(r[0], l)} ${T[l].key50}` : `${date(d, l)}: ${T[l].noDay}`;
+    hit += `<rect class="ff-hit" x="${(4 + i * bw - 1.5).toFixed(1)}" y="0" width="${bw.toFixed(1)}" height="${H - pad}" fill="transparent" data-tip="${esc(tip)}"><title>${esc(tip)}</title></rect>`;
     if (r) {
-      g += `<g><title>${esc(`${date(d, l)}: ${nf(r[1], l)} · ${nf(r[0], l)}`)}</title><rect x="${x.toFixed(1)}" y="${(H - pad - y(r[1])).toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(0.5, y(r[1])).toFixed(1)}" fill="#f0a35a"/></g>`;
+      g += `<g><rect x="${x.toFixed(1)}" y="${(H - pad - y(r[1])).toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(0.5, y(r[1])).toFixed(1)}" fill="#f0a35a"/></g>`;
       line.push(`${(x + w / 2).toFixed(1)},${(H - pad - y(r[0])).toFixed(1)}`);
     } else {
-      g += `<rect x="${x.toFixed(1)}" y="${H - pad - 3}" width="${w.toFixed(1)}" height="3" fill="#ddd"><title>${esc(`${date(d, l)}: ${T[l].noDay}`)}</title></rect>`;
+      g += `<rect x="${x.toFixed(1)}" y="${H - pad - 3}" width="${w.toFixed(1)}" height="3" fill="#ddd"/>`;
       if (line.length) { g += `<polyline points="${line.join(" ")}" fill="none" stroke="#d62d20" stroke-width="2"/>`; line = []; }
     }
     if (i === 0 || i === n - 1 || i === Math.floor(n / 2))
@@ -268,7 +272,7 @@ function fireChart(cf, id, l, N) {
   });
   if (line.length) g += `<polyline points="${line.join(" ")}" fill="none" stroke="#d62d20" stroke-width="2"/>`;
   g += `<line x1="0" x2="${W}" y1="${(H - pad - y(max)).toFixed(1)}" y2="${(H - pad - y(max)).toFixed(1)}" stroke="#e6e3dc"/><text x="4" y="${(H - pad - y(max) - 4).toFixed(1)}" font-size="12" fill="#7c7c80">${nf(max, l)}</text>`;
-  return `<svg class="ff-bars" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(T[l].chartFires(N))}" direction="ltr">${g}</svg>` +
+  return `<svg class="ff-bars" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(T[l].chartFires(N))}" direction="ltr">${g}${hit}</svg>` +
     `<p class="ff-key"><i style="background:#f0a35a"></i>${T[l].key250} &nbsp; <i style="background:#d62d20"></i>${T[l].key50}</p>`;
 }
 
