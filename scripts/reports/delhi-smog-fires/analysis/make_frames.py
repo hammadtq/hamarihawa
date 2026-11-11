@@ -37,7 +37,7 @@ for fn in sorted(os.listdir(SAT)):
              + (f'<text x="{W - 314}" y="98" font-size="46" font-weight="700" fill="{colour(v)}" stroke="#fff" stroke-width=".6">{v:.0f}</text>' if v is not None else f'<text x="{W - 314}" y="92" font-size="26" fill="#bbb">no data</text>'))
     html = f'''<!doctype html><meta charset="utf-8"><style>html,body{{margin:0;background:#000}}svg{{position:absolute;left:0;top:0;font-family:Helvetica,Arial,sans-serif}}</style>
 <img src="file://{os.path.join(SAT, fn)}" width="{W}" height="{Hh}"><svg width="{W}" height="{Hh}" viewBox="0 0 {W} {Hh}">{BORDER}{dots}{labs}
-<rect x="20" y="20" width="330" height="92" rx="10" fill="#000" fill-opacity=".62"/><text x="36" y="62" font-size="36" font-weight="700" fill="#fff">{D.day} {D:%B %Y}</text>
+<rect x="20" y="20" width="412" height="92" rx="10" fill="#000" fill-opacity=".62"/><text x="36" y="62" font-size="36" font-weight="700" fill="#fff">{D.day} {D:%B %Y}</text>
 <text x="36" y="96" font-size="17" fill="#ddd"><tspan fill="#ff5a4d">●</tspan> {len(f):,} MODIS fire detections, whole map area</text>{pmbox}
 <text x="20" y="{Hh - 16}" font-size="14" fill="#fff" stroke="#000" stroke-opacity=".5" stroke-width="3" paint-order="stroke">NASA Worldview / GIBS: VIIRS (NOAA-20) true colour, early afternoon. Fires: NASA FIRMS MODIS. PM2.5: government monitors via OpenAQ. HamariHawa.</text></svg>'''
     open(os.path.join(OUT, d + '.html'), 'w').write(html)
