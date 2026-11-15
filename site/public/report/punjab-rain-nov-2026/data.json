@@ -1,0 +1,1956 @@
+{
+ "report": "Lahore got a trace of rain, Faisalabad and Multan none. Their air improved anyway",
+ "published": "2026-11-16",
+ "version": "2026-11-16a",
+ "inputs": {
+  "note": "Raw captures, downloads and scripts in the repository under scripts/reports/punjab-rain-nov-2026/analysis/"
+ },
+ "evidence": [
+  {
+   "id": "rain_pk",
+   "claim": "24-hour rainfall (mm) ending 08:00 PKT on each date at Pakistan Meteorological Department observatories; null = no 24-hour figure in the report; Lahore City on 13 Nov is the 12-hour figure",
+   "value": {
+    "stations": {
+     "Lahore City": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": "trace",
+      "2026-11-14": 0.0,
+      "2026-11-15": 0.0
+     },
+     "Chaklala (Rawalpindi)": {
+      "2026-11-11": null,
+      "2026-11-12": 0.0,
+      "2026-11-13": 1.5,
+      "2026-11-14": 0.0,
+      "2026-11-15": 0.0
+     },
+     "Murree": {
+      "2026-11-11": 8.0,
+      "2026-11-12": null,
+      "2026-11-13": 20.0,
+      "2026-11-14": 3.0,
+      "2026-11-15": 0.0
+     },
+     "Jhelum": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": 2.2,
+      "2026-11-14": 0.0,
+      "2026-11-15": 0.0
+     },
+     "Sialkot City": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": 4.0,
+      "2026-11-14": null,
+      "2026-11-15": 0.0
+     },
+     "Faisalabad": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": 0.0,
+      "2026-11-14": 0.0,
+      "2026-11-15": 0.0
+     },
+     "Multan": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": 0.0,
+      "2026-11-14": 0.0,
+      "2026-11-15": 0.0
+     },
+     "Bahawalnagar": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": 0.0,
+      "2026-11-14": 0.0,
+      "2026-11-15": null
+     },
+     "Bahawalpur": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": 0.0,
+      "2026-11-14": 0.0,
+      "2026-11-15": 0.0
+     },
+     "Sargodha": {
+      "2026-11-11": null,
+      "2026-11-12": null,
+      "2026-11-13": null,
+      "2026-11-14": null,
+      "2026-11-15": null
+     },
+     "Kakul (Abbottabad)": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": 15.0,
+      "2026-11-14": 0.0,
+      "2026-11-15": 0.0
+     },
+     "Balakot": {
+      "2026-11-11": 0.0,
+      "2026-11-12": 0.0,
+      "2026-11-13": 33.0,
+      "2026-11-14": 25.0,
+      "2026-11-15": 0.0
+     }
+    },
+    "murree_total_11_15": 31.0,
+    "plains_stations": [
+     "Lahore City",
+     "Faisalabad",
+     "Multan",
+     "Bahawalpur"
+    ],
+    "plains_measurable_days": 0,
+    "lahore": {
+     "12h_to_05_pkt_13_nov": "trace",
+     "3h_to_05_pkt_13_nov": "trace",
+     "24h_group_13_nov": "not in the report",
+     "report_00utc_13_nov": "AAXX 13004 41640 01620 80502 10210 20178 39914 40162 69902 71022 8352/ 333 5699/ 58020 69907 83640 88460==",
+     "report_03utc_13_nov": "AAXX 13034 41640 21620 70504 10205 20155 39929 40177 70422 83570 333 20178 60007 83640 86460==",
+     "other_3h_periods_with_rain_10_15_nov": 0,
+     "cloud_eighths_by_report_pkt": {
+      "10 05:00": 0,
+      "10 08:00": 0,
+      "10 11:00": 0,
+      "10 14:00": 0,
+      "10 17:00": 0,
+      "10 20:00": 0,
+      "10 23:00": 0,
+      "11 02:00": 0,
+      "11 05:00": 0,
+      "11 08:00": 0,
+      "11 11:00": 0,
+      "11 14:00": 0,
+      "11 17:00": 0,
+      "11 20:00": 0,
+      "11 23:00": 0,
+      "12 02:00": 0,
+      "12 05:00": 0,
+      "12 08:00": 0,
+      "12 11:00": 3,
+      "12 14:00": 8,
+      "12 17:00": 7,
+      "12 20:00": 6,
+      "12 23:00": 6,
+      "13 02:00": 6,
+      "13 05:00": 8,
+      "13 08:00": 7,
+      "13 11:00": 5,
+      "13 14:00": 5,
+      "13 17:00": 4,
+      "13 20:00": 0,
+      "13 23:00": 0,
+      "14 02:00": 0,
+      "14 05:00": 0,
+      "14 08:00": 0,
+      "14 11:00": 0,
+      "14 14:00": 0,
+      "14 17:00": 1,
+      "14 20:00": 3,
+      "14 23:00": 5,
+      "15 02:00": 4,
+      "15 05:00": 0,
+      "15 08:00": 0,
+      "15 11:00": 0
+     },
+     "cloud_min_12nov1400_to_13nov1400": 5,
+     "cloud_max_12nov1400_to_13nov1400": 8,
+     "cloud_max_10nov_to_12nov0800": 0,
+     "cloud_max_13nov2000_to_14nov1400": 0
+    }
+   },
+   "source": "PMD observatory SYNOP reports as exchanged on the WMO network, relayed by OGIMET (ogimet.com/cgi-bin/getsynop), fetched 15 Nov 2026; data/rainfall/ogimet/",
+   "method": "Section 3 group 7RRRR of the 03 UTC report = 24 h total in tenths of mm ending 08:00 PKT. Lahore City's 03 UTC report on 13 Nov has no 7RRRR group; its 00 UTC report gives section 1 group 69902 (trace in 12 h) and section 3 group 69907 (trace in the past 3 h). One gauge per place. Sargodha sent NIL reports. Cloud cover is the N digit of the Nddff group (eighths of the sky). Decoded by this script; rules in data/rainfall/ogimet/README.txt."
+  },
+  {
+   "id": "rain_in",
+   "claim": "Month-to-date rainfall (mm), 1 to 15 November 2026 (to 08:30 IST 15 Nov), by district, India Meteorological Department",
+   "value": {
+    "punjab_districts_listed": 22,
+    "punjab_zero": 21,
+    "punjab_nonzero": {
+     "PATHANKOT": 0.1
+    },
+    "haryana_rows_listed": 23,
+    "haryana_zero": 23,
+    "delhi_month_to_date": {
+     "Safdarjung": 0.0,
+     "Ridge": 0.0,
+     "Palam": "trace",
+     "Lodhi Road": "trace",
+     "Ayanagar": 1.4
+    },
+    "punjab": {
+     "AMRITSAR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "BARNALA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "BHATINDA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "FARIDKOT": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "FATEHGARH SAHIB": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "FAZILKA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "FEROZEPUR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "GURDASPUR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "HOSHIARPUR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "JALANDHAR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "KAPURTHALA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "LUDHIANA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "MANSA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "MOGA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "MUKTSAR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "PATHANKOT": {
+      "today_mm": 0.0,
+      "month_mm": 0.1
+     },
+     "PATIALA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "RUPNAGAR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "SANGRUR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "SAS NAGAR (MOHALI)": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "SBS NAGAR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "TARN TARAN": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     }
+    },
+    "haryana": {
+     "AMBALA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "BHIWANI": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "CHANDIGARH": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "CHARKHI DADRI": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "FARIDABAD": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "FATEHABAD": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "GURUGRAM": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "HISAR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "JHAJJAR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "JIND": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "KAITHAL": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "KARNAL": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "KURUKSHETRA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "MAHENDRAGARH": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "NUH": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "PALWAL": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "PANCHKULA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "PANIPAT": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "REWARI": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "ROHTAK": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "SIRSA": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "SONIPAT": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     },
+     "YAMUNA NAGAR": {
+      "today_mm": 0.0,
+      "month_mm": 0.0
+     }
+    }
+   },
+   "source": "IMD Meteorological Centre Chandigarh, 'Rainfall Status Punjab' and 'Rainfall Status Haryana', and IMD New Delhi 'Observational data of Delhi', issues of 15 Nov 2026; data/rainfall/pdf-imd/ (PDFs, SHA256SUMS.txt) and pdf-imd-text/",
+   "method": "Monthly 'ACTUAL' column of the district table, read from the PDF text. Figures are rounded to 0.1 mm; the same bulletin says very light rain occurred at isolated places in Punjab in the 24 h to 08:30 IST 15 Nov. The Haryana table includes a row for Chandigarh. Delhi figures were read from the Observational table by hand (Ayanagar's 1.4 mm fell in the 24 h to 08:30 IST 15 Nov). The issues of 12-14 Nov were overwritten before we fetched them."
+  },
+  {
+   "id": "airport_rain",
+   "claim": "Airport reports with rain or drizzle, 9 Nov to midday 15 Nov 2026 (Pakistan time), and Sialkot's thunderstorm reports on the night of 12-13 Nov",
+   "value": {
+    "reports_with_rain": {
+     "Lahore": 1,
+     "Faisalabad": 0,
+     "Multan": 0,
+     "Sialkot": 8,
+     "Islamabad": 15,
+     "Amritsar": 0
+    },
+    "period": [
+     "2026-11-09 05:00",
+     "2026-11-15 12:00"
+    ],
+    "sialkot_thunderstorm_first": "03:30",
+    "sialkot_thunderstorm_last": "05:00",
+    "sialkot_thunderstorm_reports": 4
+   },
+   "source": "Airport METAR reports via Iowa Environmental Mesonet; data/rainfall/iem-metar/",
+   "method": "Reports whose weather group includes RA (rain) or DZ (drizzle); TS = thunderstorm. A METAR says what the weather was at the time of the report; it gives no rainfall amount."
+  },
+  {
+   "id": "calm_nights",
+   "claim": "Lowest and highest night-average wind (km/h) at Lahore, Faisalabad and Multan airports on the three nights of 9-10, 10-11 and 11-12 November",
+   "value": {
+    "min_kmh": 0,
+    "max_kmh": 2
+   },
+   "source": "As wind_nights",
+   "method": "As wind_nights"
+  },
+  {
+   "id": "wind_nights",
+   "claim": "Mean and highest reported wind (knots) at airports, 8 pm to 8 am Pakistan time, nights of 9-10 to 14-15 November 2026, and the number of reports with rain or drizzle",
+   "value": {
+    "Lahore": {
+     "9-10": {
+      "mean_kt": 0.8,
+      "mean_kmh": 2,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 23,
+      "rain_reports": 0
+     },
+     "10-11": {
+      "mean_kt": 1.2,
+      "mean_kmh": 2,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "11-12": {
+      "mean_kt": 0.0,
+      "mean_kmh": 0,
+      "max_kt": 0,
+      "max_kmh": 0,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "12-13": {
+      "mean_kt": 4.8,
+      "mean_kmh": 9,
+      "max_kt": 12,
+      "max_kmh": 22,
+      "reports": 24,
+      "rain_reports": 1
+     },
+     "13-14": {
+      "mean_kt": 2.3,
+      "mean_kmh": 4,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "14-15": {
+      "mean_kt": 1.8,
+      "mean_kmh": 3,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     }
+    },
+    "Faisalabad": {
+     "9-10": {
+      "mean_kt": 0.2,
+      "mean_kmh": 0,
+      "max_kt": 2,
+      "max_kmh": 4,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "10-11": {
+      "mean_kt": 0.1,
+      "mean_kmh": 0,
+      "max_kt": 2,
+      "max_kmh": 4,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "11-12": {
+      "mean_kt": 0.3,
+      "mean_kmh": 1,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "12-13": {
+      "mean_kt": 3.8,
+      "mean_kmh": 7,
+      "max_kt": 10,
+      "max_kmh": 19,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "13-14": {
+      "mean_kt": 3.1,
+      "mean_kmh": 6,
+      "max_kt": 6,
+      "max_kmh": 11,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "14-15": {
+      "mean_kt": 0.0,
+      "mean_kmh": 0,
+      "max_kt": 0,
+      "max_kmh": 0,
+      "reports": 24,
+      "rain_reports": 0
+     }
+    },
+    "Multan": {
+     "9-10": {
+      "mean_kt": 0.0,
+      "mean_kmh": 0,
+      "max_kt": 0,
+      "max_kmh": 0,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "10-11": {
+      "mean_kt": 0.3,
+      "mean_kmh": 1,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "11-12": {
+      "mean_kt": 0.7,
+      "mean_kmh": 1,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "12-13": {
+      "mean_kt": 3.7,
+      "mean_kmh": 7,
+      "max_kt": 6,
+      "max_kmh": 11,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "13-14": {
+      "mean_kt": 1.3,
+      "mean_kmh": 2,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "14-15": {
+      "mean_kt": 0.0,
+      "mean_kmh": 0,
+      "max_kt": 0,
+      "max_kmh": 0,
+      "reports": 24,
+      "rain_reports": 0
+     }
+    },
+    "Sialkot": {
+     "9-10": {
+      "mean_kt": 0.0,
+      "mean_kmh": 0,
+      "max_kt": 0,
+      "max_kmh": 0,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "10-11": {
+      "mean_kt": 1.8,
+      "mean_kmh": 3,
+      "max_kt": 10,
+      "max_kmh": 19,
+      "reports": 24,
+      "rain_reports": 1
+     },
+     "11-12": {
+      "mean_kt": 0.8,
+      "mean_kmh": 1,
+      "max_kt": 6,
+      "max_kmh": 11,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "12-13": {
+      "mean_kt": 7.2,
+      "mean_kmh": 13,
+      "max_kt": 18,
+      "max_kmh": 33,
+      "reports": 24,
+      "rain_reports": 6
+     },
+     "13-14": {
+      "mean_kt": 0.3,
+      "mean_kmh": 1,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "14-15": {
+      "mean_kt": 0.0,
+      "mean_kmh": 0,
+      "max_kt": 0,
+      "max_kmh": 0,
+      "reports": 24,
+      "rain_reports": 0
+     }
+    },
+    "Islamabad": {
+     "9-10": {
+      "mean_kt": 6.1,
+      "mean_kmh": 11,
+      "max_kt": 8,
+      "max_kmh": 15,
+      "reports": 23,
+      "rain_reports": 0
+     },
+     "10-11": {
+      "mean_kt": 5.2,
+      "mean_kmh": 10,
+      "max_kt": 14,
+      "max_kmh": 26,
+      "reports": 24,
+      "rain_reports": 4
+     },
+     "11-12": {
+      "mean_kt": 5.1,
+      "mean_kmh": 9,
+      "max_kt": 8,
+      "max_kmh": 15,
+      "reports": 24,
+      "rain_reports": 1
+     },
+     "12-13": {
+      "mean_kt": 4.9,
+      "mean_kmh": 9,
+      "max_kt": 10,
+      "max_kmh": 19,
+      "reports": 24,
+      "rain_reports": 3
+     },
+     "13-14": {
+      "mean_kt": 7.1,
+      "mean_kmh": 13,
+      "max_kt": 10,
+      "max_kmh": 19,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "14-15": {
+      "mean_kt": 6.2,
+      "mean_kmh": 11,
+      "max_kt": 10,
+      "max_kmh": 19,
+      "reports": 24,
+      "rain_reports": 0
+     }
+    },
+    "Amritsar": {
+     "9-10": {
+      "mean_kt": 1.2,
+      "mean_kmh": 2,
+      "max_kt": 3,
+      "max_kmh": 6,
+      "reports": 23,
+      "rain_reports": 0
+     },
+     "10-11": {
+      "mean_kt": 1.6,
+      "mean_kmh": 3,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "11-12": {
+      "mean_kt": 0.7,
+      "mean_kmh": 1,
+      "max_kt": 2,
+      "max_kmh": 4,
+      "reports": 23,
+      "rain_reports": 0
+     },
+     "12-13": {
+      "mean_kt": 5.8,
+      "mean_kmh": 11,
+      "max_kt": 14,
+      "max_kmh": 26,
+      "reports": 24,
+      "rain_reports": 0
+     },
+     "13-14": {
+      "mean_kt": 1.1,
+      "mean_kmh": 2,
+      "max_kt": 4,
+      "max_kmh": 7,
+      "reports": 23,
+      "rain_reports": 0
+     },
+     "14-15": {
+      "mean_kt": 2.3,
+      "mean_kmh": 4,
+      "max_kt": 5,
+      "max_kmh": 9,
+      "reports": 24,
+      "rain_reports": 0
+     }
+    }
+   },
+   "source": "Airport METAR reports via Iowa Environmental Mesonet (mesonet.agron.iastate.edu), fetched 15 Nov 2026; data/rainfall/iem-metar/",
+   "method": "All reports (usually half-hourly) with a wind speed, from 20:00 to 07:59 PKT (the 08:00 report is not included). Calm is counted as 0. A METAR gives the wind at the airport at the time of the report, not a night-long record. km/h = knots x 1.852, rounded."
+  },
+  {
+   "id": "lahore_airport",
+   "claim": "Lahore airport reports on the night of 12-13 November 2026 (Pakistan time)",
+   "value": {
+    "rain_reports_9_nov_to_midday_15_nov": 1,
+    "rain_report_time": "2026-11-13 03:00",
+    "rain_report": "OPLA 122200Z 03006KT 2000 -RA SCT040 BKN100 21/17 Q1016 BECMG 1500 BR RMK QFE990 A30.02",
+    "wind_kt_20_to_02": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "wind_kt_0500": 10,
+    "wind_dir_0500": 20,
+    "wind_peak_kt": 12,
+    "wind_peak_kmh": 22,
+    "wind_kmh_0500": 19,
+    "wind_kmh_20_to_0230_max": 11,
+    "wind_kmh_20_to_0230_min": 4,
+    "rain_weather_20_to_0230": [
+     "BR",
+     "FU"
+    ],
+    "vis_m_0430": 3000,
+    "vis_m_0400": 2000,
+    "wind_peak_time": "05:30",
+    "wind_peak_dir": 30,
+    "vis_m_2000": 2000,
+    "vis_m_0300": 2000,
+    "vis_m_0500": 3000,
+    "vis_m_0700": 5000,
+    "weather_2000": "FU",
+    "weather_0700": "FU"
+   },
+   "source": "OPLA METAR via Iowa Environmental Mesonet; data/rainfall/iem-metar/OPLA.csv",
+   "method": "Times converted from UTC to PKT (UTC+5). FU = smoke, BR = mist, -RA = light rain. Visibility is the prevailing visibility group of the report."
+  },
+  {
+   "id": "cities",
+   "claim": "IQAir hourly city figure (US AQI+, median of stations) for 13 places: value in the hour from 8 pm on 12 Nov, the lowest hour up to the end of 13 Nov, the highest hour after that to the end of 15 Nov, the highest hour captured on 9-10 Nov, and 24-hour means for 10, 13, 14 and 15 Nov (Pakistan time)",
+   "value": {
+    "lahore": {
+     "night_low": 112,
+     "night_low_hour": 5,
+     "evening_12_nov_high": 400,
+     "evening_12_nov_high_hour": 20,
+     "fall_from_evening": 288,
+     "below_200_from": "2026-11-13 04:00",
+     "below_200_hours": 16,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 400,
+     "low": 112,
+     "low_time": "2026-11-13 05:00",
+     "low_hour": 5,
+     "low_day": 13,
+     "fall": 288,
+     "back_at_200": "2026-11-13 20:00",
+     "highest_after_low": 263,
+     "highest_after_low_time": "2026-11-15 06:00",
+     "highest_9_10_nov": 648,
+     "highest_9_10_nov_time": "2026-11-09 09:00",
+     "day": {
+      "10": {
+       "mean": 297,
+       "hours": 24,
+       "max": 453,
+       "min": 241
+      },
+      "13": {
+       "mean": 181,
+       "hours": 24,
+       "max": 309,
+       "min": 112
+      },
+      "14": {
+       "mean": 213,
+       "hours": 24,
+       "max": 258,
+       "min": 166
+      },
+      "15": {
+       "mean": 216,
+       "hours": 24,
+       "max": 263,
+       "min": 157
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 51,
+       "from": [
+        "Abdul Rehman Monnoo",
+        "Anonymous",
+        "CERP Lahore",
+        "Center for Disaster Management - UMT",
+        "Diamond Paints",
+        "GENERATION",
+        "HMC GCU Lahore",
+        "Haris Chaudhry",
+        "JDWGroup",
+        "Lahore American School",
+        "PES",
+        "Pakistan",
+        "Pakistan Air Quality Initiative",
+        "Responsible Resident",
+        "Robina Gulnaz",
+        "SA",
+        "SNH",
+        "Scarsdale International School",
+        "TA",
+        "The University of Lahore",
+        "The Urban Unit",
+        "Trinity School Lahore",
+        "University of Central Punjab",
+        "VTS",
+        "Valancia Town Lahore",
+        "WR"
+       ]
+      },
+      "after": {
+       "stations": 53,
+       "from": [
+        "Abdul Rehman Monnoo",
+        "Anonymous",
+        "CERP Lahore",
+        "Center for Disaster Management - UMT",
+        "Diamond Paints",
+        "GENERATION",
+        "HMC GCU Lahore",
+        "Haris Chaudhry",
+        "JDWGroup",
+        "Lahore American School",
+        "Omer Saeed",
+        "PES",
+        "Pakistan",
+        "Pakistan Air Quality Initiative",
+        "Responsible Resident",
+        "SA",
+        "SNH",
+        "Scarsdale International School",
+        "TA",
+        "The University of Lahore",
+        "The Urban Unit",
+        "Trinity School Lahore",
+        "University of Central Punjab",
+        "VTS",
+        "Valancia Town Lahore",
+        "WR",
+        "WWF-PAKISTAN"
+       ]
+      },
+      "rebound": {
+       "stations": 50,
+       "from": [
+        "Abdul Rehman Monnoo",
+        "Anonymous",
+        "CERP Lahore",
+        "Center for Disaster Management - UMT",
+        "Diamond Paints",
+        "GENERATION",
+        "HMC GCU Lahore",
+        "Haris Chaudhry",
+        "JDWGroup",
+        "Lahore American School",
+        "Omer Saeed",
+        "PES",
+        "Pakistan",
+        "Pakistan Air Quality Initiative",
+        "Responsible Resident",
+        "SA",
+        "SNH",
+        "Scarsdale International School",
+        "TA",
+        "The University of Lahore",
+        "The Urban Unit",
+        "Trinity School Lahore",
+        "University of Central Punjab",
+        "VTS",
+        "Valancia Town Lahore",
+        "WR",
+        "WWF-PAKISTAN"
+       ]
+      }
+     }
+    },
+    "gujranwala": {
+     "night_low": 117,
+     "night_low_hour": 2,
+     "evening_12_nov_high": 503,
+     "evening_12_nov_high_hour": 20,
+     "fall_from_evening": 386,
+     "below_200_from": "2026-11-12 23:00",
+     "below_200_hours": 43,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 503,
+     "low": 117,
+     "low_time": "2026-11-13 02:00",
+     "low_hour": 2,
+     "low_day": 13,
+     "fall": 386,
+     "back_at_200": "2026-11-14 18:00",
+     "highest_after_low": 356,
+     "highest_after_low_time": "2026-11-15 22:00",
+     "highest_9_10_nov": 518,
+     "highest_9_10_nov_time": "2026-11-09 23:00",
+     "day": {
+      "10": {
+       "mean": 339,
+       "hours": 24,
+       "max": 501,
+       "min": 203
+      },
+      "13": {
+       "mean": 145,
+       "hours": 24,
+       "max": 181,
+       "min": 117
+      },
+      "14": {
+       "mean": 189,
+       "hours": 24,
+       "max": 320,
+       "min": 148
+      },
+      "15": {
+       "mean": 209,
+       "hours": 24,
+       "max": 356,
+       "min": 155
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 11,
+       "from": [
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit"
+       ]
+      },
+      "after": {
+       "stations": 11,
+       "from": [
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit"
+       ]
+      },
+      "rebound": {
+       "stations": 9,
+       "from": [
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit"
+       ]
+      }
+     }
+    },
+    "faisalabad": {
+     "night_low": 100,
+     "night_low_hour": 5,
+     "evening_12_nov_high": 225,
+     "evening_12_nov_high_hour": 22,
+     "fall_from_evening": 125,
+     "below_200_from": "2026-11-12 23:00",
+     "below_200_hours": 44,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 216,
+     "low": 100,
+     "low_time": "2026-11-13 05:00",
+     "low_hour": 5,
+     "low_day": 13,
+     "fall": 116,
+     "back_at_200": "2026-11-14 19:00",
+     "highest_after_low": 284,
+     "highest_after_low_time": "2026-11-15 22:00",
+     "highest_9_10_nov": 543,
+     "highest_9_10_nov_time": "2026-11-09 10:00",
+     "day": {
+      "10": {
+       "mean": 255,
+       "hours": 23,
+       "max": 471,
+       "min": 132
+      },
+      "13": {
+       "mean": 150,
+       "hours": 24,
+       "max": 199,
+       "min": 100
+      },
+      "14": {
+       "mean": 175,
+       "hours": 24,
+       "max": 269,
+       "min": 128
+      },
+      "15": {
+       "mean": 212,
+       "hours": 24,
+       "max": 284,
+       "min": 130
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 5,
+       "from": [
+        "1 anonymous contributor",
+        "The Urban Unit"
+       ]
+      },
+      "after": {
+       "stations": 6,
+       "from": [
+        "1 anonymous contributor",
+        "The Urban Unit"
+       ]
+      },
+      "rebound": {
+       "stations": 7,
+       "from": [
+        "1 anonymous contributor",
+        "The Urban Unit"
+       ]
+      }
+     }
+    },
+    "multan": {
+     "night_low": 241,
+     "night_low_hour": 7,
+     "evening_12_nov_high": 435,
+     "evening_12_nov_high_hour": 20,
+     "fall_from_evening": 194,
+     "below_200_from": "2026-11-13 07:00",
+     "below_200_hours": 0,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 435,
+     "low": 241,
+     "low_time": "2026-11-13 07:00",
+     "low_hour": 7,
+     "low_day": 13,
+     "fall": 194,
+     "back_at_200": "2026-11-13 08:00",
+     "highest_after_low": 385,
+     "highest_after_low_time": "2026-11-13 18:00",
+     "highest_9_10_nov": 1004,
+     "highest_9_10_nov_time": "2026-11-10 06:00",
+     "day": {
+      "10": {
+       "mean": 705,
+       "hours": 24,
+       "max": 1004,
+       "min": 298
+      },
+      "13": {
+       "mean": 308,
+       "hours": 24,
+       "max": 385,
+       "min": 241
+      },
+      "14": {
+       "mean": 224,
+       "hours": 24,
+       "max": 297,
+       "min": 176
+      },
+      "15": {
+       "mean": 232,
+       "hours": 24,
+       "max": 363,
+       "min": 163
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 8,
+       "from": [
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit",
+        "YA"
+       ]
+      },
+      "after": {
+       "stations": 9,
+       "from": [
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit",
+        "YA"
+       ]
+      },
+      "rebound": {
+       "stations": 9,
+       "from": [
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit",
+        "YA"
+       ]
+      }
+     }
+    },
+    "sialkot": {
+     "night_low": 92,
+     "night_low_hour": 2,
+     "evening_12_nov_high": 264,
+     "evening_12_nov_high_hour": 20,
+     "fall_from_evening": 181,
+     "below_200_from": "2026-11-12 21:00",
+     "below_200_hours": 45,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 264,
+     "low": 83,
+     "low_time": "2026-11-13 23:00",
+     "low_hour": 23,
+     "low_day": 13,
+     "fall": 181,
+     "back_at_200": "2026-11-14 18:00",
+     "highest_after_low": 291,
+     "highest_after_low_time": "2026-11-14 23:00",
+     "highest_9_10_nov": 433,
+     "highest_9_10_nov_time": "2026-11-09 02:00",
+     "day": {
+      "10": {
+       "mean": 235,
+       "hours": 24,
+       "max": 377,
+       "min": 172
+      },
+      "13": {
+       "mean": 120,
+       "hours": 24,
+       "max": 185,
+       "min": 83
+      },
+      "14": {
+       "mean": 161,
+       "hours": 24,
+       "max": 291,
+       "min": 84
+      },
+      "15": {
+       "mean": 192,
+       "hours": 24,
+       "max": 262,
+       "min": 132
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 4,
+       "from": [
+        "HA",
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit"
+       ]
+      },
+      "after": {
+       "stations": 6,
+       "from": [
+        "HA",
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit"
+       ]
+      },
+      "rebound": {
+       "stations": 6,
+       "from": [
+        "HA",
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit"
+       ]
+      }
+     }
+    },
+    "rawalpindi": {
+     "night_low": 85,
+     "night_low_hour": 5,
+     "evening_12_nov_high": 159,
+     "evening_12_nov_high_hour": 22,
+     "fall_from_evening": 74,
+     "below_200_from": "2026-11-12 20:00",
+     "below_200_hours": 25,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 143,
+     "low": 85,
+     "low_time": "2026-11-13 05:00",
+     "low_hour": 5,
+     "low_day": 13,
+     "fall": 58,
+     "back_at_200": "2026-11-13 21:00",
+     "highest_after_low": 211,
+     "highest_after_low_time": "2026-11-15 21:00",
+     "highest_9_10_nov": 232,
+     "highest_9_10_nov_time": "2026-11-09 19:00",
+     "day": {
+      "10": {
+       "mean": 188,
+       "hours": 24,
+       "max": 211,
+       "min": 160
+      },
+      "13": {
+       "mean": 141,
+       "hours": 24,
+       "max": 200,
+       "min": 85
+      },
+      "14": {
+       "mean": 169,
+       "hours": 24,
+       "max": 201,
+       "min": 127
+      },
+      "15": {
+       "mean": 153,
+       "hours": 24,
+       "max": 211,
+       "min": 77
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 11,
+       "from": [
+        "DAS",
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit",
+        "Weather Busters Pakistan"
+       ]
+      },
+      "after": {
+       "stations": 13,
+       "from": [
+        "DAS",
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit",
+        "Weather Busters Pakistan"
+       ]
+      },
+      "rebound": {
+       "stations": 14,
+       "from": [
+        "DAS",
+        "Pakistan Air Quality Initiative",
+        "The Urban Unit",
+        "Weather Busters Pakistan"
+       ]
+      }
+     }
+    },
+    "islamabad": {
+     "night_low": 127,
+     "night_low_hour": 5,
+     "evening_12_nov_high": 178,
+     "evening_12_nov_high_hour": 21,
+     "fall_from_evening": 51,
+     "below_200_from": "2026-11-12 21:00",
+     "below_200_hours": 75,
+     "below_200_to_end_of_capture": true,
+     "at_20_12_nov": null,
+     "low": 127,
+     "low_time": "2026-11-13 05:00",
+     "low_hour": 5,
+     "low_day": 13,
+     "fall": null,
+     "back_at_200": null,
+     "highest_after_low": 178,
+     "highest_after_low_time": "2026-11-14 08:00",
+     "highest_9_10_nov": 187,
+     "highest_9_10_nov_time": "2026-11-09 18:00",
+     "day": {
+      "10": {
+       "mean": 170,
+       "hours": 24,
+       "max": 181,
+       "min": 157
+      },
+      "13": {
+       "mean": 159,
+       "hours": 24,
+       "max": 172,
+       "min": 127
+      },
+      "14": {
+       "mean": 160,
+       "hours": 24,
+       "max": 178,
+       "min": 117
+      },
+      "15": {
+       "mean": 109,
+       "hours": 24,
+       "max": 156,
+       "min": 64
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 21,
+       "from": [
+        "ASK",
+        "Atif Khan",
+        "Homer Simpson",
+        "Isloo Bat",
+        "JDWGroup",
+        "Jhn",
+        "Muhammad Ahsan",
+        "Pakistan Air Quality Initiative",
+        "TAP",
+        "The Urban Unit",
+        "Weather Busters Pakistan"
+       ]
+      },
+      "after": {
+       "stations": 23,
+       "from": [
+        "ASK",
+        "Atif Khan",
+        "Homer Simpson",
+        "Isloo Bat",
+        "JDWGroup",
+        "Jhn",
+        "Muhammad Ahsan",
+        "Pakistan Air Quality Initiative",
+        "TAP",
+        "The Urban Unit",
+        "Weather Busters Pakistan"
+       ]
+      },
+      "rebound": {
+       "stations": 22,
+       "from": [
+        "ASK",
+        "Atif Khan",
+        "Homer Simpson",
+        "Isloo Bat",
+        "JDWGroup",
+        "Jhn",
+        "Muhammad Ahsan",
+        "Pakistan Air Quality Initiative",
+        "TAP",
+        "The Urban Unit",
+        "Weather Busters Pakistan"
+       ]
+      }
+     }
+    },
+    "amritsar": {
+     "night_low": 161,
+     "night_low_hour": 8,
+     "evening_12_nov_high": 217,
+     "evening_12_nov_high_hour": 22,
+     "fall_from_evening": 98,
+     "below_200_from": "2026-11-13 05:00",
+     "below_200_hours": 39,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 173,
+     "low": 119,
+     "low_time": "2026-11-13 14:00",
+     "low_hour": 14,
+     "low_day": 13,
+     "fall": 54,
+     "back_at_200": "2026-11-14 20:00",
+     "highest_after_low": 208,
+     "highest_after_low_time": "2026-11-14 22:00",
+     "highest_9_10_nov": 291,
+     "highest_9_10_nov_time": "2026-11-11 00:00",
+     "day": {
+      "10": {
+       "mean": 207,
+       "hours": 24,
+       "max": 289,
+       "min": 163
+      },
+      "13": {
+       "mean": 159,
+       "hours": 24,
+       "max": 207,
+       "min": 119
+      },
+      "14": {
+       "mean": 155,
+       "hours": 24,
+       "max": 208,
+       "min": 106
+      },
+      "15": {
+       "mean": 173,
+       "hours": 24,
+       "max": 198,
+       "min": 143
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "after": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "rebound": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      }
+     }
+    },
+    "jalandhar": {
+     "night_low": 167,
+     "night_low_hour": 8,
+     "evening_12_nov_high": 270,
+     "evening_12_nov_high_hour": 20,
+     "fall_from_evening": 185,
+     "below_200_from": "2026-11-13 06:00",
+     "below_200_hours": 66,
+     "below_200_to_end_of_capture": true,
+     "at_20_12_nov": 270,
+     "low": 85,
+     "low_time": "2026-11-13 14:00",
+     "low_hour": 14,
+     "low_day": 13,
+     "fall": 185,
+     "back_at_200": null,
+     "highest_after_low": 197,
+     "highest_after_low_time": "2026-11-14 23:00",
+     "highest_9_10_nov": 209,
+     "highest_9_10_nov_time": "2026-11-09 06:00",
+     "day": {
+      "10": {
+       "mean": 156,
+       "hours": 24,
+       "max": 185,
+       "min": 97
+      },
+      "13": {
+       "mean": 163,
+       "hours": 24,
+       "max": 243,
+       "min": 85
+      },
+      "14": {
+       "mean": 154,
+       "hours": 24,
+       "max": 197,
+       "min": 103
+      },
+      "15": {
+       "mean": 163,
+       "hours": 24,
+       "max": 196,
+       "min": 119
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "after": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "rebound": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      }
+     }
+    },
+    "ludhiana": {
+     "night_low": 179,
+     "night_low_hour": 8,
+     "evening_12_nov_high": 272,
+     "evening_12_nov_high_hour": 21,
+     "fall_from_evening": 186,
+     "below_200_from": "2026-11-13 07:00",
+     "below_200_hours": 36,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 220,
+     "low": 86,
+     "low_time": "2026-11-13 14:00",
+     "low_hour": 14,
+     "low_day": 13,
+     "fall": 134,
+     "back_at_200": "2026-11-14 19:00",
+     "highest_after_low": 224,
+     "highest_after_low_time": "2026-11-15 00:00",
+     "highest_9_10_nov": 234,
+     "highest_9_10_nov_time": "2026-11-09 20:00",
+     "day": {
+      "10": {
+       "mean": 162,
+       "hours": 24,
+       "max": 195,
+       "min": 107
+      },
+      "13": {
+       "mean": 171,
+       "hours": 24,
+       "max": 258,
+       "min": 86
+      },
+      "14": {
+       "mean": 162,
+       "hours": 24,
+       "max": 223,
+       "min": 105
+      },
+      "15": {
+       "mean": 175,
+       "hours": 24,
+       "max": 224,
+       "min": 131
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "after": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "rebound": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      }
+     }
+    },
+    "patiala": {
+     "night_low": 185,
+     "night_low_hour": 8,
+     "evening_12_nov_high": 229,
+     "evening_12_nov_high_hour": 21,
+     "fall_from_evening": 129,
+     "below_200_from": "2026-11-13 07:00",
+     "below_200_hours": 38,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": null,
+     "low": 100,
+     "low_time": "2026-11-13 14:00",
+     "low_hour": 14,
+     "low_day": 13,
+     "fall": null,
+     "back_at_200": "2026-11-14 21:00",
+     "highest_after_low": 203,
+     "highest_after_low_time": "2026-11-15 03:00",
+     "highest_9_10_nov": 234,
+     "highest_9_10_nov_time": "2026-11-10 01:00",
+     "day": {
+      "10": {
+       "mean": 194,
+       "hours": 24,
+       "max": 234,
+       "min": 157
+      },
+      "13": {
+       "mean": 164,
+       "hours": 24,
+       "max": 223,
+       "min": 100
+      },
+      "14": {
+       "mean": 147,
+       "hours": 24,
+       "max": 202,
+       "min": 97
+      },
+      "15": {
+       "mean": 177,
+       "hours": 24,
+       "max": 203,
+       "min": 156
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "after": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "rebound": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      }
+     }
+    },
+    "bathinda": {
+     "night_low": 222,
+     "night_low_hour": 0,
+     "evening_12_nov_high": 243,
+     "evening_12_nov_high_hour": 23,
+     "fall_from_evening": 87,
+     "below_200_from": "2026-11-13 09:00",
+     "below_200_hours": 9,
+     "below_200_to_end_of_capture": false,
+     "at_20_12_nov": 234,
+     "low": 156,
+     "low_time": "2026-11-13 12:00",
+     "low_hour": 12,
+     "low_day": 13,
+     "fall": 78,
+     "back_at_200": "2026-11-13 18:00",
+     "highest_after_low": 234,
+     "highest_after_low_time": "2026-11-15 06:00",
+     "highest_9_10_nov": 343,
+     "highest_9_10_nov_time": "2026-11-11 00:00",
+     "day": {
+      "10": {
+       "mean": 230,
+       "hours": 24,
+       "max": 340,
+       "min": 172
+      },
+      "13": {
+       "mean": 213,
+       "hours": 24,
+       "max": 279,
+       "min": 156
+      },
+      "14": {
+       "mean": 178,
+       "hours": 24,
+       "max": 196,
+       "min": 153
+      },
+      "15": {
+       "mean": 191,
+       "hours": 24,
+       "max": 234,
+       "min": 161
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "after": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      },
+      "rebound": {
+       "stations": 1,
+       "from": [
+        "Central Pollution Control Board"
+       ]
+      }
+     }
+    },
+    "chandigarh": {
+     "night_low": 126,
+     "night_low_hour": 8,
+     "evening_12_nov_high": 182,
+     "evening_12_nov_high_hour": 21,
+     "fall_from_evening": 113,
+     "below_200_from": "2026-11-12 21:00",
+     "below_200_hours": 75,
+     "below_200_to_end_of_capture": true,
+     "at_20_12_nov": null,
+     "low": 69,
+     "low_time": "2026-11-13 14:00",
+     "low_hour": 14,
+     "low_day": 13,
+     "fall": null,
+     "back_at_200": null,
+     "highest_after_low": 174,
+     "highest_after_low_time": "2026-11-14 21:00",
+     "highest_9_10_nov": 188,
+     "highest_9_10_nov_time": "2026-11-09 20:00",
+     "day": {
+      "10": {
+       "mean": 148,
+       "hours": 24,
+       "max": 177,
+       "min": 110
+      },
+      "13": {
+       "mean": 116,
+       "hours": 24,
+       "max": 169,
+       "min": 69
+      },
+      "14": {
+       "mean": 120,
+       "hours": 24,
+       "max": 174,
+       "min": 89
+      },
+      "15": {
+       "mean": 154,
+       "hours": 24,
+       "max": 169,
+       "min": 124
+      }
+     },
+     "stations": {
+      "before": {
+       "stations": 4,
+       "from": [
+        "Central Pollution Control Board",
+        "ORTHOCARE"
+       ]
+      },
+      "after": {
+       "stations": 4,
+       "from": [
+        "Central Pollution Control Board",
+        "ORTHOCARE"
+       ]
+      },
+      "rebound": {
+       "stations": 4,
+       "from": [
+        "Central Pollution Control Board",
+        "ORTHOCARE"
+       ]
+      }
+     }
+    }
+   },
+   "source": "IQAir city pages, History > Hourly, captured 11 Nov 01:30, 14 Nov 20:00 and 16 Nov 00:30 PKT; data/iqair-*.json",
+   "method": "Hours are hour starts in Pakistan time; Indian pages show hours starting at half past in India time, which are the same hours. Where two captures overlap (14 Nov 01:00-18:00) the later one is used, because IQAir revises hours. No capture covers 11 Nov 01:00 to 12 Nov 19:00. Day means are the mean of the hourly city figures of that calendar day (hours counted in 'hours'; Faisalabad has 23 on 10 Nov), halves rounded up. night_low is the lowest hour from 20:00 on 12 Nov to 08:00 on 13 Nov. Indian cities other than Chandigarh have one feed each, attributed to the Central Pollution Control Board; Chandigarh has three such feeds and one private sensor. These relayed feeds were unreliable on Diwali night (see the Diwali report) and are shown for reference only."
+  },
+  {
+   "id": "lahore_night",
+   "claim": "Lahore's IQAir city figure hour by hour on the night of 12-13 November, and its stations one by one",
+   "value": {
+    "hourly": {
+     "12 20:00": 400,
+     "12 21:00": 351,
+     "12 22:00": 331,
+     "12 23:00": 318,
+     "13 00:00": 309,
+     "13 01:00": 306,
+     "13 02:00": 279,
+     "13 03:00": 238,
+     "13 04:00": 180,
+     "13 05:00": 112,
+     "13 06:00": 115,
+     "13 07:00": 131,
+     "13 08:00": 153,
+     "13 09:00": 154,
+     "13 10:00": 152,
+     "13 11:00": 134,
+     "13 12:00": 117
+    },
+    "at_2000": 400,
+    "at_0200": 279,
+    "at_0300": 238,
+    "at_0400": 180,
+    "at_0500": 112,
+    "fall_2000_to_0100": 94,
+    "fall_0100_to_0500": 194,
+    "afternoon_low_13": 115,
+    "afternoon_low_14": 166,
+    "afternoon_low_15": 157,
+    "morning_high_14": 258,
+    "morning_high_15": 263,
+    "at_2300_15": 255,
+    "at_2000_10": 302,
+    "at_0100_13": 306,
+    "lowest_hour_10": 241,
+    "hours_13_below_lowest_of_10": 20,
+    "afternoon_low_10": 241,
+    "morning_high_10": 330,
+    "stations_in_capture": 53,
+    "stations_with_both_hours": 44,
+    "stations_lower_at_0500": 44,
+    "stations_at_least_halved": 44,
+    "station_median_2000": 400.0,
+    "station_median_0500": 112.0
+   },
+   "source": "IQAir Lahore city page and the station pages linked from it, captured 14 Nov 2026 19:57-20:02 PKT; data/iqair-after-2026-11-14T2000PKT.json",
+   "method": "Station comparison: stations with a reading in both the hour from 20:00 on 12 Nov and the hour from 05:00 on 13 Nov. Readings are what IQAir displayed; instruments were not checked."
+  },
+  {
+   "id": "fires",
+   "claim": "Satellite fire spots per Pakistan-time day in Pakistani and Indian Punjab, 1-15 November 2026, all satellites and NOAA-20 alone",
+   "value": {
+    "days": {
+     "2026-11-01": {
+      "pk_punjab": 1719,
+      "in_punjab": 573,
+      "two_punjabs": 2292,
+      "pk_punjab_noaa20": 424,
+      "in_punjab_noaa20": 129,
+      "two_punjabs_noaa20": 553
+     },
+     "2026-11-02": {
+      "pk_punjab": 1150,
+      "in_punjab": 462,
+      "two_punjabs": 1612,
+      "pk_punjab_noaa20": 307,
+      "in_punjab_noaa20": 153,
+      "two_punjabs_noaa20": 460
+     },
+     "2026-11-03": {
+      "pk_punjab": 875,
+      "in_punjab": 963,
+      "two_punjabs": 1838,
+      "pk_punjab_noaa20": 467,
+      "in_punjab_noaa20": 222,
+      "two_punjabs_noaa20": 689
+     },
+     "2026-11-04": {
+      "pk_punjab": 903,
+      "in_punjab": 333,
+      "two_punjabs": 1236,
+      "pk_punjab_noaa20": 628,
+      "in_punjab_noaa20": 222,
+      "two_punjabs_noaa20": 850
+     },
+     "2026-11-05": {
+      "pk_punjab": 470,
+      "in_punjab": 634,
+      "two_punjabs": 1104,
+      "pk_punjab_noaa20": 400,
+      "in_punjab_noaa20": 208,
+      "two_punjabs_noaa20": 608
+     },
+     "2026-11-06": {
+      "pk_punjab": 1050,
+      "in_punjab": 635,
+      "two_punjabs": 1685,
+      "pk_punjab_noaa20": 289,
+      "in_punjab_noaa20": 123,
+      "two_punjabs_noaa20": 412
+     },
+     "2026-11-07": {
+      "pk_punjab": 1029,
+      "in_punjab": 501,
+      "two_punjabs": 1530,
+      "pk_punjab_noaa20": 451,
+      "in_punjab_noaa20": 208,
+      "two_punjabs_noaa20": 659
+     },
+     "2026-11-08": {
+      "pk_punjab": 1143,
+      "in_punjab": 1716,
+      "two_punjabs": 2859,
+      "pk_punjab_noaa20": 585,
+      "in_punjab_noaa20": 346,
+      "two_punjabs_noaa20": 931
+     },
+     "2026-11-09": {
+      "pk_punjab": 461,
+      "in_punjab": 433,
+      "two_punjabs": 894,
+      "pk_punjab_noaa20": 376,
+      "in_punjab_noaa20": 293,
+      "two_punjabs_noaa20": 669
+     },
+     "2026-11-10": {
+      "pk_punjab": 488,
+      "in_punjab": 660,
+      "two_punjabs": 1148,
+      "pk_punjab_noaa20": 258,
+      "in_punjab_noaa20": 277,
+      "two_punjabs_noaa20": 535
+     },
+     "2026-11-11": {
+      "pk_punjab": 531,
+      "in_punjab": 897,
+      "two_punjabs": 1428,
+      "pk_punjab_noaa20": 129,
+      "in_punjab_noaa20": 118,
+      "two_punjabs_noaa20": 247
+     },
+     "2026-11-12": {
+      "pk_punjab": 131,
+      "in_punjab": 258,
+      "two_punjabs": 389,
+      "pk_punjab_noaa20": 57,
+      "in_punjab_noaa20": 85,
+      "two_punjabs_noaa20": 142
+     },
+     "2026-11-13": {
+      "pk_punjab": 194,
+      "in_punjab": 375,
+      "two_punjabs": 569,
+      "pk_punjab_noaa20": 80,
+      "in_punjab_noaa20": 52,
+      "two_punjabs_noaa20": 132
+     },
+     "2026-11-14": {
+      "pk_punjab": 416,
+      "in_punjab": 85,
+      "two_punjabs": 501,
+      "pk_punjab_noaa20": 267,
+      "in_punjab_noaa20": 44,
+      "two_punjabs_noaa20": 311
+     },
+     "2026-11-15": {
+      "pk_punjab": 736,
+      "in_punjab": 375,
+      "two_punjabs": 1111,
+      "pk_punjab_noaa20": 454,
+      "in_punjab_noaa20": 212,
+      "two_punjabs_noaa20": 666
+     }
+    },
+    "noaa20_mean_7_10": 699,
+    "noaa20_mean_12_13": 137,
+    "all_mean_7_10": 1608,
+    "all_mean_12_13": 479
+   },
+   "source": "NASA FIRMS VIIRS and MODIS via HamariHawa's daily archive (hamarihawa.org/api/day?d=YYYY-MM-DD), retrieved 2026-11-15T19:30 UTC; data/day-summaries/",
+   "method": "Near-real-time data; states[key][0] = spots on all satellites, [2] = NOAA-20. Cloud hides fires from the satellites, so low counts on cloudy days are not evidence that burning stopped. The latest days can still change as late data arrive."
+  }
+ ]
+}

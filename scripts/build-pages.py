@@ -313,6 +313,10 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
+    ("/report/punjab-rain-nov-2026/", "2026-11-16", "Lahore got a trace of rain, Faisalabad and Multan none. Their air improved anyway", {
+        "en": "The rain of 10 to 14 November stayed mostly in the hills: at least 31 mm at Murree, a trace at Lahore, none at Faisalabad and Multan. Yet IQAir's Lahore figure fell from 400 to 112 overnight on 12–13 November, the windiest of six nights at five airports, and stayed below 200 for 16 hours before going back above.",
+        "ur": "10 سے 14 نومبر کی بارش زیادہ تر پہاڑوں تک رہی: مری میں کم از کم 31 ملی میٹر، لاہور میں برائے نام، فیصل آباد اور ملتان میں بالکل نہیں۔ پھر بھی 12 اور 13 نومبر کی درمیانی رات IQAir پر لاہور کا عدد 400 سے گر کر 112 رہ گیا؛ پانچ ہوائی اڈوں پر یہ چھ راتوں میں سب سے تیز ہوا والی رات تھی۔ یہ عدد 16 گھنٹے 200 سے نیچے رہ کر دوبارہ اوپر چلا گیا۔",
+        "hi": "10 से 14 नवंबर की बारिश ज़्यादातर पहाड़ों तक रही: मरी में कम से कम 31 मिमी, लाहौर में नाममात्र, फ़ैसलाबाद और मुल्तान में बिल्कुल नहीं। फिर भी 12 और 13 नवंबर की दरमियानी रात IQAir पर लाहौर का आंकड़ा 400 से गिरकर 112 रह गया; पाँच हवाई अड्डों पर यह छह रातों में सबसे तेज़ हवा वाली रात थी। यह आंकड़ा 16 घंटे 200 से नीचे रहकर फिर ऊपर चला गया।"}),
     ("/report/delhi-smog-fires/", "2026-11-11", "Delhi's air is polluted all year. Autumn crop fires add to it", {
         "en": "Delhi's government monitors averaged 92 µg/m³ of PM2.5 over the past 12 months, more than twice India's annual standard, and December–January was about as polluted as the crop-burning weeks. In late October and early November, days with more fire detections upwind had higher PM2.5. The data cannot say what percentage of Delhi's pollution comes from the fires.",
         "ur": "دہلی کے سرکاری مانیٹروں پر پچھلے بارہ مہینوں میں PM2.5 کی اوسط 92 µg/m³ رہی، جو ہندوستان کے سالانہ معیار کے دگنے سے بھی زیادہ ہے، اور دسمبر–جنوری تقریباً اتنے ہی آلودہ رہے جتنے فصلیں جلانے والے ہفتے۔ اکتوبر کے آخر اور نومبر کے شروع میں، جن دنوں ہوا کے راستے میں آگ کے مقامات زیادہ تھے، PM2.5 بھی زیادہ رہا۔ یہ ڈیٹا یہ نہیں بتا سکتا کہ دہلی کی آلودگی کا کتنے فیصد حصہ ان آگوں سے آتا ہے۔",
@@ -576,6 +580,7 @@ SITEMAP = [  # (path, source files whose last commit dates the page, changefreq,
     ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
     ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
     ("/trends/", ["scripts/pages/trends-en.html", "site/public/trends/trends.js"], "daily", "0.8", True),
+    ("/report/punjab-rain-nov-2026/", ["scripts/reports/punjab-rain-nov-2026/article.en.html", "site/public/report/punjab-rain-nov-2026/data.json"], "monthly", "0.8", True),
     ("/report/delhi-smog-fires/", ["scripts/reports/delhi-smog-fires/article.en.html", "site/public/report/delhi-smog-fires/data.json"], "monthly", "0.8", True),
     ("/report/lahore-morning-after-diwali/", ["scripts/reports/lahore-morning-after-diwali/article.en.html", "site/public/report/lahore-morning-after-diwali/data.json"], "monthly", "0.8", True),
     ("/report/lahore-smog-sources/", ["scripts/reports/lahore-smog-sources/article.en.html", "site/public/report/lahore-smog-sources/data.json"], "monthly", "0.8", True),

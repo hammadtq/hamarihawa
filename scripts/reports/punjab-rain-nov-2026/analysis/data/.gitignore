@@ -1,0 +1,6 @@
+# Not in the repository: the IMD PDFs (16 MB; their text and SHA-256 sums are kept), saved news and web pages
+# that the report does not use, and the unused forecast snapshots of 11 November.
+rainfall/pdf-imd/*.pdf
+rainfall/pmd/
+rainfall/imd/
+forecast-*.json

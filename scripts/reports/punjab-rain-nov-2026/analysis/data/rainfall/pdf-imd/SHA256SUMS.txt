@@ -1,0 +1,10 @@
+a7f5388fe65bc9148b584469eb2e998c2b5660e43b7934f47394e43998b294fe  pdf-imd/imd-chandigarh-daily_report_chan-fetched-2026-11-15.pdf
+c214758132fa9dd63426d237f9fc27cf20fb5f341cfbd0f46336f522b64266fe  pdf-imd/imd-chandigarh-daily_report_har-fetched-2026-11-15.pdf
+936c047cfa13df0f2dbbe03862d63c939f06630bae1975b9eacb12f659c3c0d0  pdf-imd/imd-chandigarh-daily_report_pun-fetched-2026-11-15.pdf
+cdb64e11c7b7cb50b8e83d65089ba80865f1beafd94f7e54a9a549183732c4c5  pdf-imd/imd-chandigarh-media_bulletin-fetched-2026-11-15.pdf
+1cbe3f751f52e1e2ba959d728b9f7b9aa4af9cfca81c5e54accf6401129eecf5  pdf-imd/imd-chandigarh-press-fetched-2026-11-15.pdf
+71aa7f35aec023e2f8878e3ef10ed02dfac02192321b8c9a8c055c551ed6ecb9  pdf-imd/imd-chandigarh-rainfall_har-fetched-2026-11-15.pdf
+1564c0c3b43ef875988d5745b59ebe8af71fb6d19bdece646907c14a26120fb1  pdf-imd/imd-chandigarh-rainfall_pun-fetched-2026-11-15.pdf
+f2d6bcd2e0d841cdd2123e5fa65fb8ce653f3fe120891dbd713d5bf11ec9f34a  pdf-imd/imd-delhi-Observational_table-fetched-2026-11-15.pdf
+20d1e7022c235475dc57ada889f62bf586b813d52abf8ff615b9851cb5c379cf  pdf-imd/imd-delhi-rdwr_en-fetched-2026-11-15.pdf
+628c463a5be8bf3e971ffbae3bf40135e8631c2b984b065104c298a511bf385b  pdf-imd/imd-delhi-wxtable-fetched-2026-11-15.pdf

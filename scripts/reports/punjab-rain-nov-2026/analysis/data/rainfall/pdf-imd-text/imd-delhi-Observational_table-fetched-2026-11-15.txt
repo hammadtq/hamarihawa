@@ -1,0 +1,70 @@
+pages: 1
+
+=== page 1 ===
+Date:
+Actual
+previous
+day
+Normal Dep. Actual Normal Dep. At 0830 Normal Dep.
+At
+1730
+Normal Dep.
+Safdarjung 20.8 30.4 28.5 1.9 18.6 13.5 5.1 91 78 13 90 53 37
+Palam 21.4 28.0 28.4 -0.4 17.8 14.2 3.6 77 72 5 56 45 11
+Lodhi Road 20.0 30.0 28.0 2.0 18.8 12.0 6.8 92 78 14 80 53 27
+Ridge 20.4 29.1 27.6 1.5 18.3 15.4 2.9 83 74 9 79 55 24
+Ayanagar 19.4 30.4 28.1 2.3 18.4 14.5 3.9 94 69 25 67 52 15
+24 Hrs Seasonal* Normal* Dep.* Dep. (%)* Month’s* Normal* Dep.* Dep. (%)*
+Safdarjung 000.0 127.5 16.9 110.6 654 0.0 1.8 -1.8 -100
+Palam TRACE 88.7 14.3 74.4 520 Trace 1.6 -1.6 -100
+Lodhi Road TRACE 134.6 16.9 117.7 696 Trace 1.8 -1.8 -100
+Ridge 000.0 128.8 13.8 115.0 833 0.0 2.0 -2.0 -100
+Ayanagar 001.4 107.5 14.9 92.6 621 1.4 1.1 0.3 27
+Cumulative Rainfall
+-100 -100 502
+0.0 0.0 84.9
+0.2 1.4 14.1
+Year-2025 Year-2026
+Month Actual Normal Dep Dep % Month Actual Normal Dep Dep %
+January 6.6 19.1 -12.5 -65 January 25.4 19.1 6.3 33
+February 1.4 21.3 -19.9 -93 February 0.5 21.3 -20.8 -98
+March 1.8 17.4 -15.6 -90 March 20.0 17.4 2.6 15
+April 0.7 16.3 -15.6 -96 April 30.0 16.3 13.7 84
+May 186.4 30.7 155.7 507 May 17.6 30.7 -13.1 -43
+June 107.1 74.1 33.0 45 June 41.8 74.1 -32.3 -44`
+July 259.3 209.7 49.6 24 July 258.0 209.7 48.3 23
+August 400.1 233.1 167.0 72 August 354.1 233.1 121.0 52
+September 136.1 123.5 12.6 10 September 79.6 123.5 -43.9 -36
+October 89.3 15.1 74.2 491 October 127.5 15.1 112.4 744
+November 0.0 6.0 -6.0 -100 November
+December 0.0 8.1 -8.1 -100 December
+0
+Station
+DELHI (UT)
+Rainfall (in mm) of Safdarjung
+Rainfall (in mm)
+Monthly Rainfall
+Daily Rainfall
+DRY
+BULB
+At
+0830
+Station
+Actual(mm)
+Normal(mm)
+14-11-2026
+Departure(%)
+Observational data of Delhi
+Rainfall (in mm) of Safdarjung
+*ALL THE VALUES ARE CALCULATED TILL DATE
+Maximum Temperature (°C)
+(Previous Day) Minimum Temperature (°C) Relative Humidity
+15-11-2026 Updated at 08:30 IST
+0
+0
+Number of Rainy Days (>2.4
+mm) till date in the month of
+the same year
+0
+0
+￼

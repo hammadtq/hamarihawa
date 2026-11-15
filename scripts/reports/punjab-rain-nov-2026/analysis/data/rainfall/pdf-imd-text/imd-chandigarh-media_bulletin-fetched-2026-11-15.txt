@@ -1,0 +1,76 @@
+pages: 4
+
+=== page 1 ===
+शाम का मौसम बुलेटिन
+Evening Weather Bulletin
+मीटिया बुलेटिन/MEDIA BULLETIN DATED 14-11-26
+WEATHER OBSERVED PAST 24 HOURS (up to 0830 IST Today):
+-VERY LIGHT RAIN OCCURRED AT ISOLATED PLACES IN PUNJAB.
+-WEATHER HAS BEEN DRY IN HARYANA.
+HARYANA: -
+As compared to yesterday, Today, there is fall of -0.7°C in average maximum temperature.However, it
+is near normal in the state. The highest maximum temperature in the state is 32.6 °C recorded at
+PALWAL_WATER_SERVICE_DIVISION(AWS).
+PUNJAB:-
+As compared to yesterday, Today, there is fall of -0.5°C in average maximum temperature.However, it
+is Above normal by 1.7°C in the state. The highest maximum temperature in the state is 31.7 °C
+recorded at FARIDKOT_AMFU(AWS).
+िर ाइटसिी (चंिीगढ़, मोहाली और पंचकु ला)के टलएअगले 05 टिनों का पूर्ाानुमान
+NEXT 05 DAYS FORECAST FOR TRICITY (CHANDIGARH, MOHALI & PANCHKULA)
+टिनांक/Date 15.11.2026 16.11.2026 17.11.2026 18.11.2026 19.11.2026
+पूर्ाानुमान
+Forecast PCS MCS MCS MCS MCS
+अटिकतम तापमान
+Maximum Temp.(˚C) 28 27 27 27 27
+न्यूनतम तापमान
+Minimum Temp.(˚C) 13 12 11 10 10
+￼
+=== page 2 ===
+मौसम पूर्ाानुमान अगले 07 टिनों के टलए
+टिनांक 14.11.2026 15.11.2026 16.11.2026 17.11.2026 18.11.2026 19.11.2026 20.11.2026
+राज्य पूर्ाानुमान पूर्ाानुमान पूर्ाानुमान पूर्ाानुमान पूर्ाानुमान पूर्ाानुमान पूर्ाानुमान
+पंजाब ISOL ISOL DRY DRY DRY DRY DRY
+हररयाणा
+र् चंिीगढ़
+ISOL ISOL DRY DRY DRY DRY DRY
+मौसम चेतार्नी अगले 07 टिनों के टलए
+टिनांक 14.11.2026 15.11.2026 16.11.2026 17.11.2026 18.11.2026 19.11.2026 20.11.2026
+राज्य चेतार्नी चेतार्नी चेतार्नी चेतार्नी चेतार्नी चेतार्नी चेतार्नी
+पंजाब NIL NIL NIL NIL NIL NIL NIL
+हररयाणा
+र् चंिीगढ़
+NIL NIL NIL NIL NIL NIL NIL
+￼
+=== page 3 ===
+￼
+￼
+=== page 4 ===
+EXTREME WEATHER EVENTS IN THE MONTH OF MAY
+Visit IMD MC Chandigarh website at :- https://mausam.imd.gov.in/chandigarh/mcdata/extremes_values.pdf
+LEGENDS:-
+INTENSITY OF RAINFALL AMOUNT OF RAINFALL
+VERY LIGHT RAINFALL 0.1 -2.4 mm
+LIGHT RAINFALL 2.5 -15.5 mm
+MODERATE RAINFALL 15.6 -64.4 mm
+HEAVY RAINFALL 64.5 -115.5 mm
+VERY HEAVY RAINFALL 115.6 -204.4 mm
+EXTREMELY HEAVY RAINFALL ≥ 204.5 mm
+EXCEPTIONALLY HEAVY RAINFALL When the amount is a value near about the highest recorded rainfall at
+or near the station for the month or season. However, this term will be
+used only when the actual rainfall amount exceeds 12 cm.
+CATEGORY %STATIONS
+WIDESPREAD/MOST PLACES 76-100%
+FAIRLY WIDESPREAD /MANY PLACES 51-75%
+SCATTERED/ FEW PLACES 26-50%
+ISOLATED Up to 25%
+DRY No station reported rainfall
+SOME USEFUL LINKS
+DISTRICT WISE RAINFALL (Daily and Cumulative) CLICK HERE
+STATE WISE RAINFALL (Daily and Cumulative) CLICK HERE
+RAINFALL INFORMATION CLICK HERE
+NORTH WEST INDIA OBSERVATIONS(till 0830 IST) CLICK HERE
+ALL INDIA WEATHER FORECAST BULLETIN CLICK HERE
+MONSOON INFORMATION CLICK HERE
+CLIMATOLOGY AND WEATHER DATA CLICK HERE
+FREQUENTLY ASKED QUESTIONS CLICK HERE
+￼
