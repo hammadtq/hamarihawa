@@ -164,6 +164,8 @@ add("ch4_lakhodair", "Methane plumes imaged over Lakhodair landfill, June 2023 t
      "carbon_mapper_average_on_passes_with_a_rate_tonnes_per_hour": t_h(src["avg_emission_auto"]),
      "carbon_mapper_detection_passes": src["detection_date_count"], "carbon_mapper_observation_passes": src["observation_date_count"],
      "average_as_tonnes_per_day": rnd(src["emission_auto"] * 24 / 1000), "average_as_tonnes_per_year": rnd(src["emission_auto"] * 8760 / 1e6) * 1000,
+     "average_as_tonnes_co2e_per_year_over_100_years": rnd(src["emission_auto"] * 8.76 * 27 / 1e4) * 10000,
+     "average_as_typical_us_passenger_cars": rnd(src["emission_auto"] * 8.76 * 27 / 4.6 / 1e4) * 10000, "tonnes_co2_per_typical_us_car_per_year": 4.6,
      "smog_season_passes_with_plume": len(smog), "smog_season_dates": [x["local_time"] for x in smog],
      "tanager_passes": sum(x["instrument"] == "Tanager-1" for x in lk), "emit_passes": sum(x["instrument"] != "Tanager-1" for x in lk),
      "ghgsat_2020_21_tonnes_per_hour": 6.4, "ghgsat_range": [2.3, 16.0], "landgem_2023_tonnes": landgem_2023, "landgem_2023_tonnes_per_hour": r1(landgem_2023 / 8760),
@@ -251,11 +253,12 @@ add("science", "What methane and landfill gas do",
      "IPCC AR6 Working Group I, Table 7.15: non-fossil methane, 79.7 times CO2 over 20 years and 27.0 over 100, rounded here",
      "https://wmo.int/media/news/global-methane-assessment-released (UNEP/CCAC Global Methane Assessment, 2021: ozone, lifetime)",
      "https://www.epa.gov/lmop/benefits-landfill-gas-energy-projects (US EPA: capture of roughly 60 to 90 percent)",
+     "https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle (US EPA: a typical passenger vehicle emits about 4.6 tonnes of CO2 a year, at 22.2 miles a gallon and 11,500 miles a year; used in ch4_lakhodair for the car comparison: yearly methane x 27 / 4.6, rounded to the nearest 10,000)",
      "https://www.fireengineering.com/fire-safety/landfill-fires-their-magnitude-characteristics-and-mitigation/ (summary of US FEMA report FA-225, 2002: methane and landfill fires)",
      "https://www.who.int/news-room/fact-sheets/detail/dioxins-and-their-effects-on-human-health (WHO: uncontrolled waste burning and dioxins)"],
     "Quoted from the sources; general figures, not measurements at these sites.", "quoted from published sources")
 
-json.dump({"report": "Satellites repeatedly detect methane over Lahore's Lakhodair landfill, but none reported at nearby Mehmood Booti", "published": "2026-11-21", "version": "1.0",
+json.dump({"report": "Satellites repeatedly detect methane over Lahore's Lakhodair landfill, but none reported at nearby Mehmood Booti", "published": "2026-11-21", "version": "1.1",
            "inputs": {"note": "Inputs and scripts in the repository under scripts/reports/landfill-methane/analysis/"},
            "evidence": E}, open(os.path.join(OUT, "data.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print("evidence entries", len(E))

@@ -1,7 +1,7 @@
 {
  "report": "Satellites repeatedly detect methane over Lahore's Lakhodair landfill, but none reported at nearby Mehmood Booti",
  "published": "2026-11-21",
- "version": "1.0",
+ "version": "1.1",
  "inputs": {
   "note": "Inputs and scripts in the repository under scripts/reports/landfill-methane/analysis/"
  },
@@ -559,6 +559,9 @@
     "carbon_mapper_observation_passes": 12,
     "average_as_tonnes_per_day": 37,
     "average_as_tonnes_per_year": 14000,
+    "average_as_tonnes_co2e_per_year_over_100_years": 370000,
+    "average_as_typical_us_passenger_cars": 80000,
+    "tonnes_co2_per_typical_us_car_per_year": 4.6,
     "smog_season_passes_with_plume": 4,
     "smog_season_dates": [
      "2024-11-07 11:03",
@@ -912,6 +915,7 @@
     "IPCC AR6 Working Group I, Table 7.15: non-fossil methane, 79.7 times CO2 over 20 years and 27.0 over 100, rounded here",
     "https://wmo.int/media/news/global-methane-assessment-released (UNEP/CCAC Global Methane Assessment, 2021: ozone, lifetime)",
     "https://www.epa.gov/lmop/benefits-landfill-gas-energy-projects (US EPA: capture of roughly 60 to 90 percent)",
+    "https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle (US EPA: a typical passenger vehicle emits about 4.6 tonnes of CO2 a year, at 22.2 miles a gallon and 11,500 miles a year; used in ch4_lakhodair for the car comparison: yearly methane x 27 / 4.6, rounded to the nearest 10,000)",
     "https://www.fireengineering.com/fire-safety/landfill-fires-their-magnitude-characteristics-and-mitigation/ (summary of US FEMA report FA-225, 2002: methane and landfill fires)",
     "https://www.who.int/news-room/fact-sheets/detail/dioxins-and-their-effects-on-human-health (WHO: uncontrolled waste burning and dioxins)"
    ],
