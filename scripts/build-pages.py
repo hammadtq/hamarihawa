@@ -313,6 +313,10 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
+    ("/report/landfill-methane/", "2026-11-21", "Satellites repeatedly detect methane over Lahore's Lakhodair landfill, but none reported at nearby Mehmood Booti", {
+        "en": "A methane plume was reported over Lahore's Lakhodair landfill in 11 of 12 satellite scenes since 2023, and none near the Mehmood Booti dump in the same scenes, 10 of them after capping began there. That does not show Mehmood Booti emits nothing, or that the capping is the reason.",
+        "ur": "2023 سے اب تک لاہور کے لکھو ڈیر لینڈ فل کی 12 میں سے 11 سیٹلائٹ تصویروں میں میتھین کا غبار رپورٹ ہوا، اور انہی تصویروں میں محمود بوٹی کے ڈمپ کے قریب کوئی نہیں؛ ان میں سے 10 وہاں ڈھانپنے کا کام شروع ہونے کے بعد کی ہیں۔ اس سے یہ ثابت نہیں ہوتا کہ محمود بوٹی سے کچھ خارج نہیں ہو رہا، یا یہ کہ وجہ ڈھانپنے کا کام ہے۔",
+        "hi": "2023 से अब तक लाहौर के लखोडेर लैंडफ़िल की 12 में से 11 सैटेलाइट तस्वीरों में मीथेन का गुबार रिपोर्ट हुआ, और इन्हीं तस्वीरों में महमूद बूटी के कूड़ाघर के पास कोई नहीं; इनमें से 10 वहाँ ढकने का काम शुरू होने के बाद की हैं। इससे यह साबित नहीं होता कि महमूद बूटी से कुछ नहीं निकल रहा, या यह कि वजह ढकने का काम है।"}),
     ("/report/punjab-rain-nov-2026/", "2026-11-16", "Lahore got a trace of rain, Faisalabad and Multan none. Their air improved anyway", {
         "en": "The rain of 10 to 14 November stayed mostly in the hills: at least 31 mm at Murree, a trace at Lahore, none at Faisalabad and Multan. Yet IQAir's Lahore figure fell from 400 to 112 overnight on 12–13 November, the windiest of six nights at five airports, and stayed below 200 for 16 hours before going back above.",
         "ur": "10 سے 14 نومبر کی بارش زیادہ تر پہاڑوں تک رہی: مری میں کم از کم 31 ملی میٹر، لاہور میں برائے نام، فیصل آباد اور ملتان میں بالکل نہیں۔ پھر بھی 12 اور 13 نومبر کی درمیانی رات IQAir پر لاہور کا عدد 400 سے گر کر 112 رہ گیا؛ پانچ ہوائی اڈوں پر یہ چھ راتوں میں سب سے تیز ہوا والی رات تھی۔ یہ عدد 16 گھنٹے 200 سے نیچے رہ کر دوبارہ اوپر چلا گیا۔",
@@ -580,6 +584,7 @@ SITEMAP = [  # (path, source files whose last commit dates the page, changefreq,
     ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
     ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
     ("/trends/", ["scripts/pages/trends-en.html", "site/public/trends/trends.js"], "daily", "0.8", True),
+    ("/report/landfill-methane/", ["scripts/reports/landfill-methane/article.en.html", "site/public/report/landfill-methane/data.json"], "monthly", "0.8", True),
     ("/report/punjab-rain-nov-2026/", ["scripts/reports/punjab-rain-nov-2026/article.en.html", "site/public/report/punjab-rain-nov-2026/data.json"], "monthly", "0.8", True),
     ("/report/delhi-smog-fires/", ["scripts/reports/delhi-smog-fires/article.en.html", "site/public/report/delhi-smog-fires/data.json"], "monthly", "0.8", True),
     ("/report/lahore-morning-after-diwali/", ["scripts/reports/lahore-morning-after-diwali/article.en.html", "site/public/report/lahore-morning-after-diwali/data.json"], "monthly", "0.8", True),

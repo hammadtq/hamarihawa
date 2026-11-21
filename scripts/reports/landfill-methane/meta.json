@@ -1,0 +1,25 @@
+{
+ "title": "Satellites repeatedly detect methane over Lahore's Lakhodair landfill, but none reported at nearby Mehmood Booti",
+ "slug": "landfill-methane",
+ "path": "/report/landfill-methane/",
+ "description": "A methane plume was reported over Lahore's Lakhodair landfill in 11 of 12 satellite scenes since 2023, and none near the Mehmood Booti dump in the same scenes, 10 of them after capping began there. That does not show Mehmood Booti emits nothing, or that the capping is the reason.",
+ "date_published": "2026-11-21",
+ "abstract": "Carbon Mapper's public catalogue of methane plumes from NASA's EMIT instrument and Planet's Tanager-1 satellite has 12 scenes covering Lahore's two landfills between 10 June 2023 and 22 March 2026. A plume is listed over the working Lakhodair landfill in 11 of them, 19 plumes in all, and Carbon Mapper estimates the source at 1.6 ± 0.4 tonnes of methane an hour, adjusted for how often a plume was detected. No plume is listed within a kilometre of the old Mehmood Booti dump, 3.6 km away, in any of the 12 scenes; 10 of them came after work to cap it and fit gas wells began in September 2024. The two scenes before the work also reported no plume, so no reduction has been observed, and the scene-wide cloud and haze figures do not establish a clear view of the site in every scene. The latest scene predates the gas flare inaugurated at Mehmood Booti in June 2026. A large gas collection project at Lakhodair is listed at the feasibility stage in a November 2026 carbon-market portfolio; the satellite record is a reference from before that project, not a formal baseline.",
+ "inLanguage": [
+  "en",
+  "ur",
+  "hi"
+ ],
+ "translations": {
+  "ur": {
+   "title": "سیٹلائٹوں کو لاہور کے لکھو ڈیر لینڈ فل پر بار بار میتھین نظر آئی، قریبی محمود بوٹی پر کوئی رپورٹ نہیں ہوئی",
+   "description": "2023 سے اب تک لاہور کے لکھو ڈیر لینڈ فل کی 12 میں سے 11 سیٹلائٹ تصویروں میں میتھین کا غبار رپورٹ ہوا، اور انہی تصویروں میں محمود بوٹی کے ڈمپ کے قریب کوئی نہیں؛ ان میں سے 10 وہاں ڈھانپنے کا کام شروع ہونے کے بعد کی ہیں۔ اس سے یہ ثابت نہیں ہوتا کہ محمود بوٹی سے کچھ خارج نہیں ہو رہا، یا یہ کہ وجہ ڈھانپنے کا کام ہے۔",
+   "abstract": "NASA کے آلے EMIT اور Planet کے سیٹلائٹ Tanager-1 سے حاصل میتھین کے غباروں کے Carbon Mapper کے عوامی ریکارڈ میں 10 جون 2023 سے 22 مارچ 2026 تک لاہور کے دونوں لینڈ فل کی 12 تصویریں ہیں۔ ان میں سے 11 میں زیرِ استعمال لکھو ڈیر لینڈ فل کے اوپر غبار درج ہے، کل 19 غبار، اور Carbon Mapper کا تخمینہ ہے کہ یہاں سے ⁦1.6 ± 0.4⁩ ٹن میتھین فی گھنٹہ خارج ہوتی ہے؛ اس تخمینے میں یہ بھی شامل ہے کہ غبار کتنی بار نظر آیا۔ 3.6 کلومیٹر دور محمود بوٹی کے پرانے ڈمپ کے ایک کلومیٹر کے اندر ان 12 میں سے کسی تصویر میں کوئی غبار درج نہیں؛ ان میں سے 10 تصویریں ستمبر 2024 میں اسے ڈھانپنے اور گیس کے کنویں لگانے کا کام شروع ہونے کے بعد کی ہیں۔ کام سے پہلے کی دو تصویروں میں بھی کوئی غبار رپورٹ نہیں ہوا تھا، اس لیے کوئی کمی دیکھی نہیں گئی، اور پوری تصویر کے بادل اور دھند کے عدد یہ طے نہیں کرتے کہ ہر تصویر میں یہ جگہ صاف نظر آئی۔ آخری تصویر جون 2026 میں محمود بوٹی پر گیس جلانے کے نظام کے افتتاح سے پہلے کی ہے۔ لکھو ڈیر پر گیس جمع کرنے کا بڑا منصوبہ نومبر 2026 کی کاربن مارکیٹ کی ایک فہرست میں فزیبلٹی کے مرحلے میں درج ہے؛ سیٹلائٹ ریکارڈ اس منصوبے سے پہلے کا ایک حوالہ ہے، باقاعدہ بیس لائن نہیں۔"
+  },
+  "hi": {
+   "title": "सैटेलाइटों को लाहौर के लखोडेर लैंडफ़िल पर बार-बार मीथेन दिखी, पास के महमूद बूटी पर कोई रिपोर्ट नहीं हुई",
+   "description": "2023 से अब तक लाहौर के लखोडेर लैंडफ़िल की 12 में से 11 सैटेलाइट तस्वीरों में मीथेन का गुबार रिपोर्ट हुआ, और इन्हीं तस्वीरों में महमूद बूटी के कूड़ाघर के पास कोई नहीं; इनमें से 10 वहाँ ढकने का काम शुरू होने के बाद की हैं। इससे यह साबित नहीं होता कि महमूद बूटी से कुछ नहीं निकल रहा, या यह कि वजह ढकने का काम है।",
+   "abstract": "NASA के उपकरण EMIT और Planet के सैटेलाइट Tanager-1 से मिले मीथेन के गुबारों के Carbon Mapper के सार्वजनिक रिकॉर्ड में 10 जून 2023 से 22 मार्च 2026 तक लाहौर के दोनों लैंडफ़िल की 12 तस्वीरें हैं। इनमें से 11 में चालू लखोडेर लैंडफ़िल के ऊपर गुबार दर्ज है, कुल 19 गुबार, और Carbon Mapper का अनुमान है कि यहाँ से 1.6 ± 0.4 टन मीथेन प्रति घंटा निकलती है; इस अनुमान में यह भी गिना गया है कि गुबार कितनी बार दिखा। 3.6 किलोमीटर दूर महमूद बूटी के पुराने कूड़ाघर के एक किलोमीटर के अंदर इन 12 में से किसी तस्वीर में कोई गुबार दर्ज नहीं; इनमें से 10 तस्वीरें सितंबर 2024 में उसे ढकने और गैस के कुएँ लगाने का काम शुरू होने के बाद की हैं। काम से पहले की दो तस्वीरों में भी कोई गुबार रिपोर्ट नहीं हुआ था, इसलिए कोई कटौती देखी नहीं गई, और पूरी तस्वीर के बादल और धुंध के आंकड़े यह तय नहीं करते कि हर तस्वीर में यह जगह साफ़ दिखी। आख़िरी तस्वीर जून 2026 में महमूद बूटी पर गैस जलाने की व्यवस्था के उद्घाटन से पहले की है। लखोडेर पर गैस इकट्ठा करने की बड़ी परियोजना नवंबर 2026 की कार्बन बाज़ार की एक सूची में फ़िज़िबिलिटी के चरण में दर्ज है; सैटेलाइट रिकॉर्ड उस परियोजना से पहले का एक संदर्भ है, बाक़ायदा बेसलाइन नहीं।"
+  }
+ }
+}

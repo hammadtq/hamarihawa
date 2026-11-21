@@ -1,0 +1,922 @@
+{
+ "report": "Satellites repeatedly detect methane over Lahore's Lakhodair landfill, but none reported at nearby Mehmood Booti",
+ "published": "2026-11-21",
+ "version": "1.0",
+ "inputs": {
+  "note": "Inputs and scripts in the repository under scripts/reports/landfill-methane/analysis/"
+ },
+ "evidence": [
+  {
+   "id": "download",
+   "claim": "VIIRS detections over Lahore, 20 January 2012 to 17 November 2026",
+   "value": {
+    "total": 15823,
+    "first": "2012-01-20",
+    "last": "2026-11-17",
+    "bbox_w_s_e_n": [
+     74.15,
+     31.3,
+     74.55,
+     31.75
+    ],
+    "by_satellite": {
+     "NOAA20": 5196,
+     "NOAA21": 2341,
+     "SNPP": 8286
+    },
+    "static_source": 2922,
+    "classified": 15430,
+    "static_pct_of_classified": 19,
+    "within_1km_of_a_landfill": 1911,
+    "years": 15
+   },
+   "source": "NASA FIRMS area API, VIIRS 375 m active fire product (S-NPP, NOAA-20, NOAA-21), standard processing where available and near real time after it; downloaded 18 Nov 2026 by fetch_firms.py; extract in inputs/site_detections.csv",
+   "method": "Every detection in the box, duplicates (same satellite, time and position) removed. S-NPP from 2012, NOAA-20 from 2018, NOAA-21 from 2023, so later years have more passes. 'Static source' is FIRMS type 2 ('other static land source'); near-real-time rows are not classified.",
+   "status": "computed from the download"
+  },
+  {
+   "id": "outlines",
+   "claim": "Area of each site's OpenStreetMap outline",
+   "value": {
+    "lakhodair": {
+     "km2": 0.81,
+     "hectares": 81,
+     "acres": 201
+    },
+    "mehmood_booti": {
+     "km2": 0.27,
+     "hectares": 27,
+     "acres": 67
+    }
+   },
+   "source": "OpenStreetMap ways 961551528 (Lakho Der Landfill) and 1370790548 (Mehmood Booti Landfill), read 18 Nov 2026; inputs/osm_landfills.json",
+   "method": "Planar area of the outline. The outlines are volunteers' tracings of satellite imagery, not surveyed boundaries; Lakhodair's includes ground beside the waste mound.",
+   "status": "computed; outline not independently surveyed"
+  },
+  {
+   "id": "lakhodair",
+   "claim": "VIIRS detections whose centre falls inside Lakhodair's outline, 2012 to 17 November 2026",
+   "value": {
+    "detections": 21,
+    "episodes": 9,
+    "pkt_dates": 11,
+    "by_month": {
+     "Jan": 0,
+     "Feb": 1,
+     "Mar": 0,
+     "Apr": 2,
+     "May": 3,
+     "Jun": 14,
+     "Jul": 1,
+     "Aug": 0,
+     "Sep": 0,
+     "Oct": 0,
+     "Nov": 0,
+     "Dec": 0
+    },
+    "april_to_july": 20,
+    "october_november": 0,
+    "episodes_april_to_july": 8,
+    "day": 12,
+    "night": 9,
+    "median_mw": 3.6,
+    "strongest_mw": 16.2,
+    "before_april_2016": 0,
+    "episode_list": [
+     {
+      "from": "2016-06-04 13:28",
+      "to": "2016-06-04 13:28",
+      "detections": 2,
+      "satellite_passes": 1,
+      "day_detections": 2,
+      "night_detections": 0,
+      "strongest_mw": 16.2,
+      "month": "Jun",
+      "year": 2016
+     },
+     {
+      "from": "2018-04-07 12:37",
+      "to": "2018-04-08 01:50",
+      "detections": 2,
+      "satellite_passes": 2,
+      "day_detections": 1,
+      "night_detections": 1,
+      "strongest_mw": 4.6,
+      "month": "Apr",
+      "year": 2018
+     },
+     {
+      "from": "2019-06-04 01:38",
+      "to": "2019-06-05 02:10",
+      "detections": 9,
+      "satellite_passes": 6,
+      "day_detections": 5,
+      "night_detections": 4,
+      "strongest_mw": 8.0,
+      "month": "Jun",
+      "year": 2019
+     },
+     {
+      "from": "2020-05-19 12:44",
+      "to": "2020-05-19 13:33",
+      "detections": 2,
+      "satellite_passes": 2,
+      "day_detections": 2,
+      "night_detections": 0,
+      "strongest_mw": 7.2,
+      "month": "May",
+      "year": 2020
+     },
+     {
+      "from": "2022-05-07 02:53",
+      "to": "2022-05-07 02:53",
+      "detections": 1,
+      "satellite_passes": 1,
+      "day_detections": 0,
+      "night_detections": 1,
+      "strongest_mw": 1.5,
+      "month": "May",
+      "year": 2022
+     },
+     {
+      "from": "2024-06-20 01:06",
+      "to": "2024-06-20 01:06",
+      "detections": 1,
+      "satellite_passes": 1,
+      "day_detections": 0,
+      "night_detections": 1,
+      "strongest_mw": 0.8,
+      "month": "Jun",
+      "year": 2024
+     },
+     {
+      "from": "2025-06-13 01:45",
+      "to": "2025-06-13 02:33",
+      "detections": 2,
+      "satellite_passes": 2,
+      "day_detections": 0,
+      "night_detections": 2,
+      "strongest_mw": 2.2,
+      "month": "Jun",
+      "year": 2025
+     },
+     {
+      "from": "2025-07-03 13:28",
+      "to": "2025-07-03 13:28",
+      "detections": 1,
+      "satellite_passes": 1,
+      "day_detections": 1,
+      "night_detections": 0,
+      "strongest_mw": 5.6,
+      "month": "Jul",
+      "year": 2025
+     },
+     {
+      "from": "2026-02-24 13:04",
+      "to": "2026-02-24 13:04",
+      "detections": 1,
+      "satellite_passes": 1,
+      "day_detections": 1,
+      "night_detections": 0,
+      "strongest_mw": 2.8,
+      "month": "Feb",
+      "year": 2026
+     }
+    ],
+    "largest": {
+     "from": "2019-06-04 01:38",
+     "to": "2019-06-05 02:10",
+     "detections": 9,
+     "satellite_passes": 6,
+     "day_detections": 5,
+     "night_detections": 4,
+     "strongest_mw": 8.0,
+     "month": "Jun",
+     "year": 2019
+    },
+    "episodes_single_detection": 4,
+    "years_with_an_episode": [
+     2016,
+     2018,
+     2019,
+     2020,
+     2022,
+     2024,
+     2025,
+     2026
+    ],
+    "years_without": [
+     2017,
+     2021,
+     2023
+    ]
+   },
+   "source": "NASA FIRMS area API, VIIRS 375 m active fire product (S-NPP, NOAA-20, NOAA-21), standard processing where available and near real time after it; downloaded 18 Nov 2026 by fetch_firms.py; extract in inputs/site_detections.csv",
+   "method": "A detection counts when the centre of its 375 m pixel is inside the OpenStreetMap outline; the fire can be anywhere in the pixel. Dates and times are Pakistan time (UTC+5). Detections on dates no more than a day apart are one episode. Power is fire radiative power in megawatts. No news report of any of these episodes was found.",
+   "status": "computed from the download; not confirmed by any report on the ground"
+  },
+  {
+   "id": "mehmood_booti",
+   "claim": "VIIRS detections inside and around Mehmood Booti's outline, 2012 to 17 November 2026",
+   "value": {
+    "inside": 13,
+    "inside_night": 13,
+    "inside_strongest_mw": 0.9,
+    "inside_by_year": {
+     "2014": 3,
+     "2021": 6,
+     "2022": 1,
+     "2025": 1,
+     "2026": 2
+    },
+    "inside_nov_dec_2021": 6,
+    "inside_while_in_use_2012_to_march_2016": 3,
+    "inside_since_sept_2024": 3,
+    "inside_or_within_200m": 59,
+    "inside_or_within_200m_2012_to_march_2016": 21,
+    "outside_within_1km": 914,
+    "outside_night_pct": 99,
+    "outside_static_pct_of_classified": 66,
+    "inside_list": [
+     {
+      "pkt": "2014-03-31 02:39",
+      "satellite": "SNPP",
+      "mw": 0.78
+     },
+     {
+      "pkt": "2014-10-25 01:03",
+      "satellite": "SNPP",
+      "mw": 0.77
+     },
+     {
+      "pkt": "2014-11-15 01:09",
+      "satellite": "SNPP",
+      "mw": 0.63
+     },
+     {
+      "pkt": "2021-11-02 01:51",
+      "satellite": "NOAA20",
+      "mw": 0.69
+     },
+     {
+      "pkt": "2021-11-05 00:54",
+      "satellite": "NOAA20",
+      "mw": 0.65
+     },
+     {
+      "pkt": "2021-11-07 01:57",
+      "satellite": "NOAA20",
+      "mw": 0.36
+     },
+     {
+      "pkt": "2021-11-11 02:22",
+      "satellite": "NOAA20",
+      "mw": 0.75
+     },
+     {
+      "pkt": "2021-11-18 01:50",
+      "satellite": "NOAA20",
+      "mw": 0.32
+     },
+     {
+      "pkt": "2021-12-26 01:37",
+      "satellite": "NOAA20",
+      "mw": 0.5
+     },
+     {
+      "pkt": "2022-03-05 01:44",
+      "satellite": "NOAA20",
+      "mw": 0.53
+     },
+     {
+      "pkt": "2025-04-13 01:36",
+      "satellite": "NOAA20",
+      "mw": 0.6
+     },
+     {
+      "pkt": "2026-09-01 01:57",
+      "satellite": "NOAA20",
+      "mw": 0.74
+     },
+     {
+      "pkt": "2026-11-11 02:10",
+      "satellite": "NOAA21",
+      "mw": 0.92
+     }
+    ]
+   },
+   "source": "NASA FIRMS area API, VIIRS 375 m active fire product (S-NPP, NOAA-20, NOAA-21), standard processing where available and near real time after it; downloaded 18 Nov 2026 by fetch_firms.py; extract in inputs/site_detections.csv. Works named from Google Maps labels read on 18 Nov 2026 (Ravi Steel Mill, Fatima Steel, New Malik Foundries).",
+   "method": "As for Lakhodair. S-NPP was the only one of the three satellites flying before 2018, so the years the dump was in use had fewer passes.",
+   "status": "computed; what produced the heat inside the outline is not known"
+  },
+  {
+   "id": "ch4_lakhodair",
+   "claim": "Methane plumes imaged over Lakhodair landfill, June 2023 to March 2026",
+   "value": {
+    "passes": 12,
+    "passes_with_a_plume": 11,
+    "passes_without": 1,
+    "plumes": 19,
+    "plumes_with_a_rate": 13,
+    "first": "2023-06-10 08:57",
+    "last": "2026-03-22 12:06",
+    "pass_list": [
+     {
+      "local_time": "2023-06-10 08:57",
+      "instrument": "EMIT (space station)",
+      "scene": "emi20230610t035759p03008",
+      "plumes": 1,
+      "plumes_with_a_rate": 0,
+      "tonnes_per_hour": null,
+      "uncertainty_tonnes_per_hour": null,
+      "uncertainty_if_errors_fully_shared": null,
+      "wind_m_per_s": 0.6,
+      "scene_cloud_pct": null,
+      "scene_cloud_pct_assessed": 25,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": null
+     },
+     {
+      "local_time": "2024-02-14 14:24",
+      "instrument": "EMIT (space station)",
+      "scene": "emi20240214t092407p06020",
+      "plumes": 1,
+      "plumes_with_a_rate": 1,
+      "tonnes_per_hour": 3.57,
+      "uncertainty_tonnes_per_hour": 0.66,
+      "uncertainty_if_errors_fully_shared": 0.66,
+      "wind_m_per_s": 2.8,
+      "scene_cloud_pct": null,
+      "scene_cloud_pct_assessed": 25,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": null
+     },
+     {
+      "local_time": "2024-11-07 11:03",
+      "instrument": "Tanager-1",
+      "scene": "tan20241107t060312c00s4001",
+      "plumes": 1,
+      "plumes_with_a_rate": 1,
+      "tonnes_per_hour": 2.67,
+      "uncertainty_tonnes_per_hour": 0.38,
+      "uncertainty_if_errors_fully_shared": 0.38,
+      "wind_m_per_s": 2.0,
+      "scene_cloud_pct": 62,
+      "scene_cloud_pct_assessed": 75,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": "standard_sensitivity"
+     },
+     {
+      "local_time": "2025-04-08 11:16",
+      "instrument": "Tanager-1",
+      "scene": "tan20250408t061609c00s4001",
+      "plumes": 3,
+      "plumes_with_a_rate": 2,
+      "tonnes_per_hour": 1.46,
+      "uncertainty_tonnes_per_hour": 0.19,
+      "uncertainty_if_errors_fully_shared": 0.26,
+      "wind_m_per_s": 2.4,
+      "scene_cloud_pct": 0,
+      "scene_cloud_pct_assessed": 0,
+      "scene_light_haze_pct": 0.0,
+      "sensitivity_mode": "maximum_sensitivity"
+     },
+     {
+      "local_time": "2025-05-06 11:19",
+      "instrument": "Tanager-1",
+      "scene": "tan20250506t061957c00s4001",
+      "plumes": 2,
+      "plumes_with_a_rate": 2,
+      "tonnes_per_hour": 0.82,
+      "uncertainty_tonnes_per_hour": 0.14,
+      "uncertainty_if_errors_fully_shared": 0.17,
+      "wind_m_per_s": 1.9,
+      "scene_cloud_pct": 0,
+      "scene_cloud_pct_assessed": 50,
+      "scene_light_haze_pct": 52.0,
+      "sensitivity_mode": "standard_sensitivity"
+     },
+     {
+      "local_time": "2025-05-26 13:24",
+      "instrument": "EMIT (space station)",
+      "scene": "emi20250526t082401p06008",
+      "plumes": 1,
+      "plumes_with_a_rate": 0,
+      "tonnes_per_hour": null,
+      "uncertainty_tonnes_per_hour": null,
+      "uncertainty_if_errors_fully_shared": null,
+      "wind_m_per_s": 0.3,
+      "scene_cloud_pct": null,
+      "scene_cloud_pct_assessed": 50,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": null
+     },
+     {
+      "local_time": "2025-05-30 11:48",
+      "instrument": "EMIT (space station)",
+      "scene": "emi20250530t064801p05008",
+      "plumes": 0,
+      "plumes_with_a_rate": 0,
+      "tonnes_per_hour": null,
+      "uncertainty_tonnes_per_hour": null,
+      "uncertainty_if_errors_fully_shared": null,
+      "wind_m_per_s": null,
+      "scene_cloud_pct": null,
+      "scene_cloud_pct_assessed": 0,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": null
+     },
+     {
+      "local_time": "2025-09-30 11:40",
+      "instrument": "Tanager-1",
+      "scene": "tan20250930t064004c88s4001",
+      "plumes": 1,
+      "plumes_with_a_rate": 1,
+      "tonnes_per_hour": 0.64,
+      "uncertainty_tonnes_per_hour": 0.39,
+      "uncertainty_if_errors_fully_shared": 0.39,
+      "wind_m_per_s": 0.7,
+      "scene_cloud_pct": 6,
+      "scene_cloud_pct_assessed": 25,
+      "scene_light_haze_pct": 0.0,
+      "sensitivity_mode": "maximum_sensitivity"
+     },
+     {
+      "local_time": "2025-11-11 11:46",
+      "instrument": "Tanager-1",
+      "scene": "tan20251111t064610c81s4001",
+      "plumes": 2,
+      "plumes_with_a_rate": 2,
+      "tonnes_per_hour": 0.75,
+      "uncertainty_tonnes_per_hour": 0.18,
+      "uncertainty_if_errors_fully_shared": 0.24,
+      "wind_m_per_s": 0.9,
+      "scene_cloud_pct": 2,
+      "scene_cloud_pct_assessed": 50,
+      "scene_light_haze_pct": 0.0,
+      "sensitivity_mode": "maximum_sensitivity"
+     },
+     {
+      "local_time": "2025-12-09 11:50",
+      "instrument": "Tanager-1",
+      "scene": "tan20251209t065024c80s4001",
+      "plumes": 2,
+      "plumes_with_a_rate": 2,
+      "tonnes_per_hour": 2.56,
+      "uncertainty_tonnes_per_hour": 1.17,
+      "uncertainty_if_errors_fully_shared": 1.25,
+      "wind_m_per_s": 0.8,
+      "scene_cloud_pct": 0,
+      "scene_cloud_pct_assessed": 75,
+      "scene_light_haze_pct": 0.1,
+      "sensitivity_mode": "standard_sensitivity"
+     },
+     {
+      "local_time": "2025-12-16 11:51",
+      "instrument": "Tanager-1",
+      "scene": "tan20251216t065133c96s4001",
+      "plumes": 2,
+      "plumes_with_a_rate": 2,
+      "tonnes_per_hour": 1.13,
+      "uncertainty_tonnes_per_hour": 0.4,
+      "uncertainty_if_errors_fully_shared": 0.48,
+      "wind_m_per_s": 1.8,
+      "scene_cloud_pct": 3,
+      "scene_cloud_pct_assessed": 50,
+      "scene_light_haze_pct": 3.6,
+      "sensitivity_mode": "standard_sensitivity"
+     },
+     {
+      "local_time": "2026-03-22 12:06",
+      "instrument": "Tanager-1",
+      "scene": "tan20260322t070634c52s4001",
+      "plumes": 3,
+      "plumes_with_a_rate": 0,
+      "tonnes_per_hour": null,
+      "uncertainty_tonnes_per_hour": null,
+      "uncertainty_if_errors_fully_shared": null,
+      "wind_m_per_s": 2.0,
+      "scene_cloud_pct": 1,
+      "scene_cloud_pct_assessed": 0,
+      "scene_light_haze_pct": 1.2,
+      "sensitivity_mode": "medium_sensitivity"
+     }
+    ],
+    "pass_without_plume": {
+     "local_time": "2025-05-30 11:48",
+     "instrument": "EMIT (space station)",
+     "scene": "emi20250530t064801p05008",
+     "plumes": 0,
+     "plumes_with_a_rate": 0,
+     "tonnes_per_hour": null,
+     "uncertainty_tonnes_per_hour": null,
+     "uncertainty_if_errors_fully_shared": null,
+     "wind_m_per_s": null,
+     "scene_cloud_pct": null,
+     "scene_cloud_pct_assessed": 0,
+     "scene_light_haze_pct": null,
+     "sensitivity_mode": null
+    },
+    "passes_with_more_than_one_rated_plume": 5,
+    "example_multi_plume_pass": {
+     "local_time": "2025-04-08 11:16",
+     "plumes": 3,
+     "plumes_with_a_rate": 2,
+     "tonnes_per_hour": 1.46,
+     "uncertainty_in_quadrature": 0.19,
+     "uncertainty_if_errors_fully_shared": 0.26
+    },
+    "passes_with_a_rate": 8,
+    "lowest_pass_tonnes_per_hour": 0.64,
+    "highest_pass_tonnes_per_hour": 3.57,
+    "highest_pass": {
+     "local_time": "2024-02-14 14:24",
+     "instrument": "EMIT (space station)",
+     "scene": "emi20240214t092407p06020",
+     "plumes": 1,
+     "plumes_with_a_rate": 1,
+     "tonnes_per_hour": 3.57,
+     "uncertainty_tonnes_per_hour": 0.66,
+     "uncertainty_if_errors_fully_shared": 0.66,
+     "wind_m_per_s": 2.8,
+     "scene_cloud_pct": null,
+     "scene_cloud_pct_assessed": 25,
+     "scene_light_haze_pct": null,
+     "sensitivity_mode": null
+    },
+    "largest_single_plume_tonnes_per_hour": 3.6,
+    "carbon_mapper_average_tonnes_per_hour": 1.6,
+    "carbon_mapper_average_uncertainty": 0.4,
+    "carbon_mapper_persistence_pct": 92,
+    "plume_origins_inside_openstreetmap_outline": 18,
+    "plume_origins_outside_outline": 1,
+    "farthest_origin_outside_outline": {
+     "plume": "tan20250930t064004c88s4001-A",
+     "metres_outside": 90
+    },
+    "carbon_mapper_average_on_passes_with_a_rate_tonnes_per_hour": 1.7,
+    "carbon_mapper_detection_passes": 11,
+    "carbon_mapper_observation_passes": 12,
+    "average_as_tonnes_per_day": 37,
+    "average_as_tonnes_per_year": 14000,
+    "smog_season_passes_with_plume": 4,
+    "smog_season_dates": [
+     "2024-11-07 11:03",
+     "2025-11-11 11:46",
+     "2025-12-09 11:50",
+     "2025-12-16 11:51"
+    ],
+    "tanager_passes": 8,
+    "emit_passes": 4,
+    "ghgsat_2020_21_tonnes_per_hour": 6.4,
+    "ghgsat_range": [
+     2.3,
+     16.0
+    ],
+    "landgem_2023_tonnes": 76558,
+    "landgem_2023_tonnes_per_hour": 8.7,
+    "project_methane_million_m3_per_year": 18.8,
+    "project_methane_tonnes_per_hour": 1.4,
+    "project_methane_tonnes_per_year": 12600,
+    "satellite_minus_project_tonnes_per_hour": 0.2,
+    "ghgsat_ratio_to_carbon_mapper": 4.1,
+    "lahore_city_tropomi_tonnes_per_hour": 50,
+    "lahore_city_inventory_tonnes_per_hour": 25,
+    "landfill_share_of_city_pct": 13
+   },
+   "source": [
+    "Carbon Mapper public data portal (data.carbonmapper.org), plume catalogue, source list and scene footprints, retrieved 19 Nov 2026 and again, unchanged, on 21 Nov 2026 by fetch_methane.py and fetch_scenes.py; inputs/methane/. Plumes are from NASA's EMIT instrument on the International Space Station and from Planet's Tanager-1 satellite.",
+    "Maasakkers et al., Science Advances 8, eabn9683 (2022), Table 1: GHGSat 2020-21 and TROPOMI 2020 figures",
+    "https://www.dawn.com/news/1865081 (Dawn, 14 Oct 2024): LandGEM model figures",
+    "https://www.dawn.com/news/2016325 (Dawn, 18 July 2026): the gas project expects about 18.8 million cubic metres of methane a year, converted here at 0.668 kg per cubic metre (methane at 20 C and sea-level pressure)"
+   ],
+   "method": "A pass is a scene whose footprint covers the centre of the landfill. A pass's rate is the sum of the plumes Carbon Mapper gave a rate for; plumes without a published rate are counted as plumes but add nothing to the sum, so those sums are lower bounds. The pass uncertainty is ours, not Carbon Mapper's: the plumes' published uncertainties added in quadrature, which assumes their errors are independent. Plumes in one scene share the same wind estimate, so the errors are probably partly shared; 'uncertainty_if_errors_fully_shared' is the plain sum, the other extreme. The project figure of 18.8 million cubic metres is Dawn's report of the methane the planned project is 'expected to generate' each year for upgrading to biomethane; it is a forecast for a project not yet built, not a measurement of what escapes to the air, so it and the satellite rate are different quantities. Carbon Mapper's average is its own figure for the source, weighted by persistence (passes with a plume over unobscured passes). Times are Pakistan time. Each rate is a snapshot at one moment of one morning or afternoon; a daily or yearly figure assumes the rate holds around the clock. The GHGSat, TROPOMI and LandGEM figures are quoted, not recomputed; the three methods differ and are not a trend.",
+   "status": "computed from Carbon Mapper's catalogue; published figures quoted"
+  },
+  {
+   "id": "ch4_mehmood_booti",
+   "claim": "Methane passes over Mehmood Booti and the rest of Lahore",
+   "value": {
+    "passes": 12,
+    "plumes": 0,
+    "passes_before_sept_2024": 2,
+    "passes_since_sept_2024": 10,
+    "tanager_passes_since_sept_2024": 8,
+    "scenes_over_lahore_box": 20,
+    "scenes_not_covering_lakhodair": 8,
+    "plumes_elsewhere_in_lahore_box": 0,
+    "sources_in_lahore_box": 1,
+    "passes_before_sept_2024_with_a_plume": 0,
+    "tanager_passes": 8,
+    "emit_passes": 4,
+    "clear_threshold_pct": 10,
+    "tanager_passes_scene_cloud_at_most_threshold": 7,
+    "tanager_highest_cloud_among_those_pct": 6,
+    "tanager_passes_cloudier": 1,
+    "cloudiest_tanager_pass": {
+     "local_time": "2024-11-07 11:03",
+     "scene_cloud_pct": 62
+    },
+    "emit_passes_with_a_published_cloud_figure": 0,
+    "tanager_passes_second_cloud_field_50_or_more": 5,
+    "tanager_low_cloud_passes_with_second_cloud_field_50_or_more": 4,
+    "haziest_tanager_pass": {
+     "local_time": "2025-05-06 11:19",
+     "scene_light_haze_pct": 52
+    },
+    "tanager_passes_haze_above_5_pct": 1,
+    "pass_quality": [
+     {
+      "local_time": "2023-06-10 08:57",
+      "instrument": "EMIT (space station)",
+      "scene": "emi20230610t035759p03008",
+      "scene_cloud_pct": null,
+      "scene_cloud_pct_assessed": 25,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": null
+     },
+     {
+      "local_time": "2024-02-14 14:24",
+      "instrument": "EMIT (space station)",
+      "scene": "emi20240214t092407p06020",
+      "scene_cloud_pct": null,
+      "scene_cloud_pct_assessed": 25,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": null
+     },
+     {
+      "local_time": "2024-11-07 11:03",
+      "instrument": "Tanager-1",
+      "scene": "tan20241107t060312c00s4001",
+      "scene_cloud_pct": 62,
+      "scene_cloud_pct_assessed": 75,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": "standard_sensitivity"
+     },
+     {
+      "local_time": "2025-04-08 11:16",
+      "instrument": "Tanager-1",
+      "scene": "tan20250408t061609c00s4001",
+      "scene_cloud_pct": 0,
+      "scene_cloud_pct_assessed": 0,
+      "scene_light_haze_pct": 0.0,
+      "sensitivity_mode": "maximum_sensitivity"
+     },
+     {
+      "local_time": "2025-05-06 11:19",
+      "instrument": "Tanager-1",
+      "scene": "tan20250506t061957c00s4001",
+      "scene_cloud_pct": 0,
+      "scene_cloud_pct_assessed": 50,
+      "scene_light_haze_pct": 52.0,
+      "sensitivity_mode": "standard_sensitivity"
+     },
+     {
+      "local_time": "2025-05-26 13:24",
+      "instrument": "EMIT (space station)",
+      "scene": "emi20250526t082401p06008",
+      "scene_cloud_pct": null,
+      "scene_cloud_pct_assessed": 50,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": null
+     },
+     {
+      "local_time": "2025-05-30 11:48",
+      "instrument": "EMIT (space station)",
+      "scene": "emi20250530t064801p05008",
+      "scene_cloud_pct": null,
+      "scene_cloud_pct_assessed": 0,
+      "scene_light_haze_pct": null,
+      "sensitivity_mode": null
+     },
+     {
+      "local_time": "2025-09-30 11:40",
+      "instrument": "Tanager-1",
+      "scene": "tan20250930t064004c88s4001",
+      "scene_cloud_pct": 6,
+      "scene_cloud_pct_assessed": 25,
+      "scene_light_haze_pct": 0.0,
+      "sensitivity_mode": "maximum_sensitivity"
+     },
+     {
+      "local_time": "2025-11-11 11:46",
+      "instrument": "Tanager-1",
+      "scene": "tan20251111t064610c81s4001",
+      "scene_cloud_pct": 2,
+      "scene_cloud_pct_assessed": 50,
+      "scene_light_haze_pct": 0.0,
+      "sensitivity_mode": "maximum_sensitivity"
+     },
+     {
+      "local_time": "2025-12-09 11:50",
+      "instrument": "Tanager-1",
+      "scene": "tan20251209t065024c80s4001",
+      "scene_cloud_pct": 0,
+      "scene_cloud_pct_assessed": 75,
+      "scene_light_haze_pct": 0.1,
+      "sensitivity_mode": "standard_sensitivity"
+     },
+     {
+      "local_time": "2025-12-16 11:51",
+      "instrument": "Tanager-1",
+      "scene": "tan20251216t065133c96s4001",
+      "scene_cloud_pct": 3,
+      "scene_cloud_pct_assessed": 50,
+      "scene_light_haze_pct": 3.6,
+      "sensitivity_mode": "standard_sensitivity"
+     },
+     {
+      "local_time": "2026-03-22 12:06",
+      "instrument": "Tanager-1",
+      "scene": "tan20260322t070634c52s4001",
+      "scene_cloud_pct": 1,
+      "scene_cloud_pct_assessed": 0,
+      "scene_light_haze_pct": 1.2,
+      "sensitivity_mode": "medium_sensitivity"
+     }
+    ],
+    "emit_passes_since_sept_2024": 2,
+    "first_pass": "2023-06-10 08:57",
+    "last_pass": "2026-03-22 12:06",
+    "passes_since_flaring_began_june_2026": 0,
+    "same_passes_with_a_plume_at_lakhodair": 11,
+    "first_tanager_pass": "2024-11-07 11:03",
+    "lakhodair_average_as_multiple_of_tanager_limit": [
+     9,
+     17
+    ],
+    "tanager_detection_limit_kg_per_hour": [
+     90,
+     180
+    ],
+    "emit_detection_limit_kg_per_hour": 700,
+    "km_from_lakhodair": 3.6
+   },
+   "source": [
+    "Carbon Mapper public data portal (data.carbonmapper.org), plume catalogue, source list and scene footprints, retrieved 19 Nov 2026 and again, unchanged, on 21 Nov 2026 by fetch_methane.py and fetch_scenes.py; inputs/methane/. Plumes are from NASA's EMIT instrument on the International Space Station and from Planet's Tanager-1 satellite.",
+    "https://carbonmapper.org/articles/product-guide (Tanager-1: 90% probability of detection at 90-180 kg/h)",
+    "https://cpaess.ucar.edu/abstract-iwggms-20/detection-limits-and-multi-sensor-persistence-framework-airborne-and-satellite (EMIT: 90% at 700 kg/h under favourable conditions)"
+   ],
+   "method": "The same scenes that cover Lakhodair cover the centre of Mehmood Booti's outline. Coverage is by footprint only: we did not check whether the pixels over the site were cloud-free or usable, because the scene rasters need a Carbon Mapper account. The cloud, haze and sensitivity-mode fields are Carbon Mapper's scene-wide figures from its public STAC records (fields cm:scene:cloud_cover_pct, cm:scene:cloud_cover_pct_assessed, cm:light_haze_pct, cm:sensitivity_mode), retrieved 21 Nov 2026; EMIT scenes carry no automated cloud figure, and the 'assessed' field's definition was not found. The 10 per cent threshold for a mostly cloud-free scene is ours. The detection limits are for favourable conditions and are not a threshold that applies to every pass. No plume in the catalogue lies within 1 km of it, or anywhere in the Lahore box (W 73.9, S 31.2, E 74.7, N 31.8) other than Lakhodair. Whether cloud or haze obscured Mehmood Booti on any pass is not published for a site with no source, so 'no plume' means none above the instruments' limits was reported, not that none existed. Locations of Lahore's other dumps (Saggian, Sundar, Tibba) were not established, so which scenes covered them is not checked.",
+   "status": "computed; absence of a plume is not a measurement of zero"
+  },
+  {
+   "id": "fires",
+   "claim": "Heat detections and methane at Lakhodair",
+   "value": {
+    "heat_detections": 21,
+    "heat_days": 11,
+    "march_to_june": 19,
+    "october_november": 0,
+    "plume_passes": 11,
+    "plume_passes_within_7_days_of_heat": 0,
+    "closest_gap_days": 18,
+    "plume_passes_by_month": {
+     "Jan": 0,
+     "Feb": 1,
+     "Mar": 1,
+     "Apr": 1,
+     "May": 2,
+     "Jun": 1,
+     "Jul": 0,
+     "Aug": 0,
+     "Sep": 1,
+     "Oct": 0,
+     "Nov": 2,
+     "Dec": 2
+    },
+    "mehmood_booti_heat_inside_outline": 13,
+    "mehmood_booti_heat_since_sept_2024": 3,
+    "mehmood_booti_strongest_mw": 0.9,
+    "mehmood_booti_all_at_night": true
+   },
+   "source": [
+    "NASA FIRMS area API, VIIRS 375 m active fire product (S-NPP, NOAA-20, NOAA-21), standard processing where available and near real time after it; downloaded 18 Nov 2026 by fetch_firms.py; extract in inputs/site_detections.csv",
+    "Carbon Mapper public data portal (data.carbonmapper.org), plume catalogue, source list and scene footprints, retrieved 19 Nov 2026 and again, unchanged, on 21 Nov 2026 by fetch_methane.py and fetch_scenes.py; inputs/methane/. Plumes are from NASA's EMIT instrument on the International Space Station and from Planet's Tanager-1 satellite."
+   ],
+   "method": "Heat detections are those whose 375 m pixel centre is inside the site's OpenStreetMap outline (entries 'lakhodair' and 'mehmood_booti'). Dates are Pakistan time. A plume pass 'within 7 days of heat' has a heat detection on the site within 7 days before or after. Steel furnaces stand beside both sites and produce heat detections of their own; what produced the few faint night-time detections inside Mehmood Booti's outline is not known.",
+   "status": "computed; the two records are compared by date and season only and show no cause"
+  },
+  {
+   "id": "press_lahore",
+   "claim": "What is reported about the two Lahore sites and the work on them",
+   "value": {
+    "mehmood_booti": {
+     "acres": 42,
+     "waste_million_tonnes": 13,
+     "dumping_since": 1997,
+     "stopped_taking_most_waste": 2016,
+     "project_cost_rs_billion": 3.37,
+     "work_began": "September 2024",
+     "phase_1_due": "end of July 2025",
+     "phase_2_due": "31 December 2025",
+     "solar_mw": 5,
+     "forest_acres": 11,
+     "gas_wells_reported_by_dawn_march_2025": 52,
+     "gas_wells_in_bidding_documents": 72,
+     "acres_in_bidding_documents": 42,
+     "acres_of_openstreetmap_outline": 67,
+     "flaring_inaugurated": "June 2026",
+     "carbon_credits_2026_2040": 900000,
+     "v20_book_november_2026": {
+      "rehabilitation_tonnes_co2e_per_year": 100000,
+      "rehabilitation_page": 51,
+      "methane_capture_tonnes_co2e_per_year": 13827,
+      "methane_capture_page": 55,
+      "wastewater_plant_tonnes_co2e_per_year": 491000,
+      "wastewater_plant_page": 50,
+      "entries_at_the_site": 3,
+      "readiness_of_all": "feasibility"
+     },
+     "validators_visit": "November 2026",
+     "epa_committee_notified": "5 March 2025",
+     "epa_committee_report_due": "27 March 2025",
+     "landgem_peak_year": 2017
+    },
+    "lakhodair": {
+     "opened": 2016,
+     "tonnes_per_day_low": 5000,
+     "tonnes_per_day_high": 5500,
+     "waste_million_tonnes_march_2026": 18,
+     "acres": 200,
+     "feasibility_due": "August 2026",
+     "pilot_bio_cng_reported": "March 2026",
+     "pilot_bio_cng_kg_per_day": 85,
+     "project_carbon_credits_per_year": 275000,
+     "v20_book_november_2026": {
+      "readiness": "feasibility",
+      "tonnes_co2e_per_year": 190000,
+      "page": 53
+     },
+     "consultation": "February 2026",
+     "partnership_years": 20,
+     "un_assistance_announced": "February 2025"
+    },
+    "clouds_2021": {
+     "month": "August 2021",
+     "operator_confirmed": "October 2021"
+    },
+    "other_dumps_named": [
+     "Sundar",
+     "Tibba",
+     "Saggian"
+    ]
+   },
+   "source": [
+    "https://www.dawn.com/news/1901264 (Dawn, 30 March 2025: Mehmood Booti's size, tonnage, cost, wells, phases)",
+    "https://epd.punjab.gov.pk/system/files/Mehmood%20Booti%20Committee%20Solid%20Waste%20Mar25-1.pdf (EPA Punjab notification 223/PSO/DG/EPA/2025, 5 March 2025)",
+    "https://www.arabnews.pk/node/2594935 (Arab News, 26 March 2025: most waste went to the site until 2016)",
+    "https://www.dawn.com/news/1911938 (Dawn, 19 May 2025: flaring and carbon credits proposal)",
+    "https://www.nation.com.pk/14-Jun-2026/pakistan-s-first-carbon-credit-market-project-nears-completion (The Nation, 14 June 2026: flaring system inaugurated, phase two launched)",
+    "https://www.azernews.az/region/259733.html (14 June 2026, citing RUDA: first phase completed, gas being captured)",
+    "https://dailytimes.com.pk/1577786/ruda-pioneers-methane-capture-validation-at-mehmood-booti/ (Daily Times, 7 Nov 2026: validators' visit)",
+    "https://cvfv20.org/wp-content/uploads/2026/11/Carbon-Markets-Investment-Book-First-Version.pdf (Climate Vulnerable Forum and V20, Carbon Markets Investment Book, first version, November 2026, read 21 Nov 2026: projects No. 31, 32, 34 and 36, pages 44 to 55; proponent estimates before deductions; the three Mehmood Booti entries may overlap)",
+    "https://unepccc.org/landfill-moves-forward-with-article-6-stakeholder-consultation/ (UNEP Copenhagen Climate Centre, 9 March 2026: Lakhodair consultation, tonnage)",
+    "https://www.dawn.com/news/2016325 (Dawn, 18 July 2026: Lakhodair feasibility study)",
+    "https://www.brecorder.com/news/amp/40410896 and https://www.thenews.pk/print/1403669-waste-to-value-project (Business Recorder and The News, 10 March 2026: the provincial local government minister said a pilot bio-CNG plant at Lakhodair had started production, about 85 kg of CNG a day from waste; neither report says whether it uses gas drawn from the landfill)",
+    "https://ruda.gov.pk/system/files/Rehabilitation of Mehmood Booti Dumpsite Bidding Documents.pdf (Ravi Urban Development Authority, bidding documents, Volume III, Special Provisions: '72 gas collection wells will be installed in the dumpsite'; area 42 acres; undated in the text we read)",
+    "https://www.bnnbloomberg.ca/pakistan-landfill-confirms-methane-leaks-blames-higher-dumping-1.1661863 (Bloomberg, 5 Oct 2021)",
+    "https://www.thenews.pk/tns/detail/1415845-a-rs-230-million-eid-ul-azha-operation (The News on Sunday, 17 May 2026: other dump sites)"
+   ],
+   "method": "Press reports of officials' statements and one official notification; not independently checked. No source gives a measured quantity of gas captured or flared at Mehmood Booti, and the EPA committee's report was not found. The 2017 peak is from a LandGEM model study, not a measurement.",
+   "status": "as reported; not independently checked"
+  },
+  {
+   "id": "science",
+   "claim": "What methane and landfill gas do",
+   "value": {
+    "landfill_gas_methane_pct": [
+     45,
+     60
+    ],
+    "landfill_gas_co2_pct": [
+     40,
+     60
+    ],
+    "flammable_range_pct": [
+     5,
+     15
+    ],
+    "gwp_20_years": 80,
+    "gwp_100_years": 27,
+    "atmospheric_life_years": 12,
+    "capture_pct": [
+     60,
+     90
+    ],
+    "burning_landfill_gas_emits_some_nox": true,
+    "ozone_deaths_avoided_by_45pct_cut": 260000
+   },
+   "source": [
+    "https://www.atsdr.cdc.gov/HAC/landfill/html/ch2.html and ch3.html (US ATSDR, Landfill Gas Primer: composition, flammable range)",
+    "IPCC AR6 Working Group I, Table 7.15: non-fossil methane, 79.7 times CO2 over 20 years and 27.0 over 100, rounded here",
+    "https://wmo.int/media/news/global-methane-assessment-released (UNEP/CCAC Global Methane Assessment, 2021: ozone, lifetime)",
+    "https://www.epa.gov/lmop/benefits-landfill-gas-energy-projects (US EPA: capture of roughly 60 to 90 percent)",
+    "https://www.fireengineering.com/fire-safety/landfill-fires-their-magnitude-characteristics-and-mitigation/ (summary of US FEMA report FA-225, 2002: methane and landfill fires)",
+    "https://www.who.int/news-room/fact-sheets/detail/dioxins-and-their-effects-on-human-health (WHO: uncontrolled waste burning and dioxins)"
+   ],
+   "method": "Quoted from the sources; general figures, not measurements at these sites.",
+   "status": "quoted from published sources"
+  }
+ ]
+}

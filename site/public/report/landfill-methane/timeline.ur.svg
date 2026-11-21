@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 392" font-family="'Noto Naskh Arabic', 'Geeza Pro', Tahoma, Arial, sans-serif" role="img" aria-label="2023 سے 2026 تک دونوں جگہوں پر سیٹلائٹ کے ہر گزر کا چارٹ۔ محمود بوٹی: 12 میں سے کسی گزر میں غبار نہیں۔ لکھو ڈیر: 11 میں غبار، جن کی شرح تقریباً 0.6 سے 3.6 ٹن فی گھنٹہ ہے۔">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="16" y="20" font-size="14" font-weight="700" fill="#1d1d1b">⁧سیٹلائٹ کا ہر گزر: لکھو ڈیر پر ایک کے سوا ہر بار غبار، محمود بوٹی پر کوئی رپورٹ نہیں ہوا⁩</text>
+<text x="16" y="36" font-size="10.5" fill="#7c7c80">⁧ہر نشان ایک گزر ہے۔ لکھو ڈیر کی شرح ٹن میتھین فی گھنٹہ میں ہے؛ کھڑی لکیریں غیر یقینی دکھاتی ہیں، جو ایک سے زیادہ غبار والے گزر کے لیے ہم نے خود ملائی ہے⁩</text>
+<line x1="150.0" x2="150.0" y1="74" y2="300" stroke="#eeeeee"/><text x="154.0" y="314" font-size="10" fill="#7c7c80">2023</text>
+<line x1="287.4" x2="287.4" y1="74" y2="300" stroke="#eeeeee"/><text x="291.4" y="314" font-size="10" fill="#7c7c80">2024</text>
+<line x1="425.2" x2="425.2" y1="74" y2="300" stroke="#eeeeee"/><text x="429.2" y="314" font-size="10" fill="#7c7c80">2025</text>
+<line x1="562.6" x2="562.6" y1="74" y2="300" stroke="#eeeeee"/><text x="566.6" y="314" font-size="10" fill="#7c7c80">2026</text>
+<line x1="150" x2="700" y1="300.0" y2="300.0" stroke="#eeeeee"/><text x="144" y="303.5" font-size="9.5" text-anchor="end" fill="#7c7c80">0</text>
+<line x1="150" x2="700" y1="266.7" y2="266.7" stroke="#eeeeee"/><text x="144" y="270.2" font-size="9.5" text-anchor="end" fill="#7c7c80">1</text>
+<line x1="150" x2="700" y1="233.3" y2="233.3" stroke="#eeeeee"/><text x="144" y="236.8" font-size="9.5" text-anchor="end" fill="#7c7c80">2</text>
+<line x1="150" x2="700" y1="200.0" y2="200.0" stroke="#eeeeee"/><text x="144" y="203.5" font-size="9.5" text-anchor="end" fill="#7c7c80">3</text>
+<line x1="150" x2="700" y1="166.7" y2="166.7" stroke="#eeeeee"/><text x="144" y="170.2" font-size="9.5" text-anchor="end" fill="#7c7c80">4</text>
+<line x1="379.3" x2="379.3" y1="74" y2="300" stroke="#1d1d1b" stroke-dasharray="3 3" stroke-width="0.9"/><text x="375.3" y="70" font-size="9.5" text-anchor="end" fill="#1d1d1b">⁧محمود بوٹی کو ڈھانپنے کا کام شروع⁩</text>
+<line x1="619.4" x2="619.4" y1="74" y2="300" stroke="#1d1d1b" stroke-dasharray="3 3" stroke-width="0.9"/><text x="615.4" y="70" font-size="9.5" text-anchor="end" fill="#1d1d1b">⁧گیس جلانے کے نظام کا افتتاح⁩</text>
+<text x="16" y="100" font-size="11" font-weight="700" fill="#1d1d1b">⁧محمود بوٹی⁩</text><text x="16" y="113" font-size="9.5" fill="#7c7c80">⁧کوئی غبار رپورٹ نہیں ہوا، 12 گزر⁩</text>
+<text x="16" y="174" font-size="11" font-weight="700" fill="#1d1d1b">⁧لکھو ڈیر⁩</text><text x="16" y="187" font-size="9.5" fill="#7c7c80">⁧12 میں سے 11 گزر میں غبار⁩</text>
+<rect x="150" y="233.3" width="550" height="26.7" fill="#7b2d8e" opacity="0.10"/>
+<line x1="150" x2="700" y1="253.3" y2="253.3" stroke="#1d1d1b" stroke-width="1.2"/>
+<rect x="206.2" y="92.0" width="8" height="8" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<rect x="206.2" y="332.0" width="8" height="8" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<rect x="300.0" y="92.0" width="8" height="8" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<line x1="304.0" x2="304.0" y1="159.0" y2="203.0" stroke="#7b2d8e" stroke-width="1.2"/><rect x="300.0" y="177.0" width="8" height="8" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<circle cx="404.5" cy="96.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<line x1="404.5" x2="404.5" y1="198.3" y2="223.7" stroke="#7b2d8e" stroke-width="1.2"/><circle cx="404.5" cy="211.0" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<circle cx="461.7" cy="96.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<line x1="461.7" x2="461.7" y1="245.0" y2="257.7" stroke="#7b2d8e" stroke-width="1.2"/><circle cx="461.7" cy="251.3" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<circle cx="472.2" cy="96.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<line x1="472.2" x2="472.2" y1="268.0" y2="277.3" stroke="#7b2d8e" stroke-width="1.2"/><circle cx="472.2" cy="272.7" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<rect x="475.8" y="92.0" width="8" height="8" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<rect x="475.8" y="332.0" width="8" height="8" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<rect x="477.3" y="92.0" width="8" height="8" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<rect x="477.3" y="296.0" width="8" height="8" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<circle cx="527.6" cy="96.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<line x1="527.6" x2="527.6" y1="265.7" y2="291.7" stroke="#7b2d8e" stroke-width="1.2"/><circle cx="527.6" cy="278.7" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<circle cx="543.4" cy="96.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<line x1="543.4" x2="543.4" y1="269.0" y2="281.0" stroke="#7b2d8e" stroke-width="1.2"/><circle cx="543.4" cy="275.0" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<circle cx="553.9" cy="96.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<line x1="553.9" x2="553.9" y1="175.7" y2="253.7" stroke="#7b2d8e" stroke-width="1.2"/><circle cx="553.9" cy="214.7" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<circle cx="556.6" cy="96.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<line x1="556.6" x2="556.6" y1="249.0" y2="275.7" stroke="#7b2d8e" stroke-width="1.2"/><circle cx="556.6" cy="262.3" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<circle cx="592.7" cy="96.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/>
+<circle cx="592.7" cy="336.0" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/>
+<text x="16" y="339" font-size="9.5" fill="#7c7c80">⁧غبار، شرح شائع نہیں ہوئی⁩</text>
+<text x="156" y="265.3" font-size="9.5" fill="#1d1d1b">⁧مجوزہ منصوبے سے گیس کی متوقع پیداوار، 1.4 (پیمائش نہیں)⁩</text>
+<text x="156" y="229.3" font-size="9.5" fill="#7b2d8e">⁧اس منبع کے لیے Carbon Mapper کا تخمینہ، ⁦1.6 ± 0.4⁩⁩</text>
+<circle cx="20.0" cy="363.0" r="4.5" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/><text x="29" y="366" font-size="9.5" fill="#1d1d1b">⁧Tanager-1، غبار⁩</text><rect x="120.0" y="359.0" width="8" height="8" fill="#7b2d8e" stroke="#7b2d8e" stroke-width="1.4"/><text x="133" y="366" font-size="9.5" fill="#1d1d1b">⁧EMIT، غبار⁩</text><circle cx="204.0" cy="363.0" r="4.5" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/><rect x="212.0" y="359.0" width="8" height="8" fill="#fff" stroke="#7c7c80" stroke-width="1.4"/><text x="225" y="366" font-size="9.5" fill="#1d1d1b">⁧کوئی غبار رپورٹ نہیں ہوا⁩</text>
+<text x="16" y="384" font-size="9" fill="#7c7c80">⁧ماخذ: Carbon Mapper (data.carbonmapper.org)۔ ڈیٹا 19 اور 21 نومبر 2026 کو حاصل کیا گیا۔ کام کے مراحل اور پیش گوئی اخباری خبروں کے مطابق۔⁩</text>
+</svg>
