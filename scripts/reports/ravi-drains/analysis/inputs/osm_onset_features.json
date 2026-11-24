@@ -1,0 +1,727 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-11-23T11:18:50Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 304952759,
+  "lat": 31.6024546,
+  "lon": 74.3194736,
+  "tags": {
+    "is_in": "Lahore",
+    "name": "بادامی باغ",
+    "name:en": "Badami Bagh",
+    "name:hi": "बादामी बाग",
+    "name:ur": "بادامی باغ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 304952983,
+  "lat": 31.5981297,
+  "lon": 74.3341065,
+  "tags": {
+    "amenity": "parking",
+    "is_in": "Lahore",
+    "name": "Shad Bagh",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "node",
+  "id": 2517404564,
+  "lat": 31.6284739,
+  "lon": 74.3050372,
+  "tags": {
+    "name": "شاہدره باغ",
+    "name:en": "Shahdara Bagh",
+    "name:hi": "शाहदरा बाग",
+    "name:ml": "ഷാഹ്ദര ബാഗ്",
+    "name:ur": "شاہدره باغ",
+    "place": "town"
+  }
+},
+{
+  "type": "node",
+  "id": 3022250194,
+  "lat": 31.5994529,
+  "lon": 74.3379943,
+  "tags": {
+    "name": "شاد باٰغ",
+    "name:en": "Shad Bagh",
+    "name:fa": "شاد باغ",
+    "name:hi": "शाद बाग",
+    "name:ur": "شاد باغ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 4405371089,
+  "lat": 31.6188214,
+  "lon": 74.2861235,
+  "tags": {
+    "man_made": "chimney",
+    "name": "Mets",
+    "name:en": "Mets"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219467,
+  "lat": 31.6403964,
+  "lon": 74.2853919,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "craft": "confectionery",
+    "name": "Butt Sweets"
+  }
+},
+{
+  "type": "node",
+  "id": 4910219480,
+  "lat": 31.6370737,
+  "lon": 74.2859966,
+  "tags": {
+    "addr:city": "Shahdara",
+    "addr:street": "Grand Trunk Road",
+    "craft": "confectionery",
+    "name": "Gourmet Bakers & Sweets"
+  }
+},
+{
+  "type": "node",
+  "id": 5556620025,
+  "lat": 31.6097168,
+  "lon": 74.3608755,
+  "tags": {
+    "man_made": "chimney"
+  }
+},
+{
+  "type": "node",
+  "id": 5556685222,
+  "lat": 31.6097405,
+  "lon": 74.3608793,
+  "tags": {
+    "man_made": "chimney"
+  }
+},
+{
+  "type": "node",
+  "id": 7113935997,
+  "lat": 31.5952829,
+  "lon": 74.3367586,
+  "tags": {
+    "name": "تاج پورہ",
+    "name:en": "Tajpura",
+    "name:hi": "ताजपुरा",
+    "name:ur": "تاج پورہ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 7116235886,
+  "lat": 31.6049424,
+  "lon": 74.3949958,
+  "tags": {
+    "name": "محمود بُوٹی",
+    "name:en": "Mehmood Booti",
+    "name:hi": "महमूद बूटी",
+    "name:ur": "محمود بوٹی",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 7116354722,
+  "lat": 31.5963720,
+  "lon": 74.3631672,
+  "tags": {
+    "name": "چائنہ سکیم",
+    "name:en": "China Scheme",
+    "name:hi": "चाइना स्कीम",
+    "name:ur": "چائنہ سکیم",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 7121851912,
+  "lat": 31.5990964,
+  "lon": 74.3009152,
+  "tags": {
+    "name": "Timber Market",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "node",
+  "id": 8059370744,
+  "lat": 31.6376249,
+  "lon": 74.3701443,
+  "tags": {
+    "name": "کورول",
+    "name:en": "Karol",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8059385848,
+  "lat": 31.6347947,
+  "lon": 74.3525115,
+  "tags": {
+    "name": "جبو کالاں",
+    "name:en": "Jabbo Kalan",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8851175271,
+  "lat": 31.6445860,
+  "lon": 74.3777776,
+  "tags": {
+    "name": "عینوبھٹی",
+    "name:en": "Ainu Bhatti",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8851175296,
+  "lat": 31.6520750,
+  "lon": 74.3641909,
+  "tags": {
+    "name": "جھگیاں اراضی",
+    "name:en": "Jhuggian Arazi",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8851175297,
+  "lat": 31.6561735,
+  "lon": 74.3827294,
+  "tags": {
+    "name": "بُکن وال",
+    "name:en": "Bukan Wal",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8851301444,
+  "lat": 31.6574923,
+  "lon": 74.3237007,
+  "tags": {
+    "name": "نتھو کوٹ",
+    "name:en": "Nathu Kot",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8851301445,
+  "lat": 31.6537442,
+  "lon": 74.3217320,
+  "tags": {
+    "name": "جسپت",
+    "name:en": "Jaspat",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8851307885,
+  "lat": 31.6728564,
+  "lon": 74.3209406,
+  "tags": {
+    "name": "بڑتھ",
+    "name:en": "Barrth",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8851307886,
+  "lat": 31.6593310,
+  "lon": 74.3074870,
+  "tags": {
+    "name": "حاجی کوٹ",
+    "name:en": "Haji Kot",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 8851307887,
+  "lat": 31.6682442,
+  "lon": 74.3164412,
+  "tags": {
+    "alt_name:en": "Karol",
+    "name": "کرول",
+    "name:en": "Karoul",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 9313272808,
+  "lat": 31.5960692,
+  "lon": 74.2983222,
+  "tags": {
+    "name": "قصورپورہ",
+    "name:en": "Qasurpura",
+    "name:hi": "कसूरपुरा",
+    "name:ur": "قصورپورہ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 9313272809,
+  "lat": 31.6003883,
+  "lon": 74.3102567,
+  "tags": {
+    "name": "قلعہ لچمن سنگھ",
+    "name:en": "Qila Lachman Singh",
+    "name:hi": "किला लक्ष्मण सिंह",
+    "name:ur": "قلعہ لچمن سنگھ",
+    "place": "village"
+  }
+},
+{
+  "type": "node",
+  "id": 9313272810,
+  "lat": 31.6058851,
+  "lon": 74.3129511,
+  "tags": {
+    "name": "حنیف پارک",
+    "name:en": "Hanif Park",
+    "name:ur": "حنیف پارک",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "node",
+  "id": 11620211633,
+  "lat": 31.6177436,
+  "lon": 74.3455348,
+  "tags": {
+    "name": "جُھگیاں جوڈھا",
+    "name:en": "Jhuggian Jodha",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 11620234731,
+  "lat": 31.5994178,
+  "lon": 74.3200813,
+  "tags": {
+    "name": "بیلہ بستی رام",
+    "name:en": "Bela Basti Ram",
+    "name:hi": "बेला बस्ती राम",
+    "name:ur": "بیلہ بستی رام",
+    "place": "suburb"
+  }
+},
+{
+  "type": "node",
+  "id": 11621433836,
+  "lat": 31.5986328,
+  "lon": 74.3190645,
+  "tags": {
+    "name": "داتا نگر",
+    "name:en": "Data Nagar",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "node",
+  "id": 11621601892,
+  "lat": 31.6062538,
+  "lon": 74.3496328,
+  "tags": {
+    "name": "Bhaman",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "node",
+  "id": 13931173870,
+  "lat": 31.6195886,
+  "lon": 74.2873302,
+  "tags": {
+    "name": "جیا موسیٰ",
+    "name:en": "Jia Musa",
+    "name:ur": "جیا موسیٰ",
+    "place": "suburb"
+  }
+},
+{
+  "type": "way",
+  "id": 27621262,
+  "center": {
+    "lat": 31.6138954,
+    "lon": 74.3231871
+  },
+  "tags": {
+    "boat": "no",
+    "waterway": "drain"
+  }
+},
+{
+  "type": "way",
+  "id": 75717150,
+  "center": {
+    "lat": 31.4195678,
+    "lon": 74.0648729
+  },
+  "tags": {
+    "boat": "yes",
+    "name": "دریائے راوی",
+    "name:en": "Ravi River",
+    "name:hi": "रावी नदी",
+    "name:kn": "ರಾವೀ",
+    "name:ml": "രാവി നദി",
+    "name:ur": "دریائے راوی",
+    "waterway": "river"
+  }
+},
+{
+  "type": "way",
+  "id": 316890931,
+  "center": {
+    "lat": 31.6141343,
+    "lon": 74.3556479
+  },
+  "tags": {
+    "waterway": "drain"
+  }
+},
+{
+  "type": "way",
+  "id": 607875037,
+  "center": {
+    "lat": 31.5916416,
+    "lon": 74.3379134
+  },
+  "tags": {
+    "name": "Wasanpura",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "way",
+  "id": 607878797,
+  "center": {
+    "lat": 31.6035605,
+    "lon": 74.3949544
+  },
+  "tags": {
+    "name": "Mahmood Booti",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "way",
+  "id": 611920733,
+  "center": {
+    "lat": 31.5991555,
+    "lon": 74.3114442
+  },
+  "tags": {
+    "name": "Qila Lachman Singh",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "way",
+  "id": 618664582,
+  "center": {
+    "lat": 31.5942346,
+    "lon": 74.3359443
+  },
+  "tags": {
+    "name": "تاج پورہ",
+    "name:en": "Tajpura",
+    "name:ur": "تاج پورہ",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "way",
+  "id": 618998385,
+  "center": {
+    "lat": 31.5988268,
+    "lon": 74.3188439
+  },
+  "tags": {
+    "name": "داتا نگر",
+    "name:en": "Data Nagar",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "way",
+  "id": 619001530,
+  "center": {
+    "lat": 31.5994558,
+    "lon": 74.3007140
+  },
+  "tags": {
+    "name": "Timber Market",
+    "place": "neighbourhood"
+  }
+},
+{
+  "type": "way",
+  "id": 706338069,
+  "center": {
+    "lat": 31.6100506,
+    "lon": 74.3460154
+  },
+  "tags": {
+    "building": "yes",
+    "craft": "blacksmith",
+    "name": "Karim Engineering Works"
+  }
+},
+{
+  "type": "way",
+  "id": 761662746,
+  "center": {
+    "lat": 31.5934098,
+    "lon": 74.3895926
+  },
+  "tags": {
+    "landuse": "industrial",
+    "name": "Shalimar Grid Station"
+  }
+},
+{
+  "type": "way",
+  "id": 761672815,
+  "center": {
+    "lat": 31.6074291,
+    "lon": 74.3320363
+  },
+  "tags": {
+    "landuse": "industrial",
+    "name": "Jamal Steels"
+  }
+},
+{
+  "type": "way",
+  "id": 956403179,
+  "center": {
+    "lat": 31.6934665,
+    "lon": 74.3783974
+  },
+  "tags": {
+    "name": "Shahdara Distributary Canal",
+    "waterway": "canal"
+  }
+},
+{
+  "type": "way",
+  "id": 970013014,
+  "center": {
+    "lat": 31.6087705,
+    "lon": 74.3362869
+  },
+  "tags": {
+    "boat": "no",
+    "waterway": "drain"
+  }
+},
+{
+  "type": "way",
+  "id": 970013015,
+  "center": {
+    "lat": 31.6084924,
+    "lon": 74.3366631
+  },
+  "tags": {
+    "boat": "no",
+    "layer": "-1",
+    "tunnel": "culvert",
+    "waterway": "drain"
+  }
+},
+{
+  "type": "way",
+  "id": 970013016,
+  "center": {
+    "lat": 31.6092097,
+    "lon": 74.3361613
+  },
+  "tags": {
+    "boat": "no",
+    "layer": "-1",
+    "tunnel": "culvert",
+    "waterway": "drain"
+  }
+},
+{
+  "type": "way",
+  "id": 970013017,
+  "center": {
+    "lat": 31.6019966,
+    "lon": 74.3471430
+  },
+  "tags": {
+    "boat": "no",
+    "waterway": "drain"
+  }
+},
+{
+  "type": "way",
+  "id": 994898897,
+  "center": {
+    "lat": 31.6735771,
+    "lon": 74.4269864
+  },
+  "tags": {
+    "boat": "yes",
+    "name": "دریائے راوی",
+    "name:en": "Ravi River",
+    "name:hi": "रावी नदी",
+    "name:kn": "ರಾವೀ",
+    "name:ml": "രാവി നദി",
+    "name:ur": "دریائے راوی",
+    "waterway": "river"
+  }
+},
+{
+  "type": "way",
+  "id": 994898898,
+  "center": {
+    "lat": 31.6123448,
+    "lon": 74.3251058
+  },
+  "tags": {
+    "natural": "water",
+    "water": "wastewater"
+  }
+},
+{
+  "type": "way",
+  "id": 994898899,
+  "center": {
+    "lat": 31.6157237,
+    "lon": 74.3221776
+  },
+  "tags": {
+    "waterway": "drain"
+  }
+},
+{
+  "type": "way",
+  "id": 1012011762,
+  "center": {
+    "lat": 31.6104373,
+    "lon": 74.3238946
+  },
+  "tags": {
+    "landuse": "landfill"
+  }
+},
+{
+  "type": "way",
+  "id": 1370790548,
+  "center": {
+    "lat": 31.6103874,
+    "lon": 74.3846802
+  },
+  "tags": {
+    "landuse": "landfill",
+    "name": "Mehmood Booti Landfill"
+  }
+},
+{
+  "type": "relation",
+  "id": 7088406,
+  "center": {
+    "lat": 31.5734785,
+    "lon": 74.2677331
+  },
+  "tags": {
+    "intermittent": "no",
+    "name": "Ravi",
+    "name:hi": "Darya Ravi",
+    "name:ur": "دریائے راوی",
+    "natural": "water",
+    "type": "multipolygon",
+    "water": "river"
+  }
+},
+{
+  "type": "relation",
+  "id": 8894611,
+  "center": {
+    "lat": 31.5852967,
+    "lon": 74.4192972
+  },
+  "tags": {
+    "name": "دریائے راوی",
+    "name:ar": "نهر رافي",
+    "name:arz": "نهر رافي",
+    "name:az-Arab": "راوی چایی",
+    "name:azb": "راوی چایی",
+    "name:cv": "Рави",
+    "name:de": "Ravi",
+    "name:el": "Υδραώτης",
+    "name:en": "Ravi River",
+    "name:es": "Río Ravi",
+    "name:fa": "راوی",
+    "name:grc": "Ὑδραώτης",
+    "name:kk": "Рави",
+    "name:kk-Arab": "راۆىي",
+    "name:ks": "دریائے راوی",
+    "name:la": "Hydraotes",
+    "name:pa": "ਰਾਵੀ",
+    "name:pnb": "راوی دریا",
+    "name:pt": "Rio Rauí",
+    "name:ro": "Râul Ravi",
+    "name:ru": "Рави",
+    "name:sd": "راوي ندي",
+    "name:sr": "Рави",
+    "name:uk": "Раві",
+    "name:ur": "دریائے راوی",
+    "type": "waterway",
+    "waterway": "river",
+    "wikidata": "Q317899",
+    "wikipedia": "ur:دریائے راوی"
+  }
+},
+{
+  "type": "relation",
+  "id": 13046743,
+  "center": {
+    "lat": 31.6337787,
+    "lon": 74.3262850
+  },
+  "tags": {
+    "name": "Ravi",
+    "name:hi": "रावी नदी",
+    "name:ur": "دریائے راوی",
+    "natural": "water",
+    "type": "multipolygon",
+    "water": "river"
+  }
+}
+
+  ]
+}

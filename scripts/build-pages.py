@@ -313,6 +313,10 @@ def trends_page():
 
 
 REPORTS = [  # newest first: (path, date, title, summary per language)
+    ("/report/ravi-drains/", "2026-11-24", "The Ravi darkens below Lahore: a nine-year satellite baseline of river colour for checking measures on sewage and industrial discharge", {
+        "en": "On 47 of 49 low-cloud dates from 2018 to 2026 the Ravi was darker below Lahore than above it in satellite images, by 26% on a typical October date, with no clear trend. The fall begins about where a channel from the Mehmood Booti side enters the river. This is a baseline of colour, not of pollution, for checking measures on sewage and industrial discharge.",
+        "ur": "2018 سے 2026 تک کم بادل والی 49 میں سے 47 تاریخوں پر سیٹلائٹ تصویروں میں راوی کا رنگ لاہور سے نیچے، اوپر کے مقابلے میں گہرا تھا، اکتوبر کی ایک عام تاریخ پر 26%، اور اس میں کوئی واضح رجحان نہیں۔ یہ کمی تقریباً وہیں سے شروع ہوتی ہے جہاں محمود بوٹی کی طرف سے ایک نالہ دریا میں گرتا ہے۔ یہ رنگ کا بنیادی ریکارڈ ہے، آلودگی کا نہیں، تاکہ سیوریج اور صنعتی اخراج پر اقدامات کو پرکھا جا سکے۔",
+        "hi": "2018 से 2026 तक कम बादल वाली 49 में से 47 तारीख़ों पर सैटेलाइट तस्वीरों में रावी का रंग लाहौर के नीचे, ऊपर के मुक़ाबले गहरा था, अक्टूबर की एक आम तारीख़ पर 26%, और इसमें कोई साफ़ रुझान नहीं है। यह गिरावट लगभग वहीं से शुरू होती है जहाँ महमूद बूटी की तरफ़ से एक नाला नदी में गिरता है। यह रंग का आधार रिकॉर्ड है, प्रदूषण का नहीं, ताकि सीवेज और औद्योगिक गंदे पानी पर उठाए गए क़दमों को परखा जा सके।"}),
     ("/report/landfill-methane/", "2026-11-21", "Satellites repeatedly detect methane over Lahore's Lakhodair landfill, but none reported at nearby Mehmood Booti", {
         "en": "A methane plume was reported over Lahore's Lakhodair landfill in 11 of 12 satellite scenes since 2023, and none near the Mehmood Booti dump in the same scenes, 10 of them after capping began there. That does not show Mehmood Booti emits nothing, or that the capping is the reason.",
         "ur": "2023 سے اب تک لاہور کے لکھو ڈیر لینڈ فل کی 12 میں سے 11 سیٹلائٹ تصویروں میں میتھین کا غبار رپورٹ ہوا، اور انہی تصویروں میں محمود بوٹی کے ڈمپ کے قریب کوئی نہیں؛ ان میں سے 10 وہاں ڈھانپنے کا کام شروع ہونے کے بعد کی ہیں۔ اس سے یہ ثابت نہیں ہوتا کہ محمود بوٹی سے کچھ خارج نہیں ہو رہا، یا یہ کہ وجہ ڈھانپنے کا کام ہے۔",
@@ -584,6 +588,7 @@ SITEMAP = [  # (path, source files whose last commit dates the page, changefreq,
     ("/", ["site/public/index.html", "site/public/app.js", "site/public/i18n.js"], "hourly", "1.0", True),
     ("/sites/", ["site/public/sites/index.html", "site/public/sites/sites.js", "site/public/sources/sites.json"], "daily", "0.9", True),
     ("/trends/", ["scripts/pages/trends-en.html", "site/public/trends/trends.js"], "daily", "0.8", True),
+    ("/report/ravi-drains/", ["scripts/reports/ravi-drains/article.en.html", "site/public/report/ravi-drains/data.json"], "monthly", "0.8", True),
     ("/report/landfill-methane/", ["scripts/reports/landfill-methane/article.en.html", "site/public/report/landfill-methane/data.json"], "monthly", "0.8", True),
     ("/report/punjab-rain-nov-2026/", ["scripts/reports/punjab-rain-nov-2026/article.en.html", "site/public/report/punjab-rain-nov-2026/data.json"], "monthly", "0.8", True),
     ("/report/delhi-smog-fires/", ["scripts/reports/delhi-smog-fires/article.en.html", "site/public/report/delhi-smog-fires/data.json"], "monthly", "0.8", True),

@@ -1,0 +1,3084 @@
+{
+ "report": "The Ravi darkens below Lahore: a nine-year satellite baseline of river colour for checking measures on sewage and industrial discharge",
+ "published": "2026-11-24",
+ "version": "1.0",
+ "inputs": {
+  "note": "Inputs and scripts in the repository under scripts/reports/ravi-drains/analysis/"
+ },
+ "evidence": [
+  {
+   "id": "dates",
+   "claim": "Selected low-cloud Sentinel-2 dates measured along the Ravi, 2018 to 2026",
+   "value": {
+    "measured": 55,
+    "october": 30,
+    "spring": 25,
+    "first_year": 2018,
+    "last_year": 2026,
+    "years": 9,
+    "first_date": "2018-03-29",
+    "last_date": "2026-10-18",
+    "passes_in_the_two_seasons": 279,
+    "passes_rejected": 222,
+    "cloud_cover_below_pct": 3,
+    "no_data_below_pct": 5,
+    "usual_days_between_acquisitions": [
+     2,
+     3
+    ],
+    "chosen": 57,
+    "not_measured": 2,
+    "with_both_stretches": 49,
+    "measured_but_not_compared": 6,
+    "october_with_both": 29,
+    "spring_with_both": 20,
+    "date_list": [
+     "2018-03-29",
+     "2018-10-15",
+     "2018-10-20",
+     "2018-10-25",
+     "2019-03-09",
+     "2019-04-08",
+     "2019-10-10",
+     "2019-10-15",
+     "2019-10-25",
+     "2020-03-03",
+     "2020-04-02",
+     "2020-10-09",
+     "2020-10-14",
+     "2020-10-19",
+     "2020-10-24",
+     "2021-03-03",
+     "2021-03-28",
+     "2021-04-02",
+     "2021-04-07",
+     "2021-10-09",
+     "2021-10-14",
+     "2022-03-13",
+     "2022-03-18",
+     "2022-03-28",
+     "2022-04-02",
+     "2022-04-07",
+     "2022-10-04",
+     "2022-10-14",
+     "2022-10-19",
+     "2022-10-24",
+     "2023-03-08",
+     "2023-04-02",
+     "2023-04-12",
+     "2023-04-17",
+     "2023-10-04",
+     "2023-10-19",
+     "2023-10-24",
+     "2024-03-12",
+     "2024-04-06",
+     "2024-04-16",
+     "2024-10-03",
+     "2024-10-13",
+     "2024-10-18",
+     "2024-10-23",
+     "2025-03-02",
+     "2025-03-17",
+     "2025-03-22",
+     "2025-03-27",
+     "2025-10-08",
+     "2025-10-13",
+     "2025-10-18",
+     "2025-10-20",
+     "2025-10-23",
+     "2026-10-03",
+     "2026-10-18"
+    ]
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it; the list of every pass, the scenes, the decision and the reason is in inputs/scenes.json (select_dates.py)",
+   "method": "The catalogue lists an image of this stretch on 279 dates in the two seasons of the nine years (two orbits of the Sentinel-2 satellites cover it); 'usual_days_between_acquisitions' gives the two commonest gaps between one such date and the next. These are candidate dates, most of them cloudy. A date was chosen if, in the Earth Search scene catalogue, both tiles had a scene with cloud cover below 3 percent and less than 5 percent of the tile without data, between 1 March and 20 April or 1 and 25 October (November to February is too hazy; the monsoon too cloudy). Every date that met the rule was chosen; none was picked or dropped by eye. Two chosen dates could not be measured because Planetary Computer did not hold both tiles. A date counts in the comparison only if both stretches have at least 10 usable 500 m bins.",
+   "status": "computed from the measurements"
+  },
+  {
+   "id": "method",
+   "claim": "How the water was measured",
+   "value": {
+    "pixel_m": 10,
+    "bin_m": 500,
+    "min_width_m": 40,
+    "within_m_of_centre_line": 700,
+    "min_pixels_per_bin": 30,
+    "siphon_line_km": 55.8,
+    "upstream_km_below_siphon": [
+     0,
+     21
+    ],
+    "downstream_km_below_siphon": [
+     30,
+     49
+    ],
+    "centre_line_km": 166.4,
+    "band": "red, 665 nm (band 4)"
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it; centre line in inputs/ravi_line.json (OpenStreetMap contributors)",
+   "method": "Water pixels: (green - shortwave infrared)/(green + shortwave infrared) above 0, near infrared below 0.15, not flagged as cloud, cloud shadow or cirrus in the scene classification, within 700 m of the centre line. Each water pixel gets the river kilometre of the nearest point on the centre line. Width is the shorter of the east-west and north-south runs of water through the pixel; only pixels where the water is at least 40 m wide are used, to keep bank pixels out. The figure for each 500 m of river is the median red reflectance of those pixels. Distances are along OpenStreetMap's mapped centre line, which is longer than the present channel in places, so they are approximate river distances.",
+   "status": "method"
+  },
+  {
+   "id": "comparison",
+   "claim": "The river below Lahore compared with the river above it, date by date",
+   "value": {
+    "dates": 49,
+    "darker_below": 47,
+    "not_darker": 2,
+    "least_pct_darker": 0,
+    "least_date": "2024-10-03",
+    "most_pct_darker": 64,
+    "most_date": "2022-03-13",
+    "october_median_pct_darker": 26,
+    "spring_median_pct_darker": 30,
+    "october_range_pct": [
+     0,
+     52
+    ],
+    "spring_range_pct": [
+     1,
+     64
+    ],
+    "exceptions": [
+     {
+      "date": "2024-10-03",
+      "pct_darker": -0.4
+     },
+     {
+      "date": "2025-10-13",
+      "pct_darker": -0.1
+     }
+    ],
+    "exceptions_within_pct": 1,
+    "at_least_10_pct_darker": 41,
+    "at_least_20_pct_darker": 35,
+    "by_date": [
+     {
+      "date": "2018-10-15",
+      "pct_darker": 17,
+      "upstream_reflectance": 0.159,
+      "downstream_reflectance": 0.132,
+      "downstream_width_m": 140
+     },
+     {
+      "date": "2018-10-20",
+      "pct_darker": 28,
+      "upstream_reflectance": 0.128,
+      "downstream_reflectance": 0.093,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2018-10-25",
+      "pct_darker": 27,
+      "upstream_reflectance": 0.132,
+      "downstream_reflectance": 0.096,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2019-03-09",
+      "pct_darker": 4,
+      "upstream_reflectance": 0.134,
+      "downstream_reflectance": 0.128,
+      "downstream_width_m": 220
+     },
+     {
+      "date": "2019-04-08",
+      "pct_darker": 13,
+      "upstream_reflectance": 0.121,
+      "downstream_reflectance": 0.105,
+      "downstream_width_m": 160
+     },
+     {
+      "date": "2019-10-10",
+      "pct_darker": 24,
+      "upstream_reflectance": 0.128,
+      "downstream_reflectance": 0.098,
+      "downstream_width_m": 140
+     },
+     {
+      "date": "2019-10-15",
+      "pct_darker": 25,
+      "upstream_reflectance": 0.139,
+      "downstream_reflectance": 0.105,
+      "downstream_width_m": 130
+     },
+     {
+      "date": "2019-10-25",
+      "pct_darker": 29,
+      "upstream_reflectance": 0.12,
+      "downstream_reflectance": 0.085,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2020-03-03",
+      "pct_darker": 60,
+      "upstream_reflectance": 0.123,
+      "downstream_reflectance": 0.049,
+      "downstream_width_m": 80
+     },
+     {
+      "date": "2020-04-02",
+      "pct_darker": 1,
+      "upstream_reflectance": 0.149,
+      "downstream_reflectance": 0.147,
+      "downstream_width_m": 130
+     },
+     {
+      "date": "2020-10-09",
+      "pct_darker": 41,
+      "upstream_reflectance": 0.099,
+      "downstream_reflectance": 0.059,
+      "downstream_width_m": 80
+     },
+     {
+      "date": "2020-10-14",
+      "pct_darker": 28,
+      "upstream_reflectance": 0.1,
+      "downstream_reflectance": 0.072,
+      "downstream_width_m": 100
+     },
+     {
+      "date": "2020-10-19",
+      "pct_darker": 26,
+      "upstream_reflectance": 0.097,
+      "downstream_reflectance": 0.072,
+      "downstream_width_m": 100
+     },
+     {
+      "date": "2020-10-24",
+      "pct_darker": 15,
+      "upstream_reflectance": 0.107,
+      "downstream_reflectance": 0.091,
+      "downstream_width_m": 100
+     },
+     {
+      "date": "2021-03-03",
+      "pct_darker": 46,
+      "upstream_reflectance": 0.085,
+      "downstream_reflectance": 0.046,
+      "downstream_width_m": 60
+     },
+     {
+      "date": "2021-04-02",
+      "pct_darker": 30,
+      "upstream_reflectance": 0.127,
+      "downstream_reflectance": 0.089,
+      "downstream_width_m": 130
+     },
+     {
+      "date": "2021-04-07",
+      "pct_darker": 29,
+      "upstream_reflectance": 0.084,
+      "downstream_reflectance": 0.059,
+      "downstream_width_m": 80
+     },
+     {
+      "date": "2021-10-09",
+      "pct_darker": 18,
+      "upstream_reflectance": 0.152,
+      "downstream_reflectance": 0.124,
+      "downstream_width_m": 180
+     },
+     {
+      "date": "2021-10-14",
+      "pct_darker": 23,
+      "upstream_reflectance": 0.111,
+      "downstream_reflectance": 0.086,
+      "downstream_width_m": 155
+     },
+     {
+      "date": "2022-03-13",
+      "pct_darker": 64,
+      "upstream_reflectance": 0.101,
+      "downstream_reflectance": 0.036,
+      "downstream_width_m": 50
+     },
+     {
+      "date": "2022-03-18",
+      "pct_darker": 23,
+      "upstream_reflectance": 0.11,
+      "downstream_reflectance": 0.085,
+      "downstream_width_m": 100
+     },
+     {
+      "date": "2022-04-02",
+      "pct_darker": 4,
+      "upstream_reflectance": 0.045,
+      "downstream_reflectance": 0.043,
+      "downstream_width_m": 40
+     },
+     {
+      "date": "2022-04-07",
+      "pct_darker": 14,
+      "upstream_reflectance": 0.064,
+      "downstream_reflectance": 0.055,
+      "downstream_width_m": 60
+     },
+     {
+      "date": "2022-10-04",
+      "pct_darker": 6,
+      "upstream_reflectance": 0.122,
+      "downstream_reflectance": 0.115,
+      "downstream_width_m": 165
+     },
+     {
+      "date": "2022-10-14",
+      "pct_darker": 28,
+      "upstream_reflectance": 0.147,
+      "downstream_reflectance": 0.105,
+      "downstream_width_m": 140
+     },
+     {
+      "date": "2022-10-19",
+      "pct_darker": 35,
+      "upstream_reflectance": 0.159,
+      "downstream_reflectance": 0.104,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2022-10-24",
+      "pct_darker": 52,
+      "upstream_reflectance": 0.131,
+      "downstream_reflectance": 0.063,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2023-03-08",
+      "pct_darker": 60,
+      "upstream_reflectance": 0.061,
+      "downstream_reflectance": 0.025,
+      "downstream_width_m": 80
+     },
+     {
+      "date": "2023-04-02",
+      "pct_darker": 23,
+      "upstream_reflectance": 0.137,
+      "downstream_reflectance": 0.106,
+      "downstream_width_m": 160
+     },
+     {
+      "date": "2023-04-12",
+      "pct_darker": 10,
+      "upstream_reflectance": 0.09,
+      "downstream_reflectance": 0.081,
+      "downstream_width_m": 100
+     },
+     {
+      "date": "2023-04-17",
+      "pct_darker": 9,
+      "upstream_reflectance": 0.058,
+      "downstream_reflectance": 0.053,
+      "downstream_width_m": 40
+     },
+     {
+      "date": "2023-10-04",
+      "pct_darker": 23,
+      "upstream_reflectance": 0.094,
+      "downstream_reflectance": 0.072,
+      "downstream_width_m": 160
+     },
+     {
+      "date": "2023-10-19",
+      "pct_darker": 34,
+      "upstream_reflectance": 0.114,
+      "downstream_reflectance": 0.075,
+      "downstream_width_m": 180
+     },
+     {
+      "date": "2023-10-24",
+      "pct_darker": 29,
+      "upstream_reflectance": 0.13,
+      "downstream_reflectance": 0.092,
+      "downstream_width_m": 160
+     },
+     {
+      "date": "2024-03-12",
+      "pct_darker": 41,
+      "upstream_reflectance": 0.136,
+      "downstream_reflectance": 0.08,
+      "downstream_width_m": 160
+     },
+     {
+      "date": "2024-04-06",
+      "pct_darker": 56,
+      "upstream_reflectance": 0.101,
+      "downstream_reflectance": 0.044,
+      "downstream_width_m": 130
+     },
+     {
+      "date": "2024-04-16",
+      "pct_darker": 45,
+      "upstream_reflectance": 0.062,
+      "downstream_reflectance": 0.034,
+      "downstream_width_m": 80
+     },
+     {
+      "date": "2024-10-03",
+      "pct_darker": 0,
+      "upstream_reflectance": 0.117,
+      "downstream_reflectance": 0.117,
+      "downstream_width_m": 200
+     },
+     {
+      "date": "2024-10-13",
+      "pct_darker": 50,
+      "upstream_reflectance": 0.09,
+      "downstream_reflectance": 0.045,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2024-10-18",
+      "pct_darker": 25,
+      "upstream_reflectance": 0.107,
+      "downstream_reflectance": 0.08,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2024-10-23",
+      "pct_darker": 26,
+      "upstream_reflectance": 0.133,
+      "downstream_reflectance": 0.099,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2025-03-17",
+      "pct_darker": 53,
+      "upstream_reflectance": 0.089,
+      "downstream_reflectance": 0.041,
+      "downstream_width_m": 120
+     },
+     {
+      "date": "2025-03-22",
+      "pct_darker": 51,
+      "upstream_reflectance": 0.075,
+      "downstream_reflectance": 0.037,
+      "downstream_width_m": 100
+     },
+     {
+      "date": "2025-10-13",
+      "pct_darker": 0,
+      "upstream_reflectance": 0.142,
+      "downstream_reflectance": 0.142,
+      "downstream_width_m": 235
+     },
+     {
+      "date": "2025-10-18",
+      "pct_darker": 19,
+      "upstream_reflectance": 0.125,
+      "downstream_reflectance": 0.101,
+      "downstream_width_m": 200
+     },
+     {
+      "date": "2025-10-20",
+      "pct_darker": 21,
+      "upstream_reflectance": 0.124,
+      "downstream_reflectance": 0.098,
+      "downstream_width_m": 200
+     },
+     {
+      "date": "2025-10-23",
+      "pct_darker": 26,
+      "upstream_reflectance": 0.116,
+      "downstream_reflectance": 0.086,
+      "downstream_width_m": 190
+     },
+     {
+      "date": "2026-10-03",
+      "pct_darker": 30,
+      "upstream_reflectance": 0.157,
+      "downstream_reflectance": 0.11,
+      "downstream_width_m": 130
+     },
+     {
+      "date": "2026-10-18",
+      "pct_darker": 34,
+      "upstream_reflectance": 0.126,
+      "downstream_reflectance": 0.083,
+      "downstream_width_m": 170
+     }
+    ]
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it",
+   "method": "For each date, the median red reflectance of the 500 m bins in the downstream stretch divided by the same for the upstream stretch (stretches in 'method'). 'Percent darker' is 100 x (1 - that ratio), rounded.",
+   "status": "computed from the measurements"
+  },
+  {
+   "id": "flow",
+   "claim": "Water width below the city, and how the difference changes with it",
+   "value": {
+    "october_median_width_m": 140,
+    "spring_median_width_m": 100,
+    "october_dates_in_each_third": 9,
+    "widest_third_min_width_m": 165,
+    "widest_third_median_pct_darker": 19,
+    "narrowest_third_max_width_m": 120,
+    "narrowest_third_median_pct_darker": 28
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it",
+   "method": "Width is the median water width of the bins in the downstream stretch on that date, a rough stand-in for flow. October dates are ranked by it and the widest and narrowest thirds compared.",
+   "status": "computed from the measurements"
+  },
+  {
+   "id": "shape",
+   "claim": "Brightness of the water along the river, relative to the stretch above the city",
+   "value": {
+    "october_dates": 29,
+    "spring_dates": 23,
+    "upstream_flat_min": 0.97,
+    "upstream_flat_max": 1.02,
+    "upstream_flat_km": 31,
+    "onset_km_below_siphon": 23,
+    "onset_km_above_old_ravi_bridge": 3,
+    "onset_threshold_pct": 5,
+    "onset_run_km": 5,
+    "dates_in_the_profile": 52,
+    "october_pct_darker_at_km_below_siphon": {
+     "20": 0,
+     "24": 16,
+     "26": 17,
+     "30": 22,
+     "34": 22,
+     "44": 29,
+     "54": 38
+    },
+    "spring_pct_darker_at_km_below_siphon": {
+     "20": 0,
+     "24": 8,
+     "26": 19,
+     "30": 18,
+     "34": 33,
+     "44": 41,
+     "54": 42
+    },
+    "checkpoints": [
+     {
+      "km_below_siphon": 24,
+      "october_pct_darker": 16
+     },
+     {
+      "km_below_siphon": 30,
+      "october_pct_darker": 22
+     },
+     {
+      "km_below_siphon": 44,
+      "october_pct_darker": 29
+     },
+     {
+      "km_below_siphon": 54,
+      "october_pct_darker": 38
+     }
+    ],
+    "uneven_beyond_km": 60,
+    "october_by_km_below_siphon": {
+     "-10": {
+      "median": 1.01,
+      "q1": 0.95,
+      "q3": 1.04,
+      "dates": 29
+     },
+     "-9": {
+      "median": 1.0,
+      "q1": 0.94,
+      "q3": 1.04,
+      "dates": 29
+     },
+     "-8": {
+      "median": 0.98,
+      "q1": 0.95,
+      "q3": 1.04,
+      "dates": 28
+     },
+     "-7": {
+      "median": 0.97,
+      "q1": 0.92,
+      "q3": 0.99,
+      "dates": 29
+     },
+     "-6": {
+      "median": 0.98,
+      "q1": 0.94,
+      "q3": 1.02,
+      "dates": 29
+     },
+     "-5": {
+      "median": 0.98,
+      "q1": 0.93,
+      "q3": 1.02,
+      "dates": 29
+     },
+     "-4": {
+      "median": 1.0,
+      "q1": 0.96,
+      "q3": 1.03,
+      "dates": 29
+     },
+     "-3": {
+      "median": 0.98,
+      "q1": 0.94,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "-2": {
+      "median": 1.0,
+      "q1": 0.95,
+      "q3": 1.03,
+      "dates": 29
+     },
+     "-1": {
+      "median": 0.97,
+      "q1": 0.94,
+      "q3": 1.02,
+      "dates": 29
+     },
+     "0": {
+      "median": 1.0,
+      "q1": 0.95,
+      "q3": 1.02,
+      "dates": 29
+     },
+     "1": {
+      "median": 0.99,
+      "q1": 0.96,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "2": {
+      "median": 0.99,
+      "q1": 0.98,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "3": {
+      "median": 0.99,
+      "q1": 0.98,
+      "q3": 1.0,
+      "dates": 29
+     },
+     "4": {
+      "median": 0.99,
+      "q1": 0.97,
+      "q3": 1.0,
+      "dates": 29
+     },
+     "5": {
+      "median": 1.0,
+      "q1": 0.99,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "6": {
+      "median": 1.0,
+      "q1": 0.99,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "7": {
+      "median": 1.0,
+      "q1": 0.99,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "8": {
+      "median": 1.0,
+      "q1": 0.98,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "9": {
+      "median": 0.99,
+      "q1": 0.98,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "10": {
+      "median": 0.99,
+      "q1": 0.99,
+      "q3": 1.0,
+      "dates": 29
+     },
+     "11": {
+      "median": 0.99,
+      "q1": 0.99,
+      "q3": 1.0,
+      "dates": 29
+     },
+     "12": {
+      "median": 1.0,
+      "q1": 0.99,
+      "q3": 1.02,
+      "dates": 29
+     },
+     "13": {
+      "median": 1.0,
+      "q1": 0.99,
+      "q3": 1.0,
+      "dates": 29
+     },
+     "14": {
+      "median": 1.0,
+      "q1": 1.0,
+      "q3": 1.03,
+      "dates": 28
+     },
+     "15": {
+      "median": 1.01,
+      "q1": 1.0,
+      "q3": 1.03,
+      "dates": 29
+     },
+     "16": {
+      "median": 1.01,
+      "q1": 1.0,
+      "q3": 1.03,
+      "dates": 29
+     },
+     "17": {
+      "median": 1.0,
+      "q1": 0.98,
+      "q3": 1.02,
+      "dates": 29
+     },
+     "18": {
+      "median": 1.0,
+      "q1": 0.98,
+      "q3": 1.02,
+      "dates": 29
+     },
+     "19": {
+      "median": 1.02,
+      "q1": 1.0,
+      "q3": 1.04,
+      "dates": 29
+     },
+     "20": {
+      "median": 1.01,
+      "q1": 0.99,
+      "q3": 1.03,
+      "dates": 29
+     },
+     "21": {
+      "median": 0.98,
+      "q1": 0.96,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "22": {
+      "median": 0.98,
+      "q1": 0.93,
+      "q3": 1.01,
+      "dates": 29
+     },
+     "23": {
+      "median": 0.92,
+      "q1": 0.87,
+      "q3": 0.94,
+      "dates": 29
+     },
+     "24": {
+      "median": 0.84,
+      "q1": 0.78,
+      "q3": 0.91,
+      "dates": 29
+     },
+     "25": {
+      "median": 0.86,
+      "q1": 0.79,
+      "q3": 0.92,
+      "dates": 29
+     },
+     "26": {
+      "median": 0.83,
+      "q1": 0.79,
+      "q3": 0.91,
+      "dates": 29
+     },
+     "27": {
+      "median": 0.83,
+      "q1": 0.78,
+      "q3": 0.88,
+      "dates": 29
+     },
+     "28": {
+      "median": 0.83,
+      "q1": 0.75,
+      "q3": 0.88,
+      "dates": 29
+     },
+     "29": {
+      "median": 0.78,
+      "q1": 0.7,
+      "q3": 0.85,
+      "dates": 29
+     },
+     "30": {
+      "median": 0.78,
+      "q1": 0.69,
+      "q3": 0.85,
+      "dates": 29
+     },
+     "31": {
+      "median": 0.7,
+      "q1": 0.56,
+      "q3": 0.82,
+      "dates": 29
+     },
+     "32": {
+      "median": 0.75,
+      "q1": 0.64,
+      "q3": 0.82,
+      "dates": 29
+     },
+     "33": {
+      "median": 0.75,
+      "q1": 0.68,
+      "q3": 0.83,
+      "dates": 29
+     },
+     "34": {
+      "median": 0.78,
+      "q1": 0.73,
+      "q3": 0.83,
+      "dates": 29
+     },
+     "35": {
+      "median": 0.76,
+      "q1": 0.71,
+      "q3": 0.85,
+      "dates": 29
+     },
+     "36": {
+      "median": 0.79,
+      "q1": 0.74,
+      "q3": 0.87,
+      "dates": 29
+     },
+     "37": {
+      "median": 0.78,
+      "q1": 0.73,
+      "q3": 0.84,
+      "dates": 29
+     },
+     "38": {
+      "median": 0.75,
+      "q1": 0.72,
+      "q3": 0.82,
+      "dates": 29
+     },
+     "39": {
+      "median": 0.76,
+      "q1": 0.73,
+      "q3": 0.81,
+      "dates": 29
+     },
+     "40": {
+      "median": 0.73,
+      "q1": 0.69,
+      "q3": 0.8,
+      "dates": 29
+     },
+     "41": {
+      "median": 0.73,
+      "q1": 0.69,
+      "q3": 0.8,
+      "dates": 29
+     },
+     "42": {
+      "median": 0.72,
+      "q1": 0.68,
+      "q3": 0.78,
+      "dates": 29
+     },
+     "43": {
+      "median": 0.73,
+      "q1": 0.66,
+      "q3": 0.79,
+      "dates": 29
+     },
+     "44": {
+      "median": 0.71,
+      "q1": 0.67,
+      "q3": 0.79,
+      "dates": 29
+     },
+     "45": {
+      "median": 0.7,
+      "q1": 0.62,
+      "q3": 0.76,
+      "dates": 29
+     },
+     "46": {
+      "median": 0.73,
+      "q1": 0.66,
+      "q3": 0.78,
+      "dates": 29
+     },
+     "47": {
+      "median": 0.71,
+      "q1": 0.62,
+      "q3": 0.76,
+      "dates": 29
+     },
+     "48": {
+      "median": 0.68,
+      "q1": 0.64,
+      "q3": 0.73,
+      "dates": 29
+     },
+     "49": {
+      "median": 0.7,
+      "q1": 0.64,
+      "q3": 0.76,
+      "dates": 29
+     },
+     "50": {
+      "median": 0.7,
+      "q1": 0.62,
+      "q3": 0.74,
+      "dates": 29
+     },
+     "51": {
+      "median": 0.68,
+      "q1": 0.61,
+      "q3": 0.74,
+      "dates": 29
+     },
+     "52": {
+      "median": 0.63,
+      "q1": 0.57,
+      "q3": 0.71,
+      "dates": 29
+     },
+     "53": {
+      "median": 0.63,
+      "q1": 0.57,
+      "q3": 0.74,
+      "dates": 29
+     },
+     "54": {
+      "median": 0.62,
+      "q1": 0.56,
+      "q3": 0.74,
+      "dates": 29
+     },
+     "55": {
+      "median": 0.66,
+      "q1": 0.58,
+      "q3": 0.69,
+      "dates": 29
+     },
+     "56": {
+      "median": 0.64,
+      "q1": 0.55,
+      "q3": 0.68,
+      "dates": 29
+     },
+     "57": {
+      "median": 0.65,
+      "q1": 0.58,
+      "q3": 0.67,
+      "dates": 29
+     },
+     "58": {
+      "median": 0.63,
+      "q1": 0.53,
+      "q3": 0.69,
+      "dates": 29
+     },
+     "59": {
+      "median": 0.58,
+      "q1": 0.5,
+      "q3": 0.64,
+      "dates": 29
+     },
+     "60": {
+      "median": 0.7,
+      "q1": 0.66,
+      "q3": 0.75,
+      "dates": 29
+     },
+     "61": {
+      "median": 0.65,
+      "q1": 0.59,
+      "q3": 0.69,
+      "dates": 29
+     },
+     "62": {
+      "median": 0.62,
+      "q1": 0.56,
+      "q3": 0.68,
+      "dates": 29
+     },
+     "63": {
+      "median": 0.65,
+      "q1": 0.59,
+      "q3": 0.71,
+      "dates": 29
+     },
+     "64": {
+      "median": 0.72,
+      "q1": 0.62,
+      "q3": 0.76,
+      "dates": 29
+     },
+     "65": {
+      "median": 0.7,
+      "q1": 0.62,
+      "q3": 0.76,
+      "dates": 29
+     },
+     "66": {
+      "median": 0.66,
+      "q1": 0.62,
+      "q3": 0.8,
+      "dates": 29
+     },
+     "67": {
+      "median": 0.72,
+      "q1": 0.64,
+      "q3": 0.81,
+      "dates": 29
+     },
+     "68": {
+      "median": 0.72,
+      "q1": 0.7,
+      "q3": 0.79,
+      "dates": 29
+     },
+     "69": {
+      "median": 0.66,
+      "q1": 0.62,
+      "q3": 0.75,
+      "dates": 29
+     },
+     "70": {
+      "median": 0.63,
+      "q1": 0.58,
+      "q3": 0.73,
+      "dates": 28
+     },
+     "71": {
+      "median": 0.66,
+      "q1": 0.61,
+      "q3": 0.78,
+      "dates": 28
+     },
+     "72": {
+      "median": 0.65,
+      "q1": 0.57,
+      "q3": 0.72,
+      "dates": 28
+     },
+     "73": {
+      "median": 0.65,
+      "q1": 0.57,
+      "q3": 0.74,
+      "dates": 29
+     },
+     "74": {
+      "median": 0.68,
+      "q1": 0.58,
+      "q3": 0.72,
+      "dates": 29
+     },
+     "75": {
+      "median": 0.65,
+      "q1": 0.56,
+      "q3": 0.72,
+      "dates": 29
+     },
+     "76": {
+      "median": 0.64,
+      "q1": 0.55,
+      "q3": 0.72,
+      "dates": 28
+     }
+    },
+    "spring_by_km_below_siphon": {
+     "-10": {
+      "median": 1.05,
+      "q1": 0.97,
+      "q3": 1.1,
+      "dates": 23
+     },
+     "-9": {
+      "median": 1.02,
+      "q1": 0.98,
+      "q3": 1.1,
+      "dates": 23
+     },
+     "-8": {
+      "median": 0.99,
+      "q1": 0.96,
+      "q3": 1.09,
+      "dates": 23
+     },
+     "-7": {
+      "median": 0.99,
+      "q1": 0.95,
+      "q3": 1.04,
+      "dates": 23
+     },
+     "-6": {
+      "median": 0.97,
+      "q1": 0.93,
+      "q3": 1.03,
+      "dates": 23
+     },
+     "-5": {
+      "median": 0.96,
+      "q1": 0.92,
+      "q3": 1.02,
+      "dates": 23
+     },
+     "-4": {
+      "median": 0.99,
+      "q1": 0.93,
+      "q3": 1.02,
+      "dates": 23
+     },
+     "-3": {
+      "median": 0.98,
+      "q1": 0.93,
+      "q3": 1.0,
+      "dates": 23
+     },
+     "-2": {
+      "median": 0.98,
+      "q1": 0.87,
+      "q3": 1.0,
+      "dates": 23
+     },
+     "-1": {
+      "median": 0.97,
+      "q1": 0.92,
+      "q3": 1.0,
+      "dates": 23
+     },
+     "0": {
+      "median": 0.98,
+      "q1": 0.95,
+      "q3": 1.03,
+      "dates": 23
+     },
+     "1": {
+      "median": 0.98,
+      "q1": 0.93,
+      "q3": 1.04,
+      "dates": 22
+     },
+     "2": {
+      "median": 0.99,
+      "q1": 0.9,
+      "q3": 1.01,
+      "dates": 22
+     },
+     "3": {
+      "median": 0.99,
+      "q1": 0.97,
+      "q3": 1.02,
+      "dates": 22
+     },
+     "4": {
+      "median": 1.0,
+      "q1": 0.98,
+      "q3": 1.03,
+      "dates": 23
+     },
+     "5": {
+      "median": 1.01,
+      "q1": 0.98,
+      "q3": 1.03,
+      "dates": 23
+     },
+     "6": {
+      "median": 0.99,
+      "q1": 0.97,
+      "q3": 1.03,
+      "dates": 22
+     },
+     "7": {
+      "median": 0.98,
+      "q1": 0.96,
+      "q3": 1.0,
+      "dates": 22
+     },
+     "8": {
+      "median": 0.98,
+      "q1": 0.96,
+      "q3": 0.99,
+      "dates": 22
+     },
+     "9": {
+      "median": 0.98,
+      "q1": 0.95,
+      "q3": 1.0,
+      "dates": 22
+     },
+     "10": {
+      "median": 1.0,
+      "q1": 0.98,
+      "q3": 1.0,
+      "dates": 22
+     },
+     "11": {
+      "median": 0.99,
+      "q1": 0.98,
+      "q3": 1.02,
+      "dates": 22
+     },
+     "12": {
+      "median": 1.01,
+      "q1": 0.99,
+      "q3": 1.09,
+      "dates": 22
+     },
+     "13": {
+      "median": 1.02,
+      "q1": 1.01,
+      "q3": 1.07,
+      "dates": 22
+     },
+     "14": {
+      "median": 1.03,
+      "q1": 1.0,
+      "q3": 1.1,
+      "dates": 23
+     },
+     "15": {
+      "median": 1.01,
+      "q1": 0.98,
+      "q3": 1.08,
+      "dates": 22
+     },
+     "16": {
+      "median": 1.01,
+      "q1": 0.99,
+      "q3": 1.12,
+      "dates": 23
+     },
+     "17": {
+      "median": 1.01,
+      "q1": 0.98,
+      "q3": 1.07,
+      "dates": 23
+     },
+     "18": {
+      "median": 1.02,
+      "q1": 0.99,
+      "q3": 1.12,
+      "dates": 23
+     },
+     "19": {
+      "median": 1.02,
+      "q1": 0.99,
+      "q3": 1.09,
+      "dates": 23
+     },
+     "20": {
+      "median": 1.01,
+      "q1": 0.98,
+      "q3": 1.08,
+      "dates": 22
+     },
+     "21": {
+      "median": 1.04,
+      "q1": 0.98,
+      "q3": 1.08,
+      "dates": 23
+     },
+     "22": {
+      "median": 1.02,
+      "q1": 0.98,
+      "q3": 1.15,
+      "dates": 22
+     },
+     "23": {
+      "median": 0.97,
+      "q1": 0.88,
+      "q3": 1.03,
+      "dates": 22
+     },
+     "24": {
+      "median": 0.92,
+      "q1": 0.76,
+      "q3": 0.99,
+      "dates": 22
+     },
+     "25": {
+      "median": 0.93,
+      "q1": 0.75,
+      "q3": 1.0,
+      "dates": 21
+     },
+     "26": {
+      "median": 0.81,
+      "q1": 0.71,
+      "q3": 0.97,
+      "dates": 21
+     },
+     "27": {
+      "median": 0.81,
+      "q1": 0.69,
+      "q3": 0.93,
+      "dates": 20
+     },
+     "28": {
+      "median": 0.74,
+      "q1": 0.61,
+      "q3": 0.96,
+      "dates": 20
+     },
+     "29": {
+      "median": 0.8,
+      "q1": 0.55,
+      "q3": 0.97,
+      "dates": 21
+     },
+     "30": {
+      "median": 0.82,
+      "q1": 0.61,
+      "q3": 0.97,
+      "dates": 20
+     },
+     "31": {
+      "median": 0.65,
+      "q1": 0.4,
+      "q3": 0.86,
+      "dates": 22
+     },
+     "32": {
+      "median": 0.71,
+      "q1": 0.44,
+      "q3": 0.88,
+      "dates": 22
+     },
+     "33": {
+      "median": 0.75,
+      "q1": 0.62,
+      "q3": 0.98,
+      "dates": 20
+     },
+     "34": {
+      "median": 0.67,
+      "q1": 0.5,
+      "q3": 0.87,
+      "dates": 19
+     },
+     "35": {
+      "median": 0.69,
+      "q1": 0.5,
+      "q3": 0.93,
+      "dates": 22
+     },
+     "36": {
+      "median": 0.72,
+      "q1": 0.51,
+      "q3": 0.94,
+      "dates": 20
+     },
+     "37": {
+      "median": 0.73,
+      "q1": 0.47,
+      "q3": 0.94,
+      "dates": 19
+     },
+     "38": {
+      "median": 0.71,
+      "q1": 0.48,
+      "q3": 0.95,
+      "dates": 19
+     },
+     "39": {
+      "median": 0.71,
+      "q1": 0.48,
+      "q3": 0.9,
+      "dates": 19
+     },
+     "40": {
+      "median": 0.7,
+      "q1": 0.48,
+      "q3": 0.87,
+      "dates": 19
+     },
+     "41": {
+      "median": 0.67,
+      "q1": 0.46,
+      "q3": 0.86,
+      "dates": 19
+     },
+     "42": {
+      "median": 0.64,
+      "q1": 0.46,
+      "q3": 0.83,
+      "dates": 19
+     },
+     "43": {
+      "median": 0.67,
+      "q1": 0.45,
+      "q3": 0.87,
+      "dates": 20
+     },
+     "44": {
+      "median": 0.59,
+      "q1": 0.47,
+      "q3": 0.76,
+      "dates": 17
+     },
+     "45": {
+      "median": 0.62,
+      "q1": 0.42,
+      "q3": 0.85,
+      "dates": 18
+     },
+     "46": {
+      "median": 0.67,
+      "q1": 0.5,
+      "q3": 0.86,
+      "dates": 18
+     },
+     "47": {
+      "median": 0.66,
+      "q1": 0.45,
+      "q3": 0.96,
+      "dates": 20
+     },
+     "48": {
+      "median": 0.63,
+      "q1": 0.49,
+      "q3": 0.82,
+      "dates": 17
+     },
+     "49": {
+      "median": 0.63,
+      "q1": 0.49,
+      "q3": 0.83,
+      "dates": 17
+     },
+     "50": {
+      "median": 0.62,
+      "q1": 0.42,
+      "q3": 0.83,
+      "dates": 17
+     },
+     "51": {
+      "median": 0.61,
+      "q1": 0.38,
+      "q3": 0.79,
+      "dates": 16
+     },
+     "52": {
+      "median": 0.57,
+      "q1": 0.42,
+      "q3": 0.76,
+      "dates": 16
+     },
+     "53": {
+      "median": 0.63,
+      "q1": 0.39,
+      "q3": 0.83,
+      "dates": 16
+     },
+     "54": {
+      "median": 0.58,
+      "q1": 0.37,
+      "q3": 0.81,
+      "dates": 16
+     },
+     "55": {
+      "median": 0.68,
+      "q1": 0.41,
+      "q3": 0.87,
+      "dates": 19
+     },
+     "56": {
+      "median": 0.61,
+      "q1": 0.36,
+      "q3": 0.81,
+      "dates": 15
+     },
+     "57": {
+      "median": 0.58,
+      "q1": 0.37,
+      "q3": 0.78,
+      "dates": 15
+     },
+     "58": {
+      "median": 0.63,
+      "q1": 0.41,
+      "q3": 0.79,
+      "dates": 15
+     },
+     "59": {
+      "median": 0.6,
+      "q1": 0.35,
+      "q3": 0.75,
+      "dates": 14
+     },
+     "60": {
+      "median": 0.83,
+      "q1": 0.67,
+      "q3": 0.99,
+      "dates": 21
+     },
+     "61": {
+      "median": 0.77,
+      "q1": 0.54,
+      "q3": 0.94,
+      "dates": 23
+     },
+     "62": {
+      "median": 0.75,
+      "q1": 0.59,
+      "q3": 0.88,
+      "dates": 21
+     },
+     "63": {
+      "median": 0.79,
+      "q1": 0.63,
+      "q3": 0.94,
+      "dates": 20
+     },
+     "64": {
+      "median": 0.74,
+      "q1": 0.58,
+      "q3": 0.93,
+      "dates": 20
+     },
+     "65": {
+      "median": 0.74,
+      "q1": 0.65,
+      "q3": 0.92,
+      "dates": 20
+     },
+     "66": {
+      "median": 0.78,
+      "q1": 0.59,
+      "q3": 0.91,
+      "dates": 20
+     },
+     "67": {
+      "median": 0.81,
+      "q1": 0.72,
+      "q3": 1.01,
+      "dates": 20
+     },
+     "68": {
+      "median": 0.8,
+      "q1": 0.67,
+      "q3": 0.91,
+      "dates": 20
+     },
+     "69": {
+      "median": 0.68,
+      "q1": 0.5,
+      "q3": 0.84,
+      "dates": 20
+     },
+     "70": {
+      "median": 0.68,
+      "q1": 0.54,
+      "q3": 0.88,
+      "dates": 20
+     },
+     "71": {
+      "median": 0.74,
+      "q1": 0.58,
+      "q3": 0.94,
+      "dates": 20
+     },
+     "72": {
+      "median": 0.69,
+      "q1": 0.52,
+      "q3": 0.82,
+      "dates": 19
+     },
+     "73": {
+      "median": 0.59,
+      "q1": 0.47,
+      "q3": 0.85,
+      "dates": 17
+     },
+     "74": {
+      "median": 0.62,
+      "q1": 0.51,
+      "q3": 0.87,
+      "dates": 19
+     },
+     "75": {
+      "median": 0.6,
+      "q1": 0.49,
+      "q3": 0.84,
+      "dates": 18
+     },
+     "76": {
+      "median": 0.62,
+      "q1": 0.49,
+      "q3": 0.8,
+      "dates": 20
+     }
+    }
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it",
+   "method": "Each date's profile is divided by that date's upstream median, so 1.00 means 'as bright as above the city'. For each kilometre every date gives one value (the mean of its two 500 m bins, or the one that could be measured), and the median and quartiles are taken across dates, so each date counts once; a kilometre is shown if at least four dates have a value. The onset is the first kilometre from which the October median stays below 0.95 for five kilometres. Kilometres below the siphon are line kilometres minus 56, rounded.",
+   "status": "computed from the measurements"
+  },
+  {
+   "id": "years",
+   "claim": "Year by year: how much darker the river was below the city",
+   "value": {
+    "october": {
+     "2018": {
+      "dates": 3,
+      "measured": 3,
+      "compared": 3,
+      "pct_darker": 27,
+      "pct_darker_exact": 26.82,
+      "by_km_below_siphon": {
+       "-10": 0.91,
+       "-8": 0.91,
+       "-6": 0.91,
+       "-4": 0.94,
+       "-2": 0.95,
+       "0": 0.96,
+       "2": 0.99,
+       "4": 0.98,
+       "6": 0.99,
+       "8": 1.02,
+       "10": 1.0,
+       "12": 0.98,
+       "14": 1.0,
+       "16": 1.02,
+       "18": 1.0,
+       "20": 1.0,
+       "22": 0.91,
+       "24": 0.83,
+       "26": 0.83,
+       "28": 0.84,
+       "30": 0.83,
+       "32": 0.77,
+       "34": 0.76,
+       "36": 0.75,
+       "38": 0.76,
+       "40": 0.73,
+       "42": 0.69,
+       "44": 0.7,
+       "46": 0.72,
+       "48": 0.74,
+       "50": 0.67,
+       "52": 0.6,
+       "54": 0.61,
+       "56": 0.61,
+       "58": 0.61,
+       "60": 0.61,
+       "62": 0.54,
+       "64": 0.62,
+       "66": 0.65,
+       "68": 0.63,
+       "70": 0.6,
+       "72": 0.59,
+       "74": 0.58,
+       "76": 0.55
+      }
+     },
+     "2019": {
+      "dates": 3,
+      "measured": 3,
+      "compared": 3,
+      "pct_darker": 25,
+      "pct_darker_exact": 24.75,
+      "by_km_below_siphon": {
+       "-10": 0.92,
+       "-8": 0.9,
+       "-6": 0.93,
+       "-4": 0.95,
+       "-2": 0.93,
+       "0": 0.94,
+       "2": 0.98,
+       "4": 0.98,
+       "6": 0.99,
+       "8": 1.03,
+       "10": 1.0,
+       "12": 1.0,
+       "14": 1.0,
+       "16": 1.01,
+       "18": 1.04,
+       "20": 1.05,
+       "22": 1.01,
+       "24": 0.85,
+       "26": 0.87,
+       "28": 0.8,
+       "30": 0.81,
+       "32": 0.8,
+       "34": 0.76,
+       "36": 0.74,
+       "38": 0.74,
+       "40": 0.72,
+       "42": 0.76,
+       "44": 0.74,
+       "46": 0.73,
+       "48": 0.7,
+       "50": 0.68,
+       "52": 0.64,
+       "54": 0.64,
+       "56": 0.64,
+       "58": 0.66,
+       "60": 0.67,
+       "62": 0.57,
+       "64": 0.6,
+       "66": 0.68,
+       "68": 0.69,
+       "70": 0.64,
+       "72": 0.65,
+       "74": 0.66,
+       "76": 0.64
+      }
+     },
+     "2020": {
+      "dates": 4,
+      "measured": 4,
+      "compared": 4,
+      "pct_darker": 27,
+      "pct_darker_exact": 27.23,
+      "by_km_below_siphon": {
+       "-10": 1.01,
+       "-8": 0.99,
+       "-6": 0.97,
+       "-4": 0.96,
+       "-2": 0.96,
+       "0": 0.97,
+       "2": 0.98,
+       "4": 0.97,
+       "6": 1.0,
+       "8": 1.0,
+       "10": 0.99,
+       "12": 1.0,
+       "14": 1.03,
+       "16": 1.04,
+       "18": 1.01,
+       "20": 0.97,
+       "22": 0.85,
+       "24": 0.72,
+       "26": 0.55,
+       "28": 0.63,
+       "30": 0.62,
+       "32": 0.78,
+       "34": 0.77,
+       "36": 0.78,
+       "38": 0.76,
+       "40": 0.71,
+       "42": 0.67,
+       "44": 0.71,
+       "46": 0.72,
+       "48": 0.68,
+       "50": 0.62,
+       "52": 0.58,
+       "54": 0.53,
+       "56": 0.49,
+       "58": 0.48,
+       "60": 0.68,
+       "62": 0.6,
+       "64": 0.6,
+       "66": 0.66,
+       "68": 0.61,
+       "70": 0.58,
+       "72": 0.52,
+       "74": 0.52,
+       "76": 0.49
+      }
+     },
+     "2021": {
+      "dates": 2,
+      "measured": 2,
+      "compared": 2,
+      "pct_darker": 21,
+      "pct_darker_exact": 20.57,
+      "by_km_below_siphon": {
+       "-10": 0.94,
+       "-8": 0.92,
+       "-6": 0.94,
+       "-4": 0.95,
+       "-2": 0.96,
+       "0": 0.95,
+       "2": 0.99,
+       "4": 0.99,
+       "6": 0.99,
+       "8": 1.0,
+       "10": 1.0,
+       "12": 1.04,
+       "14": 1.05,
+       "16": 0.99,
+       "18": 1.02,
+       "20": 1.0,
+       "22": 0.93,
+       "24": 0.86,
+       "26": 0.84,
+       "28": 0.78,
+       "30": 0.71,
+       "32": 0.75,
+       "34": 0.68,
+       "36": 0.83,
+       "38": 0.79,
+       "40": 0.8,
+       "42": 0.81,
+       "44": 0.81,
+       "46": 0.8,
+       "48": 0.75,
+       "50": 0.77,
+       "52": 0.74,
+       "54": 0.76,
+       "56": 0.76,
+       "58": 0.75,
+       "60": 0.72,
+       "62": 0.61,
+       "64": 0.65,
+       "66": 0.64,
+       "68": 0.67,
+       "70": 0.63,
+       "72": 0.6,
+       "74": 0.6,
+       "76": 0.58
+      }
+     },
+     "2022": {
+      "dates": 4,
+      "measured": 4,
+      "compared": 4,
+      "pct_darker": 32,
+      "pct_darker_exact": 31.53,
+      "by_km_below_siphon": {
+       "-10": 1.0,
+       "-8": 0.98,
+       "-6": 0.98,
+       "-4": 0.99,
+       "-2": 0.98,
+       "0": 0.99,
+       "2": 0.98,
+       "4": 0.99,
+       "6": 1.0,
+       "8": 0.99,
+       "10": 0.99,
+       "12": 1.01,
+       "14": 1.01,
+       "16": 1.0,
+       "18": 1.01,
+       "20": 0.99,
+       "22": 0.95,
+       "24": 0.78,
+       "26": 0.85,
+       "28": 0.8,
+       "30": 0.67,
+       "32": 0.63,
+       "34": 0.78,
+       "36": 0.76,
+       "38": 0.72,
+       "40": 0.69,
+       "42": 0.66,
+       "44": 0.66,
+       "46": 0.63,
+       "48": 0.61,
+       "50": 0.6,
+       "52": 0.58,
+       "54": 0.6,
+       "56": 0.65,
+       "58": 0.59,
+       "60": 0.7,
+       "62": 0.75,
+       "64": 0.8,
+       "66": 0.78,
+       "68": 0.76,
+       "70": 0.72,
+       "72": 0.68,
+       "74": 0.68,
+       "76": 0.68
+      }
+     },
+     "2023": {
+      "dates": 3,
+      "measured": 3,
+      "compared": 3,
+      "pct_darker": 29,
+      "pct_darker_exact": 29.27,
+      "by_km_below_siphon": {
+       "-10": 1.11,
+       "-8": 1.07,
+       "-6": 1.04,
+       "-4": 1.01,
+       "-2": 1.01,
+       "0": 1.01,
+       "2": 1.0,
+       "4": 0.99,
+       "6": 1.01,
+       "8": 0.98,
+       "10": 0.98,
+       "12": 0.99,
+       "14": 1.0,
+       "16": 0.99,
+       "18": 1.01,
+       "20": 1.0,
+       "22": 0.95,
+       "24": 0.86,
+       "26": 0.87,
+       "28": 0.82,
+       "30": 0.45,
+       "32": 0.52,
+       "34": 0.74,
+       "36": 0.73,
+       "38": 0.75,
+       "40": 0.73,
+       "42": 0.7,
+       "44": 0.68,
+       "46": 0.68,
+       "48": 0.67,
+       "50": 0.68,
+       "52": 0.63,
+       "54": 0.67,
+       "56": 0.66,
+       "58": 0.64,
+       "60": 0.68,
+       "62": 0.73,
+       "64": 0.76,
+       "66": 0.77,
+       "68": 0.79,
+       "70": 0.67,
+       "72": 0.7,
+       "74": 0.67,
+       "76": 0.64
+      }
+     },
+     "2024": {
+      "dates": 4,
+      "measured": 4,
+      "compared": 4,
+      "pct_darker": 25,
+      "pct_darker_exact": 25.28,
+      "by_km_below_siphon": {
+       "-10": 1.03,
+       "-8": 0.99,
+       "-6": 1.0,
+       "-4": 1.03,
+       "-2": 1.01,
+       "0": 1.01,
+       "2": 1.0,
+       "4": 1.0,
+       "6": 1.0,
+       "8": 0.96,
+       "10": 1.01,
+       "12": 1.01,
+       "14": 1.0,
+       "16": 1.0,
+       "18": 1.0,
+       "20": 0.95,
+       "22": 0.88,
+       "24": 0.96,
+       "26": 0.84,
+       "28": 0.84,
+       "30": 0.75,
+       "32": 0.71,
+       "34": 0.81,
+       "36": 0.81,
+       "38": 0.79,
+       "40": 0.72,
+       "42": 0.75,
+       "44": 0.69,
+       "46": 0.71,
+       "48": 0.7,
+       "50": 0.69,
+       "52": 0.64,
+       "54": 0.63,
+       "56": 0.65,
+       "58": 0.61,
+       "60": 0.73,
+       "62": 0.63,
+       "64": 0.77,
+       "66": 0.75,
+       "68": 0.73,
+       "70": 0.71,
+       "72": 0.69,
+       "74": 0.69,
+       "76": 0.68
+      }
+     },
+     "2025": {
+      "dates": 4,
+      "measured": 5,
+      "compared": 4,
+      "pct_darker": 20,
+      "pct_darker_exact": 19.81,
+      "by_km_below_siphon": {
+       "-10": 1.03,
+       "-8": 1.0,
+       "-6": 1.01,
+       "-4": 1.0,
+       "-2": 1.03,
+       "0": 1.01,
+       "2": 1.0,
+       "4": 0.99,
+       "6": 1.01,
+       "8": 0.99,
+       "10": 1.0,
+       "12": 0.99,
+       "14": 1.01,
+       "16": 1.0,
+       "18": 1.01,
+       "20": 1.02,
+       "22": 0.96,
+       "24": 0.94,
+       "26": 0.88,
+       "28": 0.89,
+       "30": 0.9,
+       "32": 0.92,
+       "34": 0.88,
+       "36": 0.86,
+       "38": 0.77,
+       "40": 0.78,
+       "42": 0.77,
+       "44": 0.74,
+       "46": 0.73,
+       "48": 0.71,
+       "50": 0.73,
+       "52": 0.75,
+       "54": 0.72,
+       "56": 0.66,
+       "58": 0.55,
+       "60": 0.6,
+       "62": 0.63,
+       "64": 0.68,
+       "66": 0.65,
+       "68": 0.68,
+       "70": 0.61,
+       "72": 0.61,
+       "74": 0.68,
+       "76": 0.65
+      }
+     },
+     "2026": {
+      "dates": 2,
+      "measured": 2,
+      "compared": 2,
+      "pct_darker": 32,
+      "pct_darker_exact": 31.9,
+      "by_km_below_siphon": {
+       "-10": 1.05,
+       "-8": 1.04,
+       "-6": 1.05,
+       "-4": 1.05,
+       "-2": 1.06,
+       "0": 1.05,
+       "2": 1.02,
+       "4": 1.05,
+       "6": 1.0,
+       "8": 0.97,
+       "10": 1.0,
+       "12": 0.97,
+       "14": 0.67,
+       "16": 0.62,
+       "18": 0.75,
+       "20": 0.97,
+       "22": 0.93,
+       "24": 0.89,
+       "26": 0.83,
+       "28": 0.76,
+       "30": 0.69,
+       "32": 0.73,
+       "34": 0.77,
+       "36": 0.81,
+       "38": 0.71,
+       "40": 0.72,
+       "42": 0.67,
+       "44": 0.59,
+       "46": 0.6,
+       "48": 0.55,
+       "50": 0.57,
+       "52": 0.55,
+       "54": 0.55,
+       "56": 0.54,
+       "58": 0.52,
+       "60": 0.6,
+       "62": 0.5,
+       "64": 0.62,
+       "66": 0.6,
+       "68": 0.67,
+       "70": 0.54,
+       "72": 0.68,
+       "74": 0.55,
+       "76": 0.53
+      }
+     }
+    },
+    "spring": {
+     "2018": {
+      "dates": 1,
+      "measured": 1,
+      "compared": 0,
+      "pct_darker": null,
+      "by_km_below_siphon": {
+       "-10": 0.96,
+       "-8": 0.83,
+       "-6": 0.89,
+       "-4": 0.97,
+       "-2": 0.88,
+       "0": 0.86,
+       "2": 0.92,
+       "4": 0.99,
+       "6": 0.98,
+       "8": 1.0,
+       "10": 1.17,
+       "12": 1.15,
+       "14": 1.13,
+       "16": 0.99,
+       "18": 1.09,
+       "20": 1.13,
+       "38": 1.85,
+       "46": 0.81,
+       "54": 1.56,
+       "60": 0.52
+      }
+     },
+     "2019": {
+      "dates": 2,
+      "measured": 2,
+      "compared": 2,
+      "pct_darker": 9,
+      "by_km_below_siphon": {
+       "-10": 1.04,
+       "-8": 1.02,
+       "-6": 1.02,
+       "-4": 1.01,
+       "-2": 1.03,
+       "0": 1.02,
+       "2": 1.02,
+       "4": 1.03,
+       "6": 1.0,
+       "8": 0.99,
+       "10": 1.0,
+       "12": 1.0,
+       "14": 0.99,
+       "16": 1.0,
+       "18": 0.98,
+       "20": 0.99,
+       "22": 1.0,
+       "24": 0.98,
+       "26": 0.9,
+       "28": 0.93,
+       "30": 0.94,
+       "32": 0.93,
+       "34": 0.89,
+       "36": 0.91,
+       "38": 0.91,
+       "40": 0.91,
+       "42": 0.92,
+       "44": 0.91,
+       "46": 0.91,
+       "48": 0.89,
+       "50": 0.89,
+       "52": 0.88,
+       "54": 0.87,
+       "56": 0.88,
+       "58": 0.88,
+       "60": 0.88,
+       "62": 0.8,
+       "64": 0.85,
+       "66": 0.86,
+       "68": 0.82,
+       "70": 0.82,
+       "72": 0.82,
+       "74": 0.84,
+       "76": 0.83
+      }
+     },
+     "2020": {
+      "dates": 2,
+      "measured": 2,
+      "compared": 2,
+      "pct_darker": 31,
+      "by_km_below_siphon": {
+       "-10": 0.97,
+       "-8": 0.97,
+       "-6": 0.98,
+       "-4": 0.99,
+       "-2": 0.99,
+       "0": 0.98,
+       "2": 1.0,
+       "4": 1.0,
+       "6": 1.0,
+       "8": 1.0,
+       "10": 1.0,
+       "12": 1.01,
+       "14": 1.0,
+       "16": 1.0,
+       "18": 1.01,
+       "20": 1.03,
+       "22": 0.97,
+       "24": 0.85,
+       "26": 0.87,
+       "28": 0.75,
+       "30": 0.8,
+       "32": 0.76,
+       "34": 0.75,
+       "36": 0.73,
+       "38": 0.69,
+       "40": 0.7,
+       "42": 0.67,
+       "44": 0.67,
+       "46": 0.67,
+       "48": 0.65,
+       "50": 0.64,
+       "52": 0.65,
+       "54": 0.69,
+       "56": 0.63,
+       "58": 0.62,
+       "60": 0.73,
+       "62": 0.7,
+       "64": 0.69,
+       "66": 0.77,
+       "68": 0.74,
+       "70": 0.75,
+       "72": 0.74,
+       "74": 0.74,
+       "76": 0.72
+      }
+     },
+     "2021": {
+      "dates": 3,
+      "measured": 4,
+      "compared": 3,
+      "pct_darker": 30,
+      "by_km_below_siphon": {
+       "-10": 0.93,
+       "-8": 0.93,
+       "-6": 0.94,
+       "-4": 0.96,
+       "-2": 0.93,
+       "0": 0.95,
+       "2": 0.98,
+       "4": 1.01,
+       "6": 0.99,
+       "8": 0.99,
+       "10": 1.01,
+       "12": 1.02,
+       "14": 1.02,
+       "16": 1.05,
+       "18": 1.01,
+       "20": 1.05,
+       "22": 0.96,
+       "24": 0.87,
+       "26": 0.8,
+       "28": 0.73,
+       "30": 0.78,
+       "32": 0.74,
+       "34": 0.71,
+       "36": 0.72,
+       "38": 0.7,
+       "40": 0.69,
+       "42": 0.65,
+       "44": 0.66,
+       "46": 0.65,
+       "48": 0.63,
+       "50": 0.62,
+       "52": 0.59,
+       "54": 0.57,
+       "56": 0.59,
+       "58": 0.59,
+       "60": 0.55,
+       "62": 0.53,
+       "64": 0.52,
+       "66": 0.63,
+       "68": 0.57,
+       "70": 0.61,
+       "72": 0.61,
+       "74": 0.61,
+       "76": 0.62
+      }
+     },
+     "2022": {
+      "dates": 5,
+      "measured": 5,
+      "compared": 4,
+      "pct_darker": 18,
+      "by_km_below_siphon": {
+       "-10": 1.11,
+       "-8": 1.06,
+       "-6": 0.96,
+       "-4": 0.93,
+       "-2": 0.9,
+       "0": 0.96,
+       "2": 0.93,
+       "4": 1.0,
+       "6": 0.99,
+       "8": 0.98,
+       "10": 1.0,
+       "12": 1.02,
+       "14": 1.07,
+       "16": 1.03,
+       "18": 1.06,
+       "20": 1.11,
+       "22": 1.07,
+       "24": 0.96,
+       "26": 0.94,
+       "28": 0.89,
+       "30": 0.95,
+       "32": 0.89,
+       "34": 0.99,
+       "36": 0.8,
+       "38": 0.74,
+       "40": 0.79,
+       "42": 0.76,
+       "44": 0.6,
+       "46": 1.05,
+       "48": 0.77,
+       "50": 0.79,
+       "52": 0.77,
+       "54": 0.74,
+       "56": 0.68,
+       "58": 0.71,
+       "60": 1.14,
+       "62": 0.91,
+       "64": 0.89,
+       "66": 0.91,
+       "68": 0.84,
+       "70": 0.92,
+       "72": 0.81,
+       "74": 0.61,
+       "76": 0.66
+      }
+     },
+     "2023": {
+      "dates": 4,
+      "measured": 4,
+      "compared": 4,
+      "pct_darker": 16,
+      "by_km_below_siphon": {
+       "-10": 1.03,
+       "-8": 0.98,
+       "-6": 0.95,
+       "-4": 0.96,
+       "-2": 0.95,
+       "0": 1.02,
+       "2": 0.93,
+       "4": 0.94,
+       "6": 0.88,
+       "8": 0.88,
+       "10": 0.95,
+       "12": 1.29,
+       "14": 1.27,
+       "16": 1.24,
+       "18": 1.19,
+       "20": 1.24,
+       "22": 1.25,
+       "24": 0.96,
+       "26": 0.99,
+       "28": 0.87,
+       "30": 0.65,
+       "32": 0.86,
+       "34": 0.6,
+       "36": 0.85,
+       "38": 0.84,
+       "40": 0.84,
+       "42": 0.81,
+       "44": 0.82,
+       "46": 0.8,
+       "48": 0.82,
+       "50": 0.78,
+       "52": 0.77,
+       "54": 0.79,
+       "56": 0.75,
+       "58": 0.72,
+       "60": 0.94,
+       "62": 0.78,
+       "64": 0.72,
+       "66": 0.78,
+       "68": 0.71,
+       "70": 0.73,
+       "72": 0.69,
+       "74": 0.69,
+       "76": 0.65
+      }
+     },
+     "2024": {
+      "dates": 3,
+      "measured": 3,
+      "compared": 3,
+      "pct_darker": 45,
+      "by_km_below_siphon": {
+       "-10": 0.97,
+       "-8": 0.96,
+       "-6": 0.94,
+       "-4": 1.0,
+       "-2": 1.0,
+       "0": 1.05,
+       "2": 1.01,
+       "4": 1.04,
+       "6": 0.99,
+       "8": 0.97,
+       "10": 0.99,
+       "12": 1.04,
+       "14": 1.01,
+       "16": 0.99,
+       "18": 0.99,
+       "20": 0.99,
+       "22": 0.96,
+       "24": 0.65,
+       "26": 0.71,
+       "28": 0.58,
+       "30": 0.41,
+       "32": 0.49,
+       "34": 0.56,
+       "36": 0.55,
+       "38": 0.57,
+       "40": 0.51,
+       "42": 0.52,
+       "44": 0.53,
+       "46": 0.55,
+       "48": 0.56,
+       "50": 0.55,
+       "52": 0.54,
+       "54": 0.5,
+       "56": 0.52,
+       "58": 0.51,
+       "60": 0.7,
+       "62": 0.83,
+       "64": 0.8,
+       "66": 0.79,
+       "68": 0.77,
+       "70": 0.58,
+       "72": 0.53,
+       "74": 0.5,
+       "76": 0.5
+      }
+     },
+     "2025": {
+      "dates": 3,
+      "measured": 4,
+      "compared": 2,
+      "pct_darker": 52,
+      "by_km_below_siphon": {
+       "-10": 1.09,
+       "-8": 1.06,
+       "-6": 1.01,
+       "-4": 1.01,
+       "-2": 1.0,
+       "0": 1.0,
+       "2": 1.02,
+       "4": 1.03,
+       "6": 1.02,
+       "8": 0.97,
+       "10": 0.98,
+       "12": 0.99,
+       "14": 0.95,
+       "16": 0.97,
+       "18": 1.03,
+       "20": 0.94,
+       "22": 0.93,
+       "24": 0.93,
+       "26": 0.64,
+       "28": 0.67,
+       "30": 0.65,
+       "32": 0.49,
+       "34": 0.51,
+       "36": 0.48,
+       "38": 0.49,
+       "40": 0.49,
+       "42": 0.48,
+       "44": 0.44,
+       "46": 0.45,
+       "48": 0.48,
+       "50": 0.36,
+       "52": 0.36,
+       "54": 0.38,
+       "56": 0.38,
+       "58": 0.38,
+       "60": 0.42,
+       "62": 0.54,
+       "64": 0.26,
+       "66": 0.27,
+       "68": 0.29,
+       "70": 0.25,
+       "72": 0.24,
+       "74": 0.29,
+       "76": 0.26
+      }
+     },
+     "2026": {
+      "dates": 0,
+      "measured": 0,
+      "compared": 0,
+      "pct_darker": null,
+      "by_km_below_siphon": {}
+     }
+    },
+    "october_least_pct": 20,
+    "october_least_year": 2025,
+    "october_most_pct": 32,
+    "october_most_year": 2022,
+    "first_three_years_mean_pct": 26,
+    "last_three_years_mean_pct": 26,
+    "october_trend": {
+     "points": 9,
+     "slope_points_a_year": 0.17,
+     "low": -1.22,
+     "high": 1.56,
+     "fall_at_most": 1.2,
+     "rise_at_most": 1.6,
+     "includes_zero": true
+    },
+    "october_trend_date_by_date": {
+     "points": 29,
+     "slope_points_a_year": -0.22,
+     "low": -2.04,
+     "high": 1.61,
+     "fall_at_most": 2.0,
+     "rise_at_most": 1.6,
+     "includes_zero": true
+    },
+    "spring_least_pct": 9,
+    "spring_most_pct": 52,
+    "spring_years_with_a_figure": 7,
+    "spring_years_with_one_date_or_none": 2
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it",
+   "method": "For each year, the median across that year's October dates of the date-by-date figure in 'comparison'. 'dates' is the number of dates that contribute to the strip chart (the stretch above the city could be measured), 'compared' the number with both stretches, 'measured' all dates measured that year. Each cell is the median across dates of that date's mean over 2 km of river, relative to its upstream median. The trend is an ordinary least-squares line through the nine yearly October figures (unrounded), with a 95 percent interval from Student's t; 'date by date' is the same line through the individual October dates. An interval that includes zero means no trend can be told apart from none; it does not show that nothing changed.",
+   "status": "computed from the measurements"
+  },
+  {
+   "id": "watch",
+   "claim": "The measure to follow as the measures take effect, and the trigger for reporting a change",
+   "value": {
+    "baseline_pct": 26,
+    "low_pct": 20,
+    "high_pct": 32,
+    "years_running": 2,
+    "years_in_baseline": 9
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it",
+   "method": "The baseline is the October median in 'comparison'; low and high are the smallest and largest yearly October figures in 'years'. The rule (a yearly October figure outside that range for two years running) is ours, set before any new data; it is a plain threshold, not a statistical test, and with yearly figures built from two to four dates it can be met by chance.",
+   "status": "rule set by HamariHawa"
+  },
+  {
+   "id": "spots",
+   "claim": "Two places where the water is repeatedly darker than the water just above and below",
+   "value": {
+    "first_km_below_siphon": 24,
+    "first_dates": 21,
+    "first_of": 51,
+    "second_km_below_siphon": 32,
+    "second_dates": 20,
+    "second_of": 49,
+    "threshold_pct": 12
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it",
+   "method": "A 500 m bin counts as a dark spot on a date if its red reflectance is at least 12 percent below the median of the six bins from 1 to 2 km either side. These two bins are the only ones between the siphon and the motorway bridge that do so on at least 40 percent of dates.",
+   "status": "computed from the measurements; what causes them is not identified"
+  },
+  {
+   "id": "control",
+   "claim": "Check that the fall is not made by the join between two image tiles",
+   "value": {
+    "join_km_below_siphon": 24,
+    "dates_checked": 4,
+    "dates": [
+     {
+      "date": "2019-10-15",
+      "fall_pct_southern_tile": 22,
+      "fall_pct_northern_tile": 21
+     },
+     {
+      "date": "2022-10-19",
+      "fall_pct_southern_tile": 29,
+      "fall_pct_northern_tile": 29
+     },
+     {
+      "date": "2024-03-12",
+      "fall_pct_southern_tile": 39,
+      "fall_pct_northern_tile": 38
+     },
+     {
+      "date": "2026-10-18",
+      "fall_pct_southern_tile": 28,
+      "fall_pct_northern_tile": 22
+     }
+    ],
+    "tile_overlap_km": 10
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it; the re-measured profiles are in inputs/profiles_northern_tile/",
+   "method": "The river crosses from tile 43SDR into tile 43RDQ close to where the fall begins. The two tiles overlap by about 10 km, so four dates were measured again taking the northern tile wherever it has data, which moves the join about 10 km downstream. The fall is the drop in median red reflectance from the 4 km above the join to the 8 km starting 4 km below it, measured both ways.",
+   "status": "computed from the measurements"
+  },
+  {
+   "id": "mask_checks",
+   "claim": "The same comparison with the water picked out in stricter ways",
+   "value": {
+    "standard": {
+     "within_m_of_centre_line": 700,
+     "dates_compared": 49,
+     "darker_below": 47,
+     "october_median_pct_darker": 26,
+     "spring_median_pct_darker": 30,
+     "onset_km_below_siphon": 23
+    },
+    "scene_rule": {
+     "dates_with_two_versions_of_a_scene": 15,
+     "first_run_dates_compared": 48,
+     "first_run_darker_below": 47,
+     "dates_gained": [
+      "2025-10-13"
+     ],
+     "dates_gained_count": 1,
+     "dates_lost": [],
+     "gained_date": "2025-10-13",
+     "gained_date_pct_darker": -0.1,
+     "largest_change_on_other_dates_points": 0.0,
+     "largest_change_on_other_dates_points_exact": 0.04
+    },
+    "within_300_m": {
+     "dates_measured": 55,
+     "dates_compared": 49,
+     "darker_below": 46,
+     "october_dates": 29,
+     "spring_dates": 20,
+     "october_median_pct_darker": 25,
+     "spring_median_pct_darker": 30,
+     "onset_km_below_siphon": 23
+    },
+    "core_water_only": {
+     "dates_measured": 55,
+     "dates_compared": 47,
+     "darker_below": 44,
+     "october_dates": 29,
+     "spring_dates": 18,
+     "october_median_pct_darker": 26,
+     "spring_median_pct_darker": 36,
+     "onset_km_below_siphon": 23
+    },
+    "narrow_buffer_m": 300,
+    "core_m_from_any_edge": 20,
+    "side_channel_m_from_centre_line": 629
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it; profiles in inputs/profiles_checks/ (measure_ravi.py --checks, run 23 Nov 2026); the first run of 21 Nov 2026 is kept in inputs/profiles_first_run/",
+   "method": "Every measured date was read again on 23 Nov 2026 and measured three ways from the same read. The standard method, with the scene for each tile chosen by the fixed rule in scenes.json: these replaced the first run's profiles and are what the report uses. The first run (21 Nov 2026) took whichever scene the catalogue returned first, which matters only on dates with two versions of a scene; 'scene_rule' records what changed. 'within_300_m': water pixels within 300 m of the centre line instead of 700 m, which leaves out side channels, ponds and outer braids, including the dark side channel at the northern edge. 'core_water_only': instead of the 40 m width test along rows and columns, a pixel is used only if every pixel within 20 m of it in any direction is water, which keeps bank pixels out whichever way the river runs. The same stretches and thresholds are used in all of them.",
+   "status": "computed from the measurements"
+  },
+  {
+   "id": "landmarks",
+   "claim": "Fixed points along the river",
+   "value": {
+    "ravi_siphon_line_km": 55.8,
+    "points": {
+     "Old Ravi Bridge": {
+      "lon": 74.3015,
+      "lat": 31.6116,
+      "km_below_siphon": 26,
+      "line_km": 82.0,
+      "metres_from_centre_line": 22,
+      "kind": "bridge, OpenStreetMap"
+     },
+     "Saggian bypass bridge": {
+      "lon": 74.2692,
+      "lat": 31.5783,
+      "km_below_siphon": 31,
+      "line_km": 87.1,
+      "metres_from_centre_line": 163,
+      "kind": "bridge, OpenStreetMap"
+     },
+     "M-2 motorway bridge": {
+      "lon": 74.2462,
+      "lat": 31.5537,
+      "km_below_siphon": 35,
+      "line_km": 90.7,
+      "metres_from_centre_line": 145,
+      "kind": "bridge, OpenStreetMap"
+     },
+     "Dark side channel": {
+      "lon": 74.314,
+      "lat": 31.6245,
+      "km_below_siphon": 24,
+      "line_km": 80.1,
+      "metres_from_centre_line": 629,
+      "kind": "a dark channel joining from the city side, read off the true-colour image of 18 Oct 2026; position to about 200 m"
+     }
+    }
+   },
+   "source": "OpenStreetMap contributors (bridges, the river's centre line), downloaded 21 Nov 2026",
+   "method": "The nearest point of the centre line to each bridge. The Ravi Siphon, where the Bambawali-Ravi-Bedian canal passes under the river, is the usual starting point for distances in published studies of this reach.",
+   "status": "computed from the map"
+  },
+  {
+   "id": "closeups",
+   "claim": "Two close-ups of the river from the same satellite image, above and below the city",
+   "value": {
+    "date": "2026-10-18",
+    "width_km": 4,
+    "above": {
+     "km_below_siphon": 8,
+     "line_km": 64.0,
+     "lon": 74.405256,
+     "lat": 31.68605,
+     "red_reflectance": 0.126
+    },
+    "below": {
+     "km_below_siphon": 48,
+     "line_km": 104.0,
+     "lon": 74.173041,
+     "lat": 31.466026,
+     "red_reflectance": 0.074
+    },
+    "pct_darker_below": 41,
+    "below_km_past_m2_bridge": 13
+   },
+   "source": "Copernicus Sentinel-2 Level-2A surface reflectance, tiles 43RDQ and 43SDR, read from Microsoft Planetary Computer on 23 Nov 2026 by measure_ravi.py; one file per date in inputs/profiles/, with the scene ids used beside it; image ravi-above-below.jpg, true colour (bands 4, 3, 2)",
+   "method": "Both squares are cut from the image of 18 October 2026, 4 km across, centred on the river's centre line, with one colour scaling for the whole image, so the two can be compared. The reflectance is the median of the measured 500 m bins inside each square on that date.",
+   "status": "computed from the measurements"
+  },
+  {
+   "id": "mouths",
+   "claim": "Where a mapped open drain reaches the river",
+   "value": {
+    "count": 5,
+    "km_below_siphon": [
+     25,
+     34,
+     35,
+     47,
+     59
+    ],
+    "points": [
+     {
+      "km_below_siphon": 25,
+      "line_km": 80.8,
+      "lon": 74.309866,
+      "lat": 31.616313,
+      "osm_way": 27621262
+     },
+     {
+      "km_below_siphon": 34,
+      "line_km": 89.7,
+      "lon": 74.250665,
+      "lat": 31.560547,
+      "osm_way": 233583974
+     },
+     {
+      "km_below_siphon": 35,
+      "line_km": 91.0,
+      "lon": 74.243642,
+      "lat": 31.551108,
+      "osm_way": 705727473
+     },
+     {
+      "km_below_siphon": 47,
+      "line_km": 103.0,
+      "lon": 74.179666,
+      "lat": 31.472733,
+      "osm_way": 25036178
+     },
+     {
+      "km_below_siphon": 59,
+      "line_km": 114.4,
+      "lon": 74.099962,
+      "lat": 31.407202,
+      "osm_way": 10116029
+     }
+    ],
+    "first": 25,
+    "second": 34,
+    "third": 35,
+    "fourth": 47,
+    "last": 59,
+    "first_km_below_the_onset": 2,
+    "side_channel_km_below_the_onset": 1
+   },
+   "source": "OpenStreetMap contributors (inputs/osm_waterways.json), downloaded 21 Nov 2026",
+   "method": "Ends of the mapped waterways tagged as drains or nalas (the set in 'drain_map') that lie within 50 m of the river's centre line. Whether each carries sewage is not established from the map. OpenStreetMap does not name these channels, and outfalls that reach the river through pumping stations and short channels are not all mapped, so this is not a list of the eight published outfalls.",
+   "status": "computed from the map; names not established"
+  },
+  {
+   "id": "junction",
+   "claim": "Where the Mehmood Booti drain reaches the river, and what a published study measured in it",
+   "value": {
+    "lon": 74.3347,
+    "lat": 31.6264,
+    "km_below_siphon": 22.8,
+    "km_below_siphon_rounded": 23,
+    "metres_from_centre_line": 660,
+    "onset_km_below_siphon": 23,
+    "image_dates": [
+     "2022-03-13",
+     "2026-10-18"
+    ],
+    "image": "ravi-onset-2022-03-13.jpg",
+    "image_date": "2022-03-13",
+    "mapped_drain_ends_km_from_junction": 1.0,
+    "mapped_drain_osm_way": 316890931,
+    "study": {
+     "sampled_from": "2020-06-01",
+     "sampled_to": "2020-06-05",
+     "samples": 20,
+     "sites": 2,
+     "site_2_lon": 74.3344,
+     "site_2_lat": 31.6194,
+     "site_2_km_from_junction": 0.8,
+     "dissolved_oxygen_mg_l": 0.29,
+     "bod_mg_l": [
+      146,
+      432
+     ],
+     "cod_mg_l": [
+      210,
+      705
+     ],
+     "suspended_solids_mg_l": [
+      473,
+      2675
+     ],
+     "published": 2025
+    },
+    "published_flow_cusecs": 20.87,
+    "osm_chimney_nodes_beside_the_drain": [
+     5556685222,
+     5556620025
+    ],
+    "osm_steel_works_way": 761672815,
+    "osm_steel_works_km_from_junction": 2.1
+   },
+   "source": [
+    "Copernicus Sentinel-2 Level-2A, tile 43SDR, 10 m true colour, 13 March 2022 and 18 October 2026 (make_onset_image.py)",
+    "OpenStreetMap contributors (inputs/osm_waterways.json, downloaded 21 Nov 2026; inputs/osm_onset_features.json, industrial sites, chimneys and place names around the junction, queried from the Overpass API on 23 Nov 2026)",
+    "https://journal.pecongress.org.pk/wp-content/uploads/2025/12/03-Habib-ur-Rehman.pdf (Habib Ur Rehman, Faakhar Raza and Shazia Ghaffar, 'Physico-chemical and microbiological water quality assessment of Mehmood Booti drain in Lahore city', Pakistan Engineering Congress Journal, January to June 2025)"
+   ],
+   "method": "The junction is where a thin black channel coming from the east meets the river in the two images. The match between it and the start of the fall is a match in place and does not establish that the channel causes the fall; its position was read by eye from the images and is good to about 100 m. It is given as a distance below the siphon by taking the nearest point of the centre line. OpenStreetMap draws a drain from the Mehmood Booti side (the way given) that stops short of the river; the distance is from its mapped end to the junction. The study sampled the Mehmood Booti drain at two sites twice a day for five days; its second site, 'near the Rani Chowk of Village Bhamma', is given at 31 deg 37 min 10 s north, 74 deg 20 min 04 s east, which falls on the black channel in the images. That the channel in the images is the drain the study sampled rests on that position. The ranges are the study's, for both sites together; it calls the area 'densely industrialized' and reports levels 'far above the acceptable standards'. It measured no metals. OpenStreetMap (queried 23 Nov 2026) marks two chimneys at 74.3609 E, 31.6097 N, beside the mapped drain, and an industrial site named as a steel works at 74.332 E, 31.6074 N; what either discharges is not established.",
+   "status": "position read from the images; study as published"
+  },
+  {
+   "id": "industry_sources",
+   "claim": "Industrial discharge to the Ravi at Lahore, as published",
+   "value": {
+    "factories_identified_2012": 217,
+    "factories_identified_year": 2012,
+    "clusters_large": 2,
+    "clusters_small": 11,
+    "units_in_clusters": 1213,
+    "clusters_year": 2021,
+    "sediment_pct_higher_below_city": {
+     "cadmium": 917,
+     "chromium": 461,
+     "nickel": 853,
+     "lead": 179,
+     "mercury": 1699
+    },
+    "sediment_year": 2013,
+    "sediment_sites": 4,
+    "pollution_index_pct_highly_contaminated": {
+     "river_ravi": 56,
+     "drains": 100,
+     "canals": 72
+    },
+    "pollution_index_year": 2024
+   },
+   "source": [
+    "https://nation.com.pk/19-May-2012/217-factories-polluting-ravi-lhc-told (The Nation, 19 May 2012: the provincial environment department told the Lahore High Court it had identified 217 industrial units discharging waste into the Ravi 'during last week' and had issued them notices; survey teams were still identifying more)",
+    "https://tribune.com.pk/story/381042/river-pollution-lahore-high-court-asks-for-detail-of-industries-polluting-the-ravi (The Express Tribune, 18 May 2012: 'Finding differences in reports submitted' by the environment department and the water agency about industries dumping pollutants in the Ravi, the court's green bench ordered them to submit revised lists)",
+    "https://pecongress.org.pk/wp-content/uploads/2025/04/Paper-No.-174.pdf (Ahmad, Mal, Shabbir and Mumtaz, International Waterlogging and Salinity Research Institute, 'Impact assessment of domestic and industrial effluent on ground water quality surrounding Lahore', Pakistan Engineering Congress, World Water Day 2021, paper 174: 'two large and 11 small industries clusters having 1213 units')",
+    "https://link.springer.com/article/10.1007/s10661-013-3284-2 (Shakir, Qazi and Chaudhry, 'Monitoring the impact of urban effluents on mineral contents of water and sediments of four sites of the river Ravi, Lahore', Environmental Monitoring and Assessment 185, 2013; abstract)",
+    "https://link.springer.com/article/10.1186/s12302-023-00824-2 (Iqbal, Siddique, Qadir, Ahmad, Liess and Shahid, 'Human health and ecology at risk: a case study of metal pollution in Lahore, Pakistan', Environmental Sciences Europe 36, 2024; abstract)"
+   ],
+   "method": "Quoted from the sources; none of it is ours. The 217 is one report from one week of May 2012 while the survey was still going on, and the court found that the department's list and the water agency's differed; it is not a settled count. The 2013 study sampled water and riverbed sediment at the Ravi Siphon, above the city, and at Shahdara, Sundar and Balloki below it; the percentages are how much higher the mean concentration in sediment was at Sundar than at the siphon in the low-flow season, from the abstract. The 2024 study's figures are the shares of its samples from each kind of water body that its pollution index classed as highly contaminated with metals, from the abstract. The same 2021 paper gives a daily volume of industrial waste that is larger than the published totals for all of the city's wastewater, so we do not use it.",
+   "status": "as published; not independently checked"
+  },
+  {
+   "id": "official_monitoring",
+   "claim": "What the provincial government reports it is doing to measure and control discharge to the river",
+   "value": {
+    "stations": 15,
+    "parameters": 14,
+    "entry_points_in_lahore": 10,
+    "stations_named_on_the_ravi_at_lahore": 2,
+    "hudiara_sampling_points": 56,
+    "treatment_plants_at_least": 8,
+    "reported": "2026-10-24",
+    "data_not_public_reported": "2026-10-11",
+    "mahmood_booti_plant_assessment": "September 2021",
+    "mahmood_booti_plant_acres": 280
+   },
+   "source": [
+    "https://tribune.com.pk/story/2636585/punjab-envisages-water-quality-index (The Express Tribune, 24 Oct 2026, 'Punjab envisages Water Quality Index': 15 automated stations across the province's canals, rivers and other water bodies, analysing 14 parameters every hour, including stations 'near the Ravi Siphon and the river's confluence with Hudiara drain'; a water quality index in preparation; samples from 56 locations along the Hudiara drain to apportion its pollution between local industry, urban discharge and water entering from across the border; 'specialised water squads' to monitor industrial discharges; untreated sewage and contaminated water entering the river at 'around 10 locations' in Lahore; 'at least eight' treatment plants)",
+    "https://tribune.com.pk/story/2634269/water-pollution-monitoring-lacks-public-transparency (The Express Tribune, 11 Oct 2026, 'Water pollution monitoring lacks public transparency': the 15 stations send data to a central control room every hour, 'the data remains out of public reach')",
+    "https://epd.punjab.gov.pk/system/files/WWTP-Mehmood-Booti-Final.pdf (Ravi Urban Development Authority, 'Wastewater treatment plant at Mahmood Booti/Shadbagh, Lahore: environmental impact assessment study', September 2021: a plant on 280 acres at Shadbagh, the site surrounded by the settlements of Jhuggian Jodha, Bhamma and Khokhar Pind)"
+   ],
+   "method": "Quoted from the sources. The 15 stations are spread over the province; the article names two places on the Ravi at Lahore, near the Ravi Siphon and at the confluence with the Hudiara drain. We have not seen data from the stations; the 11 Oct 2026 report says it was not public. We did not establish the present status of the Mahmood Booti/Shadbagh plant.",
+   "status": "as reported; not independently checked"
+  },
+  {
+   "id": "drain_map",
+   "claim": "Waterways tagged as drains or nalas in OpenStreetMap around Lahore, as drawn on the map",
+   "value": {
+    "drain_km": 292,
+    "km_inside_the_map_frame": 212,
+    "duplicate_km_removed": 1.2,
+    "named_km": 175,
+    "unnamed_km": 118,
+    "ways": 111,
+    "window_w_s_e_n": [
+     74.05,
+     31.3,
+     74.55,
+     31.75
+    ],
+    "map_frame": {
+     "west": 74.1,
+     "south": 31.375,
+     "east": 74.5,
+     "north": 31.7
+    }
+   },
+   "source": "OpenStreetMap contributors: every waterway in the window tagged as a drain, plus named nalas, not in a culvert or covered; waterways tagged as irrigation canals left out (inputs/osm_waterways.json; the list of ways used is in inputs/population_near_drains.json)",
+   "method": "Lengths summed along the mapped lines after removing segments that appear twice. This is everything so tagged inside the window, not only channels that reach the Ravi, and the tag does not say what a channel carries: some on the outskirts may carry farm or storm water. The map is incomplete, mainly in the north of the city.",
+   "status": "computed from the map"
+  },
+  {
+   "id": "drain_flows",
+   "claim": "Discharge of the eight drains entering the Ravi at Lahore, as published",
+   "value": {
+    "drains": [
+     {
+      "name": "Mehmood Booti",
+      "cusecs": 21,
+      "cubic_metres_per_second": 0.6,
+      "pct_of_the_eight": 1
+     },
+     {
+      "name": "Shad Bagh",
+      "cusecs": 139,
+      "cubic_metres_per_second": 3.9,
+      "pct_of_the_eight": 8
+     },
+     {
+      "name": "Farrukhabad",
+      "cusecs": 219,
+      "cubic_metres_per_second": 6.2,
+      "pct_of_the_eight": 13
+     },
+     {
+      "name": "Budha Ravi",
+      "cusecs": 42,
+      "cubic_metres_per_second": 1.2,
+      "pct_of_the_eight": 3
+     },
+     {
+      "name": "Main Outfall",
+      "cusecs": 193,
+      "cubic_metres_per_second": 5.5,
+      "pct_of_the_eight": 12
+     },
+     {
+      "name": "Gulshan-e-Ravi",
+      "cusecs": 247,
+      "cubic_metres_per_second": 7.0,
+      "pct_of_the_eight": 15
+     },
+     {
+      "name": "Babu Sabu",
+      "cusecs": 271,
+      "cubic_metres_per_second": 7.7,
+      "pct_of_the_eight": 16
+     },
+     {
+      "name": "Hudiara",
+      "cusecs": 536,
+      "cubic_metres_per_second": 15.2,
+      "pct_of_the_eight": 32
+     }
+    ],
+    "sum_cusecs": 1667,
+    "sum_of_the_rounded_rows_cusecs": 1668,
+    "sum_cubic_metres_per_second": 47,
+    "count": 8,
+    "paper_total_2006_cusecs": 990,
+    "paper_total_now_cusecs": 3304,
+    "largest": "Hudiara",
+    "largest_pct": 32
+   },
+   "source": "https://pecongress.org.pk/document/environment-threats-to-groundwater-2/ (Hassan, Hassan and Akhtar, Irrigation Research Institute, Government of the Punjab, 'Environment Threats to Groundwater in Lahore Area', Pakistan Engineering Congress; Table 2)",
+   "method": "Copied from the paper's Table 2 and rounded; listed in the order the drains meet the river, upstream first. The paper gives no date for the discharge column (its water-quality columns are May 2011 and March 2012). The same paper says the city's discharge to the river was about 990 cusecs in 2006 and 'now has crossed to 3,304 cusecs'; its own table sums to about half of that, and it does not explain the difference.",
+   "status": "as published; not independently checked"
+  },
+  {
+   "id": "treatment",
+   "claim": "Sewage treatment in Lahore, as reported",
+   "value": {
+    "untreated_mgd": 640,
+    "untreated_million_litres_a_day": 2910,
+    "untreated_mgd_low": 540,
+    "untreated_million_litres_a_day_low": 2450,
+    "plants_planned": 6,
+    "phase_one_pct_of_untreated": 14,
+    "phase_one_pct_of_untreated_low_total": 16,
+    "babu_sabu_phase_one_mgd": 88,
+    "babu_sabu_ultimate_mgd": 198,
+    "babu_sabu_cost_billion_rupees": 56,
+    "babu_sabu_cost_billion_rupees_2025": 50.2,
+    "provincial_approval": "2025-08-13",
+    "federal_approval": "2026-08-21",
+    "launch_within_months_of_approval": 6,
+    "french_agency_share_pct": 74,
+    "babu_sabu_land_acquired": "1992-93",
+    "babu_sabu_preconstruction_months": 12,
+    "babu_sabu_construction_months": 42,
+    "aiib_million_usd": 160,
+    "aiib_approved": "2025-10-09",
+    "trunk_sewer_km": 32.3,
+    "drains_freed_km": 9,
+    "hudiara_societies_with_primary_treatment": 32,
+    "hudiara_societies_registered": 49,
+    "hudiara_industries_with_plants": 18,
+    "disposal_stations_central_zone": 6,
+    "disposal_capacity_cusecs": 1270,
+    "esia_pages": [
+     23,
+     24,
+     58
+    ]
+   },
+   "source": [
+    "https://www.dawn.com/news/1948317 (Dawn, 12 Oct 2025: 'Lahore currently lacks a treatment facility'; the river receives 'approximately 640 million gallons per day (MGD) of untreated wastewater'; six treatment plants planned)",
+    "https://www.dawn.com/news/1931168 (Dawn, 16 Aug 2025: Babu Sabu plant approved by the provincial development working party on 13 Aug 2025, to give the city 'its first large-scale wastewater treatment facility'; 88 MGD in phase one, 198 MGD ultimately, Rs50.2bn)",
+    "https://www.dawn.com/news/2024473 (Dawn, 22 Aug 2026, 'Largest wastewater treatment plant gets Centre's nod': the Executive Committee of the National Economic Council approved Rs56bn for the Babu Sabu plant on 21 Aug 2026, 'paving the way for its launch within the next six months after completion of the bidding process'; 74 percent of the funds from the French development agency; 12 months of pre-construction and 42 of construction)",
+    "https://nation.com.pk/23-Aug-2026/ecnec-approves-rs-56b-babu-sabu-wastewater-treatment-plant-project (The Nation, 23 Aug 2026: the same approval; 88 MGD; six plants needed in all)",
+    "https://www.dawn.com/news/1975517 (Dawn, 25 Feb 2026, 'Govt mulls sewage treatment plants on Hudiara Drain': 'out of 49 housing societies registered with the LDA, primary treatment plants are operational in 32 societies'; 'treatment plants in 18 industries of the Packages Cluster are now operational'; plants are planned at points along the drain)",
+    "https://www.aiib.org/en/projects/details/2025/approved/Pakistan-Lahore-Water-and-Wastewater-Management-Project.html (AIIB project page: USD 160 million approved 9 Oct 2025; three trunk sewers of about 32.3 km; 'nearly 9 km of local surface drains' to be freed from wastewater; the Babu Sabu plant is to be built by the water agency with French development agency funding)",
+    "https://www.aiib.org/en/projects/details/2025/_download/Pakistan/Environmental-and-Social-Impact-Assessment-ESIA.pdf (updated environmental and social impact assessment for the sewer from Larech Colony to Gulshan-e-Ravi: Table 3-2, six outfall disposal stations in the central zone with 1,270 cusecs of pumps, PDF page 58; five disposal stations pump sewage into the river and others into storm water drains that end in the river, PDF page 23; 'An estimated 540 MGD (1000 Cusec) of untreated domestic sewage is being disposed of into River Ravi', PDF page 24)"
+   ],
+   "method": "Quoted from the sources. Two totals are published for the untreated wastewater reaching the river: 640 MGD (Dawn, Oct 2025) and 540 MGD, of domestic sewage (the water agency's assessment for the bank); neither is ours and we give both. Gallons are imperial as used in Pakistan (4.546 litres); litres are rounded to the nearest 10 million. The first phase's share is 88 MGD over each total. The plant's cost was Rs50.2bn at provincial approval in Aug 2025 and Rs56bn at federal approval in Aug 2026. Dawn gives the bank's financing as $235 million; the bank's own page says USD 160 million, which is used here. As of the Aug 2026 reports the plant was still to be tendered; we found no later report that construction has begun, and did not confirm it either way.",
+   "status": "as reported; not independently checked"
+  },
+  {
+   "id": "ground",
+   "claim": "What samplers on the river bank recorded",
+   "value": {
+    "samples": 12,
+    "sites": 4,
+    "from": "November 2009",
+    "to": "March 2010",
+    "year": 2011
+   },
+   "source": "https://pecongress.org.pk/document/paper-no-704-water-quality-assessment-of-river-ravi-around-lahore-city-2/ (Afaf Ayesha, Irrigation and Power Department, Lahore, 'Water quality assessment of river Ravi around Lahore city', Pakistan Engineering Congress, 71st annual session, paper 704, 2011; Table 2)",
+   "method": "Quoted from the paper's Table 2: colour 'yellowish' and odour 'odorless' at the Ravi Siphon; colour 'blackish' and odour objectionable at Shahdara Bridge, Mohlanwal village and the confluence of the Hudiara and Sattu Katla drains. Colour and odour were judged by eye and nose. Twelve samples, November 2009 to March 2010.",
+   "status": "as published; not independently checked"
+  },
+  {
+   "id": "industry",
+   "claim": "One industrial estate's route to the Ravi, as published",
+   "value": {
+    "industries": 475,
+    "wastewater_cubic_metres_a_day": 134541,
+    "bod_mg_l": 400,
+    "sampled_industries_bod_range_mg_l": [
+     118,
+     2337
+    ],
+    "year": 2016
+   },
+   "source": "https://www.paspk.org/wp-content/uploads/2016/06/Wastewater-Characterization.pdf (Haydar, Hussain, Haider and Attiq-ur-Rehman, 'Wastewater characterization of selected industries in Quaid-e-Azam Industrial Estate: treatment options and impact on groundwater quality', Proceedings of the Pakistan Academy of Sciences B 53(2), 2016)",
+   "method": "Quoted from the paper, which reports these as approximate figures for the estate and did not itself count or meter every industry: about 475 industries discharging 134,541 cubic metres of wastewater a day, reaching the Ravi through the Sattu Katla and Hudiara drains, with no treatment facility at the estate at the time. The paper's own measurements are of a sample of industries and of the combined drain.",
+   "status": "as published; not independently checked"
+  }
+ ]
+}
